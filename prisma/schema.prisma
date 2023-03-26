@@ -1,11 +1,275 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+// // This is your Prisma schema file,
+// // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-generator client {
-  provider = "prisma-client-js"
-}
+// generator client {
+//   provider = "prisma-client-js"
+// }
 
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
+// datasource db {
+//   provider = "postgresql"
+//   url      = env("DATABASE_URL")
+// }
+
+// enum UserStatus {
+//   NOTVERIFIED
+//   ACTIVE
+//   DEACTIVE
+//   BANNED
+// }
+
+// enum LocationStatus {
+//   ACTIVE
+//   DEACTIVE
+// }
+
+// enum TripStatus {
+//   SCHEDULE
+//   DONE
+// }
+
+// enum TripJoinStatus {
+//   PENDING
+//   JOINED
+//   REJECTED
+//   LEAVED
+// }
+
+// enum Privacy {
+//   PRIVATE
+//   PUBLIC
+//   FRIEND
+// }
+
+// model Language {
+//   id   Int    @id @default(autoincrement())
+//   name String @db.VarChar(255)
+//   code String @unique @db.VarChar(2)
+//   User User[]
+// }
+
+// model Country {
+//   id       Int        @id @default(autoincrement())
+//   name     String     @db.VarChar(255)
+//   code     String     @unique @db.VarChar(255)
+//   City     City[]
+//   User     User[]
+//   Location Location[]
+// }
+
+// model City {
+//   id        Int        @id @default(autoincrement())
+//   name      String     @db.VarChar(255)
+//   code      String     @unique @db.VarChar(255)
+//   Country   Country    @relation(fields: [countryId], references: [id])
+//   countryId Int
+//   district  District[]
+//   User      User[]
+//   Location  Location[]
+// }
+
+// model District {
+//   id       Int        @id @default(autoincrement())
+//   name     String     @db.VarChar(255)
+//   code     String     @unique @db.VarChar(255)
+//   city     City       @relation(fields: [cityId], references: [id])
+//   cityId   Int
+//   Ward     Ward[]
+//   User     User[]
+//   Location Location[]
+// }
+
+// model Ward {
+//   id         Int        @id @default(autoincrement())
+//   name       String     @db.VarChar(255)
+//   code       String     @unique @db.VarChar(255)
+//   district   District   @relation(fields: [districtId], references: [id])
+//   districtId Int
+//   User       User[]
+//   Location   Location[]
+// }
+
+// model User {
+//   id         Int        @id @default(autoincrement())
+//   name       String     @db.VarChar(255)
+//   imgUrl     String?    @db.VarChar(255)
+//   email      String     @unique @db.VarChar(255)
+//   phone      String     @unique @db.VarChar(255)
+//   bio        String     @db.VarChar(255)
+//   status     UserStatus @default(NOTVERIFIED)
+//   languageId Int
+//   cityId     Int?
+//   districtId Int?
+//   wardId     Int?
+//   countryId  Int
+//   street     String?    @db.VarChar(255)
+
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @default(now())
+
+//   country      Country        @relation(fields: [countryId], references: [id])
+//   city         City?          @relation(fields: [cityId], references: [id])
+//   district     District?      @relation(fields: [districtId], references: [id])
+//   ward         Ward?          @relation(fields: [wardId], references: [id])
+//   language     Language       @relation(fields: [languageId], references: [id])
+//   post         Post[]
+//   review       Review[]
+//   schedule     Schedule[]
+//   tripJoin     TripJoin[]
+//   Trip         Trip?          @relation(fields: [tripId], references: [id])
+//   tripId       Int?
+//   PostReaction PostReaction[]
+//   Comment      Comment[]
+//   Message      Message[]
+//   Message      Message[]
+//   Message      Message[]
+// }
+
+// model Review {
+//   id         Int @id @default(autoincrement())
+//   userId     Int
+//   locationId Int
+
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @default(now())
+
+//   user     User     @relation(fields: [userId], references: [id])
+//   location Location @relation(fields: [locationId], references: [id])
+// }
+
+// model Location {
+//   id         Int            @id @default(autoincrement())
+//   name       String         @db.VarChar(255)
+//   status     LocationStatus @default(ACTIVE)
+//   cityId     Int
+//   districtId Int
+//   wardId     Int
+//   countryId  Int
+//   street     String         @db.VarChar(255)
+
+//   country  Country    @relation(fields: [countryId], references: [id])
+//   city     City       @relation(fields: [cityId], references: [id])
+//   district District   @relation(fields: [districtId], references: [id])
+//   ward     Ward       @relation(fields: [wardId], references: [id])
+//   posts    Post[]
+//   review   Review[]
+//   Schedule Schedule[]
+// }
+
+// model Reaction {
+//   id     Int    @id @default(autoincrement())
+//   name   String
+//   imgUrl String @db.VarChar(255)
+
+//   postReaction PostReaction[]
+// }
+
+// model Comment {
+//   id      Int    @id @default(autoincrement())
+//   content String
+//   imgUrl  String @db.VarChar(255)
+//   userId  Int
+//   postId  Int
+
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @default(now())
+
+//   user User @relation(fields: [userId], references: [id])
+//   post Post @relation(fields: [postId], references: [id])
+// }
+
+// model Post {
+//   id        Int        @id @default(autoincrement())
+//   content   String?
+//   imgUrls   String[]
+//   locations Location[]
+//   isDeleted Boolean    @default(false)
+
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @default(now())
+//   deletedAt DateTime @default(now())
+
+//   trips     Trip? @relation(fields: [tripId], references: [id])
+//   creator   User  @relation(fields: [creatorId], references: [id])
+//   creatorId Int
+//   tripId    Int?
+
+//   reactions PostReaction[]
+//   Comment   Comment[]
+// }
+
+// model PostReaction {
+//   post       Post     @relation(fields: [postId], references: [id])
+//   postId     Int
+//   user       User     @relation(fields: [userId], references: [id])
+//   userId     Int
+//   reaction   Reaction @relation(fields: [reactionId], references: [id])
+//   reactionId Int
+
+//   @@id([postId, userId, reactionId])
+// }
+
+// model PostLocation {
+//   postId     Int
+//   locationId Int
+
+//   @@id([postId, locationId])
+// }
+
+// model Trip {
+//   id        Int        @id @default(autoincrement())
+//   name      String     @db.VarChar(255)
+//   status    TripStatus @default(SCHEDULE)
+//   startDate DateTime
+//   privacy   Privacy
+//   posts     Post[]
+//   users     User[]
+// }
+
+// model TripJoin {
+//   userId    Int
+//   tripId    Int
+//   status    TripJoinStatus
+//   inviterId Int?
+
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @default(now())
+
+//   inviter User? @relation(fields: [inviterId], references: [id])
+
+//   @@id([userId, tripId])
+// }
+
+// model Schedule {
+//   id          Int      @id @default(autoincrement())
+//   name        String   @db.VarChar(255)
+//   description String?
+//   imgUrls     String[]
+//   locationId  Int
+//   startTime   DateTime
+//   createdAt   DateTime @default(now())
+//   updatedAt   DateTime @default(now())
+
+//   location Location @relation(fields: [locationId], references: [id])
+//   users    User[]
+// }
+
+// model ScheduleJoin {
+//   userId     Int
+//   tripId     Int
+//   scheduleId Int
+//   remindTime DateTime
+//   isCreator  Boolean
+
+//   @@id([userId, tripId, scheduleId])
+// }
+
+// model Message {
+//   id         Int    @id @default(autoincrement())
+//   content    String
+//   senderId   Int
+//   receiverId Int
+//   sender     User   @relation(fields: [senderId], references: [id], name: "sender")
+//   receiver   User   @relation(fields: [receiverId], references: [id], name: "receiver")
+//   User       User?  @relation(fields: [userId], references: [id])
+//   userId     Int?
+// }
