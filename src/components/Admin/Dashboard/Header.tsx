@@ -18,11 +18,11 @@ const Header = () => {
       imgUrl:
         "https://icdn.dantri.com.vn/thumb_w/680/2022/06/18/z35016410045426f3dfb5ed82d1f49408a69d555b1f720-1655531587436.jpg",
       user: "Quang",
-      status: "DONE",
+      status: "PENDING",
     },
   ];
   return (
-    <div className="flex p-4 gap-4">
+    <div className="flex p-4 gap-4  border-b">
       {request.map((request) => (
         <div key={request.id} className="flex-1">
           <Request request={request} />
