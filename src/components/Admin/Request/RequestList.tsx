@@ -35,7 +35,7 @@ const RequestList = () => {
     <div>
       <div className="text-xl py-3 pl-5">Danh sách các request:</div>
       {requests.map((request) => (
-        <div key={request.id} className="flex-1">
+        <div key={request.id} className="flex-1 m-1">
           <RequestBox request={request} />
         </div>
       ))}

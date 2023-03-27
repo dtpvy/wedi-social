@@ -11,7 +11,9 @@ const Search = () => {
           icon={<IconSearch />}
           placeholder="Search"
           rightSection={
-            <Button className="bg-neutral-400 rounded-l-none">Tìm kiếm</Button>
+            <Button className=" hover:bg-sky-100 bg-neutral-400 rounded-l-none">
+              Tìm kiếm
+            </Button>
           }
         />
       </div>
