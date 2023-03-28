@@ -8,7 +8,7 @@ const RequestInfo = () => {
 
   return (
     <div>
-      RequestDetail: {id}
+      {/* RequestDetail: {id} */}
       <RequestDetail />
     </div>
   );

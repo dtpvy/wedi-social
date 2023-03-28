@@ -7,11 +7,11 @@ type Props = {
 };
 
 const UserBox = ({ user }: Props) => {
-  const { id, userName, userBirth, joinDate, status } = user;
+  const { id, userName, status } = user;
   const router = useRouter();
 
   const onNavigaToUserDetail = () => {
-    router.push(`/admin/User/${id}`);
+    router.push(`/admin/user/${id}`);
   };
 
   return (
@@ -20,13 +20,10 @@ const UserBox = ({ user }: Props) => {
         {userName}
         <Avatar radius="xl" className="inline-block" />
       </div>
-      <Group position="apart" mt="md" mb="xs">
-        <div className="font-sm text-gray-500">Ngày sinh:{userBirth}</div>
-        <div className="font-sm text-gray-500">Ngày tham gia:{joinDate}</div>
-        <div className="font-sm text-gray-500">
-          Trạng thái hoạt động:{status}
-        </div>
-      </Group>
+      <div className="font-sm text-gray-500">Email:{}</div>
+      <div className="font-sm text-gray-500">
+        Trạng thái hoạt động: {status}
+      </div>
 
       <Button
         onClick={onNavigaToUserDetail}

@@ -27,7 +27,7 @@ const Request = ({ request }: Props) => {
         <div className="font-sm text-gray-500">23/03/2023</div>
       </Group>
 
-      <div className="font-sm">{content}</div>
+      {/* <div className="font-sm">{content}</div> */}
 
       <Button
         onClick={onNavigaToRequestDetail}

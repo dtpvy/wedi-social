@@ -11,25 +11,20 @@ const UserList = () => {
     {
       id: 2,
       userName: "Quang",
-      status: "Online",
+      status: "Offline",
     },
     {
       id: 3,
       userName: "Quang",
-      status: "Online",
+      status: "Bị ban",
     },
   ];
 
   return (
-    <div>
-      <Text size="xl" className="p-5 ml-5 font-semibold">
-        UserList:
-      </Text>
-      <div className="flex">
-        {users.map((user) => (
-          <UserBox user={user} />
-        ))}
-      </div>
+    <div className="flex gap-4 justify-center">
+      {users.map((user) => (
+        <UserBox user={user} />
+      ))}
     </div>
   );
 };

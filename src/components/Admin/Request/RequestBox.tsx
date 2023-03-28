@@ -15,7 +15,7 @@ const RequestBox = ({ request }: Props) => {
   };
 
   return (
-    <Card shadow="sm" padding="lg" radius="md" withBorder>
+    <Card shadow="sm" padding="lg" radius="md" withBorder className="mx-4 my-3">
       <Group position="apart" mt="md" mb="xs">
         <div className="font-medium text-gray-500">{title}</div>
         <Badge color={status === "PENDING" ? "blue" : "green"} variant="light">

@@ -1,12 +1,17 @@
 import React from "react";
 import { useRouter } from "next/router";
-// import { RequestDetail } from "@/components/Admin/Request";
+import { UserDetail } from "@/components/Admin/User";
 
-const UserDetail = () => {
+const User = () => {
   const router = useRouter();
   const { id } = router.query;
 
-  return <div>UserDetail: {id}</div>;
+  return (
+    <div>
+      {/* UserDetail: {id} */}
+      <UserDetail />
+    </div>
+  );
 };
 
-export default UserDetail;
+export default User;

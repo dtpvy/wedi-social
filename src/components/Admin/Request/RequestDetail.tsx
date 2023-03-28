@@ -13,37 +13,42 @@ const RequestDetail = () => {
   };
 
   return (
-    <div className="flex">
-      <Container className="w-5/6">
-        <Card
-          shadow="sm"
-          padding="lg"
-          radius="lg"
-          withBorder
-          className="w-full"
-        >
-          <Card.Section></Card.Section>
+    <div className="flex w-full justify-center my-3">
+      <Card
+        shadow="sm"
+        padding="lg"
+        radius="lg"
+        withBorder
+        className="w-11/12 "
+      >
+        <Card.Section></Card.Section>
 
-          <Group position="apart" mt="md" mb="xs">
-            <Text weight={500}>{request.title}</Text>
-            <Group>
-              <Badge color="pink" variant="light">
-                {request.status}
-              </Badge>
-            </Group>
+        <Group position="apart" mt="md" mb="xs">
+          <Text weight={500}>{request.title}</Text>
+          <Group>
+            <Badge color="pink" variant="light">
+              {request.status}
+            </Badge>
           </Group>
+        </Group>
+        <Group position="apart">
           <p>
             User: <span className="font-medium">{request.user}</span>
           </p>
           <p>Ngày tạo request: {request.date}</p>
+        </Group>
 
-          <Text size="m">{request.content}</Text>
+        <Text size="m">{request.content}</Text>
 
-          <Button variant="light" color="blue" fullWidth mt="md" radius="md">
-            Book classic tour now
+        <Group position="center">
+          <Button variant="outline" color="blue" mt="md" radius="md">
+            Phản hồi
           </Button>
-        </Card>
-      </Container>
+          <Button variant="outline" color="yellow" mt="md" radius="md">
+            Bỏ vào spam
+          </Button>
+        </Group>
+      </Card>
     </div>
   );
 };
