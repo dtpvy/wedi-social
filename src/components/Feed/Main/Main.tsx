@@ -26,12 +26,20 @@ const det =
         text : "Hà Nội lạnh quáaaaaa",
         img: "https://i1-dulich.vnecdn.net/2022/05/12/Hanoi2-1652338755-3632-1652338809.jpg?w=0&h=0&q=100&dpr=2&fit=crop&s=NxMN93PTvOTnHNryMx3xJw",
         location : "Hà Nội,Việt Nam"
-    }
+    },
+    {
+      id :4,
+      avatar : "https://scontent.fsgn2-6.fna.fbcdn.net/v/t39.30808-6/285003466_1923311374536351_7054672884623838102_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=174925&_nc_ohc=9--jYxtYw34AX8bYuyv&_nc_ht=scontent.fsgn2-6.fna&oh=00_AfCWWq6YuMi1zIIKCzBhcJfaZEGWjVWKiTvLOkbMhIYNig&oe=64289B34",
+      userName: "Minh Chánh",
+      text : "Cuối cùng cũng được qua Mỹ ",
+      img: "https://ktla.com/wp-content/uploads/sites/4/2022/10/GettyImages-805157508.jpg",
+      location : "California"
+  }
 
 ]
 const Main = () => {
   return (
-    <div className="flex flex-col p-4 gap-4">
+    <div className="flex flex-wrap  p-4 gap-x-0 gap-y-4">
       {det.map((det) => (
         <div key={det.id} className="flex-1">
           <Post post={det} />

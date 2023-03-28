@@ -5,25 +5,43 @@ import { IconStar } from '@tabler/icons-react';
 type Props = {
     post: any;
   };
-  
+  const Reactions = 
+  [
+    {
+      id:1,
+      url : "&#128147" /*Heart*/
+    },
+    {
+      id:2,
+      url: "&#128514"
+    },
+    {
+      id:3,
+      url:"&#128546"
+    },
+    {
+      id:4,
+      ulr:"&#128545"
+    }
+  ]
   const Post = ({ post }: Props) => {
     const { avatar, userName, text, img,location } = post;
     
   
     return (
-     <div className="" >
+     <div className="flex flex-row w-8/11 " >
         <Card shadow="sm" padding="lg" radius="md" withBorder>
       <Card.Section>
         <Image
           src={img}
           height={450}
-          width={1000}
+          width={800} 
           alt="Norway"
         />
       </Card.Section>
         
       <Group  mt="md" mb="xs" className="flex columns-2 justify-between ">
-        <div className="flex flex-row gap-x-2">
+        <div className="flex flex-wrap  gap-x-2">
             <Avatar src={avatar} alt="it's me" />
             <Text weight={500}>
                 {userName}
@@ -32,19 +50,29 @@ type Props = {
                 ...
             </Button>
         </div>
-        <div>{location}</div>
+        <div className="flex flex-col font-thin antialiased">
+          <div>
+            {location}
+          </div>
+          <div>
+            5 Hours ago
+          </div>
+        </div>
         </Group>
 
       <Text size="sm" color="black">
         {text}
       </Text>
         <div className="flex flex-row ">
-      <Button variant="light" color="blue"  mt="md" radius="md" >
-        Like
-      </Button>
-      <Button variant="light" color="blue"  mt="md" radius="md">
-        Comment
-      </Button>
+          <div >
+            <Button variant="light" color="blue"  mt="md" radius="md" >
+            Like
+            </Button>
+            <Button variant="light" color="blue"  mt="md" radius="md">
+            Comment
+            </Button>
+          </div>
+          
       </div>
     </Card>
      </div>
