@@ -5,7 +5,7 @@ type Props = {
 };
 
 const LayoutMain = ({ children }: Props) => {
-  return <div>{children}</div>;
+  return <div className="bg-gray-100 min-h-screen">{children}</div>;
 };
 
 export default LayoutMain;

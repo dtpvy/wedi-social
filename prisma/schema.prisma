@@ -1,275 +1,333 @@
-// // This is your Prisma schema file,
-// // learn more about it in the docs: https://pris.ly/d/prisma-schema
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// generator client {
-//   provider = "prisma-client-js"
-// }
+generator client {
+    provider = "prisma-client-js"
+}
 
-// datasource db {
-//   provider = "postgresql"
-//   url      = env("DATABASE_URL")
-// }
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
 
-// enum UserStatus {
-//   NOTVERIFIED
-//   ACTIVE
-//   DEACTIVE
-//   BANNED
-// }
+enum UserStatus {
+    NOTVERIFIED
+    ACTIVE
+    DEACTIVE
+    BANNED
+}
 
-// enum LocationStatus {
-//   ACTIVE
-//   DEACTIVE
-// }
+enum LocationStatus {
+    ACTIVE
+    DEACTIVE
+}
 
-// enum TripStatus {
-//   SCHEDULE
-//   DONE
-// }
+enum TripStatus {
+    SCHEDULE
+    DONE
+}
 
-// enum TripJoinStatus {
-//   PENDING
-//   JOINED
-//   REJECTED
-//   LEAVED
-// }
+enum JoinTripStatus {
+    PENDING
+    JOINED
+    REJECTED
+    LEAVED
+}
 
-// enum Privacy {
-//   PRIVATE
-//   PUBLIC
-//   FRIEND
-// }
+enum Privacy {
+    PRIVATE
+    PUBLIC
+    FRIEND
+}
 
-// model Language {
-//   id   Int    @id @default(autoincrement())
-//   name String @db.VarChar(255)
-//   code String @unique @db.VarChar(2)
-//   User User[]
-// }
+model Language {
+    id   Int    @id @default(autoincrement())
+    name String @db.VarChar(255)
+    code String @unique @db.VarChar(2)
+    User User[]
+}
 
-// model Country {
-//   id       Int        @id @default(autoincrement())
-//   name     String     @db.VarChar(255)
-//   code     String     @unique @db.VarChar(255)
-//   City     City[]
-//   User     User[]
-//   Location Location[]
-// }
+model Country {
+    id       Int        @id @default(autoincrement())
+    name     String     @db.VarChar(255)
+    code     String     @unique @db.VarChar(255)
+    City     City[]
+    User     User[]
+    Location Location[]
+}
 
-// model City {
-//   id        Int        @id @default(autoincrement())
-//   name      String     @db.VarChar(255)
-//   code      String     @unique @db.VarChar(255)
-//   Country   Country    @relation(fields: [countryId], references: [id])
-//   countryId Int
-//   district  District[]
-//   User      User[]
-//   Location  Location[]
-// }
+model City {
+    id        Int        @id @default(autoincrement())
+    name      String     @db.VarChar(255)
+    code      String     @unique @db.VarChar(255)
+    Country   Country    @relation(fields: [countryId], references: [id])
+    countryId Int
+    district  District[]
+    User      User[]
+    Location  Location[]
+}
 
-// model District {
-//   id       Int        @id @default(autoincrement())
-//   name     String     @db.VarChar(255)
-//   code     String     @unique @db.VarChar(255)
-//   city     City       @relation(fields: [cityId], references: [id])
-//   cityId   Int
-//   Ward     Ward[]
-//   User     User[]
-//   Location Location[]
-// }
+model District {
+    id       Int        @id @default(autoincrement())
+    name     String     @db.VarChar(255)
+    code     String     @unique @db.VarChar(255)
+    city     City       @relation(fields: [cityId], references: [id])
+    cityId   Int
+    Ward     Ward[]
+    User     User[]
+    Location Location[]
+}
 
-// model Ward {
-//   id         Int        @id @default(autoincrement())
-//   name       String     @db.VarChar(255)
-//   code       String     @unique @db.VarChar(255)
-//   district   District   @relation(fields: [districtId], references: [id])
-//   districtId Int
-//   User       User[]
-//   Location   Location[]
-// }
+model Ward {
+    id         Int        @id @default(autoincrement())
+    name       String     @db.VarChar(255)
+    code       String     @unique @db.VarChar(255)
+    district   District   @relation(fields: [districtId], references: [id])
+    districtId Int
+    User       User[]
+    Location   Location[]
+}
 
-// model User {
-//   id         Int        @id @default(autoincrement())
-//   name       String     @db.VarChar(255)
-//   imgUrl     String?    @db.VarChar(255)
-//   email      String     @unique @db.VarChar(255)
-//   phone      String     @unique @db.VarChar(255)
-//   bio        String     @db.VarChar(255)
-//   status     UserStatus @default(NOTVERIFIED)
-//   languageId Int
-//   cityId     Int?
-//   districtId Int?
-//   wardId     Int?
-//   countryId  Int
-//   street     String?    @db.VarChar(255)
+model User {
+    id         Int        @id @default(autoincrement())
+    name       String     @db.VarChar(255)
+    imgUrl     String?    @db.VarChar(255)
+    password   String
+    email      String     @unique @db.VarChar(255)
+    phone      String     @unique @db.VarChar(255)
+    bio        String?    @db.VarChar(255)
+    status     UserStatus @default(NOTVERIFIED)
+    languageId Int?
+    cityId     Int?
+    districtId Int?
+    wardId     Int?
+    countryId  Int?
+    street     String?    @db.VarChar(255)
 
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @default(now())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
-//   country      Country        @relation(fields: [countryId], references: [id])
-//   city         City?          @relation(fields: [cityId], references: [id])
-//   district     District?      @relation(fields: [districtId], references: [id])
-//   ward         Ward?          @relation(fields: [wardId], references: [id])
-//   language     Language       @relation(fields: [languageId], references: [id])
-//   post         Post[]
-//   review       Review[]
-//   schedule     Schedule[]
-//   tripJoin     TripJoin[]
-//   Trip         Trip?          @relation(fields: [tripId], references: [id])
-//   tripId       Int?
-//   PostReaction PostReaction[]
-//   Comment      Comment[]
-//   Message      Message[]
-//   Message      Message[]
-//   Message      Message[]
-// }
+    country  Country?  @relation(fields: [countryId], references: [id])
+    city     City?     @relation(fields: [cityId], references: [id])
+    district District? @relation(fields: [districtId], references: [id])
+    ward     Ward?     @relation(fields: [wardId], references: [id])
+    language Language? @relation(fields: [languageId], references: [id])
+    posts    Post[]
+    reviews  Review[]
 
-// model Review {
-//   id         Int @id @default(autoincrement())
-//   userId     Int
-//   locationId Int
+    reactions PostReaction[]
+    comments  Comment[]
 
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @default(now())
+    sendMessages    Message[]      @relation("send_messages")
+    receiveMessages Message[]      @relation("receive__messages")
+    schedules       JoinSchedule[]
+    joinTrip        JoinTrip[]     @relation("trip_join_user")
+    inviteTrip      JoinTrip[]     @relation("trip_join_inviter")
+    notification    Notification[]
+    requests        Request[]
+}
 
-//   user     User     @relation(fields: [userId], references: [id])
-//   location Location @relation(fields: [locationId], references: [id])
-// }
+model Review {
+    id         Int @id @default(autoincrement())
+    userId     Int
+    locationId Int
 
-// model Location {
-//   id         Int            @id @default(autoincrement())
-//   name       String         @db.VarChar(255)
-//   status     LocationStatus @default(ACTIVE)
-//   cityId     Int
-//   districtId Int
-//   wardId     Int
-//   countryId  Int
-//   street     String         @db.VarChar(255)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
-//   country  Country    @relation(fields: [countryId], references: [id])
-//   city     City       @relation(fields: [cityId], references: [id])
-//   district District   @relation(fields: [districtId], references: [id])
-//   ward     Ward       @relation(fields: [wardId], references: [id])
-//   posts    Post[]
-//   review   Review[]
-//   Schedule Schedule[]
-// }
+    user     User     @relation(fields: [userId], references: [id])
+    location Location @relation(fields: [locationId], references: [id])
+}
 
-// model Reaction {
-//   id     Int    @id @default(autoincrement())
-//   name   String
-//   imgUrl String @db.VarChar(255)
+model Location {
+    id         Int            @id @default(autoincrement())
+    name       String         @db.VarChar(255)
+    status     LocationStatus @default(ACTIVE)
+    cityId     Int
+    districtId Int
+    wardId     Int
+    countryId  Int
+    street     String         @db.VarChar(255)
 
-//   postReaction PostReaction[]
-// }
+    country   Country        @relation(fields: [countryId], references: [id])
+    city      City           @relation(fields: [cityId], references: [id])
+    district  District       @relation(fields: [districtId], references: [id])
+    ward      Ward           @relation(fields: [wardId], references: [id])
+    reviews   Review[]
+    schedules Schedule[]
+    posts     PostLocation[]
+}
 
-// model Comment {
-//   id      Int    @id @default(autoincrement())
-//   content String
-//   imgUrl  String @db.VarChar(255)
-//   userId  Int
-//   postId  Int
+model Reaction {
+    id     Int    @id @default(autoincrement())
+    name   String @db.VarChar(255)
+    imgUrl String @db.VarChar(255)
 
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @default(now())
+    posts PostReaction[]
+}
 
-//   user User @relation(fields: [userId], references: [id])
-//   post Post @relation(fields: [postId], references: [id])
-// }
+model Comment {
+    id      Int    @id @default(autoincrement())
+    content String
+    imgUrl  String @db.VarChar(255)
+    userId  Int
+    postId  Int
 
-// model Post {
-//   id        Int        @id @default(autoincrement())
-//   content   String?
-//   imgUrls   String[]
-//   locations Location[]
-//   isDeleted Boolean    @default(false)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @default(now())
-//   deletedAt DateTime @default(now())
+    user User @relation(fields: [userId], references: [id])
+    post Post @relation(fields: [postId], references: [id])
+}
 
-//   trips     Trip? @relation(fields: [tripId], references: [id])
-//   creator   User  @relation(fields: [creatorId], references: [id])
-//   creatorId Int
-//   tripId    Int?
+model Post {
+    id        Int      @id @default(autoincrement())
+    content   String?
+    imgUrls   String[] @db.VarChar(255)
+    creatorId Int
+    tripId    Int?
+    isDeleted Boolean  @default(false)
 
-//   reactions PostReaction[]
-//   Comment   Comment[]
-// }
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    deletedAt DateTime @updatedAt
 
-// model PostReaction {
-//   post       Post     @relation(fields: [postId], references: [id])
-//   postId     Int
-//   user       User     @relation(fields: [userId], references: [id])
-//   userId     Int
-//   reaction   Reaction @relation(fields: [reactionId], references: [id])
-//   reactionId Int
+    trips   Trip? @relation(fields: [tripId], references: [id])
+    creator User  @relation(fields: [creatorId], references: [id])
 
-//   @@id([postId, userId, reactionId])
-// }
+    reactions PostReaction[]
+    comments  Comment[]
+    locations PostLocation[]
+}
 
-// model PostLocation {
-//   postId     Int
-//   locationId Int
+model PostReaction {
+    post       Post     @relation(fields: [postId], references: [id])
+    postId     Int
+    user       User     @relation(fields: [userId], references: [id])
+    userId     Int
+    reaction   Reaction @relation(fields: [reactionId], references: [id])
+    reactionId Int
 
-//   @@id([postId, locationId])
-// }
+    @@id([postId, userId, reactionId])
+}
 
-// model Trip {
-//   id        Int        @id @default(autoincrement())
-//   name      String     @db.VarChar(255)
-//   status    TripStatus @default(SCHEDULE)
-//   startDate DateTime
-//   privacy   Privacy
-//   posts     Post[]
-//   users     User[]
-// }
+model PostLocation {
+    postId     Int
+    locationId Int
+    post       Post     @relation(fields: [postId], references: [id])
+    location   Location @relation(fields: [locationId], references: [id])
 
-// model TripJoin {
-//   userId    Int
-//   tripId    Int
-//   status    TripJoinStatus
-//   inviterId Int?
+    @@id([postId, locationId])
+}
 
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @default(now())
+model Trip {
+    id           Int            @id @default(autoincrement())
+    name         String         @db.VarChar(255)
+    status       TripStatus     @default(SCHEDULE)
+    startDate    DateTime
+    privacy      Privacy
+    posts        Post[]
+    JoinSchedule JoinSchedule[]
+    users        JoinTrip[]
+}
 
-//   inviter User? @relation(fields: [inviterId], references: [id])
+model JoinTrip {
+    userId    Int
+    tripId    Int
+    status    JoinTripStatus
+    inviterId Int?
 
-//   @@id([userId, tripId])
-// }
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
-// model Schedule {
-//   id          Int      @id @default(autoincrement())
-//   name        String   @db.VarChar(255)
-//   description String?
-//   imgUrls     String[]
-//   locationId  Int
-//   startTime   DateTime
-//   createdAt   DateTime @default(now())
-//   updatedAt   DateTime @default(now())
+    user    User  @relation("trip_join_user", fields: [userId], references: [id])
+    inviter User? @relation("trip_join_inviter", fields: [inviterId], references: [id])
+    trip    Trip  @relation(fields: [tripId], references: [id])
 
-//   location Location @relation(fields: [locationId], references: [id])
-//   users    User[]
-// }
+    @@id([userId, tripId])
+}
 
-// model ScheduleJoin {
-//   userId     Int
-//   tripId     Int
-//   scheduleId Int
-//   remindTime DateTime
-//   isCreator  Boolean
+model Schedule {
+    id          Int      @id @default(autoincrement())
+    name        String   @db.VarChar(255)
+    description String?
+    imgUrls     String[] @db.VarChar(255)
+    locationId  Int
+    startTime   DateTime
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @default(now())
 
-//   @@id([userId, tripId, scheduleId])
-// }
+    location     Location       @relation(fields: [locationId], references: [id])
+    JoinSchedule JoinSchedule[]
+}
 
-// model Message {
-//   id         Int    @id @default(autoincrement())
-//   content    String
-//   senderId   Int
-//   receiverId Int
-//   sender     User   @relation(fields: [senderId], references: [id], name: "sender")
-//   receiver   User   @relation(fields: [receiverId], references: [id], name: "receiver")
-//   User       User?  @relation(fields: [userId], references: [id])
-//   userId     Int?
-// }
+model JoinSchedule {
+    userId     Int
+    tripId     Int
+    scheduleId Int
+    remindTime DateTime
+    isCreator  Boolean
+    user       User     @relation(fields: [userId], references: [id])
+    trip       Trip     @relation(fields: [tripId], references: [id])
+    schedule   Schedule @relation(fields: [scheduleId], references: [id])
+
+    @@id([userId, tripId, scheduleId])
+}
+
+model Message {
+    id         Int    @id @default(autoincrement())
+    content    String
+    senderId   Int
+    receiverId Int
+    sender     User   @relation("send_messages", fields: [senderId], references: [id])
+    receiver   User   @relation("receive__messages", fields: [receiverId], references: [id])
+}
+
+model Notification {
+    id        Int      @id @default(autoincrement())
+    content   String
+    link      String?  @db.VarChar(255)
+    userId    Int
+    createdAt DateTime @default(now())
+    user      User     @relation(fields: [userId], references: [id])
+}
+
+model Admin {
+    id        Int     @id @default(autoincrement())
+    email     String  @unique @db.VarChar(255)
+    name      String? @db.VarChar(255)
+    isDeleted Boolean @default(false)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    deletedAt DateTime @default(now())
+    Reply     Reply[]
+}
+
+model Request {
+    id        Int      @id @default(autoincrement())
+    content   String
+    title     String   @db.VarChar(255)
+    createdAt DateTime @default(now())
+    userId    Int
+    user      User     @relation(fields: [userId], references: [id])
+    Reply     Reply[]
+}
+
+model Reply {
+    id        Int      @id @default(autoincrement())
+    content   String
+    title     String   @db.VarChar(255)
+    createdAt DateTime @default(now())
+    adminId   Int
+    requestId Int
+    admin     Admin    @relation(fields: [adminId], references: [id])
+    request   Request  @relation(fields: [requestId], references: [id])
+}
+
+model Tracking {
+    id     Int    @id @default(autoincrement())
+    event  String
+    page   String @db.VarChar(255)
+    amount Int
+}

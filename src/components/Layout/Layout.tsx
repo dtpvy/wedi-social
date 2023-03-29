@@ -1,8 +1,7 @@
-import { TAB_LIST } from "@/constants/admin";
 import { useRouter } from "next/router";
-import React, { ReactNode } from "react";
-import LayoutAdmin from "./LayoutAdmin";
-import LayoutMain from "./LayoutMain";
+import { ReactNode } from "react";
+import LayoutAdmin from "./AdminLayout";
+import LayoutMain from "./MainLayout";
 
 type Props = {
   children: ReactNode;
