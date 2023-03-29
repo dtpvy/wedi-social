@@ -3,14 +3,13 @@ import { IconSearch } from "@tabler/icons-react";
 import { Button } from '@mantine/core';
 import {IconBellFilled ,IconNews} from "@tabler/icons-react";
 import React from "react";
-import ReactComponent from "*.svg"
-
+import Logo from "./logo1.svg"
 
 const Search = () => {
   return (
     <div className="flex items-center justify-between p-4 border-b">
         <div className="Search"> </div>
-    
+        <img src="{Logo}" alt="" />
         <Input icon={<IconSearch />} placeholder="Search" />
         <Button variant="light" radius="xl" size="md" color="green">
         <IconNews/>
