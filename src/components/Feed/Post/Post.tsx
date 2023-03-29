@@ -5,25 +5,7 @@ import { IconStar } from '@tabler/icons-react';
 type Props = {
     post: any;
   };
-  const Reactions = 
-  [
-    {
-      id:1,
-      url : "&#128147" /*Heart*/
-    },
-    {
-      id:2,
-      url: "&#128514"
-    },
-    {
-      id:3,
-      url:"&#128546"
-    },
-    {
-      id:4,
-      ulr:"&#128545"
-    }
-  ]
+
   const Post = ({ post }: Props) => {
     const { avatar, userName, text, img,location } = post;
     
