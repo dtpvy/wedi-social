@@ -1,9 +1,37 @@
-import { initTRPC, TRPCError } from "@trpc/server";
 import { Context } from "./context";
-// You can use any variable name you like.
-// We use t to keep things simple.
-const t = initTRPC.context<Context>().create();
+import { initTRPC, TRPCError } from "@trpc/server";
+import superjson from "superjson";
+
+const t = initTRPC.context<Context>().create({
+  transformer: superjson,
+  errorFormatter({ shape }) {
+    return shape;
+  },
+});
+
 export const router = t.router;
-export const middleware = t.middleware;
+
 export const publicProcedure = t.procedure;
-export { TRPCError };
+
+export const middleware = t.middleware;
+
+export const mergeRouters = t.mergeRouters;
+
+const isAuthed = middleware(({ next, ctx }) => {
+  const user = ctx.session?.user;
+
+  if (!user?.name) {
+    throw new TRPCError({ code: "UNAUTHORIZED" });
+  }
+
+  return next({
+    ctx: {
+      user: {
+        ...user,
+        name: user.name,
+      },
+    },
+  });
+});
+
+export const authedProcedure = t.procedure.use(isAuthed);

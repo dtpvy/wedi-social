@@ -1,12 +1,14 @@
-import { Layout } from "@/components/Layout";
-import { AppRouter } from "@/server/routers/_app";
 import "@/styles/globals.css";
-import { withTRPC } from "@trpc/next";
-import { Session } from "next-auth";
-import { SessionProvider, getSession } from "next-auth/react";
-import type { AppProps, AppType } from "next/app";
+import { Layout } from "@/components/Layout";
+import type { Session } from "next-auth";
+import { getSession, SessionProvider } from "next-auth/react";
+import type { AppType } from "next/app";
+import { trpc } from "@/utils/trpc";
 
-const App = ({ Component, pageProps }: AppProps) => {
+const App: AppType<{ session: Session | null }> = ({
+  Component,
+  pageProps,
+}) => {
   return (
     <SessionProvider session={pageProps.session}>
       <Layout>
@@ -16,16 +18,10 @@ const App = ({ Component, pageProps }: AppProps) => {
   );
 };
 
-// export default withTRPC<AppRouter>({
-//   config({ ctx }) {
-//     const url = process.env.APP_URL
-//       ? `https://${process.env.APP_URL}/api/trpc`
-//       : "http://localhost:3000/api/trpc";
+App.getInitialProps = async ({ ctx }) => {
+  return {
+    session: await getSession(ctx),
+  };
+};
 
-//     return {
-//       url,
-//       meta:
-//     };
-//   },
-//   ssr: true,
-// })(App);
+export default trpc.withTRPC(App);

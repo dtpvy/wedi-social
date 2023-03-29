@@ -1,8 +1,9 @@
 import { z } from "zod";
-import { router, publicProcedure, TRPCError } from "../trpc";
+import { router, publicProcedure } from "../trpc";
 import { hash } from "argon2";
+import prisma from "../prisma";
 
-const userRouter = router({
+export const userRouter = router({
   signup: publicProcedure
     .input(
       z.object({
@@ -12,23 +13,23 @@ const userRouter = router({
         password: z.string().min(4).max(12),
       })
     )
-    .mutation(async ({ input, ctx }) => {
+    .mutation(async ({ input }) => {
       const { email, password, phone, name } = input;
 
-      const exists = await ctx.prisma.user.findFirst({
+      const exists = await prisma.user.findFirst({
         where: { email },
       });
 
       if (exists) {
-        throw new TRPCError({
-          code: "CONFLICT",
-          message: "User already exists.",
-        });
+        // throw new TRPCError({
+        //   code: "CONFLICT",
+        //   message: "User already exists.",
+        // });
       }
 
       const hashedPassword = await hash(password);
 
-      const result = await ctx.prisma.user.create({
+      const result = await prisma.user.create({
         data: { email, password: hashedPassword, phone, name },
       });
 
@@ -39,5 +40,3 @@ const userRouter = router({
       };
     }),
 });
-
-export default userRouter;
