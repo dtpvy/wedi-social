@@ -23,11 +23,12 @@ const Feed = ({ children }: Props) => {
 
   return (
     <div className="  h-screen ">
-      
-      <Search></Search>
+      <div className="border-b-2">
+      <Search ></Search>
+      </div>
       <div className="flex flex-row h-screen w-screen gap-x-4">
         
-          <div className="w-[200px] h-full px-5 ">
+          <div className="w-[400px] h-full  bg-green-100 shadow border rounded-lg ">
             <Sidebar tab={tab} onChangeTab={handleChangeTab} />
           </div>
           <div className="flex flex-wrap flex-row justify-center item-center"><Main/></div>

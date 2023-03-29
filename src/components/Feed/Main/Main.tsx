@@ -1,5 +1,5 @@
 import React from 'react'
-import Post from '../Post/Post'
+import Post from '../Post/PostVy/Post'
 
 const det = 
 [
@@ -39,7 +39,7 @@ const det =
 ]
 const Main = () => {
   return (
-    <div className="flex flex-wrap  p-4 gap-x-0 gap-y-4">
+    <div className="flex flex-wrap p-4 gap-x-0 gap-y-10">
       {det.map((det) => (
         <div key={det.id} className="flex-1">
           <Post post={det} />
