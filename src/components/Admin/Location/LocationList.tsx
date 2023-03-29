@@ -1,8 +1,8 @@
 import React from "react";
-import LocationBox from "./LocationBox";
 import { Button, Modal, Text, Divider, Select, TextInput } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconSquarePlus } from "@tabler/icons-react";
+import ComponentBox from "../ComponentBox";
 const LocationList = () => {
   const locations = [
     {
@@ -13,6 +13,8 @@ const LocationList = () => {
       district: "1",
       city: "HCM",
       nation: "Vietnam",
+      status: "open",
+      travelType: "Ăn uống",
       image:
         "https://images.unsplash.com/photo-1511216335778-7cb8f49fa7a3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80",
     },
@@ -24,6 +26,8 @@ const LocationList = () => {
       district: "1",
       city: "HCM",
       nation: "Vietnam",
+      status: "open",
+      travelType: "Ăn uống",
       image:
         "https://images.unsplash.com/photo-1511216335778-7cb8f49fa7a3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80",
     },
@@ -35,6 +39,8 @@ const LocationList = () => {
       district: "1",
       city: "HCM",
       nation: "Vietnam",
+      status: "open",
+      travelType: "Ăn uống",
       image:
         "https://images.unsplash.com/photo-1511216335778-7cb8f49fa7a3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80",
     },
@@ -96,11 +102,29 @@ const LocationList = () => {
       </div>
       <Divider my="sm" variant="dotted" />
 
-      {/* Danh sách địa điểm */}
-      <div className="flex flex-wrap justify-center">
+      <div className="w-11/12 mx-auto my-3">
+        <div className="flex justify-start font-semibold text-gray-500">
+          <p className="w-1/12 ml-12">ID</p>
+          <p className="w-3/12">Tên</p>
+          <p className="w-3/12 pl-2">Địa chỉ</p>
+          {/* <p className="w-2/12">Nội dung</p> */}
+          <p className="w-2/12">Loại hình du lịch</p>
+          <p className="w-1/12 mx-3">Trình trạng</p>
+          <p className="w-1/12"></p>
+        </div>
+
         {locations.map((location) => (
-          <div key={location.id} className="w-5/12 mx-5 my-3">
-            <LocationBox location={location} />
+          <div key={location.id}>
+            <ComponentBox
+              props={{
+                id: location.id,
+                input2: location.name,
+                input3: `${location.ward}, ${location.district}, ${location.city}, ${location.nation}`,
+                input4: location.travelType,
+                status: location.status,
+                type: "location",
+              }}
+            />
           </div>
         ))}
       </div>
