@@ -6,7 +6,7 @@ type Props = {
   request: any;
 };
 
-const Request = ({ request }: Props) => {
+const RequestBox = ({ request }: Props) => {
   const { id, title, content, user, status } = request;
   const router = useRouter();
 
@@ -15,7 +15,7 @@ const Request = ({ request }: Props) => {
   };
 
   return (
-    <Card shadow="sm" padding="lg" radius="md" withBorder>
+    <Card shadow="sm" padding="lg" radius="md" withBorder className="mx-4 my-3">
       <Group position="apart" mt="md" mb="xs">
         <div className="font-medium text-gray-500">{title}</div>
         <Badge color={status === "PENDING" ? "blue" : "green"} variant="light">
@@ -27,7 +27,7 @@ const Request = ({ request }: Props) => {
         <div className="font-sm text-gray-500">23/03/2023</div>
       </Group>
 
-      {/* <div className="font-sm">{content}</div> */}
+      <div className="font-sm">{content}</div>
 
       <Button
         onClick={onNavigaToRequestDetail}
@@ -43,4 +43,4 @@ const Request = ({ request }: Props) => {
   );
 };
 
-export default Request;
+export default RequestBox;
