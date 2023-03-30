@@ -10,11 +10,11 @@ type Props = {
 };
 
 const LayoutAdmin = ({ children }: Props) => {
-  const route = useRouter();
-  const tab = route.asPath.split("/")[2] || TAB_LIST.DASHBOARD.name;
+  const router = useRouter();
+  const tab = router.asPath.split("/")[2] || TAB_LIST.DASHBOARD.name;
 
   const handleChangeTab = (tab: Tab) => {
-    route.push(`/admin/${tab.url}`);
+    router.push(`/admin/${tab.url}`);
   };
 
   return (

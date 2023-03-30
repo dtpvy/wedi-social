@@ -1,9 +1,2 @@
-import React from 'react'
-
-type Props = {}
-
-export default function index({}: Props) {
-  return (
-    <div>index</div>
-  )
-}
+export { default as Search } from "./Search/Search";
+export { default as Sidebar } from "./Sidebar/Sidebar";
