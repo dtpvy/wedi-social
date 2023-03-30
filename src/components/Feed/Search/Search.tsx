@@ -1,6 +1,16 @@
-import { ActionIcon, Avatar, Badge, Image, Input } from "@mantine/core";
+import {
+  ActionIcon,
+  Avatar,
+  Badge,
+  Button,
+  Image,
+  Input,
+  Popover,
+  Text,
+} from "@mantine/core";
 import {
   IconBellFilled,
+  IconDots,
   IconLogout,
   IconMessageCircle2Filled,
   IconSearch,
@@ -57,11 +67,19 @@ const Search = () => {
             10
           </Badge>
         </ActionIcon>
+        <Popover position="bottom" withArrow shadow="md">
+          <Popover.Target>
+            <ActionIcon size="xl" radius="xl">
+              <IconDots />
+            </ActionIcon>
+          </Popover.Target>
+          <Popover.Dropdown>
+            <Button>Đăng xuất</Button>
+          </Popover.Dropdown>
+        </Popover>
+
         <ActionIcon onClick={() => router.push("/profile/nvquang")} radius="xl">
           <Avatar radius="xl" size="lg" />
-        </ActionIcon>
-        <ActionIcon size="xl" radius="xl" variant="light" color="dark">
-          <IconLogout />
         </ActionIcon>
       </div>
     </div>

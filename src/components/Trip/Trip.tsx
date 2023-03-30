@@ -1,9 +1,14 @@
+import classNames from "@/utils/classNames";
 import { Avatar, Button, Text } from "@mantine/core";
 import { IconDots } from "@tabler/icons-react";
 
-const Trip = () => {
+type Props = {
+  className?: string;
+};
+
+const Trip = ({ className }: Props) => {
   return (
-    <div className="bg-white rounded-lg shadow p-4">
+    <div className={classNames("bg-white rounded-lg shadow p-4", className)}>
       <div className="flex gap-4 mb-4">
         <Avatar size="xl" />
         <div>
