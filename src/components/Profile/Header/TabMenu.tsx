@@ -13,7 +13,7 @@ import { useRouter } from "next/router";
 const TAB_LIST: Record<string, Tab> = {
   POSTS: {
     name: "posts",
-    url: "",
+    url: "posts",
     icon: <IconArticle />,
   },
   TRIPS: {
@@ -34,11 +34,11 @@ const TAB_LIST: Record<string, Tab> = {
 };
 
 const TabMenu = () => {
-  const route = useRouter();
-  const tab = route.asPath.split("/")[2] || TAB_LIST.POSTS.name;
+  const router = useRouter();
+  const tab = router.asPath.split("/")[2] || TAB_LIST.POSTS.name;
 
   const handleChangeTab = (tab: Tab) => {
-    route.push(`/profile/${tab.url}`);
+    router.push(`/profile/${tab.url}`);
   };
   return (
     <>

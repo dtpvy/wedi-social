@@ -8,8 +8,8 @@ type Props = {
 };
 
 const Layout = ({ children }: Props) => {
-  const route = useRouter();
-  const isAdmin = route.asPath.split("/")[1] === "admin";
+  const router = useRouter();
+  const isAdmin = router.asPath.split("/")[1] === "admin";
 
   return (
     <>
