@@ -13,7 +13,7 @@ import { useRouter } from "next/router";
 const TAB_LIST: Record<string, Tab> = {
   POSTS: {
     name: "posts",
-    url: "",
+    url: "posts",
     icon: <IconArticle />,
   },
   TRIPS: {

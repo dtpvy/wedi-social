@@ -23,7 +23,7 @@ const Search = () => {
         icon={<IconSearch />}
         placeholder="Search..."
         radius="xl"
-        size="lg"
+        size="md"
         className="w-1/2"
       />
       <div className="flex items-center gap-6">
@@ -57,7 +57,7 @@ const Search = () => {
             10
           </Badge>
         </ActionIcon>
-        <ActionIcon onClick={() => router.push("/nvquang")} radius="xl">
+        <ActionIcon onClick={() => router.push("/profile/nvquang")} radius="xl">
           <Avatar radius="xl" size="lg" />
         </ActionIcon>
         <ActionIcon size="xl" radius="xl" variant="light" color="dark">
