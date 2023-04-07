@@ -92,6 +92,7 @@ model User {
     id         Int        @id @default(autoincrement())
     name       String     @db.VarChar(255)
     imgUrl     String?    @db.VarChar(255)
+    bgUrl      String?    @db.VarChar(255)
     password   String
     email      String     @unique @db.VarChar(255)
     phone      String     @unique @db.VarChar(255)
@@ -296,11 +297,12 @@ model Admin {
     id        Int     @id @default(autoincrement())
     email     String  @unique @db.VarChar(255)
     name      String? @db.VarChar(255)
+    imgUrl    String? @db.VarChar(255)
     isDeleted Boolean @default(false)
 
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-    deletedAt DateTime @default(now())
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    deletedAt DateTime?
     Reply     Reply[]
 }
 
