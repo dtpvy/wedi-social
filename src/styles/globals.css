@@ -17,3 +17,7 @@ body {
   border-style: solid;
   border-color: #ccc;
 }
+
+button {
+  background: none;
+}

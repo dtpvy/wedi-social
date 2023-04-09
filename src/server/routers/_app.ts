@@ -1,4 +1,8 @@
+/**
+ * This file contains the root router of your tRPC-backend
+ */
 import { router, publicProcedure } from "../trpc";
+import { adminRouter } from "./admin";
 import { userRouter } from "./user";
 import { observable } from "@trpc/server/observable";
 import { clearInterval } from "timers";
@@ -7,6 +11,7 @@ export const appRouter = router({
   healthcheck: publicProcedure.query(() => "yay!"),
 
   user: userRouter,
+  admin: adminRouter,
 
   randomNumber: publicProcedure.subscription(() => {
     return observable<number>((emit) => {

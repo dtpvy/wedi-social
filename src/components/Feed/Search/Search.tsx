@@ -15,6 +15,7 @@ import {
   IconMessageCircle2Filled,
   IconSearch,
 } from "@tabler/icons-react";
+import { signOut } from "next-auth/react";
 import { useRouter } from "next/router";
 
 const Search = () => {
@@ -74,7 +75,7 @@ const Search = () => {
             </ActionIcon>
           </Popover.Target>
           <Popover.Dropdown>
-            <Button>Đăng xuất</Button>
+            <Button onClick={() => signOut()}>Đăng xuất</Button>
           </Popover.Dropdown>
         </Popover>
 

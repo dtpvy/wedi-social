@@ -5,6 +5,7 @@ import Menu from "@/components/Admin/Menu";
 import { Search } from "../Admin/Dashboard";
 import { useRouter } from "next/router";
 import { Tab } from "@/types/tab";
+import { useSession } from "next-auth/react";
 
 type Props = {
   children: ReactNode;
