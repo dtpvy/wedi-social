@@ -21,12 +21,10 @@ const useAuth = () => {
     const indexPage = router.asPath === "/";
 
     if (indexPage && data?.user.id) {
-      console.log("ádads");
       router.push("/feed");
     }
 
     if (data?.user && authPage) {
-      console.log("????");
       router.push(data.user.isAdmin ? "/admin/dashboard" : "/feed");
     }
 
@@ -35,7 +33,6 @@ const useAuth = () => {
       !indexPage &&
       !authPage
     ) {
-      console.log("kkkkkkkk");
       router.push("/");
     }
   }
