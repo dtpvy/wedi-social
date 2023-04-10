@@ -1,3 +1,4 @@
+import useUserStore from "@/stores/user";
 import {
   ActionIcon,
   Avatar,
@@ -20,6 +21,7 @@ import { useRouter } from "next/router";
 
 const Search = () => {
   const router = useRouter();
+  const user = useUserStore.use.user();
 
   return (
     <div className="flex items-center justify-between bg-white pr-8">
@@ -79,8 +81,11 @@ const Search = () => {
           </Popover.Dropdown>
         </Popover>
 
-        <ActionIcon onClick={() => router.push("/profile/nvquang")} radius="xl">
-          <Avatar radius="xl" size="lg" />
+        <ActionIcon
+          onClick={() => router.push(`/profile/${user?.id}`)}
+          radius="xl"
+        >
+          <Avatar radius="xl" size="lg" src={user?.imgUrl} />
         </ActionIcon>
       </div>
     </div>

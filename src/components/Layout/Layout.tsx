@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { ReactNode } from "react";
 import LayoutAdmin from "./AdminLayout";
 import LayoutMain from "./MainLayout";
+import useAuth from "@/hooks/useAuth";
 
 type Props = {
   children: ReactNode;
@@ -11,16 +12,9 @@ type Props = {
 
 const Layout = ({ children }: Props) => {
   const router = useRouter();
-  const { data: session, status } = useSession();
+  const { data: session, status } = useAuth();
 
-  const isAdmin =
-    router.asPath.split("/")[1] === "admin" && session?.user.isAdmin;
-
-  const isSignin =
-    router.asPath.includes("signin") &&
-    ((isAdmin && !session?.user.isAdmin) || !session?.user);
-
-  console.log(isSignin, session);
+  const isAdminPage = router.asPath.split("/")[1] === "admin";
 
   if (status === "loading") {
     return (
@@ -28,18 +22,11 @@ const Layout = ({ children }: Props) => {
     );
   }
 
-  if (isSignin || (!session?.user && status === "unauthenticated")) {
+  if (!session?.user) {
     return <>{children}</>;
   }
 
-  if (
-    router.asPath === "/" ||
-    (!isSignin && router.asPath.includes("signin"))
-  ) {
-    router.push(isAdmin ? "/admin/dashboard" : "/feed");
-  }
-
-  if (isAdmin) {
+  if (isAdminPage) {
     return <LayoutAdmin>{children}</LayoutAdmin>;
   }
 

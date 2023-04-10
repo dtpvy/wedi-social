@@ -126,6 +126,7 @@ model User {
     inviteTrip      JoinTrip[]     @relation("trip_join_inviter")
     notification    Notification[]
     requests        Request[]
+    friends         Friend[]
 }
 
 model Review {
@@ -332,4 +333,12 @@ model Tracking {
     event  String
     page   String @db.VarChar(255)
     amount Int
+}
+
+model Friend {
+    userId   Int
+    friendId Int
+    user     User @relation(fields: [userId], references: [id])
+
+    @@id([userId, friendId])
 }

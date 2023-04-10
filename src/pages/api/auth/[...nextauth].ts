@@ -82,7 +82,7 @@ export const authOptions = {
         if (account.provider === "google") {
           token.user = { ...token.user, isAdmin: true };
         } else {
-          token.user = { ...token.user, isAdmin: false };
+          token.user = { ...token.user, ...user, isAdmin: false };
         }
       }
 
