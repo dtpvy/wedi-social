@@ -96,7 +96,7 @@ const Admin = ({ admin, refetch }: Props) => {
           <Avatar src={admin.imgUrl} alt="image" />
         </div>
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-3 text-sm font-medium text-gray-900 truncate dark:text-white">
+          <div className="flex items-center gap-3 text-sm font-medium text-gray-900 truncate">
             {admin.name}
             <Badge color={admin.isDeleted ? "red" : "green"}>
               {admin.isDeleted ? "Deactive" : "Active"}
@@ -107,7 +107,7 @@ const Admin = ({ admin, refetch }: Props) => {
           </div>
         </div>
         {session?.user.email !== admin.email && (
-          <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+          <div className="inline-flex items-center text-base font-semibold text-gray-900">
             {!admin.isDeleted ? (
               <Button onClick={openDeleteModal} color="red">
                 Deactive
