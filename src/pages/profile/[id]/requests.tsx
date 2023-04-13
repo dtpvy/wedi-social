@@ -2,7 +2,7 @@
 import { ProfileLayout } from "@/components/Layout";
 import { CreateRequest, Request } from "@/components/Profile/Request";
 import { trpc } from "@/utils/trpc";
-import { Button } from "@mantine/core";
+import { Button, Loader } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useState } from "react";
 
@@ -19,6 +19,7 @@ const requests = () => {
           radius="xl"
           variant={type === "all" ? "light" : "outline"}
           color="green"
+          onClick={() => setType("all")}
         >
           Tất cả
         </Button>
@@ -26,6 +27,7 @@ const requests = () => {
           radius="xl"
           variant={type === "replied" ? "light" : "outline"}
           color="green"
+          onClick={() => setType("replied")}
         >
           Đã phản hồi
         </Button>
@@ -33,6 +35,7 @@ const requests = () => {
           radius="xl"
           variant={type === "pending" ? "light" : "outline"}
           color="green"
+          onClick={() => setType("pending")}
         >
           Chưa phản hồi
         </Button>
@@ -40,6 +43,7 @@ const requests = () => {
           Tạo request
         </Button>
       </div>
+      {isLoading && <Loader />}
       <div className="flex flex-col gap-4">
         {data?.map((request) => (
           <Request key={request.id} request={request} />
