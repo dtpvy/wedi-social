@@ -116,7 +116,7 @@ const TabMenu = () => {
         />
       </div>
 
-      {!isOwner && (
+      {!isOwner ? (
         <Button
           onClick={handleAdd}
           size="md"
@@ -125,6 +125,16 @@ const TabMenu = () => {
           color="green"
         >
           Add Friend
+        </Button>
+      ) : (
+        <Button
+          onClick={handleAdd}
+          size="md"
+          className="w-full mt-5"
+          variant="filled"
+          color="green"
+        >
+          Edit Profile
         </Button>
       )}
     </>

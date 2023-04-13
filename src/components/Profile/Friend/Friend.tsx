@@ -19,9 +19,7 @@ const FriendWidget = ({ id, name, imgUrl, mutualFriends }: Props) => {
     modals.openConfirmModal({
       title: "Delete your profile",
       centered: true,
-      children: (
-        <Text size="sm">{`Are you sure you want to unfriend ${name}?`}</Text>
-      ),
+      children: <Text size="sm">{`Are you sure unfriend ${name}?`}</Text>,
       labels: { confirm: "Yes", cancel: "Cancel" },
       confirmProps: { color: "red" },
       onCancel: () => null,

@@ -35,7 +35,7 @@ const ProfileLayout = ({ children, className }: Props) => {
 
   return (
     <ProfileLayoutContext.Provider value={data}>
-      <div className="pt-[70px]">
+      <div className="py-[70px]">
         <Header />
         <div className="flex mt-8 mx-16 gap-8">
           <div className="w-[400px] shadow p-4 bg-white rounded-lg h-fit">

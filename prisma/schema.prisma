@@ -325,7 +325,7 @@ model Request {
     createdAt DateTime @default(now())
     userId    Int
     user      User     @relation(fields: [userId], references: [id])
-    Reply     Reply[]
+    reply     Reply[]
 }
 
 model Reply {
