@@ -9,28 +9,36 @@ import {
   IconMessageReport,
 } from "@tabler/icons-react";
 import { useRouter } from "next/router";
-import { useContext } from "react";
+import { useContext, useMemo } from "react";
 import { ProfileLayoutContext } from "@/components/Layout/ProfileLayout";
 import useUserStore from "@/stores/user";
 import { trpc } from "@/utils/trpc";
+import { calcFriend } from "@/utils/user";
+
+const TAB_NAME = {
+  POSTS: "posts",
+  TRIPS: "trips",
+  FRIENDS: "friends",
+  REQUESTS: "requests",
+};
 
 const TAB_LIST: Record<string, Tab> = {
-  POSTS: {
+  [TAB_NAME.POSTS]: {
     name: "posts",
     url: "posts",
     icon: <IconArticle />,
   },
-  TRIPS: {
+  [TAB_NAME.TRIPS]: {
     name: "trips",
     url: "trips",
     icon: <IconMap />,
   },
-  FRIENDS: {
+  [TAB_NAME.FRIENDS]: {
     name: "friends",
     url: "friends",
     icon: <IconFriends />,
   },
-  REQUEST: {
+  [TAB_NAME.REQUESTS]: {
     name: "requests",
     url: "requests",
     icon: <IconMessageReport />,
@@ -41,6 +49,7 @@ const TabMenu = () => {
   const router = useRouter();
   const user = useUserStore.use.user();
   const profile = useContext(ProfileLayoutContext);
+  const isOwner = user?.id === profile?.id;
 
   const tab = router.asPath.split("/")[2] || TAB_LIST.POSTS.name;
 
@@ -63,6 +72,16 @@ const TabMenu = () => {
       console.log(e);
     }
   };
+
+  const tabs = useMemo(() => {
+    const tabs = { ...TAB_LIST };
+    if (!user) return tabs;
+    tabs[TAB_NAME.POSTS].badgeNumber = 10;
+    tabs[TAB_NAME.TRIPS].badgeNumber = 10;
+    tabs[TAB_NAME.FRIENDS].badgeNumber = calcFriend(user);
+    tabs[TAB_NAME.REQUESTS].badgeNumber = 10;
+    return tabs;
+  }, [user]);
 
   return (
     <>
@@ -87,17 +106,17 @@ const TabMenu = () => {
       <div className="flex flex-col gap-4 mt-4">
         <Menu
           tab={tab}
-          items={TAB_LIST}
+          showBadgeNumber
+          items={tabs}
           onChange={handleChangeTab}
           className="bg-white flex items-center text-green-600 p-4 hover:bg-green-600 hover:text-white"
           activeClass="bg-green-600 text-white"
           titleClass="text-md"
-          rightIcon={<Badge color="green">{10}</Badge>}
           leftIcon={TAB_LIST[tab]?.icon}
         />
       </div>
 
-      {user?.id !== profile?.id && (
+      {!isOwner && (
         <Button
           onClick={handleAdd}
           size="md"

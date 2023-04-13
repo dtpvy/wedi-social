@@ -1,4 +1,5 @@
 import useUserStore from "@/stores/user";
+import { trpc } from "@/utils/trpc";
 import {
   ActionIcon,
   Avatar,
@@ -7,25 +8,21 @@ import {
   Image,
   Input,
   Popover,
-  Text,
 } from "@mantine/core";
 import {
   IconBellFilled,
   IconDots,
-  IconLogout,
   IconMessageCircle2Filled,
   IconSearch,
 } from "@tabler/icons-react";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import Notification from "./Notification";
-import { MainContext } from "@/components/Layout/MainLayout";
-import { useContext, useState } from "react";
-import { trpc } from "@/utils/trpc";
 
 const Search = () => {
   const router = useRouter();
-  const user = useContext(MainContext);
+  const user = useUserStore.use.user();
   const seeAll = trpc.notification.seenAll.useMutation();
   const [see, setSee] = useState(false);
   const utils = trpc.useContext();

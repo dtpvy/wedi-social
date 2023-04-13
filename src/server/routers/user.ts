@@ -1,9 +1,8 @@
-import { TRPCError } from "@trpc/server";
+import { ERROR_MESSAGES } from "@/constants/error";
 import { hash } from "argon2";
 import { z } from "zod";
 import { prisma } from "../prisma";
 import { publicProcedure, router } from "../trpc";
-import { ERROR_MESSAGES } from "@/constants/error";
 
 export const userRouter = router({
   findUser: publicProcedure
@@ -15,6 +14,7 @@ export const userRouter = router({
         include: {
           posts: true,
           friends: true,
+          userFriends: true,
           notification: {
             where: { seen: false },
           },

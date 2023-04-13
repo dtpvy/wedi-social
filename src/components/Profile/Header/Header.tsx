@@ -1,5 +1,6 @@
 import { ProfileLayoutContext } from "@/components/Layout/ProfileLayout";
 import { UserInfo } from "@/types/user";
+import { calcFriend } from "@/utils/user";
 import { Avatar, Image, Loader } from "@mantine/core";
 import {
   IconBrandFacebookFilled,
@@ -45,7 +46,7 @@ const Header = () => {
             <span className="text-gray-400">posts</span>
           </div>
           <div>
-            <span className="font-bold mr-2">{user.friends.length}</span>
+            <span className="font-bold mr-2">{calcFriend(user)}</span>
             <span className="text-gray-400">friends</span>
           </div>
         </div>

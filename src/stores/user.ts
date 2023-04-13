@@ -1,16 +1,16 @@
-import { User } from "@prisma/client";
+import { UserInfo } from "@/types/user";
 import { create } from "zustand";
 import createSelectors from "./createSelectors";
 
 export type AuthStatus = "loading" | "authenticated" | "unauthenticated";
 
 type State = {
-  user: User | null;
+  user: UserInfo | null;
   status: AuthStatus;
 };
 
 type Action = {
-  setUser: (auth: { user: User | null; status: AuthStatus }) => void;
+  setUser: (auth: { user: UserInfo | null; status: AuthStatus }) => void;
 };
 
 const useUserStore = createSelectors(
