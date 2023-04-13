@@ -1,12 +1,6 @@
-import {
-  Header,
-  Diagrams,
-  Statistics,
-  Admin,
-} from "@/components/Admin/Dashboard";
+import { Admin, Header } from "@/components/Admin/Dashboard";
 import { trpc } from "@/utils/trpc";
 import { Loader, Text } from "@mantine/core";
-import React from "react";
 
 const Dashboard = () => {
   const { data, isLoading, refetch } = trpc.admin.adminList.useQuery();

@@ -31,7 +31,7 @@ const TAB_LIST: Record<string, Tab> = {
   },
 };
 
-const TabMenu = () => {
+const Sidebar = () => {
   const router = useRouter();
   const tab = router.asPath.split("/")[2] || TAB_LIST.FEED.name;
 
@@ -62,4 +62,4 @@ const TabMenu = () => {
   );
 };
 
-export default TabMenu;
+export default Sidebar;

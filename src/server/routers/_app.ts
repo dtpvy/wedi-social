@@ -1,28 +1,18 @@
-/**
- * This file contains the root router of your tRPC-backend
- */
-import { router, publicProcedure } from "../trpc";
+import { publicProcedure, router } from "../trpc";
 import { adminRouter } from "./admin";
+import { friendRouter } from "./friend";
+import { notificationRouter } from "./notification";
+import { requestRouter } from "./request";
 import { userRouter } from "./user";
-import { observable } from "@trpc/server/observable";
-import { clearInterval } from "timers";
 
 export const appRouter = router({
   healthcheck: publicProcedure.query(() => "yay!"),
 
   user: userRouter,
   admin: adminRouter,
-
-  randomNumber: publicProcedure.subscription(() => {
-    return observable<number>((emit) => {
-      const int = setInterval(() => {
-        emit.next(Math.random());
-      }, 500);
-      return () => {
-        clearInterval(int);
-      };
-    });
-  }),
+  notification: notificationRouter,
+  friend: friendRouter,
+  request: requestRouter,
 });
 
 export type AppRouter = typeof appRouter;

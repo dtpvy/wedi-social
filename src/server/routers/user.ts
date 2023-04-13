@@ -1,11 +1,28 @@
-import { TRPCError } from "@trpc/server";
+import { ERROR_MESSAGES } from "@/constants/error";
 import { hash } from "argon2";
 import { z } from "zod";
 import { prisma } from "../prisma";
 import { publicProcedure, router } from "../trpc";
-import { ERROR_MESSAGES } from "@/constants/error";
 
 export const userRouter = router({
+  findUser: publicProcedure
+    .input(z.object({ id: z.number() }))
+    .query(async ({ input }) => {
+      const { id } = input;
+      const user = await prisma.user.findFirst({
+        where: { id },
+        include: {
+          posts: true,
+          friends: true,
+          userFriends: true,
+          notification: {
+            where: { seen: false },
+          },
+        },
+      });
+
+      return user;
+    }),
   signup: publicProcedure
     .input(
       z.object({

@@ -1,5 +1,6 @@
 import { Tab } from "@/types/tab";
 import classNames from "@/utils/classNames";
+import { Badge } from "@mantine/core";
 import React, { ReactNode } from "react";
 
 type Props = {
@@ -11,6 +12,7 @@ type Props = {
   tab: string;
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
+  showBadgeNumber?: boolean;
   onChange?: (tab: Tab) => void;
 };
 
@@ -23,12 +25,13 @@ const Menu = ({
   tab,
   leftIcon,
   rightIcon,
+  showBadgeNumber = false,
   onChange,
 }: Props) => {
   const onChangeTab = (tab: keyof typeof items) => {
     onChange?.(items[tab]);
   };
-
+  console.log({ tab });
   return (
     <>
       {Object.keys(items).map((key) => (
@@ -43,12 +46,16 @@ const Menu = ({
           <div
             className={classNames("font-bold uppercase", titleClass, {
               "ml-2": !!leftIcon,
-              "mr-auto": !!rightIcon,
+              "mr-auto": !!rightIcon || showBadgeNumber,
             })}
           >
             {items[key].name}
           </div>
-          {rightIcon}
+
+          {rightIcon ??
+            (showBadgeNumber && !!items[key].badgeNumber && (
+              <Badge color="green">{items[key].badgeNumber}</Badge>
+            ))}
         </button>
       ))}
     </>

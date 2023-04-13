@@ -1,3 +1,5 @@
+import useUserStore from "@/stores/user";
+import { trpc } from "@/utils/trpc";
 import {
   ActionIcon,
   Avatar,
@@ -6,20 +8,31 @@ import {
   Image,
   Input,
   Popover,
-  Text,
 } from "@mantine/core";
 import {
   IconBellFilled,
   IconDots,
-  IconLogout,
   IconMessageCircle2Filled,
   IconSearch,
 } from "@tabler/icons-react";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/router";
+import { useState } from "react";
+import Notification from "./Notification";
 
 const Search = () => {
   const router = useRouter();
+  const user = useUserStore.use.user();
+  const seeAll = trpc.notification.seenAll.useMutation();
+  const [see, setSee] = useState(false);
+  const utils = trpc.useContext();
+
+  const handleSeeAll = () => {
+    if (see) return;
+    user?.notification.length && seeAll.mutate({});
+    setSee(true);
+    utils.user.findUser.refetch();
+  };
 
   return (
     <div className="flex items-center justify-between bg-white pr-8">
@@ -53,21 +66,36 @@ const Search = () => {
             10
           </Badge>
         </ActionIcon>
-        <ActionIcon
-          color="green"
-          radius="xl"
-          size="xl"
-          variant="filled"
-          className="relative"
+        <Popover
+          onChange={handleSeeAll}
+          position="bottom"
+          withArrow
+          shadow="md"
         >
-          <IconBellFilled />
-          <Badge
-            color="red"
-            className="absolute top-0 -left-[20px] rounded-full"
-          >
-            10
-          </Badge>
-        </ActionIcon>
+          <Popover.Target>
+            <ActionIcon
+              color="green"
+              radius="xl"
+              size="xl"
+              variant="filled"
+              className="relative"
+            >
+              <IconBellFilled />
+              {!!user?.notification.length && (
+                <Badge
+                  color="red"
+                  className="absolute top-0 -left-[20px] rounded-full"
+                >
+                  {user?.notification.length}
+                </Badge>
+              )}
+            </ActionIcon>
+          </Popover.Target>
+          <Popover.Dropdown>
+            <Notification />
+          </Popover.Dropdown>
+        </Popover>
+
         <Popover position="bottom" withArrow shadow="md">
           <Popover.Target>
             <ActionIcon size="xl" radius="xl">
@@ -79,8 +107,11 @@ const Search = () => {
           </Popover.Dropdown>
         </Popover>
 
-        <ActionIcon onClick={() => router.push("/profile/nvquang")} radius="xl">
-          <Avatar radius="xl" size="lg" />
+        <ActionIcon
+          onClick={() => router.push(`/profile/${user?.id}`)}
+          radius="xl"
+        >
+          <Avatar radius="xl" size="lg" src={user?.imgUrl} />
         </ActionIcon>
       </div>
     </div>
