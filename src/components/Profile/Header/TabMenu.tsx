@@ -9,6 +9,10 @@ import {
   IconMessageReport,
 } from "@tabler/icons-react";
 import { useRouter } from "next/router";
+import { useContext } from "react";
+import { ProfileLayoutContext } from "@/components/Layout/ProfileLayout";
+import useUserStore from "@/stores/user";
+import { trpc } from "@/utils/trpc";
 
 const TAB_LIST: Record<string, Tab> = {
   POSTS: {
@@ -35,11 +39,31 @@ const TAB_LIST: Record<string, Tab> = {
 
 const TabMenu = () => {
   const router = useRouter();
+  const user = useUserStore.use.user();
+  const profile = useContext(ProfileLayoutContext);
+
   const tab = router.asPath.split("/")[2] || TAB_LIST.POSTS.name;
 
   const handleChangeTab = (tab: Tab) => {
-    router.push(`/profile/${tab.url}`);
+    router.push(`/profile/${profile?.id}/${tab.url}`);
   };
+
+  const addFriend = trpc.friend.add.useMutation();
+  const addNoti = trpc.notification.push.useMutation();
+
+  const handleAdd = async () => {
+    if (!profile?.id) return;
+    try {
+      await addFriend.mutateAsync({ userId: profile.id });
+      await addNoti.mutateAsync({
+        content: "Có người muốn kết bạn với bạn",
+        userId: profile.id,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <>
       <div className="border-b pb-3">
@@ -72,6 +96,18 @@ const TabMenu = () => {
           leftIcon={TAB_LIST[tab]?.icon}
         />
       </div>
+
+      {user?.id !== profile?.id && (
+        <Button
+          onClick={handleAdd}
+          size="md"
+          className="w-full mt-5"
+          variant="filled"
+          color="green"
+        >
+          Add Friend
+        </Button>
+      )}
     </>
   );
 };

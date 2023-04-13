@@ -1,9 +1,6 @@
 import { ProfileLayout } from "@/components/Layout";
 import { Post } from "@/components/Post";
 import { profilePost } from "@/mocks/post";
-import { trpc } from "@/utils/trpc";
-import { Loader } from "@mantine/core";
-import { useRouter } from "next/router";
 
 const Profile = () => {
   return (

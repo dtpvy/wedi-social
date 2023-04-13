@@ -6,18 +6,21 @@ import { trpc } from "@/utils/trpc";
 import { useSession } from "next-auth/react";
 import { Loader } from "@mantine/core";
 import NotFound from "@/pages/404";
+import { createContext } from "react";
+import { UserInfo } from "@/types/user";
 
 type Props = {
   children: ReactNode;
   className?: string;
 };
 
+export const ProfileLayoutContext = createContext<UserInfo | null>(null);
+
 const ProfileLayout = ({ children, className }: Props) => {
   const router = useRouter();
-  const { data: session } = useSession();
   const { id } = router.query;
   const { data, isLoading } = trpc.user.findUser.useQuery({
-    id: +(id || session?.user.id || ""),
+    id: +(id as string),
   });
 
   if (isLoading) {
@@ -31,15 +34,17 @@ const ProfileLayout = ({ children, className }: Props) => {
   }
 
   return (
-    <div className="pt-[70px]">
-      <Header user={data} />
-      <div className="flex mt-8 mx-16 gap-8">
-        <div className="w-[400px] shadow p-4 bg-white rounded-lg h-fit">
-          <TabMenu />
+    <ProfileLayoutContext.Provider value={data}>
+      <div className="pt-[70px]">
+        <Header />
+        <div className="flex mt-8 mx-16 gap-8">
+          <div className="w-[400px] shadow p-4 bg-white rounded-lg h-fit">
+            <TabMenu />
+          </div>
+          <div className={classNames("w-full", className)}>{children}</div>
         </div>
-        <div className={classNames("w-full", className)}>{children}</div>
       </div>
-    </div>
+    </ProfileLayoutContext.Provider>
   );
 };
 

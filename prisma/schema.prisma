@@ -40,6 +40,12 @@ enum Privacy {
     FRIEND
 }
 
+enum FriendStatus {
+    PENDING
+    ACCEPT
+    REJECT
+}
+
 model Language {
     id   Int    @id @default(autoincrement())
     name String @db.VarChar(255)
@@ -119,14 +125,16 @@ model User {
     reactions PostReaction[]
     comments  Comment[]
 
-    sendMessages    Message[]      @relation("send_messages")
-    receiveMessages Message[]      @relation("receive__messages")
-    schedules       JoinSchedule[]
-    joinTrip        JoinTrip[]     @relation("trip_join_user")
-    inviteTrip      JoinTrip[]     @relation("trip_join_inviter")
-    notification    Notification[]
-    requests        Request[]
-    friends         Friend[]
+    sendMessages     Message[]      @relation("send_messages")
+    receiveMessages  Message[]      @relation("receive__messages")
+    schedules        JoinSchedule[]
+    joinTrip         JoinTrip[]     @relation("trip_join_user")
+    inviteTrip       JoinTrip[]     @relation("trip_join_inviter")
+    requests         Request[]
+    notification     Notification[] @relation("user")
+    sendNotification Notification[] @relation("actor")
+    friends          Friend[]       @relation("user")
+    userFriends      Friend[]       @relation("friend")
 }
 
 model Review {
@@ -289,9 +297,12 @@ model Notification {
     id        Int      @id @default(autoincrement())
     content   String
     link      String?  @db.VarChar(255)
+    actorId   Int
     userId    Int
     createdAt DateTime @default(now())
-    user      User     @relation(fields: [userId], references: [id])
+    user      User     @relation("user", fields: [userId], references: [id])
+    actor     User     @relation("actor", fields: [actorId], references: [id])
+    seen      Boolean  @default(false)
 }
 
 model Admin {
@@ -338,7 +349,12 @@ model Tracking {
 model Friend {
     userId   Int
     friendId Int
-    user     User @relation(fields: [userId], references: [id])
+    status   FriendStatus
+    user     User         @relation("user", fields: [userId], references: [id])
+    friend   User         @relation("friend", fields: [friendId], references: [id])
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
     @@id([userId, friendId])
 }

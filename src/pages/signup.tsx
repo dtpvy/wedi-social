@@ -37,6 +37,14 @@ const Signup = () => {
           color: "red",
           icon: <IconX />,
         });
+      } else if (
+        e.message.includes("Unique constraint failed on the fields: (`phone`)")
+      ) {
+        notifications.show({
+          message: "Số diện thoại đã tồn tại",
+          color: "red",
+          icon: <IconX />,
+        });
       } else {
         notifications.show({
           message: "Có lỗi xảy ra. Vui lòng thử lại",

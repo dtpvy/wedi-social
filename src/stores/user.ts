@@ -1,8 +1,6 @@
+import { User } from "@prisma/client";
 import { create } from "zustand";
 import createSelectors from "./createSelectors";
-import { User } from "@prisma/client";
-import { Session } from "next-auth";
-import { trpc } from "@/utils/trpc";
 
 export type AuthStatus = "loading" | "authenticated" | "unauthenticated";
 

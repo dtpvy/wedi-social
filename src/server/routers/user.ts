@@ -15,9 +15,12 @@ export const userRouter = router({
         include: {
           posts: true,
           friends: true,
+          notification: {
+            where: { seen: false },
+          },
         },
       });
-      console.log(user);
+
       return user;
     }),
   signup: publicProcedure
