@@ -10,7 +10,7 @@ import React from "react";
 
 const Dashboard = () => {
   const { data, isLoading, refetch } = trpc.admin.adminList.useQuery();
-
+  const user = trpc.admin.userList.useQuery();
   return (
     <div>
       <Text size="xl" className="px-4 ml-8 pt-3 font-semibold">

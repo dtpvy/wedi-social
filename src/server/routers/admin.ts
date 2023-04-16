@@ -68,4 +68,58 @@ export const adminRouter = router({
         result: true,
       };
     }),
+  userList: adminAuthedProcedure.query(async () => {
+    const user = await prisma.user.findMany();
+    return {
+      status: 200,
+      result: user,
+    };
+  }),
+  setUserStatus: adminAuthedProcedure
+    .input(
+      z.object({
+        id: z.number(),
+        status: z.any(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      const { id, status } = input;
+      const admin = await prisma.admin.findFirst({
+        where: { email: ctx.user.email },
+      });
+      const user = await prisma.user.findFirst({
+        where: { id: id },
+      });
+
+      if (!admin) {
+        throw new Error(ERROR_MESSAGES.dontHavePermission);
+      }
+
+      await prisma.user.update({
+        where: { id },
+        data: { status: status },
+      });
+
+      return {
+        status: 201,
+        message: "Action successfully",
+        result: true,
+      };
+    }),
+  userDetail: adminAuthedProcedure
+    .input(
+      z.object({
+        id: z.number(),
+      })
+    )
+    .query(async ({ input }) => {
+      const { id } = input;
+      const user = await prisma.user.findUnique({
+        where: { id },
+      });
+
+      return {
+        result: user,
+      };
+    }),
 });

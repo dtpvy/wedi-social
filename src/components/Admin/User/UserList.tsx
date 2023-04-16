@@ -2,30 +2,34 @@ import React from "react";
 import { Text, Container, Card, Group } from "@mantine/core";
 import UserBox from "./UserBox";
 import ComponentBox from "../ComponentBox";
+import { trpc } from "@/utils/trpc";
+
 const UserList = () => {
-  const users = [
-    {
-      id: 1,
-      userName: "Quang",
-      numberOfPosts: 4,
-      joinDate: "1/2/2023",
-      status: "Online",
-    },
-    {
-      id: 2,
-      userName: "Quang",
-      numberOfPosts: 4,
-      joinDate: "1/2/2023",
-      status: "Offline",
-    },
-    {
-      id: 3,
-      userName: "Quang",
-      numberOfPosts: 4,
-      joinDate: "1/2/2023",
-      status: "Bị ban",
-    },
-  ];
+  // const users = [
+  //   {
+  //     id: 1,
+  //     userName: "Quang",
+  //     numberOfPosts: 4,
+  //     joinDate: "1/2/2023",
+  //     status: "Online",
+  //   },
+  //   {
+  //     id: 2,
+  //     userName: "Quang",
+  //     numberOfPosts: 4,
+  //     joinDate: "1/2/2023",
+  //     status: "Offline",
+  //   },
+  //   {
+  //     id: 3,
+  //     userName: "Quang",
+  //     numberOfPosts: 4,
+  //     joinDate: "1/2/2023",
+  //     status: "Bị ban",
+  //   },
+  // ];
+
+  const users = trpc.admin.userList.useQuery();
 
   return (
     <div className="w-11/12 mx-auto my-3">
@@ -39,14 +43,14 @@ const UserList = () => {
         <p className="w-1/12"></p>
       </div>
 
-      {users.map((user) => (
+      {users.data?.result.map((user) => (
         <div key={user.id}>
           <ComponentBox
             props={{
               id: user.id,
-              input2: user.userName,
-              input3: user.numberOfPosts,
-              input4: user.joinDate,
+              input2: user.name,
+              input3: user.imgUrl,
+              input4: user.phone,
               status: user.status,
               type: "user",
             }}

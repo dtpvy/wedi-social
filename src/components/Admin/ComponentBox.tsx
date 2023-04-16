@@ -24,7 +24,7 @@ const ComponentBox = ({ props }: Props) => {
   };
 
   return (
-    <div className="flex justify-start items-center font-semibold rounded-lg py-3 hover:bg-gray-50 mt-1">
+    <div className="flex justify-start items-center font-semibold rounded-lg py-3 hover:bg-gray-200 bg-gray-50 mt-1 ">
       <div className="w-1/12 ml-12">{id}</div>
       <div className="w-3/12 flex items-center">
         {type == "user" && <Avatar radius="xl" />}
