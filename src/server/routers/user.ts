@@ -2,13 +2,15 @@ import { ERROR_MESSAGES } from "@/constants/error";
 import { hash } from "argon2";
 import { z } from "zod";
 import { prisma } from "../prisma";
-import { publicProcedure, router } from "../trpc";
+import { authedProcedure, publicProcedure, router } from "../trpc";
+import { use } from "react";
 
 export const userRouter = router({
   findUser: publicProcedure
     .input(z.object({ id: z.number() }))
     .query(async ({ input }) => {
       const { id } = input;
+
       const user = await prisma.user.findFirst({
         where: { id },
         include: {
@@ -18,6 +20,7 @@ export const userRouter = router({
           notification: {
             where: { seen: false },
           },
+          receiveMessages: true,
         },
       });
 
@@ -53,4 +56,14 @@ export const userRouter = router({
         result: result.name,
       };
     }),
+
+  updateInfo: authedProcedure
+    .input(
+      z.object({
+        email: z.string(),
+        name: z.string(),
+        phone: z.string(),
+      })
+    )
+    .mutation(async ({}) => {}),
 });

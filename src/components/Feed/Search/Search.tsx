@@ -17,20 +17,34 @@ import {
 } from "@tabler/icons-react";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import Message from "./Message";
 import Notification from "./Notification";
 
 const Search = () => {
   const router = useRouter();
+
   const user = useUserStore.use.user();
   const seeAll = trpc.notification.seenAll.useMutation();
-  const [see, setSee] = useState(false);
+  const seeAllMess = trpc.message.seenAll.useMutation();
+  const [see, setSee] = useState({ noti: false, mess: false });
   const utils = trpc.useContext();
 
+  const mess = useMemo(() => {
+    return user?.receiveMessages.filter((d) => d.createdAt === d.updatedAt);
+  }, [user]);
+
   const handleSeeAll = () => {
-    if (see) return;
+    if (see.noti) return;
     user?.notification.length && seeAll.mutate({});
-    setSee(true);
+    setSee((prev) => ({ ...prev, noti: true }));
+    utils.user.findUser.refetch();
+  };
+
+  const handleSeeAllMess = () => {
+    if (see.mess) return;
+    mess?.length && seeAllMess.mutate({});
+    setSee((prev) => ({ ...prev, mess: true }));
     utils.user.findUser.refetch();
   };
 
@@ -51,21 +65,36 @@ const Search = () => {
         className="w-1/2"
       />
       <div className="flex items-center gap-6">
-        <ActionIcon
-          color="blue"
-          radius="xl"
-          size="xl"
-          variant="filled"
-          className="relative"
+        <Popover
+          onChange={handleSeeAllMess}
+          position="bottom"
+          withArrow
+          shadow="md"
         >
-          <IconMessageCircle2Filled />
-          <Badge
-            color="red"
-            className="absolute top-0 -left-[20px] rounded-full"
-          >
-            10
-          </Badge>
-        </ActionIcon>
+          <Popover.Target>
+            <ActionIcon
+              color="blue"
+              radius="xl"
+              size="xl"
+              variant="filled"
+              className="relative"
+            >
+              <IconMessageCircle2Filled />
+              {!!mess?.length && (
+                <Badge
+                  color="red"
+                  className="absolute top-0 -left-[20px] rounded-full"
+                >
+                  {mess.length}
+                </Badge>
+              )}
+            </ActionIcon>
+          </Popover.Target>
+          <Popover.Dropdown>
+            <Message />
+          </Popover.Dropdown>
+        </Popover>
+
         <Popover
           onChange={handleSeeAll}
           position="bottom"

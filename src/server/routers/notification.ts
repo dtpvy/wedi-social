@@ -40,7 +40,10 @@ export const notificationRouter = router({
       return noti;
     }),
   seenAll: authedProcedure.input(z.object({})).mutation(async ({ ctx }) => {
-    await prisma.notification.updateMany({ data: { seen: true } });
+    await prisma.notification.updateMany({
+      where: { userId: ctx.user.id },
+      data: { seen: true },
+    });
   }),
   infinite: authedProcedure
     .input(

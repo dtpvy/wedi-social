@@ -41,10 +41,9 @@ const Sidebar = () => {
   return (
     <div className="flex flex-col gap-4 justify-between bg-white h-full">
       {Object.keys(TAB_LIST).map((key, index) => (
-        <>
+        <div key={index} className="flex flex-col gap-4 flex-1">
           <button
             onClick={() => handleChangeTab(TAB_LIST[key])}
-            key={key}
             className={classNames(
               "flex-1 px-5 uppercase flex flex-col items-center justify-center gap-3 bg-white hover:bg-green-700 hover:text-white",
               { "bg-green-700 text-white": tab === TAB_LIST[key].name }
@@ -56,7 +55,7 @@ const Sidebar = () => {
           {index + 1 !== Object.keys(TAB_LIST).length && (
             <div className="border-b-[5px] border-green-900 w-2/3 mx-auto"></div>
           )}
-        </>
+        </div>
       ))}
     </div>
   );

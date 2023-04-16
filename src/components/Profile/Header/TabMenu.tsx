@@ -50,6 +50,9 @@ const TabMenu = () => {
   const user = useUserStore.use.user();
   const profile = useContext(ProfileLayoutContext);
   const isOwner = user?.id === profile?.id;
+  const isFriend =
+    user?.friends.find((friend) => friend.friendId === profile?.id) ||
+    user?.userFriends.find((friend) => friend.userId === profile?.id);
 
   const tab = router.asPath.split("/")[2] || TAB_LIST.POSTS.name;
 
@@ -116,7 +119,7 @@ const TabMenu = () => {
         />
       </div>
 
-      {!isOwner ? (
+      {!isOwner && !isFriend && (
         <Button
           onClick={handleAdd}
           size="md"
@@ -126,7 +129,8 @@ const TabMenu = () => {
         >
           Add Friend
         </Button>
-      ) : (
+      )}
+      {isOwner && (
         <Button
           onClick={handleAdd}
           size="md"
