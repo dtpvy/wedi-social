@@ -17,7 +17,7 @@ const useUserStore = createSelectors(
   create<State & Action>((set) => ({
     user: null,
     status: "loading",
-    setUser: async ({ user, status }) => {
+    setUser: ({ user, status }) => {
       set({ user, status });
     },
   }))
