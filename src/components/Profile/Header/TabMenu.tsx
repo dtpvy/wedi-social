@@ -48,16 +48,16 @@ const TAB_LIST: Record<string, Tab> = {
 const TabMenu = () => {
   const router = useRouter();
   const user = useUserStore.use.user();
-  const profile = useContext(ProfileLayoutContext);
-  const isOwner = user?.id === profile?.id;
+  const { data: profile, isOwner } = useContext(ProfileLayoutContext) || {};
+
   const isFriend =
     user?.friends.find((friend) => friend.friendId === profile?.id) ||
     user?.userFriends.find((friend) => friend.userId === profile?.id);
 
   const tab = router.asPath.split("/")[2] || TAB_LIST.POSTS.name;
 
-  const handleChangeTab = (tab: Tab) => {
-    router.push(`/profile/${profile?.id}/${tab.url}`);
+  const handleChangeTab = (tab: string) => {
+    router.push(`/profile/${profile?.id}/${tab}`);
   };
 
   const addFriend = trpc.friend.add.useMutation();
@@ -111,7 +111,7 @@ const TabMenu = () => {
           tab={tab}
           showBadgeNumber
           items={tabs}
-          onChange={handleChangeTab}
+          onChange={(tab) => handleChangeTab(tab.url)}
           className="bg-white flex items-center text-green-600 p-4 hover:bg-green-600 hover:text-white"
           activeClass="bg-green-600 text-white"
           titleClass="text-md"
@@ -132,7 +132,7 @@ const TabMenu = () => {
       )}
       {isOwner && (
         <Button
-          onClick={handleAdd}
+          onClick={() => handleChangeTab("edit")}
           size="md"
           className="w-full mt-5"
           variant="filled"

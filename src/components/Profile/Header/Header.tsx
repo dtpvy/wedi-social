@@ -12,7 +12,7 @@ import dayjs from "dayjs";
 import { useContext } from "react";
 
 const Header = () => {
-  const user = useContext(ProfileLayoutContext);
+  const { data: user } = useContext(ProfileLayoutContext) || {};
 
   if (!user) {
     return <Loader />;
@@ -33,7 +33,7 @@ const Header = () => {
         )}
 
         <div className="absolute -bottom-4 left-1/2 w-[150px] h-[150px] rounded-full shadow-md p-1 bg-white -translate-x-1/2">
-          <Avatar className=" w-full h-full rounded-full" />
+          <Avatar src={user.imgUrl} className=" w-full h-full rounded-full" />
         </div>
       </div>
       <div className="font-bold pt-6 text-3xl text-center pb-3">

@@ -1,6 +1,7 @@
 import { publicProcedure, router } from "../trpc";
 import { adminRouter } from "./admin";
 import { friendRouter } from "./friend";
+import { locationRouter } from "./location";
 import { messageRouter } from "./message";
 import { notificationRouter } from "./notification";
 import { requestRouter } from "./request";
@@ -15,6 +16,7 @@ export const appRouter = router({
   friend: friendRouter,
   request: requestRouter,
   message: messageRouter,
+  location: locationRouter,
 });
 
 export type AppRouter = typeof appRouter;

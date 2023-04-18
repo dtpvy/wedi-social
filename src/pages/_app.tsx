@@ -20,7 +20,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
         publicKey="public_xTbc2crb6gXYxB5gtKroms4tWCU="
         urlEndpoint="https://ik.imagekit.io/0o9nfg6a3"
         transformationPosition="path"
-        authenticationEndpoint="http://www.yourserver.com/auth"
+        authenticationEndpoint="http://localhost:3000/api/image"
       >
         <MantineProvider withNormalizeCSS withGlobalStyles>
           <ModalsProvider>
