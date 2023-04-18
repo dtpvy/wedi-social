@@ -17,7 +17,6 @@ const Header = () => {
   if (!user) {
     return <Loader />;
   }
-
   return (
     <div className="bg-white pb-5">
       <div className="relative">

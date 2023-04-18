@@ -1,6 +1,8 @@
 import { UserList } from "@/components/Admin/User";
 import React from "react";
 import { Text, Divider } from "@mantine/core";
+import { trpc } from "@/utils/trpc";
+
 const User = () => {
   return (
     <div>

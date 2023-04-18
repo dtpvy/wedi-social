@@ -1,47 +1,22 @@
 import React from "react";
 import Request from "./Request";
+import { trpc } from "@/utils/trpc";
 import { IconArrowRight } from "@tabler/icons-react";
-import { Button, Card, Group, Text, ActionIcon } from "@mantine/core";
+import { Button, Card, Group, Text, ActionIcon, Grid } from "@mantine/core";
 import Link from "next/link";
 
 const Header = () => {
-  const request = [
-    {
-      id: 1,
-      title: "App bị lỗi",
-      content: "Không thể đăng nhập được",
-      imgUrl: "",
-      user: "Quang",
-      status: "PENDING",
-    },
-    {
-      id: 2,
-      title: "App bị lỗi",
-      content: "Không thể đăng nhập được",
-      imgUrl:
-        "https://icdn.dantri.com.vn/thumb_w/680/2022/06/18/z35016410045426f3dfb5ed82d1f49408a69d555b1f720-1655531587436.jpg",
-      user: "Quang",
-      status: "PENDING",
-    },
-    {
-      id: 2,
-      title: "App bị lỗi",
-      content: "Không thể đăng nhập được",
-      imgUrl:
-        "https://icdn.dantri.com.vn/thumb_w/680/2022/06/18/z35016410045426f3dfb5ed82d1f49408a69d555b1f720-1655531587436.jpg",
-      user: "Quang",
-      status: "PENDING",
-    },
-  ];
-  let pendingRequests = (request: any) => {
+  const requests = trpc.admin.requestList.useQuery();
+
+  let pendingRequests = (requests: any) => {
     let temp = [];
     let count = 0;
-    for (let i = 0; i <= request.length; i++) {
-      if (request[i].status === "PENDING") {
+    for (let i = 0; i <= requests?.length; i++) {
+      if (requests[i]?.reply.length === 0) {
         count++;
         temp.push(
-          <div key={request[i].id} className="flex-1">
-            <Request request={request[i]} />
+          <div key={requests[i].id} className="flex-1">
+            <Request request={requests[i]} />
           </div>
         );
       }
@@ -52,31 +27,39 @@ const Header = () => {
     return temp;
   };
   return (
-    <div className="flex p-4 gap-4  border-b">
-      {pendingRequests(request)}
-      <Card
-        shadow="sm"
-        padding="lg"
-        radius="md"
-        withBorder
-        className="flex flex-col content-center justify-center"
-      >
-        {/* <Group position="apart" mt="md" mb="xs"> */}
-        <span className="font-medium my-2 text-gray-800">Xem thêm request</span>
-        <Link href="/admin/request" className="self-center">
-          <ActionIcon
-            color="dark"
-            size="xl"
-            variant="light"
-            className=" bg-gray-200"
-          >
-            <IconArrowRight size="2.125rem" />
-          </ActionIcon>
-        </Link>
-
-        {/* </Group> */}
-      </Card>
-    </div>
+    <Grid className="mx-8 my-3">
+      {pendingRequests(requests.data?.requests)}
+      <Grid.Col span={3}>
+        <Card
+          shadow="sm"
+          padding="lg"
+          radius="md"
+          withBorder
+          className="flex flex-col content-center justify-center"
+        >
+          {/* <Group position="apart" mt="md" mb="xs"> */}
+          {requests.data?.requests.length ? (
+            <div className="flex flex-col items-center">
+              <span className="font-medium my-2 text-gray-800">
+                Xem thêm request
+              </span>
+              <Link href="/admin/request" className="self-center">
+                <ActionIcon
+                  color="dark"
+                  size="xl"
+                  variant="light"
+                  className=" bg-gray-200"
+                >
+                  <IconArrowRight size="2.125rem" />
+                </ActionIcon>
+              </Link>
+            </div>
+          ) : (
+            <Text size="md">Hiện chưa có request nào chưa phản hồi</Text>
+          )}
+        </Card>
+      </Grid.Col>
+    </Grid>
   );
 };
 

@@ -46,7 +46,7 @@ const requests = () => {
       {isLoading && <Loader />}
       <div className="flex flex-col gap-4">
         {data?.map((request) => (
-          <Request key={request.id} request={request} />
+          <Request key={request.id} request={request as RequestDetail} />
         ))}
       </div>
       <CreateRequest opened={opened} close={close} />

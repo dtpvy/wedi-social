@@ -25,13 +25,16 @@ const CreateRequest = ({ opened = false, close }: Props) => {
     },
   });
 
-  const onSubmit = async (values: { title: string; content: string }) => {
-    await create.mutateAsync(values);
-    utils.request.requestList.refetch();
-    notifications.show({
-      message: `Create successfully`,
-      color: "green",
-      icon: <IconCheck />,
+  const onSubmit = (values: { title: string; content: string }) => {
+    create.mutate(values, {
+      onSuccess: () => {
+        utils.request.requestList.refetch();
+        notifications.show({
+          message: `Create successfully`,
+          color: "green",
+          icon: <IconCheck />,
+        });
+      },
     });
   };
 

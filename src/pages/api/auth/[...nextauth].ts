@@ -4,7 +4,11 @@ import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 
-const EMAIL_WHITE_LIST = ["dtpvy0202@gmail.com", "cminhchanh2803@gmail.com"];
+const EMAIL_WHITE_LIST = [
+  "dtpvy0202@gmail.com",
+  "cminhchanh2803@gmail.com",
+  "nvquang20@clc.fitus.edu.vn",
+];
 
 export const authOptions = {
   providers: [
