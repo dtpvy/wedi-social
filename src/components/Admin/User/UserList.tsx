@@ -5,30 +5,6 @@ import ComponentBox from "../ComponentBox";
 import { trpc } from "@/utils/trpc";
 
 const UserList = () => {
-  // const users = [
-  //   {
-  //     id: 1,
-  //     userName: "Quang",
-  //     numberOfPosts: 4,
-  //     joinDate: "1/2/2023",
-  //     status: "Online",
-  //   },
-  //   {
-  //     id: 2,
-  //     userName: "Quang",
-  //     numberOfPosts: 4,
-  //     joinDate: "1/2/2023",
-  //     status: "Offline",
-  //   },
-  //   {
-  //     id: 3,
-  //     userName: "Quang",
-  //     numberOfPosts: 4,
-  //     joinDate: "1/2/2023",
-  //     status: "Bị ban",
-  //   },
-  // ];
-
   const users = trpc.admin.userList.useQuery();
 
   return (
@@ -49,7 +25,7 @@ const UserList = () => {
             props={{
               id: user.id,
               input2: user.name,
-              input3: user.imgUrl,
+              input3: user.posts.length,
               input4: user.phone,
               status: user.status,
               type: "user",

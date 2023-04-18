@@ -1,42 +1,13 @@
 import React from "react";
 import RequestBox from "./RequestBox";
 import ComponentBox from "../ComponentBox";
+import { trpc } from "@/utils/trpc";
 import { Text, Badge, Button, Card, Group, Avatar } from "@mantine/core";
+
 const RequestList = () => {
-  const requests = [
-    {
-      id: 1,
-      title: "App bị lỗi",
-      content: "Không thể đăng nhập được",
-      imgUrl: "",
-      user: "Quang",
-      createdDay: "1/2/2023",
-      status: "PENDING",
-    },
-    {
-      id: 2,
-      title: "App bị lỗi",
-      content: "Không thể đăng nhập được",
-      imgUrl:
-        "https://icdn.dantri.com.vn/thumb_w/680/2022/06/18/z35016410045426f3dfb5ed82d1f49408a69d555b1f720-1655531587436.jpg",
-      user: "Quang",
-      createdDay: "1/2/2023",
+  const requests = trpc.admin.requestList.useQuery();
 
-      status: "DONE",
-    },
-    {
-      id: 3,
-      title: "App bị lỗi",
-      content: "Không thể đăng nhập được",
-      imgUrl:
-        "https://icdn.dantri.com.vn/thumb_w/680/2022/06/18/z35016410045426f3dfb5ed82d1f49408a69d555b1f720-1655531587436.jpg",
-      user: "Quang",
-      createdDay: "1/2/2023",
-
-      status: "DONE",
-    },
-  ];
-
+  console.log(requests.data);
   return (
     <div className="w-11/12 mx-auto my-3">
       <div className="flex justify-start font-semibold text-gray-500">
@@ -49,15 +20,15 @@ const RequestList = () => {
         <p className="w-1/12"></p>
       </div>
 
-      {requests.map((request) => (
+      {requests.data?.requests.map((request) => (
         <div key={request.id}>
           <ComponentBox
             props={{
               id: request.id,
               input2: request.title,
-              input3: request.user,
-              input4: request.createdDay,
-              status: request.status,
+              input3: request.user.name,
+              input4: request.createdAt,
+              input5: request.reply.length != 0 ? true : false,
               type: "request",
             }}
           />

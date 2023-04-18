@@ -1,4 +1,4 @@
-import { Image, Notification } from "@mantine/core";
+import { Image, Notification, Select } from "@mantine/core";
 import { IconX } from "@tabler/icons-react";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
