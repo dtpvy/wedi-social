@@ -98,7 +98,7 @@ const Message = () => {
           <div
             key={mess.id}
             onClick={() => show(userProfile)}
-            className="cursor-pointer w-full max-w-xs px-2 py-1 text-gray-900 bg-white rounded-lg shadow border mb-2"
+            className="cursor-pointer w-full px-2 py-1 text-gray-900 bg-white rounded-lg shadow border mb-2"
           >
             <div className="flex items-center">
               <div className="relative inline-block shrink-0">

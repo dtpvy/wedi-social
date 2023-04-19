@@ -140,7 +140,12 @@ const Search = () => {
           onClick={() => router.push(`/profile/${user?.id}`)}
           radius="xl"
         >
-          <Avatar radius="xl" size="lg" src={user?.imgUrl} />
+          <Avatar
+            className="border shadow"
+            radius="xl"
+            size="lg"
+            src={user?.imgUrl}
+          />
         </ActionIcon>
       </div>
     </div>

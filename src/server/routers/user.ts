@@ -1,5 +1,5 @@
 import { ERROR_MESSAGES } from "@/constants/error";
-import { hash } from "argon2";
+import { hash, verify } from "argon2";
 import { z } from "zod";
 import { prisma } from "../prisma";
 import { authedProcedure, publicProcedure, router } from "../trpc";
@@ -63,7 +63,44 @@ export const userRouter = router({
         email: z.string(),
         name: z.string(),
         phone: z.string(),
+        cityId: z.number().nullable(),
+        countryId: z.number().nullable(),
+        languageId: z.number().nullable(),
+        districtId: z.number().nullable(),
+        wardId: z.number().nullable(),
+        street: z.string().nullable(),
+        bio: z.string().nullable(),
       })
     )
-    .mutation(async ({}) => {}),
+    .mutation(async ({ input, ctx }) => {
+      const userId = ctx.user.id;
+      await prisma.user.update({ where: { id: userId }, data: input });
+      return true;
+    }),
+  updateImage: authedProcedure
+    .input(
+      z.object({ imgUrl: z.string().optional(), bgUrl: z.string().optional() })
+    )
+    .mutation(async ({ input, ctx }) => {
+      const userId = ctx.user.id;
+      await prisma.user.update({ where: { id: userId }, data: input });
+      return true;
+    }),
+  updatePassword: authedProcedure
+    .input(z.object({ password: z.string(), newPassword: z.string() }))
+    .mutation(async ({ input, ctx }) => {
+      const userId = ctx.user.id;
+      const user = await prisma.user.findFirst({ where: { id: userId } });
+      const isValidPassword = await verify(
+        user?.password || "",
+        input.password
+      );
+      if (!isValidPassword) throw new Error(ERROR_MESSAGES.invalidPassword);
+      const password = await hash(input.newPassword);
+      await prisma.user.update({
+        where: { id: userId },
+        data: { password },
+      });
+      return true;
+    }),
 });

@@ -7,10 +7,13 @@ import {
   ActionIcon,
   Avatar,
   Dialog,
+  Image,
   Indicator,
+  Loader,
   Text,
   TextInput,
 } from "@mantine/core";
+import { notifications } from "@mantine/notifications";
 import { IconPhone, IconPhoto, IconSend, IconX } from "@tabler/icons-react";
 import dayjs from "dayjs";
 import { IKUpload } from "imagekitio-react";
@@ -29,14 +32,12 @@ const Message = () => {
   const user = useMessageStore.use.user();
   const setOpen = useMessageStore.use.setOpen();
   const send = trpc.message.send.useMutation();
-  const [message, setMessage] = useState<{
-    content?: string;
-    mediaUrls?: string[];
-  }>();
+  const [message, setMessage] = useState("");
 
   const [firstLoad, setFirstLoad] = useState(false);
 
   const scrollTargetRef = useRef<HTMLDivElement>(null);
+  const uploadRef = useRef<HTMLInputElement>(null);
 
   const messQuery = trpc.message.conversation.useInfiniteQuery(
     { userId: user?.id as number },
@@ -47,8 +48,7 @@ const Message = () => {
   );
 
   const utils = trpc.useContext();
-  const { hasPreviousPage, isFetchingPreviousPage, fetchPreviousPage } =
-    messQuery;
+  const { hasNextPage, isFetchingNextPage, fetchNextPage } = messQuery;
 
   const [messages, setMessages] = useState(() => {
     const nts = messQuery.data?.pages
@@ -80,6 +80,7 @@ const Message = () => {
   }, [messQuery.data?.pages, addMess]);
 
   const scrollToBottomOfList = useCallback(() => {
+    console.log("??????");
     if (scrollTargetRef.current == null) {
       return;
     }
@@ -97,8 +98,8 @@ const Message = () => {
   }, [firstLoad]);
 
   useEffect(() => {
-    setFirstLoad(opened);
-  }, [opened]);
+    setFirstLoad(opened && !!messages?.length);
+  }, [opened, messages, firstLoad]);
 
   trpc.message.onSend.useSubscription(undefined, {
     onData(noti) {
@@ -110,20 +111,18 @@ const Message = () => {
     },
   });
 
-  const onSend = () => {
+  const onSend = (mediaUrls?: string[]) => {
     if (!user) return;
     send.mutate(
       {
         userId: user.id,
-        content: message?.content,
-        mediaUrls: message?.mediaUrls,
+        content: message,
+        mediaUrls,
       },
       { onSuccess: () => scrollToBottomOfList() }
     );
-    setMessage({ content: "", mediaUrls: [] });
+    setMessage("");
   };
-
-  console.log(messages);
 
   return (
     <Dialog
@@ -139,14 +138,20 @@ const Message = () => {
         <div>{user?.name}</div>
       </div>
       <div className="mb-[53px] h-[calc(100%-90px)] overflow-auto pt-4 px-4">
-        {/* <button
-          data-testid="loadMore"
-          onClick={() => fetchPreviousPage()}
-          disabled={!hasPreviousPage || isFetchingPreviousPage}
-          className="px-4 py-2 text-white bg-green-600 rounded disabled:opacity-40"
-        >
-          {isFetchingPreviousPage ? "Loading more..." : "Load More"}
-        </button> */}
+        {isFetchingNextPage ? (
+          <Loader size="sm" className="w-full" />
+        ) : (
+          hasNextPage && (
+            <div
+              data-testid="loadMore"
+              onClick={() => fetchNextPage()}
+              className="underline text-green-600 text-center cursor-pointer"
+            >
+              Load More
+            </div>
+          )
+        )}
+
         {messages?.map((mess) => {
           return (
             <div
@@ -160,6 +165,15 @@ const Message = () => {
               )}
             >
               <div className="text-sm font-normal">
+                {mess.mediaUrls?.[0] && (
+                  <Image
+                    src={mess.mediaUrls[0]}
+                    alt=""
+                    width={100}
+                    height={100}
+                    className="rounded overflow-hidden"
+                  />
+                )}
                 <div className="text-sm font-normal">{mess.content}</div>
                 <span className="text-xs font-medium">
                   {dayjs(mess.createdAt).format("DD/MM/YYYY HH:mm")}
@@ -176,22 +190,38 @@ const Message = () => {
         <div ref={scrollTargetRef}></div>
       </div>
       <div className="flex items-center gap-3 absolute bottom-0 left-0 right-0 py-2 px-2 border-t">
-        <IKUpload className="hidden" />
-        <ActionIcon color="teal" variant="filled">
+        <ActionIcon
+          onClick={() => uploadRef.current?.click()}
+          color="teal"
+          variant="filled"
+        >
           <IconPhoto />
         </ActionIcon>
-        <TextInput
-          onChange={(e) =>
-            setMessage((prev) => ({ ...prev, content: e.target.value }))
+
+        <IKUpload
+          inputRef={uploadRef}
+          folder="/wedi"
+          onSuccess={(file) => onSend([file.url])}
+          onError={() =>
+            notifications.show({
+              message: "Có lỗi xảy ra. Vui lòng thử lại",
+              color: "red",
+              icon: <IconX />,
+            })
           }
-          value={message?.content}
+          accept="image/*"
+          className="hidden"
+        />
+        <TextInput
+          onChange={(e) => setMessage(e.target.value)}
+          value={message}
           className="w-full"
           placeholder="Nhập"
           radius="xl"
         />
         <ActionIcon
-          onClick={onSend}
-          disabled={!message?.content && !message?.mediaUrls}
+          onClick={() => onSend()}
+          disabled={!message}
           radius="xl"
           className="p-1"
           color="blue"

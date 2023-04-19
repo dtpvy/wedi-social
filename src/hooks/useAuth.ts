@@ -16,8 +16,9 @@ const useAuth = () => {
     },
     { enabled: !!data?.user.id }
   );
-
+  console.log("kkkkkk");
   useEffect(() => {
+    console.log("???", user);
     setUser({ user: user || null, status });
   }, [setUser, status, user]);
 

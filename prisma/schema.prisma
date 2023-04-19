@@ -14,7 +14,6 @@ datasource db {
 enum UserStatus {
     NOTVERIFIED
     ACTIVE
-    DEACTIVE
     BANNED
 }
 
@@ -51,27 +50,27 @@ model Language {
     id   Int    @id @default(autoincrement())
     name String @db.VarChar(255)
     code String @unique @db.VarChar(2)
-    User User[]
+    user User[]
 }
 
 model Country {
     id       Int        @id @default(autoincrement())
     name     String     @db.VarChar(255)
     code     String     @unique @db.VarChar(255)
-    City     City[]
-    User     User[]
-    Location Location[]
+    city     City[]
+    user     User[]
+    location Location[]
 }
 
 model City {
     id        Int        @id @default(autoincrement())
     name      String     @db.VarChar(255)
     code      String     @unique @db.VarChar(255)
-    Country   Country    @relation(fields: [countryId], references: [id])
+    country   Country    @relation(fields: [countryId], references: [id])
     countryId Int
     district  District[]
-    User      User[]
-    Location  Location[]
+    user      User[]
+    location  Location[]
 }
 
 model District {
@@ -80,9 +79,9 @@ model District {
     code     String     @unique @db.VarChar(255)
     city     City       @relation(fields: [cityId], references: [id])
     cityId   Int
-    Ward     Ward[]
-    User     User[]
-    Location Location[]
+    ward     Ward[]
+    user     User[]
+    location Location[]
 }
 
 model Ward {
@@ -91,8 +90,8 @@ model Ward {
     code       String     @unique @db.VarChar(255)
     district   District   @relation(fields: [districtId], references: [id])
     districtId Int
-    User       User[]
-    Location   Location[]
+    user       User[]
+    location   Location[]
 }
 
 model User {
@@ -238,7 +237,7 @@ model Trip {
     startDate    DateTime
     privacy      Privacy
     posts        Post[]
-    JoinSchedule JoinSchedule[]
+    joinSchedule JoinSchedule[]
     users        JoinTrip[]
 }
 
@@ -269,7 +268,7 @@ model Schedule {
     updatedAt   DateTime @default(now())
 
     location     Location       @relation(fields: [locationId], references: [id])
-    JoinSchedule JoinSchedule[]
+    joinSchedule JoinSchedule[]
 }
 
 model JoinSchedule {

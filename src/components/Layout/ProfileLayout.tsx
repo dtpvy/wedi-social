@@ -1,23 +1,26 @@
-import classNames from "@/utils/classNames";
-import { ReactNode } from "react";
-import { Header, TabMenu } from "../Profile/Header";
-import { useRouter } from "next/router";
-import { trpc } from "@/utils/trpc";
-import { useSession } from "next-auth/react";
-import { Loader } from "@mantine/core";
 import NotFound from "@/pages/404";
-import { createContext } from "react";
 import { UserInfo } from "@/types/user";
+import classNames from "@/utils/classNames";
+import { trpc } from "@/utils/trpc";
+import { Loader } from "@mantine/core";
+import { useRouter } from "next/router";
+import { ReactNode, createContext } from "react";
+import { Header, TabMenu } from "../Profile/Header";
+import useUserStore from "@/stores/user";
 
 type Props = {
   children: ReactNode;
   className?: string;
 };
 
-export const ProfileLayoutContext = createContext<UserInfo | null>(null);
+export const ProfileLayoutContext = createContext<{
+  data: UserInfo;
+  isOwner: boolean;
+} | null>(null);
 
 const ProfileLayout = ({ children, className }: Props) => {
   const router = useRouter();
+  const user = useUserStore.use.user();
   const { id } = router.query;
   const { data, isLoading } = trpc.user.findUser.useQuery({
     id: +(id as string),
@@ -33,8 +36,10 @@ const ProfileLayout = ({ children, className }: Props) => {
     return <NotFound />;
   }
 
+  console.log(data, user?.id, user?.id == id);
+
   return (
-    <ProfileLayoutContext.Provider value={data}>
+    <ProfileLayoutContext.Provider value={{ data, isOwner: user?.id == id }}>
       <div className="py-[70px]">
         <Header />
         <div className="flex mt-8 mx-16 gap-8">

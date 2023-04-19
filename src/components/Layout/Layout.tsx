@@ -5,6 +5,7 @@ import { ReactNode } from "react";
 import LayoutAdmin from "./AdminLayout";
 import LayoutMain from "./MainLayout";
 import useAuth from "@/hooks/useAuth";
+import useUserStore from "@/stores/user";
 
 type Props = {
   children: ReactNode;
