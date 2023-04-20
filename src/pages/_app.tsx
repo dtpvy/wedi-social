@@ -1,5 +1,6 @@
 import { Layout } from "@/components/Layout";
 import { Message } from "@/components/Message";
+import useLocale from "@/hooks/useLocale";
 import "@/styles/globals.css";
 import { trpc } from "@/utils/trpc";
 import { MantineProvider } from "@mantine/core";
@@ -14,6 +15,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
   Component,
   pageProps,
 }) => {
+  const i18n = useLocale();
   return (
     <SessionProvider session={pageProps.session}>
       <IKContext

@@ -1,3 +1,4 @@
+import useTranslator from "@/stores/translator";
 import useUserStore from "@/stores/user";
 import { trpc } from "@/utils/trpc";
 import { useSession } from "next-auth/react";
@@ -9,6 +10,7 @@ const useAuth = () => {
   const session = useSession();
   const { data, status } = session;
   const setUser = useUserStore.use.setUser();
+  const setLocale = useTranslator.use.setLocale();
 
   const { data: user } = trpc.user.findUser.useQuery(
     {
@@ -16,11 +18,14 @@ const useAuth = () => {
     },
     { enabled: !!data?.user.id }
   );
-  console.log("kkkkkk");
+
   useEffect(() => {
-    console.log("???", user);
     setUser({ user: user || null, status });
   }, [setUser, status, user]);
+
+  useEffect(() => {
+    setLocale((user?.language?.code as "vi" | "en") || "vi");
+  }, [setLocale, user?.language?.code]);
 
   if (status !== "loading") {
     const adminPage = router.asPath.split("/")[1] === "admin";

@@ -31,7 +31,7 @@ const Menu = ({
   const onChangeTab = (tab: keyof typeof items) => {
     onChange?.(items[tab]);
   };
-  console.log({ tab });
+
   return (
     <>
       {Object.keys(items).map((key) => (

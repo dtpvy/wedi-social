@@ -87,6 +87,13 @@ export const userRouter = router({
       await prisma.user.update({ where: { id: userId }, data: input });
       return true;
     }),
+  updateLanguage: authedProcedure
+    .input(z.object({ languageId: z.number() }))
+    .mutation(async ({ input, ctx }) => {
+      const userId = ctx.user.id;
+      await prisma.user.update({ where: { id: userId }, data: input });
+      return true;
+    }),
   updatePassword: authedProcedure
     .input(z.object({ password: z.string(), newPassword: z.string() }))
     .mutation(async ({ input, ctx }) => {

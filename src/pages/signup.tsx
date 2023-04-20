@@ -1,3 +1,4 @@
+import { Language } from "@/components/Language";
 import { ERROR_MESSAGES } from "@/constants/error";
 import { trpc } from "@/utils/trpc";
 import { notifications } from "@mantine/notifications";
@@ -57,6 +58,9 @@ const Signup = () => {
 
   return (
     <section className="bg-gray-50 dark:bg-gray-900">
+      <div className="absolute top-0 right-0 mt-10 mr-10">
+        <Language />
+      </div>
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">

@@ -13,5 +13,5 @@ export type UserInfo = User & {
   userFriends: Friend[];
   notification: Notification[];
   receiveMessages: Message[];
-  language: Language;
+  language: Language | null;
 };
