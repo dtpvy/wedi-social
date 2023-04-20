@@ -1,11 +1,10 @@
+import useAuth from "@/hooks/useAuth";
+import useLocale from "@/hooks/useLocale";
 import { Loader } from "@mantine/core";
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { ReactNode } from "react";
 import LayoutAdmin from "./AdminLayout";
 import LayoutMain from "./MainLayout";
-import useAuth from "@/hooks/useAuth";
-import useUserStore from "@/stores/user";
 
 type Props = {
   children: ReactNode;
@@ -14,6 +13,8 @@ type Props = {
 const Layout = ({ children }: Props) => {
   const router = useRouter();
   const { data: session, status } = useAuth();
+
+  useLocale();
 
   const isAdminPage = router.asPath.split("/")[1] === "admin";
 

@@ -159,6 +159,9 @@ model Location {
     countryId  Int
     street     String         @db.VarChar(255)
 
+    deleted   DateTime?
+    createdAt DateTime  @default(now())
+
     country   Country        @relation(fields: [countryId], references: [id])
     city      City           @relation(fields: [cityId], references: [id])
     district  District       @relation(fields: [districtId], references: [id])

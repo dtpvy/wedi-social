@@ -26,7 +26,7 @@ const UserList = () => {
               id: user.id,
               input2: user.name,
               input3: user.posts.length,
-              input4: user.phone,
+              input4: user.createdAt,
               status: user.status,
               type: "user",
             }}

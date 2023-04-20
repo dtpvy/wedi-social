@@ -228,4 +228,14 @@ export const adminRouter = router({
         result: true,
       };
     }),
+  trackingPage: adminAuthedProcedure.input(z.object({})).query(async ({}) => {
+    const tracking = await prisma.tracking.groupBy({
+      by: ["page"],
+      _sum: {
+        amount: true,
+      },
+    });
+    console.log(tracking);
+    return tracking;
+  }),
 });

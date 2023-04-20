@@ -16,6 +16,7 @@ export const userRouter = router({
         include: {
           posts: true,
           friends: true,
+          language: true,
           userFriends: true,
           notification: {
             where: { seen: false },
