@@ -5,6 +5,7 @@
   "signinTitleText": "Đăng nhập vào tài khoản của bạn",
   "signinQuestionText": "Chưa có tài khoản?",
   "intoSignupText": "Đăng ký",
+  "yourNameText":"Tên của bạn",
   "phoneText": "Số điện thoại",
   "confirmPasswordText": "Xác nhận mật khẩu",
   "signupTitleText": "Tạo tài khoản",
@@ -67,5 +68,6 @@
   "notifsuccessText": "Tạo yêu cầu thành công",
   "statusresponseText": "Chưa có phản hồi",
   "vietnamText": "Tiếng Việt",
-  "englishText": "Tiếng Anh"
+  "englishText": "Tiếng Anh",
+  "passwordDontMatchText": "Mật khẩu của bạn không phù hợp"
 }

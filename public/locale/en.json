@@ -5,6 +5,7 @@
   "signinTitleText": "Sign in to your account",
   "signinQuestionText": "Don't have an account yet?",
   "intoSignupText": "Sign up",
+  "yourNameText": "Your Name",
   "phoneText": "Your phone",
   "confirmPasswordText": "Confirm password",
   "signupTitleText": "Create account",
@@ -67,5 +68,6 @@
   "notifsuccessText": "Create successfully",
   "statusresponseText": "Haven't responsed yet",
   "vietnamText": "Vietnamese",
-  "englishText": "English"
+  "englishText": "English",
+  "passwordDontMatchText": "Your passwords do not match"
 }
