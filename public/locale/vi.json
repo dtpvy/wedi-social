@@ -69,5 +69,9 @@
   "statusresponseText": "Chưa có phản hồi",
   "vietnamText": "Tiếng Việt",
   "englishText": "Tiếng Anh",
-  "passwordDontMatchText": "Mật khẩu của bạn không phù hợp"
+  "passwordDontMatchText": "Mật khẩu của bạn không phù hợp",
+  "notiCreateAccountSuccesfullyText": "Tài khoản tạo thành công. Xin chào",
+  "notiAccountExistedText": "Tài khoản này đã tồn tại",
+  "numberPhoneExistedText": "Số diện thoại đã tồn tại",
+  "errorTryAgainText": "Có lỗi xảy ra. Vui lòng thử lại"
 }

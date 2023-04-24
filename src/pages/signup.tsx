@@ -29,14 +29,15 @@ const Signup = () => {
     try {
       const res = await signup.mutateAsync(data);
       notifications.show({
-        message: `Account creates successfully. Hellp ${res.result}`,
+        // message: `Account creates successfully. Hellp ${res.result}`,
+        message: `${t("notiCreateAccountSuccesfullyText")} ${res.result}`,
         color: "green",
         icon: <IconCheck />,
       });
     } catch (e: any) {
       if (e.message === ERROR_MESSAGES.userExist) {
         notifications.show({
-          message: "Account is already existed",
+          message: t("notiAccountExistedText"),
           color: "red",
           icon: <IconX />,
         });
@@ -44,13 +45,13 @@ const Signup = () => {
         e.message.includes("Unique constraint failed on the fields: (`phone`)")
       ) {
         notifications.show({
-          message: "Số diện thoại đã tồn tại",
+          message: t("numberPhoneExistedText"),
           color: "red",
           icon: <IconX />,
         });
       } else {
         notifications.show({
-          message: "Có lỗi xảy ra. Vui lòng thử lại",
+          message: t("errorTryAgainText"),
           color: "red",
           icon: <IconX />,
         });
@@ -156,7 +157,6 @@ const Signup = () => {
                   {...register("confirmPassword", {
                     validate: (val: string) => {
                       if (watch("password") !== val) {
-                        // return "Your passwords do no match";
                         return t("passwordDontMatchText");
                       }
                     },
@@ -190,7 +190,7 @@ const Signup = () => {
               </div>
               {errors.confirmPassword && (
                 <div className="text-red-600 text-center my-2">
-                  Your passwords do no match
+                  {t("passwordDontMatchText")}
                 </div>
               )}
               <button

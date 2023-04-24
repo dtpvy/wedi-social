@@ -69,5 +69,9 @@
   "statusresponseText": "Haven't responsed yet",
   "vietnamText": "Vietnamese",
   "englishText": "English",
-  "passwordDontMatchText": "Your passwords do not match"
+  "passwordDontMatchText": "Your passwords do not match",
+  "notiCreateAccountSuccesfullyText": "Account creates successfully. Hello",
+  "notiAccountExistedText": "Account already existed",
+  "numberPhoneExistedText": "Number phone already existed",
+  "errorTryAgainText": "Error!!! Please try again later"
 }
