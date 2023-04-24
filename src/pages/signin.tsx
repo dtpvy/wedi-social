@@ -97,7 +97,7 @@ const Signin = () => {
           icon={<IconX size="1.1rem" />}
           color="red"
         >
-          Đăng nhập thất bại. Vui lòng thử lại.
+          {t("notiLoginFailText")}
         </Notification>
       )}
     </section>

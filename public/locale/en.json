@@ -71,7 +71,8 @@
   "englishText": "English",
   "passwordDontMatchText": "Your passwords do not match",
   "notiCreateAccountSuccesfullyText": "Account creates successfully. Hello",
-  "notiAccountExistedText": "Account already existed",
-  "numberPhoneExistedText": "Number phone already existed",
-  "errorTryAgainText": "Error!!! Please try again later"
+  "notiAccountExistedText": "Account already existed.",
+  "numberPhoneExistedText": "Number phone already existed.",
+  "errorTryAgainText": "Error!!! Please try again later.",
+  "notiLoginFailText": "Login failed. Please try again."
 }
