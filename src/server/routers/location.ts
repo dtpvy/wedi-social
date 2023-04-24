@@ -35,4 +35,38 @@ export const locationRouter = router({
       });
       return query;
     }),
+  create: publicProcedure
+    .input(
+      z.object({
+        name: z.string(),
+        countryId: z.number(),
+        cityId: z.number(),
+        districtId: z.number(),
+        wardId: z.number(),
+        street: z.string(),
+        placeId: z.string(),
+      })
+    )
+    .mutation(async ({ input }) => {
+      const exist = await prisma.location.findFirst({
+        where: { placeId: input.placeId },
+        include: {
+          city: true,
+          country: true,
+          district: true,
+          ward: true,
+        },
+      });
+      if (exist) return exist;
+      const query = await prisma.location.create({
+        data: input,
+        include: {
+          city: true,
+          country: true,
+          district: true,
+          ward: true,
+        },
+      });
+      return query;
+    }),
 });

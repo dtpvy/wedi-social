@@ -1,72 +1,61 @@
-// import { ERROR_MESSAGES } from "@/constants/error";
-// import dayjs from "dayjs";
-// import { z } from "zod";
-// import { prisma } from "../prisma";
-// import { authedProcedure, router } from "../trpc";
+import { z } from "zod";
+import { prisma } from "../prisma";
+import { authedProcedure, router } from "../trpc";
+import { Privacy } from "@prisma/client";
 
-// export const friendRouter = router({
-//   add: authedProcedure
-//     .input(z.object({ userId: z.number() }))
-//     .query(async ({ input, ctx }) => {
-//       const { id } = ctx.user;
-//       const { userId } = input;
-//       const request = await prisma.friend.findFirst({
-//         where: { userId: id, friendId: userId },
-//       });
-
-//       if (
-//         request?.status === "REJECT" &&
-//         dayjs().diff(request.updatedAt, "days") < 1
-//       ) {
-//         return {
-//           status: 302,
-//           message: ERROR_MESSAGES.waitRejectedRequest,
-//           time: dayjs().diff(request.updatedAt, "minute"),
-//         };
-//       }
-
-//       const data = await prisma.friend.create({
-//         data: { userId: id, friendId: userId, status: "PENDING" },
-//       });
-
-//       return {
-//         status: 200,
-//         data,
-//       };
-//     }),
-//   reject: authedProcedure
-//     .input(z.object({ userId: z.number() }))
-//     .query(async ({ input, ctx }) => {
-//       const { id } = ctx.user;
-//       const { userId } = input;
-//       await prisma.friend.update({
-//         where: { userId_friendId: { userId, friendId: id } },
-//         data: { status: "REJECT" },
-//       });
-
-//       return true;
-//     }),
-//   accept: authedProcedure
-//     .input(z.object({ userId: z.number() }))
-//     .query(async ({ input, ctx }) => {
-//       const { id } = ctx.user;
-//       const { userId } = input;
-//       await prisma.friend.update({
-//         where: { userId_friendId: { userId, friendId: id } },
-//         data: { status: "ACCEPT" },
-//       });
-
-//       return true;
-//     }),
-//   delete: authedProcedure
-//     .input(z.object({ userId: z.number() }))
-//     .query(async ({ input, ctx }) => {
-//       const { id } = ctx.user;
-//       const { userId } = input;
-//       await prisma.friend.delete({
-//         where: { userId_friendId: { userId, friendId: id } },
-//       });
-
-//       return true;
-//     }),
-// });
+export const postRouter = router({
+  create: authedProcedure
+    .input(
+      z.object({
+        content: z.string(),
+        imgUrls: z.string().array(),
+        tripId: z.number().optional(),
+        locationIds: z.number().array(),
+        privacy: z.nativeEnum(Privacy),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      const { id } = ctx.user;
+      const { locationIds, ...post } = input;
+      const data = await prisma.post.create({
+        data: {
+          ...post,
+          creatorId: id,
+        },
+        include: {
+          locations: true,
+        },
+      });
+      await prisma.postLocation.createMany({
+        data: locationIds.map((id) => ({ postId: data.id, locationId: id })),
+      });
+      return true;
+    }),
+  update: authedProcedure
+    .input(
+      z.object({
+        id: z.number(),
+        content: z.string(),
+        imgUrls: z.string().array(),
+        locationIds: z.number().array(),
+      })
+    )
+    .mutation(async ({ input }) => {
+      const { id, locationIds, ...post } = input;
+      await prisma.post.update({
+        where: { id },
+        data: { ...post, locations: { set: [] } },
+      });
+      await prisma.postLocation.createMany({
+        data: locationIds.map((locationId) => ({ postId: id, locationId })),
+      });
+      return true;
+    }),
+  delete: authedProcedure
+    .input(z.object({ id: z.number() }))
+    .mutation(async ({ input }) => {
+      const { id } = input;
+      await prisma.post.delete({ where: { id } });
+      return true;
+    }),
+});

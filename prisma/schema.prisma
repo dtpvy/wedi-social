@@ -135,17 +135,22 @@ model User {
     sendNotification Notification[] @relation("actor")
     friends          Friend[]       @relation("user")
     userFriends      Friend[]       @relation("friend")
+    Trip             Trip[]
+    Schedule         Schedule[]
 }
 
 model Review {
     id         Int @id @default(autoincrement())
     userId     Int
+    rating     Int
+    postId     Int
     locationId Int
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
     user     User     @relation(fields: [userId], references: [id])
+    post     Post     @relation(fields: [postId], references: [id])
     location Location @relation(fields: [locationId], references: [id])
 }
 
@@ -158,17 +163,18 @@ model Location {
     wardId     Int
     countryId  Int
     street     String         @db.VarChar(255)
+    placeId    String
 
-    deleted   DateTime?
-    createdAt DateTime  @default(now())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
     country   Country        @relation(fields: [countryId], references: [id])
     city      City           @relation(fields: [cityId], references: [id])
     district  District       @relation(fields: [districtId], references: [id])
     ward      Ward           @relation(fields: [wardId], references: [id])
-    reviews   Review[]
     schedules Schedule[]
     posts     PostLocation[]
+    Review    Review[]
 }
 
 model Reaction {
@@ -180,9 +186,9 @@ model Reaction {
 }
 
 model Comment {
-    id      Int    @id @default(autoincrement())
-    content String
-    imgUrl  String @db.VarChar(255)
+    id      Int      @id @default(autoincrement())
+    content String?
+    imgUrls String[] @db.VarChar(255)
     userId  Int
     postId  Int
 
@@ -200,10 +206,11 @@ model Post {
     creatorId Int
     tripId    Int?
     isDeleted Boolean  @default(false)
+    privacy   Privacy
 
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-    deletedAt DateTime @updatedAt
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    deletedAt DateTime?
 
     trips   Trip? @relation(fields: [tripId], references: [id])
     creator User  @relation(fields: [creatorId], references: [id])
@@ -211,6 +218,7 @@ model Post {
     reactions PostReaction[]
     comments  Comment[]
     locations PostLocation[]
+    Review    Review[]
 }
 
 model PostReaction {
@@ -221,7 +229,7 @@ model PostReaction {
     reaction   Reaction @relation(fields: [reactionId], references: [id])
     reactionId Int
 
-    @@id([postId, userId, reactionId])
+    @@id([postId, userId])
 }
 
 model PostLocation {
@@ -234,20 +242,29 @@ model PostLocation {
 }
 
 model Trip {
-    id           Int            @id @default(autoincrement())
-    name         String         @db.VarChar(255)
-    status       TripStatus     @default(SCHEDULE)
-    startDate    DateTime
-    privacy      Privacy
-    posts        Post[]
-    joinSchedule JoinSchedule[]
-    users        JoinTrip[]
+    id        Int        @id @default(autoincrement())
+    name      String     @db.VarChar(255)
+    imgUrl    String     @db.VarChar(255)
+    status    TripStatus @default(SCHEDULE)
+    creatorId Int
+    startDate DateTime
+    privacy   Privacy
+    isDeleted Boolean    @default(false)
+    createdAt DateTime   @default(now())
+    updatedAt DateTime   @updatedAt
+    deletedAt DateTime?
+
+    posts    Post[]
+    users    JoinTrip[]
+    creator  User       @relation(fields: [creatorId], references: [id])
+    Schedule Schedule[]
 }
 
 model JoinTrip {
-    userId    Int
-    tripId    Int
-    status    JoinTripStatus
+    userId Int
+    tripId Int
+    status JoinTripStatus
+
     inviterId Int?
 
     createdAt DateTime @default(now())
@@ -261,30 +278,31 @@ model JoinTrip {
 }
 
 model Schedule {
-    id          Int      @id @default(autoincrement())
-    name        String   @db.VarChar(255)
+    id          Int       @id @default(autoincrement())
+    name        String    @db.VarChar(255)
     description String?
-    imgUrls     String[] @db.VarChar(255)
     locationId  Int
     startTime   DateTime
-    createdAt   DateTime @default(now())
-    updatedAt   DateTime @default(now())
+    endTime     DateTime?
+    createdAt   DateTime  @default(now())
+    updatedAt   DateTime  @default(now())
+    tripId      Int
+    creatorId   Int
 
     location     Location       @relation(fields: [locationId], references: [id])
+    trip         Trip           @relation(fields: [tripId], references: [id])
+    creator      User           @relation(fields: [creatorId], references: [id])
     joinSchedule JoinSchedule[]
 }
 
 model JoinSchedule {
     userId     Int
-    tripId     Int
     scheduleId Int
-    remindTime DateTime
-    isCreator  Boolean
-    user       User     @relation(fields: [userId], references: [id])
-    trip       Trip     @relation(fields: [tripId], references: [id])
-    schedule   Schedule @relation(fields: [scheduleId], references: [id])
+    remindTime DateTime?
+    user       User      @relation(fields: [userId], references: [id])
+    schedule   Schedule  @relation(fields: [scheduleId], references: [id])
 
-    @@id([userId, tripId, scheduleId])
+    @@id([userId, scheduleId])
 }
 
 model Message {

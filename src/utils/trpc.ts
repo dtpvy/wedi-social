@@ -7,13 +7,10 @@ import { NextPageContext } from "next";
 import getConfig from "next/config";
 import type { AppRouter } from "@/server/routers/_app";
 import superjson from "superjson";
+import { APP_URL, WS_URL } from "./env";
 
 // ℹ️ Type-only import:
 // https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-8.html#type-only-imports-and-export
-
-const { publicRuntimeConfig } = getConfig();
-
-const { APP_URL, WS_URL } = publicRuntimeConfig;
 
 function getEndingLink(ctx: NextPageContext | undefined) {
   if (typeof window === "undefined") {
