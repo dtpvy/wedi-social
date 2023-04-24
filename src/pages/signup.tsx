@@ -1,4 +1,5 @@
 import { Language } from "@/components/Language";
+import useTranslation from "@/hooks/useTranslation";
 import { ERROR_MESSAGES } from "@/constants/error";
 import { trpc } from "@/utils/trpc";
 import { notifications } from "@mantine/notifications";
@@ -16,6 +17,7 @@ type RegisterForm = {
 
 const Signup = () => {
   const signup = trpc.user.signup.useMutation();
+  const { t } = useTranslation();
   const {
     register,
     handleSubmit,
@@ -65,7 +67,7 @@ const Signup = () => {
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-              Create account
+              {t("signupTitleText")}
             </h1>
             <form
               className="space-y-4 md:space-y-6"
@@ -77,13 +79,13 @@ const Signup = () => {
                     htmlFor="name"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
-                    Your name
+                    {t("yourNameText")}
                   </label>
                   <input
                     type="text"
                     id="name"
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="Your name"
+                    placeholder={t("yourNameText")}
                     required
                     {...register("name")}
                   />
@@ -93,13 +95,13 @@ const Signup = () => {
                     htmlFor="phone"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
-                    Your phone
+                    {t("phoneText")}
                   </label>
                   <input
                     type="string"
                     id="phone"
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="Your phone"
+                    placeholder={t("phoneText")}
                     required
                     maxLength={10}
                     {...register("phone")}
@@ -111,7 +113,7 @@ const Signup = () => {
                   htmlFor="email"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  Your email
+                  {t("emailText")}
                 </label>
                 <input
                   type="email"
@@ -127,7 +129,7 @@ const Signup = () => {
                   htmlFor="password"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  Password
+                  {t("passwordText")}
                 </label>
                 <input
                   type="password"
@@ -143,7 +145,7 @@ const Signup = () => {
                   htmlFor="confirm-password"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  Confirm password
+                  {t("confirmPasswordText")}
                 </label>
                 <input
                   type="password"
@@ -154,7 +156,7 @@ const Signup = () => {
                   {...register("confirmPassword", {
                     validate: (val: string) => {
                       if (watch("password") !== val) {
-                        return "Your passwords do no match";
+                        return t("passwordDontMatchText");
                       }
                     },
                   })}
