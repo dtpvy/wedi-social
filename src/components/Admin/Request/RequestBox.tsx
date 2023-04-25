@@ -1,6 +1,7 @@
 import { Badge, Button, Card, Group, Image } from "@mantine/core";
 import { useRouter } from "next/router";
 import React from "react";
+import useTranslation from "@/hooks/useTranslation";
 
 type Props = {
   request: any;
@@ -14,11 +15,13 @@ const RequestBox = ({ request }: Props) => {
     router.push(`/admin/request/${id}`);
   };
 
+  const { t } = useTranslation();
+
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder className="mx-4 my-3">
       <Group position="apart" mt="md" mb="xs">
         <div className="font-medium text-gray-500">{title}</div>
-        <Badge color={status === "PENDING" ? "blue" : "green"} variant="light">
+        <Badge color={status === t("pendingText") ? "blue" : "green"} variant="light">
           {status}
         </Badge>
       </Group>
@@ -37,7 +40,7 @@ const RequestBox = ({ request }: Props) => {
         mt="md"
         radius="md"
       >
-        {status === "PENDING" ? "Feed back" : "Details"}
+        {status === t("pendingText") ? t("feedBackText") : "Details"}
       </Button>
     </Card>
   );

@@ -69,6 +69,7 @@
   "statusresponseText": "Chưa có phản hồi",
   "vietnamText": "Tiếng Việt",
   "englishText": "Tiếng Anh",
+
   "passwordDontMatchText": "Mật khẩu của bạn không phù hợp",
   "notiCreateAccountSuccesfullyText": "Tài khoản tạo thành công. Xin chào",
   "notiAccountExistedText": "Tài khoản này đã tồn tại.",
@@ -79,5 +80,9 @@
   "loadMoreText": "Tải thêm",
   "loadingMoreText": "Đang tải thêm...",
   "noDataText": "Không có dữ liệu",
-  "loadingText": "Đang tải..."
+  "loadingText": "Đang tải...",
+  "feedBackText": "Nhận xét",
+  "activeText": "Hoạt động",
+  "deactiveText": "Không hoạt động"
+
 }

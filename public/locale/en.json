@@ -69,6 +69,7 @@
   "statusresponseText": "Haven't responsed yet",
   "vietnamText": "Vietnamese",
   "englishText": "English",
+
   "passwordDontMatchText": "Your passwords do not match",
   "notiCreateAccountSuccesfullyText": "Account creates successfully. Hello",
   "notiAccountExistedText": "Account already existed.",
@@ -79,5 +80,8 @@
   "loadMoreText": "Load more",
   "loadingMoreText": "Loading more...",
   "noDataText": "No data",
-  "loadingText": "Loading..."
+  "loadingText": "Loading...",
+  "feedBackText": "Feedback",
+  "activeText": "Active",
+  "deactiveText": "Deactive"
 }
