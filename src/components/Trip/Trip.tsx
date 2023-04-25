@@ -1,12 +1,15 @@
 import classNames from "@/utils/classNames";
 import { Avatar, Button, Text } from "@mantine/core";
 import { IconDots } from "@tabler/icons-react";
+import useTranslation from "@/hooks/useTranslation";
 
 type Props = {
   className?: string;
 };
 
 const Trip = ({ className }: Props) => {
+  const { t } = useTranslation();
+
   return (
     <div className={classNames("bg-white rounded-lg shadow p-4", className)}>
       <div className="flex gap-4 mb-4">
@@ -25,7 +28,7 @@ const Trip = ({ className }: Props) => {
       </div>
       <div className="flex items-center gap-2">
         <Button variant="light" className="w-full" color="green">
-          Xem nhóm
+          {t("openGroupText")}
         </Button>
         <Button variant="default">
           <IconDots />

@@ -86,7 +86,7 @@ const Search = () => {
         </button>
         <Input
           icon={<IconSearch />}
-          placeholder="Search..."
+          placeholder={`${t("searchText")}...`}
           radius="xl"
           size="md"
           className="w-1/2"
