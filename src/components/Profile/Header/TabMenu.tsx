@@ -14,6 +14,7 @@ import { ProfileLayoutContext } from "@/components/Layout/ProfileLayout";
 import useUserStore from "@/stores/user";
 import { trpc } from "@/utils/trpc";
 import { calcFriend } from "@/utils/user";
+import useTranslation from "@/hooks/useTranslation"; 
 
 const TAB_NAME = {
   POSTS: "posts",
@@ -23,6 +24,7 @@ const TAB_NAME = {
 };
 
 const TAB_LIST: Record<string, Tab> = {
+  
   [TAB_NAME.POSTS]: {
     name: "posts",
     url: "posts",
@@ -62,13 +64,13 @@ const TabMenu = () => {
 
   const addFriend = trpc.friend.add.useMutation();
   const addNoti = trpc.notification.push.useMutation();
-
+  const { t } = useTranslation();
   const handleAdd = async () => {
     if (!profile?.id) return;
     try {
       await addFriend.mutateAsync({ userId: profile.id });
       await addNoti.mutateAsync({
-        content: "Có người muốn kết bạn với bạn",
+        content: 't("notifText")',
         userId: profile.id,
       });
     } catch (e) {
@@ -99,10 +101,10 @@ const TabMenu = () => {
         </div>
         <div className="flex gap-2 mt-2">
           <Button size="md" className="flex-1" variant="outline" color="green">
-            Create Trip
+            {t("createtripText")}
           </Button>
           <Button size="md" className="flex-1" variant="filled" color="green">
-            Create Post
+          {t("createpostText")}
           </Button>
         </div>
       </div>
@@ -138,7 +140,7 @@ const TabMenu = () => {
           variant="filled"
           color="green"
         >
-          Edit Profile
+          {t("editprofileText")}
         </Button>
       )}
     </>

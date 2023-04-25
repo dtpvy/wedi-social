@@ -80,5 +80,9 @@
   "streetText" : "Street",
   "languageText" : "Language",
   "updateText" : "Update",
-  "changepasswordText" : "Change password"
+  "changepasswordText" : "Change password",
+  "changeavatarText" : "Change Avatar",
+  "changebackgroundText" : "Change background ",
+  "lasteditText" : "Last edited"
+
 }

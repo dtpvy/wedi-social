@@ -80,6 +80,9 @@
   "streetText" :"Đường",
   "languageText" : "Ngôn ngữ",
   "updateText" : "Cập nhật",
-  "changepasswordText" : "Đổi mật khẩu"
+  "changepasswordText" : "Đổi mật khẩu",
+  "changeavatarText" : "Đổi hình đại diện",
+  "changebackgroundText" : "Đổi hình nền",
+  "lasteditText" : "Lần cuối chỉnh sửa"
 
 }
