@@ -6,13 +6,15 @@ import { Button, Input, Loader } from "@mantine/core";
 import { useDebouncedState } from "@mantine/hooks";
 import { IconSearch } from "@tabler/icons-react";
 import { useState } from "react";
+import useTranslation from "@/hooks/useTranslation"; 
 
 const Friends = () => {
   const [type, setType] = useState("");
 
   const [value, setValue] = useDebouncedState("", 200);
   const [order, setOrder] = useState("asc");
-
+  const { t } = useTranslation();
+  
   const { data, isLoading } = trpc.friend.friendList.useQuery({
     search: value,
     order,
@@ -25,7 +27,7 @@ const Friends = () => {
           onChange={(e) => setValue(e.target.value)}
           icon={<IconSearch />}
           radius="xl"
-          placeholder="Search..."
+          placeholder= {t("searchText")}
           className="mr-auto"
         />
         <Button
@@ -34,7 +36,7 @@ const Friends = () => {
           variant="light"
           color="green"
         >
-          {order === "asc" ? "Gần đây" : "Từ đầu"}
+          {order === "asc" ? t("recentText") : t("oldestText")}
         </Button>
         <Button
           onClick={() => setType("request")}
@@ -42,7 +44,7 @@ const Friends = () => {
           variant="outline"
           color="green"
         >
-          Lời mời kết bạn
+          {t("friendrequestText")}
         </Button>
         <Button
           onClick={() => setType("owner")}
@@ -50,7 +52,7 @@ const Friends = () => {
           variant="outline"
           color="green"
         >
-          Yêu cầu kết bạn
+        {t("sentrequestText")}
         </Button>
       </div>
       {isLoading && <Loader />}
