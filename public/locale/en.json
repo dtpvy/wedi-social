@@ -83,6 +83,7 @@
   "changepasswordText" : "Change password",
   "changeavatarText" : "Change Avatar",
   "changebackgroundText" : "Change background ",
-  "lasteditText" : "Last edited"
+  "lasteditText" : "Last edited",
+  "allText" : "All"
 
 }

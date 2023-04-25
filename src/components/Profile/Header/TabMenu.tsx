@@ -94,7 +94,7 @@ const TabMenu = () => {
         <div className="flex items-start gap-3">
           <Avatar radius="xl" className="border" />
           <Textarea
-            placeholder="What do you think?"
+            placeholder= {t("statusText")}
             withAsterisk
             className="w-full"
           />
