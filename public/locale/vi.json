@@ -74,5 +74,8 @@
   "notiAccountExistedText": "Tài khoản này đã tồn tại.",
   "numberPhoneExistedText": "Số diện thoại đã tồn tại.",
   "errorTryAgainText": "Có lỗi xảy ra. Vui lòng thử lại.",
-  "notiLoginFailText": "Đăng nhập thất bại. Vui lòng thử lại."
+  "notiLoginFailText": "Đăng nhập thất bại. Vui lòng thử lại.",
+  "signoutText": "Đăng xuất",
+  "loadMoreText": "Tải thêm",
+  "loadingMoreText": "Đang tải thêm..."
 }

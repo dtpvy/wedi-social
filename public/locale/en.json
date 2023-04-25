@@ -74,5 +74,8 @@
   "notiAccountExistedText": "Account already existed.",
   "numberPhoneExistedText": "Number phone already existed.",
   "errorTryAgainText": "Error!!! Please try again later.",
-  "notiLoginFailText": "Login failed. Please try again."
+  "notiLoginFailText": "Login failed. Please try again.",
+  "signoutText": "Sign out",
+  "loadMoreText": "Load more",
+  "loadingMoreText": "Loading more..."
 }

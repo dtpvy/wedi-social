@@ -3,6 +3,7 @@ import { Avatar } from "@mantine/core";
 import type { Notification, User } from "@prisma/client";
 import dayjs from "dayjs";
 import { useCallback, useEffect, useState } from "react";
+import useTranslation from "@/hooks/useTranslation";
 
 type NotificationDetail = Notification & { actor: User };
 
@@ -57,6 +58,8 @@ const Notification = () => {
     },
   });
 
+  const { t } = useTranslation();
+
   return (
     <div className="max-h-[300px] overflow-auto">
       {!notifications?.length && <div className="text-center">No data</div>}
@@ -104,10 +107,11 @@ const Notification = () => {
         className="px-4 py-2 text-teal-700 underline rounded disabled:opacity-50 w-full text-center"
       >
         {isFetchingPreviousPage
-          ? "Loading more..."
+          ? t("loadingMoreText")
           : hasPreviousPage
-          ? "Load More"
-          : "Nothing more to load"}
+          ? t("loadMoreText")
+          : t("notifEndText")
+          }
       </button>
     </div>
   );

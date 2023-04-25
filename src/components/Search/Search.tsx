@@ -195,7 +195,7 @@ const Search = () => {
                 </Popover.Dropdown>
               </Popover>
               <Button onClick={() => signOut()} className="w-full">
-                Đăng xuất
+                {t("signoutText")}
               </Button>
             </Popover.Dropdown>
           </Popover>
