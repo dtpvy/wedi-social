@@ -1,10 +1,10 @@
 import { z } from "zod";
-import { authedProcedure, router } from "../trpc";
+import { authProcedure, router } from "../trpc";
 import { prisma } from "../prisma";
 import { Privacy, TripStatus } from "@prisma/client";
 
 export const tripRouter = router({
-  create: authedProcedure
+  create: authProcedure
     .input(
       z.object({
         name: z.string(),
@@ -27,7 +27,7 @@ export const tripRouter = router({
       });
       return true;
     }),
-  update: authedProcedure
+  update: authProcedure
     .input(
       z.object({
         id: z.number(),
@@ -46,13 +46,13 @@ export const tripRouter = router({
       });
       return true;
     }),
-  delete: authedProcedure
+  delete: authProcedure
     .input(z.object({ id: z.number() }))
     .mutation(async ({ input }) => {
       await prisma.trip.delete({ where: { id: input.id } });
       return true;
     }),
-  invite: authedProcedure
+  invite: authProcedure
     .input(z.object({ id: z.number(), userId: z.number() }))
     .mutation(async ({ input, ctx }) => {
       await prisma.joinTrip.create({
@@ -65,7 +65,7 @@ export const tripRouter = router({
       });
       return true;
     }),
-  request: authedProcedure
+  request: authProcedure
     .input(z.object({ id: z.number() }))
     .mutation(async ({ input, ctx }) => {
       await prisma.joinTrip.create({
@@ -77,7 +77,7 @@ export const tripRouter = router({
       });
       return true;
     }),
-  accept: authedProcedure
+  accept: authProcedure
     .input(z.object({ id: z.number(), userId: z.number().optional() }))
     .mutation(async ({ input, ctx }) => {
       await prisma.joinTrip.update({
@@ -91,7 +91,7 @@ export const tripRouter = router({
       });
       return true;
     }),
-  reject: authedProcedure
+  reject: authProcedure
     .input(z.object({ id: z.number(), userId: z.number().optional() }))
     .mutation(async ({ input, ctx }) => {
       await prisma.joinTrip.update({
@@ -105,7 +105,7 @@ export const tripRouter = router({
       });
       return true;
     }),
-  leave: authedProcedure
+  leave: authProcedure
     .input(z.object({ id: z.number(), userId: z.number().optional() }))
     .mutation(async ({ input, ctx }) => {
       await prisma.joinTrip.delete({

@@ -20,7 +20,11 @@ const MyApp: AppType<{ session: Session | null }> = ({
   pageProps,
 }) => {
   useLocale();
-  const queryClient = new QueryClient();
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: { staleTime: 60, refetchOnWindowFocus: false },
+    },
+  });
 
   return (
     <QueryClientProvider client={queryClient}>

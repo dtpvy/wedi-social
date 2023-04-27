@@ -1,9 +1,38 @@
 import { z } from "zod";
-import { authedProcedure, router } from "../trpc";
+import { authProcedure, publicProcedure, router } from "../trpc";
 import { prisma } from "../prisma";
+import EventEmitter from "events";
+import { Comment } from "@prisma/client";
+import { observable } from "@trpc/server/observable";
+
+interface MyEvents {
+  create: (data: Comment) => void;
+}
+declare interface MyEventEmitter {
+  on<TEv extends keyof MyEvents>(event: TEv, listener: MyEvents[TEv]): this;
+  off<TEv extends keyof MyEvents>(event: TEv, listener: MyEvents[TEv]): this;
+  once<TEv extends keyof MyEvents>(event: TEv, listener: MyEvents[TEv]): this;
+  emit<TEv extends keyof MyEvents>(
+    event: TEv,
+    ...args: Parameters<MyEvents[TEv]>
+  ): boolean;
+}
+
+class MyEventEmitter extends EventEmitter {}
+
+const ee = new MyEventEmitter();
 
 export const commentRouter = router({
-  create: authedProcedure
+  onCreate: authProcedure.subscription(() => {
+    return observable<Comment>((emit) => {
+      const onCreate = (data: Comment) => emit.next(data);
+      ee.on("create", onCreate);
+      return () => {
+        ee.off("create", onCreate);
+      };
+    });
+  }),
+  create: authProcedure
     .input(
       z.object({
         content: z.string().optional(),
@@ -13,15 +42,59 @@ export const commentRouter = router({
     )
     .mutation(async ({ input, ctx }) => {
       const { id } = ctx.user;
-      await prisma.comment.create({
+      const comment = await prisma.comment.create({
         data: {
           ...input,
           userId: id,
         },
       });
+      ee.emit("create", comment);
       return true;
     }),
-  update: authedProcedure
+  infinite: authProcedure
+    .input(
+      z.object({
+        postId: z.number(),
+        cursor: z.number().nullish(),
+        take: z.number().min(1).max(10).nullish(),
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      const take = input.take ?? 10;
+      const cursor = input.cursor;
+
+      const items = await prisma.comment.findMany({
+        where: {
+          userId: ctx.user.id,
+          postId: input.postId,
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+        cursor: cursor ? { id: cursor } : undefined,
+        take: take + 1,
+        skip: 0,
+        include: {
+          user: true,
+          reactions: {
+            include: {
+              reaction: true,
+            },
+          },
+        },
+      });
+
+      let nextCursor: typeof cursor | undefined = undefined;
+      if (items.length > take) {
+        const nextItem = items.pop();
+        nextCursor = nextItem!.id;
+      }
+      return {
+        items,
+        nextCursor,
+      };
+    }),
+  update: authProcedure
     .input(
       z.object({
         id: z.number(),
@@ -37,10 +110,11 @@ export const commentRouter = router({
       });
       return true;
     }),
-  delete: authedProcedure
+  delete: authProcedure
     .input(z.object({ id: z.number() }))
     .mutation(async ({ input }) => {
       const { id } = input;
+      await prisma.commentReaction.deleteMany({ where: { commentId: id } });
       await prisma.comment.delete({ where: { id } });
       return true;
     }),

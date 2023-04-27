@@ -1,6 +1,4 @@
 import useUserStore from "@/stores/user";
-import { LocationDetail } from "@/types/location";
-import { getAddress } from "@/utils/location";
 import { trpc } from "@/utils/trpc";
 import { Carousel } from "@mantine/carousel";
 import {
@@ -13,7 +11,7 @@ import {
   Textarea,
 } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
-import { Location, Privacy } from "@prisma/client";
+import { Privacy } from "@prisma/client";
 import {
   IconEyeEdit,
   IconLoader,
@@ -23,6 +21,8 @@ import {
 } from "@tabler/icons-react";
 import { IKUpload } from "imagekitio-react";
 import { useRef, useState } from "react";
+import LocationSeletion, { LocationSeletionProps } from "./LocationSeletion";
+import classNames from "@/utils/classNames";
 
 type State = {
   content: string;
@@ -31,33 +31,40 @@ type State = {
 };
 
 type Props = {
+  postId?: number;
   opened?: boolean;
-  location?: LocationDetail[];
+  privacy?: Privacy;
+  content?: string;
+  imgUrls?: string[];
   onClose: () => void;
-  onOpenReview: () => void;
+  onOpenReview: (id: number) => void;
   onCreateLocation: () => void;
-  onEditLocation: (location: Location) => void;
-  onDeleteLocation: (location: Location) => void;
-};
+} & LocationSeletionProps;
 
 const ModalCreate = ({
+  postId,
   opened = false,
-  location,
+  locations,
+  privacy = Privacy.PUBLIC,
+  content = "",
+  imgUrls = [],
   onClose,
   onCreateLocation,
-  onEditLocation,
-  onDeleteLocation,
   onOpenReview,
+  onDeleteLocation,
 }: Props) => {
   const mediaRef = useRef<HTMLInputElement>(null);
   const user = useUserStore((state) => state.user);
   const create = trpc.post.create.useMutation();
+  const update = trpc.post.update.useMutation();
+
+  const isUpdate = postId !== undefined;
 
   const [mediaLoading, setMediaLoading] = useState(false);
   const [state, setState] = useState<State>({
-    content: "",
-    imgUrls: [],
-    privacy: Privacy.PUBLIC,
+    content,
+    imgUrls,
+    privacy,
   });
 
   const onChangeField = (field: keyof State, value: unknown) => {
@@ -79,8 +86,24 @@ const ModalCreate = ({
   const handleCreate = async () => {
     if (!location) return;
     try {
-      await create.mutate({ ...state, locationIds: location.map((d) => d.id) });
-      onOpenReview();
+      if (isUpdate) {
+        await update.mutateAsync({
+          id: postId,
+          ...state,
+        });
+        onOpenReview(postId);
+      } else {
+        const data = await create.mutateAsync({
+          ...state,
+          locationIds: locations.map((d) => d.id),
+        });
+        onOpenReview(data.id);
+      }
+      setState({
+        content: "",
+        imgUrls: [],
+        privacy: Privacy.PUBLIC,
+      });
     } catch {}
   };
 
@@ -113,42 +136,14 @@ const ModalCreate = ({
         minRows={10}
         placeholder="What do you think?"
       />
-      {!!location?.length && (
-        <Carousel
-          withIndicators
-          slideSize="33.333333%"
-          slideGap="md"
-          loop
-          align="start"
-          slidesToScroll={3}
-          className="my-3"
-          withControls={false}
-        >
-          {location.map((data) => (
-            <Carousel.Slide key={data.id} className="relative">
-              <div
-                onClick={() => onEditLocation(data)}
-                className="p-2 bg-teal-700 text-white cursor-pointer"
-              >
-                <div className="font-bold">{data.name}</div>
-                <div className="text-sm font-medium">{getAddress(data)}</div>
-              </div>
-              <CloseButton
-                onClick={() => onDeleteLocation(data)}
-                title="Close popover"
-                size="md"
-                iconSize={20}
-                radius="xl"
-                className="absolute top-0 right-4"
-              />
-            </Carousel.Slide>
-          ))}
-        </Carousel>
-      )}
+      <LocationSeletion
+        readonly={isUpdate}
+        locations={locations}
+        onDeleteLocation={onDeleteLocation}
+      />
       {!!state.imgUrls.length && (
         <Carousel
           withIndicators
-          height={200}
           slideSize="33.333333%"
           slideGap="md"
           loop
@@ -158,9 +153,10 @@ const ModalCreate = ({
           withControls={false}
         >
           {state.imgUrls.map((imgUrl, index) => (
-            <Carousel.Slide key={index} className="flex justify-center">
+            <Carousel.Slide key={index} className="relative">
               <Image alt="media" src={imgUrl} />
               <CloseButton
+                className="absolute top-2 right-6"
                 onClick={() => handleDeleteImage(imgUrl)}
                 title="Close popover"
                 size="md"
@@ -174,8 +170,15 @@ const ModalCreate = ({
 
       <div className="flex items-center gap-3 mt-3">
         <Button
+          disabled={isUpdate}
           onClick={onCreateLocation}
-          leftIcon={<IconMapPinFilled className="text-red-600" />}
+          leftIcon={
+            <IconMapPinFilled
+              className={classNames("text-red-600", {
+                "text-gray-600": isUpdate,
+              })}
+            />
+          }
           variant="outline"
           color="red"
         >
@@ -198,10 +201,10 @@ const ModalCreate = ({
         </Button>
         <Button
           onClick={handleCreate}
-          disabled={!location || !state.content}
+          disabled={!locations.length || !state.content}
           className="ml-auto"
         >
-          Create
+          {postId ? "Update" : "Create"}
         </Button>
         <IKUpload
           inputRef={mediaRef}

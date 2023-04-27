@@ -1,10 +1,119 @@
 import { z } from "zod";
 import { prisma } from "../prisma";
-import { authedProcedure, router } from "../trpc";
+import { authProcedure, router } from "../trpc";
 import { Privacy } from "@prisma/client";
 
 export const postRouter = router({
-  create: authedProcedure
+  get: authProcedure
+    .input(z.object({ id: z.number() }))
+    .query(async ({ input }) => {
+      const data = await prisma.post.findFirst({
+        where: { id: input.id },
+        include: {
+          creator: true,
+          reviews: true,
+          locations: {
+            include: {
+              location: true,
+            },
+          },
+        },
+      });
+      return data;
+    }),
+  feed: authProcedure
+    .input(
+      z.object({
+        cursor: z.number().nullish(),
+        take: z.number().min(1).max(10).nullish(),
+      })
+    )
+    .query(async ({ input }) => {
+      const take = input.take ?? 10;
+      const cursor = input.cursor;
+
+      const items = await prisma.post.findMany({
+        orderBy: {
+          createdAt: "desc",
+        },
+        where: { tripId: null },
+        include: {
+          creator: true,
+          reviews: true,
+          locations: {
+            include: {
+              location: true,
+            },
+          },
+          comments: {
+            orderBy: {
+              createdAt: "desc",
+            },
+            take: 5,
+          },
+          _count: {
+            select: { comments: true, reactions: true },
+          },
+        },
+        cursor: cursor ? { id: cursor } : undefined,
+        take: take + 1,
+        skip: 0,
+      });
+
+      let nextCursor: typeof cursor | undefined = undefined;
+      if (items.length > take) {
+        const nextItem = items.pop();
+        nextCursor = nextItem!.id;
+      }
+      return {
+        items,
+        nextCursor,
+      };
+    }),
+  userPost: authProcedure
+    .input(
+      z.object({
+        cursor: z.number().nullish(),
+        take: z.number().min(1).max(10).nullish(),
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      const take = input.take ?? 10;
+      const cursor = input.cursor;
+
+      const items = await prisma.post.findMany({
+        orderBy: {
+          createdAt: "desc",
+        },
+        where: { creatorId: ctx.user.id, tripId: null },
+        include: {
+          creator: true,
+          reviews: true,
+          locations: {
+            include: {
+              location: true,
+            },
+          },
+          _count: {
+            select: { comments: true, reactions: true },
+          },
+        },
+        cursor: cursor ? { id: cursor } : undefined,
+        take: take + 1,
+        skip: 0,
+      });
+
+      let nextCursor: typeof cursor | undefined = undefined;
+      if (items.length > take) {
+        const nextItem = items.pop();
+        nextCursor = nextItem!.id;
+      }
+      return {
+        items,
+        nextCursor,
+      };
+    }),
+  create: authProcedure
     .input(
       z.object({
         content: z.string(),
@@ -29,29 +138,26 @@ export const postRouter = router({
       await prisma.postLocation.createMany({
         data: locationIds.map((id) => ({ postId: data.id, locationId: id })),
       });
-      return true;
+      return data;
     }),
-  update: authedProcedure
+  update: authProcedure
     .input(
       z.object({
         id: z.number(),
         content: z.string(),
         imgUrls: z.string().array(),
-        locationIds: z.number().array(),
       })
     )
     .mutation(async ({ input }) => {
-      const { id, locationIds, ...post } = input;
+      const { id, ...post } = input;
+
       await prisma.post.update({
         where: { id },
-        data: { ...post, locations: { set: [] } },
-      });
-      await prisma.postLocation.createMany({
-        data: locationIds.map((locationId) => ({ postId: id, locationId })),
+        data: { ...post },
       });
       return true;
     }),
-  delete: authedProcedure
+  delete: authProcedure
     .input(z.object({ id: z.number() }))
     .mutation(async ({ input }) => {
       const { id } = input;

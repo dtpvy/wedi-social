@@ -1,9 +1,9 @@
 import { z } from "zod";
 import { prisma } from "../prisma";
-import { authedProcedure, router } from "../trpc";
+import { authProcedure, router } from "../trpc";
 
 export const reviewRouter = router({
-  add: authedProcedure
+  add: authProcedure
     .input(
       z.object({
         postId: z.number(),
@@ -17,26 +17,48 @@ export const reviewRouter = router({
       });
       return true;
     }),
-  update: authedProcedure
+  update: authProcedure
     .input(
       z.object({
-        id: z.number(),
         postId: z.number(),
+        locationId: z.number(),
         rating: z.number(),
       })
     )
-    .mutation(async ({ input }) => {
+    .mutation(async ({ input, ctx }) => {
+      const { postId, locationId, rating } = input;
       await prisma.review.update({
-        where: { id: input.id },
-        data: input,
+        where: {
+          userId_postId_locationId: { userId: ctx.user.id, postId, locationId },
+        },
+        data: { rating },
       });
       return true;
     }),
-  find: authedProcedure
+  delete: authProcedure
+    .input(
+      z.object({
+        postId: z.number(),
+        locationId: z.number(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      const { postId, locationId } = input;
+      await prisma.review.delete({
+        where: {
+          userId_postId_locationId: { userId: ctx.user.id, postId, locationId },
+        },
+      });
+      return true;
+    }),
+  find: authProcedure
     .input(z.object({ locationIds: z.number().array() }))
     .query(async ({ input, ctx }) => {
       const data = await prisma.review.findMany({
         where: { userId: ctx.user.id, locationId: { in: input.locationIds } },
+        orderBy: {
+          createdAt: "desc",
+        },
       });
       return data;
     }),

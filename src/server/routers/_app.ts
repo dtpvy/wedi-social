@@ -10,6 +10,7 @@ import { reactionRouter } from "./reaction";
 import { requestRouter } from "./request";
 import { reviewRouter } from "./review";
 import { scheduleRouter } from "./schedule";
+import { trackingRouter } from "./tracking";
 import { tripRouter } from "./trip";
 import { userRouter } from "./user";
 
@@ -29,6 +30,7 @@ export const appRouter = router({
   review: reviewRouter,
   trip: tripRouter,
   schedule: scheduleRouter,
+  tracking: trackingRouter,
 });
 
 export type AppRouter = typeof appRouter;

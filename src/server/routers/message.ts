@@ -1,5 +1,5 @@
 import { Message } from "@prisma/client";
-import { authedProcedure, router } from "../trpc";
+import { authProcedure, router } from "../trpc";
 import EventEmitter from "events";
 import { observable } from "@trpc/server/observable";
 import { z } from "zod";
@@ -23,7 +23,7 @@ class MyEventEmitter extends EventEmitter {}
 const ee = new MyEventEmitter();
 
 export const messageRouter = router({
-  onSend: authedProcedure.subscription(() => {
+  onSend: authProcedure.subscription(() => {
     return observable<Message>((emit) => {
       const onSend = (data: Message) => emit.next(data);
       ee.on("send", onSend);
@@ -32,7 +32,7 @@ export const messageRouter = router({
       };
     });
   }),
-  send: authedProcedure
+  send: authProcedure
     .input(
       z.object({
         content: z.string().optional(),
@@ -49,13 +49,13 @@ export const messageRouter = router({
       ee.emit("send", mess);
       return mess;
     }),
-  seenAll: authedProcedure.input(z.object({})).mutation(async ({ ctx }) => {
+  seenAll: authProcedure.input(z.object({})).mutation(async ({ ctx }) => {
     await prisma.message.updateMany({
       where: { OR: [{ receiverId: ctx.user.id }, { senderId: ctx.user.id }] },
       data: { updatedAt: new Date() },
     });
   }),
-  infinite: authedProcedure
+  infinite: authProcedure
     .input(
       z.object({
         cursor: z.number().nullish(),
@@ -86,7 +86,7 @@ export const messageRouter = router({
         nextCursor: cursor + 1,
       };
     }),
-  conversation: authedProcedure
+  conversation: authProcedure
     .input(
       z.object({
         cursor: z.number().nullish(),

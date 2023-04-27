@@ -40,3 +40,39 @@ export type Term = {
   offset: number;
   value: string;
 };
+
+export type PlaceResponse = {
+  result: Result;
+  reqid: string;
+};
+
+export type Result = {
+  poi: Poi[];
+  ads: any[];
+};
+
+export type Poi = {
+  gps: Gps;
+  is_promoted: boolean;
+  hash: string;
+  title: string;
+  brand: string;
+  address: string;
+  category: string;
+  rating: number;
+  description: string;
+  img: string;
+  img_big: string;
+  no_image: boolean;
+  phone: string;
+  email: string;
+  facebook: string;
+  url: string;
+  count_reviews: number;
+  photos: any[];
+};
+
+export type Gps = {
+  latitude: number;
+  longitude: number;
+};

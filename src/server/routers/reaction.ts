@@ -1,9 +1,9 @@
 import { z } from "zod";
-import { authedProcedure, router } from "../trpc";
+import { authProcedure, router } from "../trpc";
 import { prisma } from "../prisma";
 
 export const reactionRouter = router({
-  create: authedProcedure
+  create: authProcedure
     .input(
       z.object({
         reactionId: z.number(),
@@ -20,7 +20,7 @@ export const reactionRouter = router({
       });
       return true;
     }),
-  update: authedProcedure
+  update: authProcedure
     .input(
       z.object({
         reactionId: z.number(),

@@ -2,11 +2,11 @@ import { ERROR_MESSAGES } from "@/constants/error";
 import dayjs from "dayjs";
 import { z } from "zod";
 import { prisma } from "../prisma";
-import { authedProcedure, router } from "../trpc";
+import { authProcedure, router } from "../trpc";
 import { Friend, User } from "@prisma/client";
 
 export const friendRouter = router({
-  add: authedProcedure
+  add: authProcedure
     .input(z.object({ userId: z.number() }))
     .mutation(async ({ input, ctx }) => {
       const { id } = ctx.user;
@@ -35,7 +35,7 @@ export const friendRouter = router({
         data,
       };
     }),
-  reject: authedProcedure
+  reject: authProcedure
     .input(z.object({ userId: z.number(), friendId: z.number() }))
     .mutation(async ({ input }) => {
       const { userId, friendId } = input;
@@ -46,7 +46,7 @@ export const friendRouter = router({
 
       return true;
     }),
-  accept: authedProcedure
+  accept: authProcedure
     .input(z.object({ userId: z.number(), friendId: z.number() }))
     .mutation(async ({ input }) => {
       const { userId, friendId } = input;
@@ -57,7 +57,7 @@ export const friendRouter = router({
 
       return true;
     }),
-  delete: authedProcedure
+  delete: authProcedure
     .input(z.object({ userId: z.number() }))
     .mutation(async ({ input, ctx }) => {
       const { id } = ctx.user;
@@ -76,7 +76,7 @@ export const friendRouter = router({
 
       return true;
     }),
-  requestList: authedProcedure
+  requestList: authProcedure
     .input(
       z.object({
         owner: z.boolean(),
@@ -92,7 +92,7 @@ export const friendRouter = router({
       });
       return request;
     }),
-  friendList: authedProcedure
+  friendList: authProcedure
     .input(z.object({ search: z.string(), order: z.string() }))
     .query(async ({ input, ctx }) => {
       const id = ctx.user.id;

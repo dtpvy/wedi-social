@@ -57,5 +57,5 @@ const isAdminAuthed = middleware(async ({ next, ctx }) => {
   });
 });
 
-export const authedProcedure = t.procedure.use(isAuthed);
-export const adminAuthedProcedure = t.procedure.use(isAdminAuthed);
+export const authProcedure = t.procedure.use(isAuthed);
+export const adminAuthProcedure = t.procedure.use(isAdminAuthed);

@@ -1,11 +1,13 @@
 import { Language } from "@/components/Language";
+import { TRACKING_EVENT, TRACKING_PAGE } from "@/constants/tracking";
 import useTranslation from "@/hooks/useTranslation";
-import { Image, Notification, Select } from "@mantine/core";
+import { trpc } from "@/utils/trpc";
+import { Image, Notification } from "@mantine/core";
 import { IconX } from "@tabler/icons-react";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useTransition } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 type LoginForm = {
@@ -16,6 +18,7 @@ type LoginForm = {
 
 const Signin = () => {
   const router = useRouter();
+  const tracking = trpc.tracking.add.useMutation();
   const { register, handleSubmit } = useForm<LoginForm>();
   const { t } = useTranslation();
 
@@ -24,6 +27,14 @@ const Signin = () => {
   const onSubmit = (data: LoginForm) => {
     signIn("credentials", { ...data, callbackUrl: "/feed" });
   };
+
+  useEffect(() => {
+    tracking.mutate({
+      event: TRACKING_EVENT.ENTER_SIGNIN,
+      page: TRACKING_PAGE.SIGNIN,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <section className="bg-gray-50 dark:bg-gray-900">

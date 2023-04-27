@@ -6,28 +6,33 @@ import { useState } from "react";
 import ModalCreate from "./ModalCreate";
 import ModalLocation from "./ModalLocation";
 import ModalReview from "./ModalReview";
+import { trpc } from "@/utils/trpc";
 
-const CreatePost = () => {
+type Props = {
+  refetch: () => void;
+};
+
+const CreatePost = ({ refetch }: Props) => {
   const [modal, setModal] = useState("");
-  const [location, setLocation] = useState<LocationDetail[]>();
-  const [curLocation, setCurLocation] = useState<Location>();
+  const [postId, setPostId] = useState<number>();
+  const [locations, setLocations] = useState<LocationDetail[]>([]);
 
   const handleCreateLocation = (location: LocationDetail) => {
-    setLocation((prev) => [...(prev || []), location]);
-    setModal("create");
-  };
-
-  const handleEditLocation = (location: Location) => {
-    setCurLocation(location);
-    setModal("location");
+    if (locations.find((d) => d.id === location.id)) return;
+    setLocations((prev) => [...(prev || []), location]);
   };
 
   const handleDeleteLocation = (location: Location) => {
-    setLocation((prev) => prev?.filter((d) => d.id !== location.id));
+    setLocations((prev) => prev?.filter((d) => d.id !== location.id));
+  };
+
+  const handleCreatePost = (id: number) => {
+    setPostId(id);
+    setModal("review");
   };
 
   return (
-    <div className="bg-white shadow p-4 rounded ">
+    <div className="bg-white shadow p-4 rounded-lg border">
       <div className="flex items-center gap-4 w-full">
         <Avatar radius="xl" />
         <div
@@ -50,35 +55,34 @@ const CreatePost = () => {
 
       <ModalCreate
         opened={modal === "create"}
-        onClose={() => {
-          setModal("");
-          setCurLocation(undefined);
-        }}
-        location={location}
-        onOpenReview={() => setModal("review")}
-        onCreateLocation={() => {
-          setCurLocation(undefined);
-          setModal("location");
-        }}
-        onEditLocation={handleEditLocation}
+        onClose={() => setModal("")}
+        locations={locations}
+        onOpenReview={handleCreatePost}
+        onCreateLocation={() => setModal("location")}
         onDeleteLocation={handleDeleteLocation}
       />
 
       <ModalLocation
-        curLocation={curLocation}
+        locations={locations}
         opened={modal === "location"}
-        onClose={() => {
-          setCurLocation(undefined);
-          setModal("create");
-        }}
-        onOpenReview={handleCreateLocation}
+        onClose={() => setModal("create")}
+        onAddLocation={handleCreateLocation}
+        onDeleteLocation={handleDeleteLocation}
       />
 
-      <ModalReview
-        locations={location}
-        opened={modal === "review"}
-        onClose={() => setModal("")}
-      />
+      {postId && (
+        <ModalReview
+          postId={postId}
+          locations={locations}
+          opened={modal === "review"}
+          onClose={() => {
+            setModal("");
+            setPostId(undefined);
+            setLocations([]);
+            refetch();
+          }}
+        />
+      )}
     </div>
   );
 };

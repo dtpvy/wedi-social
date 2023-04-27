@@ -2,7 +2,7 @@ import { observable } from "@trpc/server/observable";
 import { EventEmitter } from "events";
 import { prisma } from "../prisma";
 import { z } from "zod";
-import { authedProcedure, publicProcedure, router } from "../trpc";
+import { authProcedure, publicProcedure, router } from "../trpc";
 import { Notification } from "@prisma/client";
 
 interface MyEvents {
@@ -23,7 +23,7 @@ class MyEventEmitter extends EventEmitter {}
 const ee = new MyEventEmitter();
 
 export const notificationRouter = router({
-  push: authedProcedure
+  push: authProcedure
     .input(
       z.object({
         content: z.string(),
@@ -39,13 +39,13 @@ export const notificationRouter = router({
       ee.emit("push", noti);
       return noti;
     }),
-  seenAll: authedProcedure.input(z.object({})).mutation(async ({ ctx }) => {
+  seenAll: authProcedure.input(z.object({})).mutation(async ({ ctx }) => {
     await prisma.notification.updateMany({
       where: { userId: ctx.user.id },
       data: { seen: true },
     });
   }),
-  infinite: authedProcedure
+  infinite: authProcedure
     .input(
       z.object({
         cursor: z.number().nullish(),
@@ -81,7 +81,6 @@ export const notificationRouter = router({
         nextCursor,
       };
     }),
-
   onPush: publicProcedure.subscription(() => {
     return observable<Notification>((emit) => {
       const onPush = (data: Notification) => emit.next(data);

@@ -8,23 +8,14 @@ import {
   Avatar,
   Dialog,
   Image,
-  Indicator,
   Loader,
-  Text,
   TextInput,
 } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
-import { IconPhone, IconPhoto, IconSend, IconX } from "@tabler/icons-react";
+import { IconPhoto, IconSend, IconX } from "@tabler/icons-react";
 import dayjs from "dayjs";
 import { IKUpload } from "imagekitio-react";
-import React, {
-  use,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 const Message = () => {
   const userInfo = useUserStore.use.user();
@@ -80,7 +71,6 @@ const Message = () => {
   }, [messQuery.data?.pages, addMess]);
 
   const scrollToBottomOfList = useCallback(() => {
-    console.log("??????");
     if (scrollTargetRef.current == null) {
       return;
     }
