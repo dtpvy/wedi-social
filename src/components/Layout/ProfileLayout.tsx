@@ -36,8 +36,6 @@ const ProfileLayout = ({ children, className }: Props) => {
     return <NotFound />;
   }
 
-  console.log(data, user?.id, user?.id == id);
-
   return (
     <ProfileLayoutContext.Provider value={{ data, isOwner: user?.id == id }}>
       <div className="py-[70px]">

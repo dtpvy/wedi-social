@@ -1,7 +1,7 @@
 import useUserStore from "@/stores/user";
 import { Loader } from "@mantine/core";
 import { ReactNode } from "react";
-import { Search } from "../Feed";
+import { Search } from "../Search";
 
 type Props = {
   children: ReactNode;
