@@ -1,17 +1,8 @@
 import { PostDetail } from "@/types/post";
 import classNames from "@/utils/classNames";
 import { Carousel } from "@mantine/carousel";
-import {
-  Avatar,
-  Button,
-  Card,
-  HoverCard,
-  Image,
-  Popover,
-  Rating,
-  Text,
-} from "@mantine/core";
-import { IconIcons, IconMessage } from "@tabler/icons-react";
+import { Avatar, Button, Card, Image, Rating, Text } from "@mantine/core";
+import { IconMessage } from "@tabler/icons-react";
 import dayjs from "dayjs";
 import { useState } from "react";
 import Comment from "./Comment";

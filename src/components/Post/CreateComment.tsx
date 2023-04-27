@@ -1,3 +1,4 @@
+import useUserStore from "@/stores/user";
 import { CommentDetail } from "@/types/comment";
 import { trpc } from "@/utils/trpc";
 import { Carousel } from "@mantine/carousel";
@@ -9,12 +10,10 @@ import {
   Textarea,
 } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
+import { User } from "@prisma/client";
 import { IconPhoto, IconSend, IconX } from "@tabler/icons-react";
 import { IKUpload } from "imagekitio-react";
-import { useContext, useEffect, useRef, useState } from "react";
-import { ProfileLayoutContext } from "../Layout/ProfileLayout";
-import { User } from "@prisma/client";
-import useUserStore from "@/stores/user";
+import { useEffect, useRef, useState } from "react";
 
 type Props = {
   postId: number;

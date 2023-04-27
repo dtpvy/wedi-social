@@ -1,9 +1,9 @@
-import { z } from "zod";
-import { authProcedure, publicProcedure, router } from "../trpc";
-import { prisma } from "../prisma";
-import EventEmitter from "events";
 import { Comment } from "@prisma/client";
 import { observable } from "@trpc/server/observable";
+import EventEmitter from "events";
+import { z } from "zod";
+import { prisma } from "../prisma";
+import { authProcedure, router } from "../trpc";
 
 interface MyEvents {
   create: (data: Comment) => void;

@@ -1,13 +1,13 @@
 import { getPlaceList } from "@/api/place";
 import { LocationDetail } from "@/types/location";
-import { Poi, Prediction } from "@/types/place";
+import { Poi } from "@/types/place";
+import { getName } from "@/utils/location";
 import { trpc } from "@/utils/trpc";
 import { Button, Loader, Modal, Popover, TextInput } from "@mantine/core";
 import { useDebouncedState } from "@mantine/hooks";
 import { useState } from "react";
 import { useQuery } from "react-query";
 import LocationSeletion, { LocationSeletionProps } from "./LocationSeletion";
-import { getName } from "@/utils/location";
 
 type Props = {
   opened?: boolean;
