@@ -9,7 +9,7 @@ import {
   IconMessageReport,
 } from "@tabler/icons-react";
 import { useRouter } from "next/router";
-import { useContext, useMemo } from "react";
+import { use, useContext, useMemo } from "react";
 import { ProfileLayoutContext } from "@/components/Layout/ProfileLayout";
 import useUserStore from "@/stores/user";
 import { trpc } from "@/utils/trpc";
@@ -79,7 +79,7 @@ const TabMenu = () => {
   const tabs = useMemo(() => {
     const tabs = { ...TAB_LIST };
     if (!user) return tabs;
-    tabs[TAB_NAME.POSTS].badgeNumber = 10;
+    tabs[TAB_NAME.POSTS].badgeNumber = user.posts.length;
     tabs[TAB_NAME.TRIPS].badgeNumber = 10;
     tabs[TAB_NAME.FRIENDS].badgeNumber = calcFriend(user);
     tabs[TAB_NAME.REQUESTS].badgeNumber = 10;

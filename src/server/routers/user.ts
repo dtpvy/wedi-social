@@ -2,7 +2,7 @@ import { ERROR_MESSAGES } from "@/constants/error";
 import { hash, verify } from "argon2";
 import { z } from "zod";
 import { prisma } from "../prisma";
-import { authedProcedure, publicProcedure, router } from "../trpc";
+import { authProcedure, publicProcedure, router } from "../trpc";
 import { use } from "react";
 
 export const userRouter = router({
@@ -15,9 +15,17 @@ export const userRouter = router({
         where: { id },
         include: {
           posts: true,
-          friends: true,
+          friends: {
+            where: {
+              status: "ACCEPT",
+            },
+          },
           language: true,
-          userFriends: true,
+          userFriends: {
+            where: {
+              status: "ACCEPT",
+            },
+          },
           notification: {
             where: { seen: false },
           },
@@ -58,7 +66,7 @@ export const userRouter = router({
       };
     }),
 
-  updateInfo: authedProcedure
+  updateInfo: authProcedure
     .input(
       z.object({
         email: z.string(),
@@ -78,7 +86,7 @@ export const userRouter = router({
       await prisma.user.update({ where: { id: userId }, data: input });
       return true;
     }),
-  updateImage: authedProcedure
+  updateImage: authProcedure
     .input(
       z.object({ imgUrl: z.string().optional(), bgUrl: z.string().optional() })
     )
@@ -87,14 +95,14 @@ export const userRouter = router({
       await prisma.user.update({ where: { id: userId }, data: input });
       return true;
     }),
-  updateLanguage: authedProcedure
+  updateLanguage: authProcedure
     .input(z.object({ languageId: z.number() }))
     .mutation(async ({ input, ctx }) => {
       const userId = ctx.user.id;
       await prisma.user.update({ where: { id: userId }, data: input });
       return true;
     }),
-  updatePassword: authedProcedure
+  updatePassword: authProcedure
     .input(z.object({ password: z.string(), newPassword: z.string() }))
     .mutation(async ({ input, ctx }) => {
       const userId = ctx.user.id;

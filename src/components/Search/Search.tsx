@@ -201,7 +201,7 @@ const Search = () => {
           </Popover>
 
           <ActionIcon
-            onClick={() => router.push(`/profile/${user?.id}`)}
+            onClick={() => router.push(`/profile/${user?.id}/posts`)}
             radius="xl"
           >
             <Avatar

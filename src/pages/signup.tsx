@@ -1,9 +1,11 @@
 import { Language } from "@/components/Language";
 import { ERROR_MESSAGES } from "@/constants/error";
+import { TRACKING_EVENT, TRACKING_PAGE } from "@/constants/tracking";
 import { trpc } from "@/utils/trpc";
 import { notifications } from "@mantine/notifications";
 import { IconCheck, IconX } from "@tabler/icons-react";
 import Link from "next/link";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 type RegisterForm = {
@@ -15,6 +17,7 @@ type RegisterForm = {
 };
 
 const Signup = () => {
+  const tracking = trpc.tracking.add.useMutation();
   const signup = trpc.user.signup.useMutation();
   const {
     register,
@@ -55,6 +58,14 @@ const Signup = () => {
       }
     }
   };
+
+  useEffect(() => {
+    tracking.mutate({
+      event: TRACKING_EVENT.ENTER_SIGNIN,
+      page: TRACKING_PAGE.SIGNIN,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <section className="bg-gray-50 dark:bg-gray-900">

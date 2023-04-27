@@ -1,12 +1,12 @@
 import { z } from "zod";
 import { prisma } from "../prisma";
-import { adminAuthedProcedure, router } from "../trpc";
+import { adminAuthProcedure, router } from "../trpc";
 import { ERROR_MESSAGES } from "@/constants/error";
 import { UserStatus } from "@prisma/client";
 import { request } from "https";
 
 export const adminRouter = router({
-  adminList: adminAuthedProcedure.query(async () => {
+  adminList: adminAuthProcedure.query(async () => {
     const admin = await prisma.admin.findMany();
 
     return {
@@ -14,7 +14,7 @@ export const adminRouter = router({
       result: admin,
     };
   }),
-  deactive: adminAuthedProcedure
+  deactive: adminAuthProcedure
     .input(
       z.object({
         id: z.number(),
@@ -42,7 +42,7 @@ export const adminRouter = router({
         result: true,
       };
     }),
-  active: adminAuthedProcedure
+  active: adminAuthProcedure
     .input(
       z.object({
         id: z.number(),
@@ -70,7 +70,7 @@ export const adminRouter = router({
         result: true,
       };
     }),
-  userList: adminAuthedProcedure.query(async () => {
+  userList: adminAuthProcedure.query(async () => {
     const users = await prisma.user.findMany({
       include: {
         posts: true,
@@ -82,7 +82,7 @@ export const adminRouter = router({
       result: users,
     };
   }),
-  setUserStatus: adminAuthedProcedure
+  setUserStatus: adminAuthProcedure
     .input(
       z.object({
         id: z.number(),
@@ -113,7 +113,7 @@ export const adminRouter = router({
         result: true,
       };
     }),
-  userDetail: adminAuthedProcedure
+  userDetail: adminAuthProcedure
     .input(
       z.object({
         id: z.number(),
@@ -130,7 +130,7 @@ export const adminRouter = router({
 
       return user;
     }),
-  requestList: adminAuthedProcedure.query(async () => {
+  requestList: adminAuthProcedure.query(async () => {
     const requests = await prisma.request.findMany({
       include: {
         reply: true,
@@ -144,7 +144,7 @@ export const adminRouter = router({
       requests: requests,
     };
   }),
-  requestDetail: adminAuthedProcedure
+  requestDetail: adminAuthProcedure
     .input(
       z.object({
         id: z.number(),
@@ -157,7 +157,7 @@ export const adminRouter = router({
       });
       return request;
     }),
-  replyList: adminAuthedProcedure
+  replyList: adminAuthProcedure
     .input(
       z.object({
         requestId: z.number(),
@@ -171,7 +171,7 @@ export const adminRouter = router({
       });
       return replies;
     }),
-  sendRequestReply: adminAuthedProcedure
+  sendRequestReply: adminAuthProcedure
     .input(
       z.object({
         requestId: z.number(),
@@ -203,7 +203,7 @@ export const adminRouter = router({
         result: true,
       };
     }),
-  deleteReply: adminAuthedProcedure
+  deleteReply: adminAuthProcedure
     .input(
       z.object({
         id: z.number(),
@@ -228,7 +228,7 @@ export const adminRouter = router({
         result: true,
       };
     }),
-  trackingPage: adminAuthedProcedure.input(z.object({})).query(async ({}) => {
+  trackingPage: adminAuthProcedure.input(z.object({})).query(async ({}) => {
     const tracking = await prisma.tracking.groupBy({
       by: ["page"],
       _sum: {

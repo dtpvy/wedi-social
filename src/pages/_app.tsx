@@ -11,30 +11,42 @@ import { Session } from "next-auth";
 import { SessionProvider, getSession } from "next-auth/react";
 import type { AppType } from "next/app";
 
+import "@goongmaps/goong-js/dist/goong-js.css";
+import { APP_URL } from "@/utils/env";
+import { QueryClient, QueryClientProvider } from "react-query";
+
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
   pageProps,
 }) => {
-  const i18n = useLocale();
+  useLocale();
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: { staleTime: 60, refetchOnWindowFocus: false },
+    },
+  });
+
   return (
-    <SessionProvider session={pageProps.session}>
-      <IKContext
-        publicKey="public_xTbc2crb6gXYxB5gtKroms4tWCU="
-        urlEndpoint="https://ik.imagekit.io/0o9nfg6a3"
-        transformationPosition="path"
-        authenticationEndpoint="http://localhost:3000/api/image"
-      >
-        <MantineProvider withNormalizeCSS withGlobalStyles>
-          <ModalsProvider>
-            <Notifications />
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          </ModalsProvider>
-          <Message />
-        </MantineProvider>
-      </IKContext>
-    </SessionProvider>
+    <QueryClientProvider client={queryClient}>
+      <SessionProvider session={pageProps.session}>
+        <IKContext
+          publicKey="public_xTbc2crb6gXYxB5gtKroms4tWCU="
+          urlEndpoint="https://ik.imagekit.io/0o9nfg6a3"
+          transformationPosition="path"
+          authenticationEndpoint={`${APP_URL}/api/image`}
+        >
+          <MantineProvider withNormalizeCSS withGlobalStyles>
+            <ModalsProvider>
+              <Notifications />
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+            </ModalsProvider>
+            <Message />
+          </MantineProvider>
+        </IKContext>
+      </SessionProvider>
+    </QueryClientProvider>
   );
 };
 
