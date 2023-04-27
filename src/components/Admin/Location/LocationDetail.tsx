@@ -11,21 +11,15 @@ import {
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconEdit } from "@tabler/icons-react";
+import { trpc } from "@/utils/trpc";
+import { useRouter } from "next/router";
 
 const LocationDetail = () => {
-  const location = {
-    id: 2,
-    name: "Quán nước 3",
-    review: 2.2,
-    ward: "1",
-    district: "1",
-    city: "HCM",
-    nation: "Vietnam",
-    status: "open",
-    travelType: "Ăn uống",
-    image:
-      "https://images.unsplash.com/photo-1511216335778-7cb8f49fa7a3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80",
-  };
+  const router = useRouter();
+  let id = parseInt(router.query.id as string, 10);
+  let { data: location } = trpc.admin.locationDetail.useQuery({
+    locationId: id,
+  });
   const [locationEditOpened, locationEdit] = useDisclosure(false);
   const [locationDeleteOpened, locationDelete] = useDisclosure(false);
 
@@ -45,20 +39,27 @@ const LocationDetail = () => {
         className="w-8/12 pl-5"
       >
         <Group position="apart">
-          <div>
-            <div className="font-medium text-gray-500">{location.name}</div>
+          <div className="px-3">
+            <div className="font-medium text-gray-500">{location?.name}</div>
             <Text>
               Địa chỉ:{" "}
-              {`${location.ward}, ${location.district}, ${location.city}, ${location.nation}`}
+              {`${location?.street}, ${location?.ward.name}, ${location?.district.name}, ${location?.city.name}, ${location?.country.name}`}
             </Text>
             <Text>
-              Loại hình du lịch:{" "}
-              <span className="font-medium">{location.travelType}</span>
+              Số bài viết đi kèm:{" "}
+              <span className="font-medium">{location?.posts.length}</span>
             </Text>
+            <Text>Hình ảnh: </Text>
           </div>
-          <Badge color="yellow">Review: {location.review}</Badge>
+          <Badge color="green">{location?.status}</Badge>
         </Group>
-        <Image maw={240} radius="md" src={location.image} alt="Random image" />
+        {/* <Image
+          maw={240}
+          radius="md"
+          src={}
+          alt="Random image"
+          className="mx-auto"
+        /> */}
 
         <Modal
           opened={locationEditOpened}
@@ -66,7 +67,7 @@ const LocationDetail = () => {
           title="Chỉnh sửa địa điểm"
         >
           <Text>
-            Điểm du lịch <span className="font-medium">{location.name}</span>
+            Điểm du lịch <span className="font-medium">{location?.name}</span>
           </Text>
           <TextInput label="Tên địa điểm" placeholder="Nhập tên" />
           <TextInput

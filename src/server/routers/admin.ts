@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { prisma } from "../prisma";
+import { Prisma } from "@prisma/client";
 import { adminAuthedProcedure, router } from "../trpc";
 import { ERROR_MESSAGES } from "@/constants/error";
 import { UserStatus } from "@prisma/client";
@@ -229,13 +230,102 @@ export const adminRouter = router({
       };
     }),
   trackingPage: adminAuthedProcedure.input(z.object({})).query(async ({}) => {
-    const tracking = await prisma.tracking.groupBy({
+    const trackingPage = await prisma.tracking.groupBy({
       by: ["page"],
       _sum: {
         amount: true,
       },
     });
-    console.log(tracking);
-    return tracking;
+    const trackingEvent = await prisma.tracking.groupBy({
+      by: ["event"],
+      _sum: {
+        amount: true,
+      },
+    });
+    console.log(trackingPage);
+    return { trackingPage, trackingEvent };
   }),
+  locationList: adminAuthedProcedure.query(async () => {
+    const locations = await prisma.location.findMany({
+      include: {
+        ward: true,
+        district: true,
+        city: true,
+        country: true,
+        posts: true,
+        reviews: true,
+        schedules: true,
+      },
+    });
+    return {
+      status: 200,
+      result: locations,
+    };
+  }),
+  locationDetail: adminAuthedProcedure
+    .input(
+      z.object({
+        locationId: z.number(),
+      })
+    )
+    .query(async ({ input }) => {
+      const location = prisma.location.findUnique({
+        where: { id: input.locationId },
+        include: {
+          ward: true,
+          district: true,
+          city: true,
+          country: true,
+          posts: true,
+        },
+      });
+      return location;
+    }),
+  userPosts: adminAuthedProcedure
+    .input(
+      z.object({
+        userId: z.number(),
+      })
+    )
+    .query(async ({ input }) => {
+      const posts = await prisma.post.findMany({
+        where: {
+          creatorId: input.userId,
+        },
+        include: {
+          reactions: true,
+          comments: true,
+          trips: true,
+          locations: {
+            include: {
+              location: {
+                include: {
+                  district: true,
+                  ward: true,
+                  city: true,
+                  country: true,
+                },
+              },
+            },
+          },
+        },
+      });
+
+      return posts;
+    }),
+  // Recent7DaysPosts: adminAuthedProcedure.query(async () => {
+  //   const currentDate = new Date();
+  //   const lastSevenDays = new Date(
+  //     currentDate.getTime() - 7 * 24 * 60 * 60 * 1000
+  //   );
+  //   type CustomScalarFieldEnum = (typeof Prisma.PostScalarFieldEnum)[] | "date";
+  //   const recentData = await prisma.post.groupBy({
+  //     where: {
+  //       createdAt: {
+  //         gt: lastSevenDays,
+  //       },
+  //     },
+  //   });
+  //   return recentData;
+  // }),
 });

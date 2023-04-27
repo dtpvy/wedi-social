@@ -7,6 +7,7 @@ import { trpc } from "@/utils/trpc";
 import { useRouter } from "next/router";
 import { UserStatus } from "@prisma/client";
 import dayjs from "dayjs";
+
 const UserDetail = () => {
   const [userBanOpened, userBan] = useDisclosure(false);
   const router = useRouter();

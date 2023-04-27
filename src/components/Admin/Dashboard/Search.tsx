@@ -68,7 +68,7 @@ const Search = () => {
   return (
     <div className="flex items-center justify-between px-4 border-b">
       <div className="flex justify-center w-8/12">
-        <Input
+        {/* <Input
           className="w-1/2 "
           icon={<IconSearch />}
           placeholder="Search"
@@ -77,7 +77,7 @@ const Search = () => {
               Tìm kiếm
             </Button>
           }
-        />
+        /> */}
       </div>
 
       <Group position="center">

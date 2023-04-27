@@ -48,7 +48,7 @@ const ComponentBox = ({ props }: Props) => {
         {input3}
       </div>
       {/* <div className="w-2/12">Nội dung</div> */}
-      <div className="w-2/12 ml-1">{day}</div>
+      <div className="w-2/12 ml-1">{type != "location" ? day : input4}</div>
       <div className="w-1/12 mx-3">
         <Badge color={badgeColor()}>
           {status}

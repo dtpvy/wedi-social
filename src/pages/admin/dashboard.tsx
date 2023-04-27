@@ -1,20 +1,44 @@
 import { Admin, Header } from "@/components/Admin/Dashboard";
 import { trpc } from "@/utils/trpc";
 import { Divider, Loader, Text } from "@mantine/core";
-import { Bar, BarChart, ResponsiveContainer } from "recharts";
+import dayjs from "dayjs";
+import {
+  Bar,
+  BarChart,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  CartesianAxis,
+  Tooltip,
+  PieChart,
+  Pie,
+  Legend,
+  Cell,
+  Line,
+  LineChart,
+} from "recharts";
 
 const Dashboard = () => {
   const { data, isLoading, refetch } = trpc.admin.adminList.useQuery();
   const user = trpc.admin.userList.useQuery();
+  // const {data:recentPostData} = trpc.admin.Recent7DaysPosts.useQuery();
+  // const postData = recentPostData?.map((day)=>({
+  //   day:dayjs(day.createdAt)
 
+  // }))
   const { data: tracking } = trpc.admin.trackingPage.useQuery({});
 
-  const _data = (tracking || []).map((d) => ({
+  const _data = (tracking?.trackingPage || []).map((d) => ({
     name: d.page,
+    sum: d._sum.amount,
+  }));
+  const event_data = (tracking?.trackingEvent || []).map((d) => ({
+    name: d.event,
     sum: d._sum.amount,
   }));
   console.log({ _data });
 
+  const COLORS = ["#0088FE", "#00C49F"];
   return (
     <div>
       <Text size="xl" className="px-4 ml-8 pt-3 font-semibold">
@@ -22,10 +46,70 @@ const Dashboard = () => {
       </Text>
       <Header />
       <Divider my="sm" />
-      <div>
-        <BarChart width={150} height={40} data={_data}>
+      <div className="flex justify-around">
+        <BarChart width={400} height={300} data={_data}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" />
+          <YAxis />
+          <Tooltip />
           <Bar dataKey="sum" fill="#8884d8" />
+          <text
+            x="60%"
+            y="300"
+            textAnchor="middle"
+            fontWeight="bold"
+            fontSize={16}
+          >
+            My Chart Title
+          </text>
         </BarChart>
+        <PieChart width={400} height={400}>
+          <Pie
+            data={event_data}
+            dataKey="sum"
+            nameKey="name"
+            cx="40%"
+            cy="40%"
+            outerRadius={100}
+            fill="#8884d8"
+            label
+          >
+            {event_data.map((entry, index) => (
+              <Cell
+                key={`cell-${index}`}
+                fill={COLORS[index % COLORS.length]}
+              />
+            ))}
+          </Pie>
+          <Tooltip />
+          <text
+            x="50%"
+            y="300"
+            textAnchor="middle"
+            fontWeight="bold"
+            fontSize={16}
+          >
+            My Chart Title
+          </text>
+          <Legend
+            verticalAlign="middle"
+            align="right"
+            layout="vertical"
+            wrapperStyle={{
+              paddingRight: "10px",
+            }}
+          />
+        </PieChart>
+      </div>
+      <div>
+        <LineChart width={600} height={300} data={_data}>
+          <Line type="monotone" dataKey="value" stroke="#8884d8" />
+          <CartesianGrid stroke="#ccc" />
+          <XAxis dataKey="name" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+        </LineChart>
       </div>
       <Text size="xl" className="relative px-4 ml-8 pt-3 font-semibold">
         Danh sách Admin:

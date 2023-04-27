@@ -3,48 +3,51 @@ import { Button, Modal, Text, Divider, Select, TextInput } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconSquarePlus } from "@tabler/icons-react";
 import ComponentBox from "../ComponentBox";
+import { trpc } from "@/utils/trpc";
+
 const LocationList = () => {
-  const locations = [
-    {
-      id: 1,
-      name: "Quán ăn 1",
-      review: 3.5,
-      ward: "1",
-      district: "1",
-      city: "HCM",
-      nation: "Vietnam",
-      status: "open",
-      travelType: "Ăn uống",
-      image:
-        "https://images.unsplash.com/photo-1511216335778-7cb8f49fa7a3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80",
-    },
-    {
-      id: 3,
-      name: "Quán lẩu 2",
-      review: 4,
-      ward: "1",
-      district: "1",
-      city: "HCM",
-      nation: "Vietnam",
-      status: "open",
-      travelType: "Ăn uống",
-      image:
-        "https://images.unsplash.com/photo-1511216335778-7cb8f49fa7a3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80",
-    },
-    {
-      id: 2,
-      name: "Quán nước 3",
-      review: 2.2,
-      ward: "1",
-      district: "1",
-      city: "HCM",
-      nation: "Vietnam",
-      status: "open",
-      travelType: "Ăn uống",
-      image:
-        "https://images.unsplash.com/photo-1511216335778-7cb8f49fa7a3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80",
-    },
-  ];
+  const { data: locations } = trpc.admin.locationList.useQuery();
+  // const locations = [
+  //   {
+  //     id: 1,
+  //     name: "Quán ăn 1",
+  //     review: 3.5,
+  //     ward: "1",
+  //     district: "1",
+  //     city: "HCM",
+  //     nation: "Vietnam",
+  //     status: "open",
+  //     travelType: "Ăn uống",
+  //     image:
+  //       "https://images.unsplash.com/photo-1511216335778-7cb8f49fa7a3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80",
+  //   },
+  //   {
+  //     id: 3,
+  //     name: "Quán lẩu 2",
+  //     review: 4,
+  //     ward: "1",
+  //     district: "1",
+  //     city: "HCM",
+  //     nation: "Vietnam",
+  //     status: "open",
+  //     travelType: "Ăn uống",
+  //     image:
+  //       "https://images.unsplash.com/photo-1511216335778-7cb8f49fa7a3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80",
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "Quán nước 3",
+  //     review: 2.2,
+  //     ward: "1",
+  //     district: "1",
+  //     city: "HCM",
+  //     nation: "Vietnam",
+  //     status: "open",
+  //     travelType: "Ăn uống",
+  //     image:
+  //       "https://images.unsplash.com/photo-1511216335778-7cb8f49fa7a3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80",
+  //   },
+  // ];
 
   const [addLocationOpened, addLocation] = useDisclosure(false);
 
@@ -89,7 +92,7 @@ const LocationList = () => {
         <Text size="xl" className="px-4 ml-8 pt-3 font-semibold">
           Danh sách các địa điểm du lịch:
         </Text>
-        <Button
+        {/* <Button
           variant="default"
           color="blue"
           mt="md"
@@ -98,7 +101,7 @@ const LocationList = () => {
           leftIcon={<IconSquarePlus size="1rem" />}
         >
           thêm địa điểm
-        </Button>
+        </Button> */}
       </div>
       <Divider my="sm" variant="dotted" />
 
@@ -108,19 +111,19 @@ const LocationList = () => {
           <p className="w-3/12">Tên</p>
           <p className="w-3/12 pl-2">Địa chỉ</p>
           {/* <p className="w-2/12">Nội dung</p> */}
-          <p className="w-2/12">Loại hình du lịch</p>
+          <p className="w-2/12">Số bài viết đánh giá</p>
           <p className="w-1/12 mx-3">Trình trạng</p>
           <p className="w-1/12"></p>
         </div>
 
-        {locations.map((location) => (
+        {locations?.result.map((location) => (
           <div key={location.id}>
             <ComponentBox
               props={{
                 id: location.id,
                 input2: location.name,
-                input3: `${location.ward}, ${location.district}, ${location.city}, ${location.nation}`,
-                input4: location.travelType,
+                input3: `${location.ward.name}, ${location.district.name}, ${location.city.name}, ${location.country.name}`,
+                input4: location.posts.length,
                 status: location.status,
                 type: "location",
               }}
