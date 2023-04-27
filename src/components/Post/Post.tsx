@@ -2,21 +2,22 @@ import { PostDetail } from "@/types/post";
 import classNames from "@/utils/classNames";
 import { Carousel } from "@mantine/carousel";
 import {
-  ActionIcon,
   Avatar,
   Button,
   Card,
+  HoverCard,
   Image,
+  Popover,
   Rating,
   Text,
 } from "@mantine/core";
-import { IconDots, IconIcons, IconMessage } from "@tabler/icons-react";
+import { IconIcons, IconMessage } from "@tabler/icons-react";
 import dayjs from "dayjs";
 import { useState } from "react";
 import Comment from "./Comment";
 import CreateComment from "./CreateComment";
-import Reaction from "./Reaction";
 import PostAction from "./PostAction";
+import Reaction from "./Reaction";
 
 type Props = {
   post: PostDetail;
@@ -26,8 +27,16 @@ type Props = {
 
 const Post = ({ post, className, refetch }: Props) => {
   const [opened, setOpened] = useState(false);
-  const { creator, createdAt, content, _count, imgUrls, locations, reviews } =
-    post;
+  const {
+    creator,
+    createdAt,
+    content,
+    _count,
+    imgUrls,
+    locations,
+    reviews,
+    reactions,
+  } = post;
 
   return (
     <div
@@ -120,23 +129,28 @@ const Post = ({ post, className, refetch }: Props) => {
         </Text>
       </Card>
       <div className="flex items-center gap-4 mt-4">
+        <Reaction post={post} refetch={refetch} />
+
         <Button
-          onMouseLeave={() => setOpened(false)}
-          onMouseMove={() => setOpened(true)}
+          onClick={() => setOpened(!opened)}
           variant="white"
-          leftIcon={<IconIcons />}
+          leftIcon={<IconMessage />}
           color="dark"
-          className="relative"
         >
-          {_count.reactions}
-          {opened && <Reaction />}
-        </Button>
-        <Button variant="white" leftIcon={<IconMessage />} color="dark">
           {_count.comments}
         </Button>
       </div>
-      <div className="p-3 mt-3 shadow border rounded">
-        <CreateComment postId={post.id} onCreate={refetch} />
+
+      <div
+        className={classNames("p-3 mt-3 shadow border rounded", {
+          hidden: !opened,
+        })}
+      >
+        <CreateComment
+          postId={post.id}
+          onCreate={refetch}
+          creator={post.creator}
+        />
         <div className="mt-3 flex flex-col gap-3">
           <Comment
             postId={post.id}

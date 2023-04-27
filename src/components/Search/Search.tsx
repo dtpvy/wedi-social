@@ -1,10 +1,11 @@
+import { LanguageConfig } from "@/constants/default";
+import useTranslation from "@/hooks/useTranslation";
 import useUserStore from "@/stores/user";
 import { trpc } from "@/utils/trpc";
 import {
   ActionIcon,
   Avatar,
   Badge,
-  Box,
   Button,
   Image,
   Input,
@@ -20,18 +21,15 @@ import {
 } from "@tabler/icons-react";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/router";
-import { useMemo, useState, useTransition } from "react";
+import { useMemo, useState } from "react";
 import Message from "./Message";
 import Notification from "./Notification";
-import { LanguageConfig } from "@/constants/default";
-import useTranslator from "@/stores/translator";
-import useTranslation from "@/hooks/useTranslation";
 
 const Search = () => {
   const router = useRouter();
   const utils = trpc.useContext();
   const { t, locale: language } = useTranslation();
-  const [see, setSee] = useState({ noti: false, mess: false });
+
   const [opened, setOpened] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -46,16 +44,12 @@ const Search = () => {
   }, [user]);
 
   const handleSeeAll = () => {
-    if (see.noti) return;
     user?.notification.length && seeAll.mutate({});
-    setSee((prev) => ({ ...prev, noti: true }));
     utils.user.findUser.refetch();
   };
 
   const handleSeeAllMess = () => {
-    if (see.mess) return;
     mess?.length && seeAllMess.mutate({});
-    setSee((prev) => ({ ...prev, mess: true }));
     utils.user.findUser.refetch();
   };
 

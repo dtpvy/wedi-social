@@ -63,6 +63,10 @@ export const commentRouter = router({
       const take = input.take ?? 10;
       const cursor = input.cursor;
 
+      const reactions = await prisma.reaction.findMany({
+        orderBy: { id: "asc" },
+      });
+
       const items = await prisma.comment.findMany({
         where: {
           userId: ctx.user.id,
@@ -81,8 +85,25 @@ export const commentRouter = router({
               reaction: true,
             },
           },
+          _count: {
+            select: { reactions: true },
+          },
         },
       });
+
+      const countReaction = await Promise.all(
+        items.map(async (d) => {
+          const reaction = await Promise.all(
+            reactions.map(async (react) => {
+              const data = await prisma.commentReaction.count({
+                where: { reactionId: react.id, commentId: d.id },
+              });
+              return { ...react, count: data };
+            })
+          );
+          return { ...d, reaction };
+        })
+      );
 
       let nextCursor: typeof cursor | undefined = undefined;
       if (items.length > take) {
@@ -90,7 +111,7 @@ export const commentRouter = router({
         nextCursor = nextItem!.id;
       }
       return {
-        items,
+        items: countReaction,
         nextCursor,
       };
     }),

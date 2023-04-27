@@ -45,6 +45,7 @@ const Request = ({ user, status, friendId }: Props) => {
       await addNoti.mutateAsync({
         content: "Lời mời kết bạn của bạn đã được chấp nhận",
         userId,
+        imgUrl: user.imgUrl || "",
       });
       notifications.show({
         message: `Action successfully`,

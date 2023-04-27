@@ -27,10 +27,8 @@ const ModalLocation = ({
   const [street, setStreet] = useDebouncedState("", 500);
 
   const { data, isLoading } = useQuery({
-    queryKey: ["getPlaceList"],
-    queryFn: () => {
-      return getPlaceList(street);
-    },
+    queryKey: ["getPlaceList", street],
+    queryFn: () => getPlaceList(street),
     enabled: !!street,
   });
 
@@ -70,7 +68,11 @@ const ModalLocation = ({
             />
           </Popover.Target>
           <Popover.Dropdown className="min-h-[100px] max-h-[200px] overflow-auto px-0 py-1 cursor-pointer">
-            {isLoading && <Loader />}
+            {isLoading && (
+              <div className="text-center">
+                <Loader className="" />
+              </div>
+            )}
             {data?.result.poi.map((place) => (
               <div
                 key={place.hash}
@@ -96,13 +98,6 @@ const ModalLocation = ({
           locations={locations}
           onDeleteLocation={onDeleteLocation}
         />
-        {/* <MapGL
-        {...viewport}
-        width="100%"
-        height="300px"
-        onViewportChange={setViewport}
-        goongApiAccessToken={GOONG_MAPTILES_KEY}
-      /> */}
 
         <div className="flex justify-end gap-2">
           <Button onClick={onClose} color="red">
