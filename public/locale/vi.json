@@ -10,7 +10,7 @@
   "signupTitleText": "Tạo tài khoản",
   "acceptWithText": "Tôi đồng ý với",
   "acceptTermsText": "điều khoản dịch vụ",
-  "signupText": "Đã có tài khoản?",
+  "signupText": "Đăng ký tại đây",
   "intoSigninText": "Đăng nhập tại đây",
   "tripText": "Chuyến đi",
   "messageText": "bạn có {{n}} tin nhắn",
@@ -67,5 +67,24 @@
   "notifsuccessText": "Tạo yêu cầu thành công",
   "statusresponseText": "Chưa có phản hồi",
   "vietnamText": "Tiếng Việt",
-  "englishText": "Tiếng Anh"
+  "englishText": "Tiếng Anh",
+
+  "errorText": "Có lỗi xảy ra. Vui lòng thử lại",
+  "oldestText" : "Từ đầu",
+  "noaccessText" : "Bạn không có quyền vô trang này",
+  "nameText" : "Tên",
+  "countryText" : "Quốc gia",
+  "cityText" : "Thành phố",
+  "districtText" :"Quận",
+  "wardText" : "Huyện",
+  "streetText" :"Đường",
+  "languageText" : "Ngôn ngữ",
+  "updateText" : "Cập nhật",
+  "changepasswordText" : "Đổi mật khẩu",
+  "changeavatarText" : "Đổi hình đại diện",
+  "changebackgroundText" : "Đổi hình nền",
+  "lasteditText" : "Lần cuối chỉnh sửa",
+  "allText" :"Tất cả"
+  
+
 }

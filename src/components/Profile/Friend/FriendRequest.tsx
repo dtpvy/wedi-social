@@ -1,6 +1,7 @@
 import { trpc } from "@/utils/trpc";
 import { Drawer, Loader } from "@mantine/core";
 import Request from "./Request";
+import useTranslation from "@/hooks/useTranslation"; 
 
 type Props = {
   opened?: boolean;
@@ -12,13 +13,14 @@ const FriendRequest = ({ opened = false, owner, onClose }: Props) => {
   const { data, isLoading } = trpc.friend.requestList.useQuery({
     owner,
   });
+  const { t } = useTranslation();
 
   return (
     <Drawer
       position="right"
       opened={opened}
       onClose={onClose}
-      title="Friend Requests"
+      title= {t("friendrequestText")}
     >
       {isLoading && <Loader />}
       {data?.map((request) => (

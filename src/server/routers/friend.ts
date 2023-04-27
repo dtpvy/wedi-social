@@ -4,6 +4,7 @@ import { z } from "zod";
 import { prisma } from "../prisma";
 import { authProcedure, router } from "../trpc";
 import { Friend, User } from "@prisma/client";
+import useTranslation from "@/hooks/useTranslation"; 
 
 export const friendRouter = router({
   add: authProcedure
@@ -14,7 +15,7 @@ export const friendRouter = router({
       const request = await prisma.friend.findFirst({
         where: { userId: id, friendId: userId },
       });
-
+      const { t } = useTranslation();
       if (
         request?.status === "REJECT" &&
         dayjs().diff(request.updatedAt, "days") < 1
@@ -27,7 +28,7 @@ export const friendRouter = router({
       }
 
       const data = await prisma.friend.create({
-        data: { userId: id, friendId: userId, status: "PENDING" },
+        data: { userId: id, friendId: userId, status: 'PENDING' },
       });
 
       return {

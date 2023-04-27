@@ -47,7 +47,7 @@
   "sentrequestText": "Sent request",
   "acceptText": "Accept",
   "rejectText": "Reject",
-  "pendingText": "Pending",
+  "pendingText": "PENDING ne",
   "acceptedText": "Accepted",
   "rejectedText": "Rejected",
   "addsuccessText": "Action success",
@@ -67,5 +67,23 @@
   "notifsuccessText": "Create successfully",
   "statusresponseText": "Haven't responsed yet",
   "vietnamText": "Vietnamese",
-  "englishText": "English"
+  "englishText": "English",
+
+  "errorText" : "Error,please try again",
+  "oldestText" : "Oldest",
+  "noaccessText" : "You can't access this page",
+  "nameText" : "Name",
+  "countryText" : "Country",
+  "cityText" : "City",
+  "districtText" :"District",
+  "wardText" : "Ward",
+  "streetText" : "Street",
+  "languageText" : "Language",
+  "updateText" : "Update",
+  "changepasswordText" : "Change password",
+  "changeavatarText" : "Change Avatar",
+  "changebackgroundText" : "Change background ",
+  "lasteditText" : "Last edited",
+  "allText" : "All"
+
 }

@@ -10,10 +10,10 @@ import {
 } from "@tabler/icons-react";
 import dayjs from "dayjs";
 import { useContext } from "react";
-
+import useTranslation from "@/hooks/useTranslation"; 
 const Header = () => {
   const { data: user } = useContext(ProfileLayoutContext) || {};
-
+  const { t } = useTranslation();
   if (!user) {
     return <Loader />;
   }
@@ -42,11 +42,11 @@ const Header = () => {
         <div className="flex gap-3 flex-1">
           <div>
             <span className="font-bold mr-2">{user.posts.length}</span>
-            <span className="text-gray-400">posts</span>
+            <span className="text-gray-400">{t("postText")}</span>
           </div>
           <div>
             <span className="font-bold mr-2">{calcFriend(user)}</span>
-            <span className="text-gray-400">friends</span>
+            <span className="text-gray-400">{t("friendText")}</span>
           </div>
         </div>
         <div className="flex gap-3 items-center text-gray-400 text-center flex-1 justify-center">

@@ -6,6 +6,7 @@ import { IconCheck, IconX } from "@tabler/icons-react";
 import { useSession } from "next-auth/react";
 import React from "react";
 
+import useTranslation from "@/hooks/useTranslation"; 
 type Props = {
   user: User;
   friendId: number;
@@ -24,7 +25,7 @@ const Request = ({ user, status, friendId }: Props) => {
     try {
       await reject.mutateAsync({ userId, friendId });
       notifications.show({
-        message: `Action successfully`,
+        message: t("addsuccessText"),
         color: "green",
         icon: <IconCheck />,
       });
@@ -32,7 +33,7 @@ const Request = ({ user, status, friendId }: Props) => {
       utils.friend.requestList.refetch();
     } catch (e: any) {
       notifications.show({
-        message: "Có lỗi xảy ra. Vui lòng thử lại",
+        message: t("errorText"),
         color: "red",
         icon: <IconX />,
       });
@@ -41,13 +42,14 @@ const Request = ({ user, status, friendId }: Props) => {
 
   const handleAccept = async () => {
     try {
+      
       await accept.mutateAsync({ userId, friendId });
       await addNoti.mutateAsync({
-        content: "Lời mời kết bạn của bạn đã được chấp nhận",
+        content: "ERROR ?!?",
         userId,
       });
       notifications.show({
-        message: `Action successfully`,
+        message: t("addsuccessText"),
         color: "green",
         icon: <IconCheck />,
       });
@@ -56,13 +58,13 @@ const Request = ({ user, status, friendId }: Props) => {
     } catch (e: any) {
       console.log(e);
       notifications.show({
-        message: "Có lỗi xảy ra. Vui lòng thử lại",
+        message: t("errorText"),
         color: "red",
         icon: <IconX />,
       });
     }
   };
-
+  const { t } = useTranslation();
   return (
     <div className="flex gap-2 items-center border-t p-2">
       <Avatar radius="xl" src={user.imgUrl} />
@@ -73,10 +75,10 @@ const Request = ({ user, status, friendId }: Props) => {
       {friendId === session?.user.id && (
         <>
           <Button onClick={handleAccept} variant="outline" color="green">
-            Accept
+            {t("acceptText")}
           </Button>
           <Button onClick={handleReject} color="green">
-            Reject
+            {t("rejectText")}
           </Button>
         </>
       )}
