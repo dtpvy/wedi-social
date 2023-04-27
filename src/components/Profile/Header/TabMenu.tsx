@@ -70,6 +70,7 @@ const TabMenu = () => {
       await addNoti.mutateAsync({
         content: "Có người muốn kết bạn với bạn",
         userId: profile.id,
+        imgUrl: profile.imgUrl || "",
       });
     } catch (e) {
       console.log(e);

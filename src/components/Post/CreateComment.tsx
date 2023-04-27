@@ -1,3 +1,4 @@
+import useUserStore from "@/stores/user";
 import { CommentDetail } from "@/types/comment";
 import { trpc } from "@/utils/trpc";
 import { Carousel } from "@mantine/carousel";
@@ -9,13 +10,14 @@ import {
   Textarea,
 } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
+import { User } from "@prisma/client";
 import { IconPhoto, IconSend, IconX } from "@tabler/icons-react";
 import { IKUpload } from "imagekitio-react";
-import { useContext, useEffect, useRef, useState } from "react";
-import { ProfileLayoutContext } from "../Layout/ProfileLayout";
+import { useEffect, useRef, useState } from "react";
 
 type Props = {
   postId: number;
+  creator?: User;
   comment?: CommentDetail;
   onCancel?: () => void;
   onUpdate?: (comment: CommentDetail) => void;
@@ -24,12 +26,13 @@ type Props = {
 
 const CreateComment = ({
   postId,
+  creator,
   comment,
   onCancel,
   onUpdate,
   onCreate,
 }: Props) => {
-  const { data: profile } = useContext(ProfileLayoutContext) || {};
+  const user = useUserStore((state) => state.user);
   const uploadRef = useRef<HTMLInputElement>(null);
   const utils = trpc.useContext();
 
@@ -59,10 +62,13 @@ const CreateComment = ({
     try {
       if (!comment) {
         await create.mutateAsync({ postId, imgUrls, content });
-        await addNoti.mutateAsync({
-          content: "Vừa mới bình luận vào bài viết của bạn",
-          userId: profile?.id as number,
-        });
+        if (creator) {
+          await addNoti.mutateAsync({
+            content: "Vừa mới bình luận vào bài viết của bạn",
+            userId: creator.id,
+            imgUrl: creator.imgUrl || "",
+          });
+        }
         utils.user.findUser.refetch();
         onCreate && onCreate();
       } else {
@@ -78,7 +84,7 @@ const CreateComment = ({
 
   return (
     <div className="flex gap-3">
-      <Avatar radius="xl" />
+      <Avatar radius="xl" src={user?.imgUrl || ""} />
       <div className="flex flex-col gap-1 flex-1">
         <div className="flex gap-3">
           <Textarea

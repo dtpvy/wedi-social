@@ -9,6 +9,7 @@ import { IconCheck, IconX } from "@tabler/icons-react";
 import dayjs from "dayjs";
 import { useCallback, useEffect, useState } from "react";
 import CreateComment from "./CreateComment";
+import Reaction from "./Reaction";
 
 type Props = {
   postId: number;
@@ -21,7 +22,7 @@ const Comment = ({ postId, creatorId, refetch }: Props) => {
   const [commentId, setCommentId] = useState<number>();
 
   const query = trpc.comment.infinite.useInfiniteQuery(
-    { postId, take: 5 },
+    { postId, take: 3 },
     {
       getNextPageParam: (d) => d.nextCursor,
     }
@@ -112,6 +113,7 @@ const Comment = ({ postId, creatorId, refetch }: Props) => {
           <div key={comment.id} className="flex gap-3">
             <Avatar radius="xl" />
             <div className="flex-1 flex flex-col gap-2">
+              <div className="font-bold">{comment.user?.name}</div>
               <div className="rounded bg-gray-100 w-full p-3">
                 {comment.content}
               </div>
@@ -136,6 +138,7 @@ const Comment = ({ postId, creatorId, refetch }: Props) => {
                 <div className="text-gray-600 text-sm">
                   {dayjs(comment.createdAt).format("DD/MM/YYYY HH:mm")}
                 </div>
+                <Reaction comment={comment} refetch={query.refetch} />
                 {(user?.id === comment.userId ||
                   creatorId === comment.userId) && (
                   <>
@@ -171,7 +174,12 @@ const Comment = ({ postId, creatorId, refetch }: Props) => {
         )
       )}
       {hasNextPage && (
-        <div className="text-center underline text-green-600">Xem thêm</div>
+        <div
+          onClick={() => query.fetchNextPage()}
+          className="text-center underline text-green-600 cursor-pointer"
+        >
+          Xem thêm
+        </div>
       )}
     </div>
   );

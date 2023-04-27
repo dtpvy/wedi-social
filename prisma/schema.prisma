@@ -329,6 +329,7 @@ model Message {
 model Notification {
     id        Int      @id @default(autoincrement())
     content   String
+    imgUrl    String?  @db.VarChar(255)
     link      String?  @db.VarChar(255)
     actorId   Int
     userId    Int

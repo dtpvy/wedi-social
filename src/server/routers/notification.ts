@@ -28,6 +28,7 @@ export const notificationRouter = router({
       z.object({
         content: z.string(),
         link: z.string().optional(),
+        imgUrl: z.string(),
         userId: z.number(),
       })
     )

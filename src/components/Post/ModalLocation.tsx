@@ -1,13 +1,13 @@
 import { getPlaceList } from "@/api/place";
 import { LocationDetail } from "@/types/location";
-import { Poi, Prediction } from "@/types/place";
+import { Poi } from "@/types/place";
+import { getName } from "@/utils/location";
 import { trpc } from "@/utils/trpc";
 import { Button, Loader, Modal, Popover, TextInput } from "@mantine/core";
 import { useDebouncedState } from "@mantine/hooks";
 import { useState } from "react";
 import { useQuery } from "react-query";
 import LocationSeletion, { LocationSeletionProps } from "./LocationSeletion";
-import { getName } from "@/utils/location";
 
 type Props = {
   opened?: boolean;
@@ -27,10 +27,8 @@ const ModalLocation = ({
   const [street, setStreet] = useDebouncedState("", 500);
 
   const { data, isLoading } = useQuery({
-    queryKey: ["getPlaceList"],
-    queryFn: () => {
-      return getPlaceList(street);
-    },
+    queryKey: ["getPlaceList", street],
+    queryFn: () => getPlaceList(street),
     enabled: !!street,
   });
 
@@ -70,7 +68,11 @@ const ModalLocation = ({
             />
           </Popover.Target>
           <Popover.Dropdown className="min-h-[100px] max-h-[200px] overflow-auto px-0 py-1 cursor-pointer">
-            {isLoading && <Loader />}
+            {isLoading && (
+              <div className="text-center">
+                <Loader className="" />
+              </div>
+            )}
             {data?.result.poi.map((place) => (
               <div
                 key={place.hash}
@@ -96,13 +98,6 @@ const ModalLocation = ({
           locations={locations}
           onDeleteLocation={onDeleteLocation}
         />
-        {/* <MapGL
-        {...viewport}
-        width="100%"
-        height="300px"
-        onViewportChange={setViewport}
-        goongApiAccessToken={GOONG_MAPTILES_KEY}
-      /> */}
 
         <div className="flex justify-end gap-2">
           <Button onClick={onClose} color="red">

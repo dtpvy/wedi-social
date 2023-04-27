@@ -26,6 +26,8 @@ const ProfileLayout = ({ children, className }: Props) => {
     id: +(id as string),
   });
 
+  console.log(data);
+
   if (isLoading) {
     return (
       <Loader className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
