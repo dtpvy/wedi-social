@@ -2,18 +2,39 @@ import { PostDetail } from "@/types/post";
 import classNames from "@/utils/classNames";
 import { Carousel } from "@mantine/carousel";
 import { Avatar, Button, Card, Image, Rating, Text } from "@mantine/core";
-import { IconMessage } from "@tabler/icons-react";
+import {
+  IconEyeCog,
+  IconLockSquare,
+  IconMessage,
+  IconWorld,
+} from "@tabler/icons-react";
 import dayjs from "dayjs";
 import { useState } from "react";
 import Comment from "./Comment";
 import CreateComment from "./CreateComment";
 import PostAction from "./PostAction";
 import Reaction from "./Reaction";
+import { Privacy } from "@prisma/client";
 
 type Props = {
   post: PostDetail;
   className?: string;
   refetch: () => void;
+};
+
+const PrivacyConfig = {
+  [Privacy.PUBLIC]: {
+    icon: <IconWorld />,
+    text: "publicText",
+  },
+  [Privacy.FRIEND]: {
+    icon: <IconEyeCog />,
+    text: "friendText",
+  },
+  [Privacy.PRIVATE]: {
+    icon: <IconLockSquare />,
+    text: "privateText",
+  },
 };
 
 const Post = ({ post, className, refetch }: Props) => {
@@ -26,7 +47,7 @@ const Post = ({ post, className, refetch }: Props) => {
     imgUrls,
     locations,
     reviews,
-    reactions,
+    privacy,
   } = post;
 
   return (
@@ -37,8 +58,12 @@ const Post = ({ post, className, refetch }: Props) => {
         <Avatar radius="xl" src={creator.imgUrl} />
         <div className="mr-auto">
           <div className="font-medium">{creator.name}</div>
-          <div className="text-sm text-gray-400">
-            {dayjs(createdAt).format("DD-MM-YYYY HH:mm")}
+          <div className="text-sm text-gray-400 flex items-center">
+            {PrivacyConfig[privacy].icon}
+            <div className="ml-1 mr-4">{PrivacyConfig[privacy].text}</div>
+            <div className="font-medium">
+              {dayjs(createdAt).format("DD-MM-YYYY HH:mm")}
+            </div>
           </div>
         </div>
         <PostAction post={post} refetch={refetch} />

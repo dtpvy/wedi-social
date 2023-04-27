@@ -73,7 +73,7 @@ const Search = () => {
           onClick={() => router.push("/feed")}
           className="flex items-center bg-white"
         >
-          <Image src="/logo.png" alt="logo" width={70} height={70} />
+          <Image src="/logo.png" alt="logo" width={60} height={60} />
           <div className="font-bold uppercase text-green-700 text-2xl">
             wedi
           </div>
