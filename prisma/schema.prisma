@@ -24,6 +24,7 @@ enum LocationStatus {
 
 enum TripStatus {
     SCHEDULE
+    INPROGRESS
     DONE
 }
 
@@ -219,7 +220,7 @@ model Post {
     updatedAt DateTime  @updatedAt
     deletedAt DateTime?
 
-    trips   Trip? @relation(fields: [tripId], references: [id])
+    trip    Trip? @relation(fields: [tripId], references: [id])
     creator User  @relation(fields: [creatorId], references: [id])
 
     reactions PostReaction[]
@@ -252,19 +253,21 @@ model Trip {
     id        Int        @id @default(autoincrement())
     name      String     @db.VarChar(255)
     imgUrl    String     @db.VarChar(255)
+    bgUrl     String?    @db.VarChar(255)
     status    TripStatus @default(SCHEDULE)
     creatorId Int
     startDate DateTime
+    endDate   DateTime?
     privacy   Privacy
     isDeleted Boolean    @default(false)
     createdAt DateTime   @default(now())
     updatedAt DateTime   @updatedAt
     deletedAt DateTime?
 
-    posts    Post[]
-    users    JoinTrip[]
-    creator  User       @relation(fields: [creatorId], references: [id])
-    Schedule Schedule[]
+    posts     Post[]
+    users     JoinTrip[]
+    creator   User       @relation(fields: [creatorId], references: [id])
+    schedules Schedule[]
 }
 
 model JoinTrip {
@@ -303,11 +306,11 @@ model Schedule {
 }
 
 model JoinSchedule {
-    userId     Int
-    scheduleId Int
-    remindTime DateTime?
-    user       User      @relation(fields: [userId], references: [id])
-    schedule   Schedule  @relation(fields: [scheduleId], references: [id])
+    userId       Int
+    scheduleId   Int
+    reminderTime DateTime?
+    user         User      @relation(fields: [userId], references: [id])
+    schedule     Schedule  @relation(fields: [scheduleId], references: [id])
 
     @@id([userId, scheduleId])
 }

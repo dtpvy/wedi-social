@@ -1,9 +1,9 @@
-import useTranslator from "@/stores/translator";
-import useUserStore from "@/stores/user";
-import { trpc } from "@/utils/trpc";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
+import useTranslator from '@/stores/translator';
+import useUserStore from '@/stores/user';
+import { trpc } from '@/utils/trpc';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
 const useAuth = () => {
   const router = useRouter();
@@ -24,30 +24,25 @@ const useAuth = () => {
   }, [setUser, status, user]);
 
   useEffect(() => {
-    setLocale((user?.language?.code as "vi" | "en") || "vi");
+    setLocale((user?.language?.code as 'vi' | 'en') || 'vi');
   }, [setLocale, user?.language?.code]);
 
-  if (status !== "loading") {
-    const adminPage = router.asPath.split("/")[1] === "admin";
-    const authPage =
-      router.asPath.includes("signin") || router.asPath.includes("signup");
+  if (status !== 'loading') {
+    const adminPage = router.asPath.split('/')[1] === 'admin';
+    const authPage = router.asPath.includes('signin') || router.asPath.includes('signup');
 
-    const indexPage = router.asPath === "/";
+    const indexPage = router.asPath === '/';
 
     if (indexPage && data?.user.id) {
-      router.push("/feed");
+      router.push('/feed');
     }
 
     if (data?.user && authPage) {
-      router.push(data.user.isAdmin ? "/admin/dashboard" : "/feed");
+      router.push(data.user.isAdmin ? '/admin/dashboard' : '/feed');
     }
 
-    if (
-      (!data?.user || (adminPage && !data.user.isAdmin)) &&
-      !indexPage &&
-      !authPage
-    ) {
-      router.push("/");
+    if ((!data?.user || (adminPage && !data.user.isAdmin)) && !indexPage && !authPage) {
+      router.push('/');
     }
   }
 

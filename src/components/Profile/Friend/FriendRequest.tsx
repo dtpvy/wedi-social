@@ -1,6 +1,6 @@
-import { trpc } from "@/utils/trpc";
-import { Drawer, Loader } from "@mantine/core";
-import Request from "./Request";
+import { trpc } from '@/utils/trpc';
+import { Drawer, Loader } from '@mantine/core';
+import Request from './Request';
 
 type Props = {
   opened?: boolean;
@@ -14,12 +14,7 @@ const FriendRequest = ({ opened = false, owner, onClose }: Props) => {
   });
 
   return (
-    <Drawer
-      position="right"
-      opened={opened}
-      onClose={onClose}
-      title="Friend Requests"
-    >
+    <Drawer position="right" opened={opened} onClose={onClose} title="Friend Requests">
       {isLoading && <Loader />}
       {data?.map((request) => (
         <Request

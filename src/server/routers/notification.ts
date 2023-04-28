@@ -1,9 +1,9 @@
-import { observable } from "@trpc/server/observable";
-import { EventEmitter } from "events";
-import { prisma } from "../prisma";
-import { z } from "zod";
-import { authProcedure, publicProcedure, router } from "../trpc";
-import { Notification } from "@prisma/client";
+import { observable } from '@trpc/server/observable';
+import { EventEmitter } from 'events';
+import { prisma } from '../prisma';
+import { z } from 'zod';
+import { authProcedure, publicProcedure, router } from '../trpc';
+import { Notification } from '@prisma/client';
 
 interface MyEvents {
   push: (data: Notification) => void;
@@ -12,10 +12,7 @@ declare interface MyEventEmitter {
   on<TEv extends keyof MyEvents>(event: TEv, listener: MyEvents[TEv]): this;
   off<TEv extends keyof MyEvents>(event: TEv, listener: MyEvents[TEv]): this;
   once<TEv extends keyof MyEvents>(event: TEv, listener: MyEvents[TEv]): this;
-  emit<TEv extends keyof MyEvents>(
-    event: TEv,
-    ...args: Parameters<MyEvents[TEv]>
-  ): boolean;
+  emit<TEv extends keyof MyEvents>(event: TEv, ...args: Parameters<MyEvents[TEv]>): boolean;
 }
 
 class MyEventEmitter extends EventEmitter {}
@@ -37,7 +34,7 @@ export const notificationRouter = router({
       const noti = await prisma.notification.create({
         data: { ...input, actorId: id },
       });
-      ee.emit("push", noti);
+      ee.emit('push', noti);
       return noti;
     }),
   seenAll: authProcedure.input(z.object({})).mutation(async ({ ctx }) => {
@@ -62,7 +59,7 @@ export const notificationRouter = router({
           userId: ctx.user.id,
         },
         orderBy: {
-          createdAt: "desc",
+          createdAt: 'desc',
         },
         cursor: cursor ? { id: cursor } : undefined,
         take: take + 1,
@@ -85,9 +82,9 @@ export const notificationRouter = router({
   onPush: publicProcedure.subscription(() => {
     return observable<Notification>((emit) => {
       const onPush = (data: Notification) => emit.next(data);
-      ee.on("push", onPush);
+      ee.on('push', onPush);
       return () => {
-        ee.off("push", onPush);
+        ee.off('push', onPush);
       };
     });
   }),

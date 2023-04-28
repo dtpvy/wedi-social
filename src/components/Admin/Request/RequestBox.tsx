@@ -1,6 +1,6 @@
-import { Badge, Button, Card, Group, Image } from "@mantine/core";
-import { useRouter } from "next/router";
-import React from "react";
+import { Badge, Button, Card, Group, Image } from '@mantine/core';
+import { useRouter } from 'next/router';
+import React from 'react';
 
 type Props = {
   request: any;
@@ -18,7 +18,7 @@ const RequestBox = ({ request }: Props) => {
     <Card shadow="sm" padding="lg" radius="md" withBorder className="mx-4 my-3">
       <Group position="apart" mt="md" mb="xs">
         <div className="font-medium text-gray-500">{title}</div>
-        <Badge color={status === "PENDING" ? "blue" : "green"} variant="light">
+        <Badge color={status === 'PENDING' ? 'blue' : 'green'} variant="light">
           {status}
         </Badge>
       </Group>
@@ -37,7 +37,7 @@ const RequestBox = ({ request }: Props) => {
         mt="md"
         radius="md"
       >
-        {status === "PENDING" ? "Feed back" : "Details"}
+        {status === 'PENDING' ? 'Feed back' : 'Details'}
       </Button>
     </Card>
   );

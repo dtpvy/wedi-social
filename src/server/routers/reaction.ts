@@ -1,10 +1,10 @@
-import { z } from "zod";
-import { authProcedure, publicProcedure, router } from "../trpc";
-import { prisma } from "../prisma";
+import { z } from 'zod';
+import { authProcedure, publicProcedure, router } from '../trpc';
+import { prisma } from '../prisma';
 
 export const reactionRouter = router({
   list: publicProcedure.input(z.object({})).query(async () => {
-    const data = await prisma.reaction.findMany({ orderBy: { id: "asc" } });
+    const data = await prisma.reaction.findMany({ orderBy: { id: 'asc' } });
     return data;
   }),
   react: authProcedure

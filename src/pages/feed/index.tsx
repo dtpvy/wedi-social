@@ -1,6 +1,6 @@
-import { FeedLayout } from "@/components/Layout";
-import { CreatePost, Post } from "@/components/Post";
-import { trpc } from "@/utils/trpc";
+import { FeedLayout } from '@/components/Layout';
+import { CreatePost, Post } from '@/components/Post';
+import { trpc } from '@/utils/trpc';
 
 const Feed = () => {
   const query = trpc.post.feed.useInfiniteQuery(

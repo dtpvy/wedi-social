@@ -1,20 +1,20 @@
-import { twMerge } from "tailwind-merge";
+import { twMerge } from 'tailwind-merge';
 
 const cc = (names: unknown) => {
-  if (typeof names === "string" || typeof names === "number") return "" + names;
+  if (typeof names === 'string' || typeof names === 'number') return '' + names;
 
-  let out = "";
+  let out = '';
 
   if (Array.isArray(names)) {
     for (let i = 0, tmp: unknown; i < names.length; i++) {
-      if ((tmp = cc(names[i])) !== "") {
-        out += (out && " ") + tmp;
+      if ((tmp = cc(names[i])) !== '') {
+        out += (out && ' ') + tmp;
       }
     }
   } else {
     const obj = names as object;
     for (const k in obj) {
-      if (obj[k as keyof typeof obj]) out += (out && " ") + k;
+      if (obj[k as keyof typeof obj]) out += (out && ' ') + k;
     }
   }
 

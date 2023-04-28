@@ -1,8 +1,8 @@
-import { trpc } from "@/utils/trpc";
-import { Avatar } from "@mantine/core";
-import type { Notification, User } from "@prisma/client";
-import dayjs from "dayjs";
-import { useCallback, useEffect, useState } from "react";
+import { trpc } from '@/utils/trpc';
+import { Avatar } from '@mantine/core';
+import type { Notification, User } from '@prisma/client';
+import dayjs from 'dayjs';
+import { useCallback, useEffect, useState } from 'react';
 
 type NotificationDetail = Notification & { actor: User };
 
@@ -26,16 +26,14 @@ const Notification = () => {
 
   const addNoti = useCallback((incoming?: NotificationDetail[]) => {
     setNotifications((current) => {
-      const map: Record<NotificationDetail["id"], NotificationDetail> = {};
+      const map: Record<NotificationDetail['id'], NotificationDetail> = {};
       for (const msg of current ?? []) {
         map[msg.id] = msg;
       }
       for (const msg of incoming ?? []) {
         map[msg.id] = msg;
       }
-      return Object.values(map).sort(
-        (a, b) => b.createdAt.getTime() - a.createdAt.getTime()
-      );
+      return Object.values(map).sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
     });
   }, []);
 
@@ -51,7 +49,7 @@ const Notification = () => {
       addNoti([noti as NotificationDetail]);
     },
     onError(err) {
-      console.error("Subscription error:", err);
+      console.error('Subscription error:', err);
       utils.notification.infinite.invalidate();
     },
   });
@@ -65,18 +63,12 @@ const Notification = () => {
           className="w-full max-w-xs px-2 py-1 text-gray-900 bg-white rounded-lg shadow border mb-2"
         >
           <div className="flex items-center">
-            <Avatar
-              src={noti.imgUrl || ""}
-              className="w-12 h-12 rounded-full"
-              radius="xl"
-            />
+            <Avatar src={noti.imgUrl || ''} className="w-12 h-12 rounded-full" radius="xl" />
             <div className="ml-3 text-sm font-normal">
-              <div className="text-sm font-semibold text-gray-900">
-                {noti.actor?.name}
-              </div>
+              <div className="text-sm font-semibold text-gray-900">{noti.actor?.name}</div>
               <div className="text-sm font-normal">{noti.content}</div>
               <span className="text-xs font-medium text-blue-600 dark:text-blue-500">
-                {dayjs(noti.createdAt).format("DD/MM/YYYY HH:mm")}
+                {dayjs(noti.createdAt).format('DD/MM/YYYY HH:mm')}
               </span>
             </div>
           </div>
@@ -89,10 +81,10 @@ const Notification = () => {
         className="cursor-pointer px-4 py-2 text-teal-700 underline rounded disabled:opacity-50 w-full text-center"
       >
         {isFetchingNextPage
-          ? "Loading more..."
+          ? 'Loading more...'
           : hasNextPage
-          ? "Load More"
-          : "Nothing more to load"}
+          ? 'Load More'
+          : 'Nothing more to load'}
       </button>
     </div>
   );

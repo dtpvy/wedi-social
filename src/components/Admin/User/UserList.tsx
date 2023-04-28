@@ -1,8 +1,8 @@
-import React from "react";
-import { Text, Container, Card, Group } from "@mantine/core";
-import UserBox from "./UserBox";
-import ComponentBox from "../ComponentBox";
-import { trpc } from "@/utils/trpc";
+import React from 'react';
+import { Text, Container, Card, Group } from '@mantine/core';
+import UserBox from './UserBox';
+import ComponentBox from '../ComponentBox';
+import { trpc } from '@/utils/trpc';
 
 const UserList = () => {
   const users = trpc.admin.userList.useQuery();
@@ -28,7 +28,7 @@ const UserList = () => {
               input3: user.posts.length,
               input4: user.createdAt,
               status: user.status,
-              type: "user",
+              type: 'user',
             }}
           />
         </div>

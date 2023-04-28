@@ -1,6 +1,6 @@
-import { z } from "zod";
-import { prisma } from "../prisma";
-import { authProcedure, publicProcedure, router } from "../trpc";
+import { z } from 'zod';
+import { prisma } from '../prisma';
+import { authProcedure, publicProcedure, router } from '../trpc';
 
 export const locationRouter = router({
   languages: publicProcedure.input(z.object({})).query(async ({}) => {
@@ -11,30 +11,24 @@ export const locationRouter = router({
     const query = await prisma.country.findMany({});
     return query;
   }),
-  cities: publicProcedure
-    .input(z.object({ countryId: z.number() }))
-    .query(async ({ input }) => {
-      const query = await prisma.city.findMany({
-        where: { countryId: input.countryId },
-      });
-      return query;
-    }),
-  districts: publicProcedure
-    .input(z.object({ cityId: z.number() }))
-    .query(async ({ input }) => {
-      const query = await prisma.district.findMany({
-        where: { cityId: input.cityId },
-      });
-      return query;
-    }),
-  wards: publicProcedure
-    .input(z.object({ districtId: z.number() }))
-    .query(async ({ input }) => {
-      const query = await prisma.ward.findMany({
-        where: { districtId: input.districtId },
-      });
-      return query;
-    }),
+  cities: publicProcedure.input(z.object({ countryId: z.number() })).query(async ({ input }) => {
+    const query = await prisma.city.findMany({
+      where: { countryId: input.countryId },
+    });
+    return query;
+  }),
+  districts: publicProcedure.input(z.object({ cityId: z.number() })).query(async ({ input }) => {
+    const query = await prisma.district.findMany({
+      where: { cityId: input.cityId },
+    });
+    return query;
+  }),
+  wards: publicProcedure.input(z.object({ districtId: z.number() })).query(async ({ input }) => {
+    const query = await prisma.ward.findMany({
+      where: { districtId: input.districtId },
+    });
+    return query;
+  }),
   create: publicProcedure
     .input(
       z.object({
@@ -48,8 +42,7 @@ export const locationRouter = router({
       })
     )
     .mutation(async ({ input }) => {
-      const { address, latitude, longitude, category, placeId, name, imgUrl } =
-        input;
+      const { address, latitude, longitude, category, placeId, name, imgUrl } = input;
       const exist = await prisma.location.findFirst({
         where: { placeId },
       });
@@ -81,9 +74,9 @@ export const locationRouter = router({
 
       const items = await prisma.location.findMany({
         orderBy: {
-          createdAt: "desc",
+          createdAt: 'desc',
         },
-        where: { status: "ACTIVE" },
+        where: { status: 'ACTIVE' },
         include: {
           reviews: {
             include: {

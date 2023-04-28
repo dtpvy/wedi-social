@@ -5,7 +5,9 @@ import {
   Notification,
   Post,
   User,
-} from "@prisma/client";
+  Request,
+  JoinSchedule,
+} from '@prisma/client';
 
 export type UserInfo = User & {
   posts: Post[];
@@ -14,4 +16,6 @@ export type UserInfo = User & {
   notification: Notification[];
   receiveMessages: Message[];
   language: Language | null;
+  requests: Request[];
+  joinTrip: JoinSchedule[];
 };

@@ -1,19 +1,13 @@
-import useUserStore from "@/stores/user";
-import { CommentDetail } from "@/types/comment";
-import { trpc } from "@/utils/trpc";
-import { Carousel } from "@mantine/carousel";
-import {
-  ActionIcon,
-  Avatar,
-  CloseButton,
-  Image,
-  Textarea,
-} from "@mantine/core";
-import { notifications } from "@mantine/notifications";
-import { User } from "@prisma/client";
-import { IconPhoto, IconSend, IconX } from "@tabler/icons-react";
-import { IKUpload } from "imagekitio-react";
-import { useEffect, useRef, useState } from "react";
+import useUserStore from '@/stores/user';
+import { CommentDetail } from '@/types/comment';
+import { trpc } from '@/utils/trpc';
+import { Carousel } from '@mantine/carousel';
+import { ActionIcon, Avatar, CloseButton, Image, Textarea } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
+import { User } from '@prisma/client';
+import { IconPhoto, IconSend, IconX } from '@tabler/icons-react';
+import { IKUpload } from 'imagekitio-react';
+import { useEffect, useRef, useState } from 'react';
 
 type Props = {
   postId: number;
@@ -24,14 +18,7 @@ type Props = {
   onCreate?: () => void;
 };
 
-const CreateComment = ({
-  postId,
-  creator,
-  comment,
-  onCancel,
-  onUpdate,
-  onCreate,
-}: Props) => {
+const CreateComment = ({ postId, creator, comment, onCancel, onUpdate, onCreate }: Props) => {
   const user = useUserStore((state) => state.user);
   const uploadRef = useRef<HTMLInputElement>(null);
   const utils = trpc.useContext();
@@ -42,10 +29,10 @@ const CreateComment = ({
 
   const [imgUrls, setImgUrls] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
-  const [content, setContent] = useState("");
+  const [content, setContent] = useState('');
 
   useEffect(() => {
-    setContent(comment?.content || "");
+    setContent(comment?.content || '');
     setImgUrls(comment?.imgUrls || []);
   }, [comment]);
 
@@ -64,9 +51,9 @@ const CreateComment = ({
         await create.mutateAsync({ postId, imgUrls, content });
         if (creator) {
           await addNoti.mutateAsync({
-            content: "Vừa mới bình luận vào bài viết của bạn",
+            content: 'Vừa mới bình luận vào bài viết của bạn',
             userId: creator.id,
-            imgUrl: creator.imgUrl || "",
+            imgUrl: creator.imgUrl || '',
           });
         }
         utils.user.findUser.refetch();
@@ -75,7 +62,7 @@ const CreateComment = ({
         await update.mutateAsync({ id: comment.id, content, imgUrls });
         onUpdate && onUpdate({ ...comment, content, imgUrls });
       }
-      setContent("");
+      setContent('');
       setImgUrls([]);
     } catch (e) {
       console.log(e);
@@ -84,7 +71,7 @@ const CreateComment = ({
 
   return (
     <div className="flex gap-3">
-      <Avatar radius="xl" src={user?.imgUrl || ""} />
+      <Avatar radius="xl" src={user?.imgUrl || ''} />
       <div className="flex flex-col gap-1 flex-1">
         <div className="flex gap-3">
           <Textarea
@@ -110,8 +97,8 @@ const CreateComment = ({
                 onSuccess={(file) => handleChooseImage(file.url)}
                 onError={() => {
                   notifications.show({
-                    message: "Có lỗi xảy ra. Vui lòng thử lại",
-                    color: "red",
+                    message: 'Có lỗi xảy ra. Vui lòng thử lại',
+                    color: 'red',
                     icon: <IconX />,
                   });
                   setLoading(false);
@@ -130,7 +117,7 @@ const CreateComment = ({
                 <IconSend size="1.225rem" />
               </ActionIcon>
             </div>
-            {typeof onCancel === "function" && (
+            {typeof onCancel === 'function' && (
               <div onClick={onCancel} className="underline text-gray-600">
                 Huỷ
               </div>

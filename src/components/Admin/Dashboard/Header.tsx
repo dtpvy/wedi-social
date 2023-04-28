@@ -1,9 +1,9 @@
-import React from "react";
-import Request from "./Request";
-import { trpc } from "@/utils/trpc";
-import { IconArrowRight } from "@tabler/icons-react";
-import { Button, Card, Group, Text, ActionIcon, Grid } from "@mantine/core";
-import Link from "next/link";
+import React from 'react';
+import Request from './Request';
+import { trpc } from '@/utils/trpc';
+import { IconArrowRight } from '@tabler/icons-react';
+import { Button, Card, Group, Text, ActionIcon, Grid } from '@mantine/core';
+import Link from 'next/link';
 
 const Header = () => {
   const requests = trpc.admin.requestList.useQuery();
@@ -40,16 +40,9 @@ const Header = () => {
           {/* <Group position="apart" mt="md" mb="xs"> */}
           {requests.data?.requests.length ? (
             <div className="flex flex-col items-center">
-              <span className="font-medium my-2 text-gray-800">
-                Xem thêm request
-              </span>
+              <span className="font-medium my-2 text-gray-800">Xem thêm request</span>
               <Link href="/admin/request" className="self-center">
-                <ActionIcon
-                  color="dark"
-                  size="xl"
-                  variant="light"
-                  className=" bg-gray-200"
-                >
+                <ActionIcon color="dark" size="xl" variant="light" className=" bg-gray-200">
                   <IconArrowRight size="2.125rem" />
                 </ActionIcon>
               </Link>

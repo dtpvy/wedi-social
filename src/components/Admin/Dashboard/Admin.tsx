@@ -1,12 +1,12 @@
-import { ERROR_MESSAGES } from "@/constants/error";
-import { trpc } from "@/utils/trpc";
-import { Avatar, Badge, Button, Image, Text } from "@mantine/core";
-import { modals } from "@mantine/modals";
-import { notifications } from "@mantine/notifications";
-import { Admin } from "@prisma/client";
-import { IconCheck, IconX } from "@tabler/icons-react";
-import { useSession } from "next-auth/react";
-import React from "react";
+import { ERROR_MESSAGES } from '@/constants/error';
+import { trpc } from '@/utils/trpc';
+import { Avatar, Badge, Button, Image, Text } from '@mantine/core';
+import { modals } from '@mantine/modals';
+import { notifications } from '@mantine/notifications';
+import { Admin } from '@prisma/client';
+import { IconCheck, IconX } from '@tabler/icons-react';
+import { useSession } from 'next-auth/react';
+import React from 'react';
 
 type Props = {
   admin: Admin;
@@ -20,15 +20,11 @@ const Admin = ({ admin, refetch }: Props) => {
 
   const openDeleteModal = () =>
     modals.openConfirmModal({
-      title: "Delete your profile",
+      title: 'Delete your profile',
       centered: true,
-      children: (
-        <Text size="sm">
-          {`Are you sure you want to deactive ${admin.name}?`}
-        </Text>
-      ),
-      labels: { confirm: "Yes", cancel: "Cancel" },
-      confirmProps: { color: "red" },
+      children: <Text size="sm">{`Are you sure you want to deactive ${admin.name}?`}</Text>,
+      labels: { confirm: 'Yes', cancel: 'Cancel' },
+      confirmProps: { color: 'red' },
       onCancel: () => null,
       onConfirm: async () => {
         try {
@@ -38,21 +34,21 @@ const Admin = ({ admin, refetch }: Props) => {
           });
           refetch();
           notifications.show({
-            message: "Action successfully",
-            color: "green",
+            message: 'Action successfully',
+            color: 'green',
             icon: <IconCheck />,
           });
         } catch (e: any) {
           if (e.message === ERROR_MESSAGES.dontHavePermission) {
             notifications.show({
               message: ERROR_MESSAGES.dontHavePermission,
-              color: "red",
+              color: 'red',
               icon: <IconX />,
             });
           } else {
             notifications.show({
-              message: "Có lỗi xảy ra. Vui lòng thử lại",
-              color: "red",
+              message: 'Có lỗi xảy ra. Vui lòng thử lại',
+              color: 'red',
               icon: <IconX />,
             });
           }
@@ -68,21 +64,21 @@ const Admin = ({ admin, refetch }: Props) => {
       });
       refetch();
       notifications.show({
-        message: "Action successfully",
-        color: "green",
+        message: 'Action successfully',
+        color: 'green',
         icon: <IconCheck />,
       });
     } catch (e: any) {
       if (e.message === ERROR_MESSAGES.dontHavePermission) {
         notifications.show({
           message: ERROR_MESSAGES.dontHavePermission,
-          color: "red",
+          color: 'red',
           icon: <IconX />,
         });
       } else {
         notifications.show({
-          message: "Có lỗi xảy ra. Vui lòng thử lại",
-          color: "red",
+          message: 'Có lỗi xảy ra. Vui lòng thử lại',
+          color: 'red',
           icon: <IconX />,
         });
       }
@@ -98,13 +94,11 @@ const Admin = ({ admin, refetch }: Props) => {
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-3 text-sm font-medium text-gray-900 truncate">
             {admin.name}
-            <Badge color={admin.isDeleted ? "red" : "green"}>
-              {admin.isDeleted ? "Deactive" : "Active"}
+            <Badge color={admin.isDeleted ? 'red' : 'green'}>
+              {admin.isDeleted ? 'Deactive' : 'Active'}
             </Badge>
           </div>
-          <div className="text-sm text-gray-500 truncate dark:text-gray-400">
-            {admin.email}
-          </div>
+          <div className="text-sm text-gray-500 truncate dark:text-gray-400">{admin.email}</div>
         </div>
         {session?.user.email !== admin.email && (
           <div className="inline-flex items-center text-base font-semibold text-gray-900">

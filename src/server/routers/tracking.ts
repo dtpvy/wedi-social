@@ -1,6 +1,6 @@
-import { z } from "zod";
-import { prisma } from "../prisma";
-import { publicProcedure, router } from "../trpc";
+import { z } from 'zod';
+import { prisma } from '../prisma';
+import { publicProcedure, router } from '../trpc';
 
 export const trackingRouter = router({
   add: publicProcedure

@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { Image, Box, Grid } from "@mantine/core";
+import React, { Component } from 'react';
+import { Image, Box, Grid } from '@mantine/core';
 
 export class Diagrams extends Component {
   render() {

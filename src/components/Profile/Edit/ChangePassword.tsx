@@ -1,10 +1,10 @@
-import { ERROR_MESSAGES } from "@/constants/error";
-import { trpc } from "@/utils/trpc";
-import { Button, Modal, PasswordInput } from "@mantine/core";
-import { useForm } from "@mantine/form";
-import { notifications } from "@mantine/notifications";
-import { IconCheck, IconX } from "@tabler/icons-react";
-import React from "react";
+import { ERROR_MESSAGES } from '@/constants/error';
+import { trpc } from '@/utils/trpc';
+import { Button, Modal, PasswordInput } from '@mantine/core';
+import { useForm } from '@mantine/form';
+import { notifications } from '@mantine/notifications';
+import { IconCheck, IconX } from '@tabler/icons-react';
+import React from 'react';
 
 type Props = {
   opened?: boolean;
@@ -16,22 +16,19 @@ const ChangePassword = ({ opened = false, close }: Props) => {
   const update = trpc.user.updatePassword.useMutation();
   const { getInputProps, onSubmit, setFieldError, reset } = useForm({
     initialValues: {
-      password: "",
-      newPassword: "",
-      confirmPassword: "",
+      password: '',
+      newPassword: '',
+      confirmPassword: '',
     },
     validate: {
-      password: (value) => (value ? null : "Require"),
-      newPassword: (value) => (value ? null : "Require"),
+      password: (value) => (value ? null : 'Require'),
+      newPassword: (value) => (value ? null : 'Require'),
       confirmPassword: (value, values) =>
-        value !== values.newPassword ? "Passwords did not match" : null,
+        value !== values.newPassword ? 'Passwords did not match' : null,
     },
   });
 
-  const handleSubmit = async (params: {
-    password: string;
-    newPassword: string;
-  }) => {
+  const handleSubmit = async (params: { password: string; newPassword: string }) => {
     try {
       await update.mutateAsync(params);
       utils.user.findUser.refetch();
@@ -39,16 +36,16 @@ const ChangePassword = ({ opened = false, close }: Props) => {
       reset();
       notifications.show({
         message: `Action successfully`,
-        color: "green",
+        color: 'green',
         icon: <IconCheck />,
       });
     } catch (e: any) {
       if (e.message === ERROR_MESSAGES.invalidPassword) {
-        setFieldError("password", e.message);
+        setFieldError('password', e.message);
       } else {
         notifications.show({
-          message: "Có lỗi xảy ra. Vui lòng thử lại",
-          color: "red",
+          message: 'Có lỗi xảy ra. Vui lòng thử lại',
+          color: 'red',
           icon: <IconX />,
         });
       }
@@ -62,19 +59,19 @@ const ChangePassword = ({ opened = false, close }: Props) => {
           placeholder="Password"
           label="Password"
           withAsterisk
-          {...getInputProps("password")}
+          {...getInputProps('password')}
         />
         <PasswordInput
           placeholder="New Password"
           label="New Password"
           withAsterisk
-          {...getInputProps("newPassword")}
+          {...getInputProps('newPassword')}
         />
         <PasswordInput
           placeholder="Confirm Password"
           label="Confirm Password"
           withAsterisk
-          {...getInputProps("confirmPassword")}
+          {...getInputProps('confirmPassword')}
         />
         <Button type="submit" className="w-full mt-3" color="green">
           Change Password

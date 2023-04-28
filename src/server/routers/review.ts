@@ -1,6 +1,6 @@
-import { z } from "zod";
-import { prisma } from "../prisma";
-import { authProcedure, router } from "../trpc";
+import { z } from 'zod';
+import { prisma } from '../prisma';
+import { authProcedure, router } from '../trpc';
 
 export const reviewRouter = router({
   add: authProcedure
@@ -57,7 +57,7 @@ export const reviewRouter = router({
       const data = await prisma.review.findMany({
         where: { userId: ctx.user.id, locationId: { in: input.locationIds } },
         orderBy: {
-          createdAt: "desc",
+          createdAt: 'desc',
         },
       });
       return data;

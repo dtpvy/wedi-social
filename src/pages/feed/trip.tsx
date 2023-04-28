@@ -1,35 +1,62 @@
-import { FeedLayout } from "@/components/Layout";
-import { PostTrip } from "@/components/Post";
-import { Trip as TripWidget } from "@/components/Trip";
-import { posts } from "@/mocks/post";
-import { Carousel } from "@mantine/carousel";
+import { FeedLayout } from '@/components/Layout';
+import { PostTrip } from '@/components/Post';
+import { Trip as TripWidget } from '@/components/Trip';
+import { posts } from '@/mocks/post';
+import { trpc } from '@/utils/trpc';
+import { Carousel } from '@mantine/carousel';
 
 const Trip = () => {
+  const { data } = trpc.trip.feed.useQuery({});
+
+  const query = trpc.post.feedTrip.useInfiniteQuery(
+    {},
+    {
+      getNextPageParam: (d) => d.nextCursor,
+    }
+  );
+
+  const { data: res, fetchNextPage, isFetchingNextPage, hasNextPage, refetch } = query;
+  const posts = res?.pages.flatMap((d) => d?.items || []) || [];
+
   return (
-    <FeedLayout className="pt-8 px-16 w-full">
+    <FeedLayout className="pt-8 px-[200px] w-full">
       <Carousel
-        withIndicators
-        height={200}
-        slideSize="33.333333%"
+        styles={{
+          control: {
+            '&[data-inactive]': {
+              opacity: 0,
+              cursor: 'default',
+            },
+          },
+        }}
+        slideSize="50%"
         slideGap="md"
         loop
         align="start"
-        slidesToScroll={3}
+        slidesToScroll={2}
       >
-        <Carousel.Slide>
-          <TripWidget />
-        </Carousel.Slide>
-        <Carousel.Slide>
-          <TripWidget />
-        </Carousel.Slide>
-        <Carousel.Slide>
-          <TripWidget />
-        </Carousel.Slide>
-      </Carousel>
-      <div className="grid grid-cols-2 gap-8 pb-8">
-        {posts.map((post) => (
-          <PostTrip key={post.id} />
+        {data?.map((d) => (
+          <Carousel.Slide key={d.id}>
+            <TripWidget trip={d} />
+          </Carousel.Slide>
         ))}
+      </Carousel>
+      <div className="flex flex-col gap-5 pb-8 mt-5">
+        {posts.map((post) => (
+          <PostTrip key={post.id} post={post} refetch={refetch} />
+        ))}
+        <button
+          data-testid="loadMore"
+          onClick={() => fetchNextPage()}
+          disabled={!hasNextPage || isFetchingNextPage}
+          className="cursor-pointer px-4 py-2 text-teal-700 underline rounded disabled:opacity-50 w-full text-center"
+        >
+          {isFetchingNextPage
+            ? 'Loading more...'
+            : hasNextPage
+            ? 'Load More'
+            : 'Nothing more to load'}
+        </button>
       </div>
     </FeedLayout>
   );

@@ -1,9 +1,9 @@
-import { Comment } from "@prisma/client";
-import { observable } from "@trpc/server/observable";
-import EventEmitter from "events";
-import { z } from "zod";
-import { prisma } from "../prisma";
-import { authProcedure, router } from "../trpc";
+import { Comment } from '@prisma/client';
+import { observable } from '@trpc/server/observable';
+import EventEmitter from 'events';
+import { z } from 'zod';
+import { prisma } from '../prisma';
+import { authProcedure, router } from '../trpc';
 
 interface MyEvents {
   create: (data: Comment) => void;
@@ -12,10 +12,7 @@ declare interface MyEventEmitter {
   on<TEv extends keyof MyEvents>(event: TEv, listener: MyEvents[TEv]): this;
   off<TEv extends keyof MyEvents>(event: TEv, listener: MyEvents[TEv]): this;
   once<TEv extends keyof MyEvents>(event: TEv, listener: MyEvents[TEv]): this;
-  emit<TEv extends keyof MyEvents>(
-    event: TEv,
-    ...args: Parameters<MyEvents[TEv]>
-  ): boolean;
+  emit<TEv extends keyof MyEvents>(event: TEv, ...args: Parameters<MyEvents[TEv]>): boolean;
 }
 
 class MyEventEmitter extends EventEmitter {}
@@ -26,9 +23,9 @@ export const commentRouter = router({
   onCreate: authProcedure.subscription(() => {
     return observable<Comment>((emit) => {
       const onCreate = (data: Comment) => emit.next(data);
-      ee.on("create", onCreate);
+      ee.on('create', onCreate);
       return () => {
-        ee.off("create", onCreate);
+        ee.off('create', onCreate);
       };
     });
   }),
@@ -48,7 +45,7 @@ export const commentRouter = router({
           userId: id,
         },
       });
-      ee.emit("create", comment);
+      ee.emit('create', comment);
       return true;
     }),
   infinite: authProcedure
@@ -64,7 +61,7 @@ export const commentRouter = router({
       const cursor = input.cursor;
 
       const reactions = await prisma.reaction.findMany({
-        orderBy: { id: "asc" },
+        orderBy: { id: 'asc' },
       });
 
       const items = await prisma.comment.findMany({
@@ -73,7 +70,7 @@ export const commentRouter = router({
           postId: input.postId,
         },
         orderBy: {
-          createdAt: "desc",
+          createdAt: 'desc',
         },
         cursor: cursor ? { id: cursor } : undefined,
         take: take + 1,
@@ -131,12 +128,10 @@ export const commentRouter = router({
       });
       return true;
     }),
-  delete: authProcedure
-    .input(z.object({ id: z.number() }))
-    .mutation(async ({ input }) => {
-      const { id } = input;
-      await prisma.commentReaction.deleteMany({ where: { commentId: id } });
-      await prisma.comment.delete({ where: { id } });
-      return true;
-    }),
+  delete: authProcedure.input(z.object({ id: z.number() })).mutation(async ({ input }) => {
+    const { id } = input;
+    await prisma.commentReaction.deleteMany({ where: { commentId: id } });
+    await prisma.comment.delete({ where: { id } });
+    return true;
+  }),
 });

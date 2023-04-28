@@ -1,6 +1,6 @@
-import React from "react";
-import { useRouter } from "next/router";
-import { RequestDetail, ReplyList } from "@/components/Admin/Request";
+import React from 'react';
+import { useRouter } from 'next/router';
+import { RequestDetail, ReplyList } from '@/components/Admin/Request';
 
 const RequestInfo = () => {
   const router = useRouter();

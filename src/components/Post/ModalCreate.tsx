@@ -1,28 +1,14 @@
-import useUserStore from "@/stores/user";
-import { trpc } from "@/utils/trpc";
-import { Carousel } from "@mantine/carousel";
-import {
-  Avatar,
-  Button,
-  CloseButton,
-  Image,
-  Modal,
-  Select,
-  Textarea,
-} from "@mantine/core";
-import { notifications } from "@mantine/notifications";
-import { Privacy } from "@prisma/client";
-import {
-  IconEyeEdit,
-  IconLoader,
-  IconMapPinFilled,
-  IconPhoto,
-  IconX,
-} from "@tabler/icons-react";
-import { IKUpload } from "imagekitio-react";
-import { useRef, useState } from "react";
-import LocationSeletion, { LocationSeletionProps } from "./LocationSeletion";
-import classNames from "@/utils/classNames";
+import useUserStore from '@/stores/user';
+import { trpc } from '@/utils/trpc';
+import { Carousel } from '@mantine/carousel';
+import { Avatar, Button, CloseButton, Image, Modal, Select, Textarea } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
+import { Privacy } from '@prisma/client';
+import { IconEyeEdit, IconLoader, IconMapPinFilled, IconPhoto, IconX } from '@tabler/icons-react';
+import { IKUpload } from 'imagekitio-react';
+import { useRef, useState } from 'react';
+import LocationSeletion, { LocationSeletionProps } from './LocationSeletion';
+import classNames from '@/utils/classNames';
 
 type State = {
   content: string;
@@ -31,6 +17,7 @@ type State = {
 };
 
 type Props = {
+  tripId?: number;
   postId?: number;
   opened?: boolean;
   privacy?: Privacy;
@@ -42,11 +29,12 @@ type Props = {
 } & LocationSeletionProps;
 
 const ModalCreate = ({
+  tripId,
   postId,
   opened = false,
   locations,
   privacy = Privacy.PUBLIC,
-  content = "",
+  content = '',
   imgUrls = [],
   onClose,
   onCreateLocation,
@@ -72,13 +60,13 @@ const ModalCreate = ({
   };
 
   const handleChooseImage = async (imgUrl: string) => {
-    onChangeField("imgUrls", [...state.imgUrls, imgUrl]);
+    onChangeField('imgUrls', [...state.imgUrls, imgUrl]);
     setMediaLoading(false);
   };
 
   const handleDeleteImage = async (imgUrl: string) => {
     onChangeField(
-      "imgUrls",
+      'imgUrls',
       state.imgUrls.filter((url) => url !== imgUrl)
     );
   };
@@ -94,13 +82,14 @@ const ModalCreate = ({
         onOpenReview(postId);
       } else {
         const data = await create.mutateAsync({
+          tripId,
           ...state,
           locationIds: locations.map((d) => d.id),
         });
         onOpenReview(data.id);
       }
       setState({
-        content: "",
+        content: '',
         imgUrls: [],
         privacy: Privacy.PUBLIC,
       });
@@ -120,18 +109,18 @@ const ModalCreate = ({
         <Select
           value={state.privacy}
           placeholder="Privacy"
-          onChange={(value) => onChangeField("privacy", value)}
+          onChange={(value) => onChangeField('privacy', value)}
           icon={<IconEyeEdit size="1rem" />}
           data={[
-            { value: Privacy.PUBLIC, label: "Công khai" },
-            { value: Privacy.FRIEND, label: "Bạn bè" },
-            { value: Privacy.PRIVATE, label: "Chỉ mình tôi" },
+            { value: Privacy.PUBLIC, label: 'Công khai' },
+            { value: Privacy.FRIEND, label: 'Bạn bè' },
+            { value: Privacy.PRIVATE, label: 'Chỉ mình tôi' },
           ]}
         />
       </div>
       <Textarea
         value={state.content}
-        onChange={(e) => onChangeField("content", e.target.value)}
+        onChange={(e) => onChangeField('content', e.target.value)}
         maxLength={500}
         minRows={10}
         placeholder="What do you think?"
@@ -174,8 +163,8 @@ const ModalCreate = ({
           onClick={onCreateLocation}
           leftIcon={
             <IconMapPinFilled
-              className={classNames("text-red-600", {
-                "text-gray-600": isUpdate,
+              className={classNames('text-red-600', {
+                'text-gray-600': isUpdate,
               })}
             />
           }
@@ -187,13 +176,7 @@ const ModalCreate = ({
         <Button
           color="teal"
           variant="outline"
-          leftIcon={
-            mediaLoading ? (
-              <IconLoader />
-            ) : (
-              <IconPhoto className="text-teal-600" />
-            )
-          }
+          leftIcon={mediaLoading ? <IconLoader /> : <IconPhoto className="text-teal-600" />}
           onClick={() => mediaRef.current?.click()}
           disabled={mediaLoading}
         >
@@ -204,7 +187,7 @@ const ModalCreate = ({
           disabled={!locations.length || !state.content}
           className="ml-auto"
         >
-          {postId ? "Update" : "Create"}
+          {postId ? 'Update' : 'Create'}
         </Button>
         <IKUpload
           inputRef={mediaRef}
@@ -213,8 +196,8 @@ const ModalCreate = ({
           onSuccess={(file) => handleChooseImage(file.url)}
           onError={() => {
             notifications.show({
-              message: "Có lỗi xảy ra. Vui lòng thử lại",
-              color: "red",
+              message: 'Có lỗi xảy ra. Vui lòng thử lại',
+              color: 'red',
               icon: <IconX />,
             });
             setMediaLoading(false);

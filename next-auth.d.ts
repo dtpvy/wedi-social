@@ -1,7 +1,7 @@
-import "next-auth";
-import { User as UserModel } from "@prisma/client";
+import 'next-auth';
+import { User as UserModel } from '@prisma/client';
 
-declare module "next-auth" {
+declare module 'next-auth' {
   interface User {
     id: number;
     isAdmin: boolean;
