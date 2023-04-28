@@ -76,7 +76,7 @@ const softDeleteMiddleware = (models: string[]) => {
   });
 };
 
-softDeleteMiddleware(['Post']);
+softDeleteMiddleware(['Post', 'Trip']);
 
 if (process.env.NODE_ENV !== 'production') {
   prismaGlobal.prisma = prisma;

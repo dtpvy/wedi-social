@@ -1,10 +1,14 @@
-import { ProfileLayout } from '@/components/Layout';
+import TripLayout from '@/components/Layout/TripLayout';
 import { CreatePost, Post } from '@/components/Post';
 import { trpc } from '@/utils/trpc';
+import { useRouter } from 'next/router';
+import React from 'react';
 
-const Profile = () => {
-  const query = trpc.post.userPost.useInfiniteQuery(
-    {},
+const Posts = () => {
+  const router = useRouter();
+  const { id } = router.query;
+  const query = trpc.trip.post.useInfiniteQuery(
+    { tripId: +(id as string) },
     {
       getNextPageParam: (d) => d.nextCursor,
     }
@@ -14,8 +18,8 @@ const Profile = () => {
   const data = res?.pages.flatMap((d) => d?.items || []) || [];
 
   return (
-    <ProfileLayout className="w-full flex flex-col gap-4">
-      <CreatePost refetch={refetch} />
+    <TripLayout className="w-full flex flex-col gap-4">
+      <CreatePost refetch={refetch} tripId={+(id as string)} />
       {data.map((post) => (
         <Post key={post.id} post={post} refetch={query.refetch} />
       ))}
@@ -31,8 +35,8 @@ const Profile = () => {
           ? 'Load More'
           : 'Nothing more to load'}
       </button>
-    </ProfileLayout>
+    </TripLayout>
   );
 };
 
-export default Profile;
+export default Posts;

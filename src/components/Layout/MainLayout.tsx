@@ -16,9 +16,7 @@ const LayoutMain = ({ children }: Props) => {
 
   return (
     <div className="bg-gray-100 min-h-screen">
-      <div className="w-full fixed shadow-md mb-4 z-10">
-        <Search />
-      </div>
+      <Search />
       {children}
     </div>
   );

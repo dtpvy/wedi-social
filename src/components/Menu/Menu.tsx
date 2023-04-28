@@ -38,7 +38,7 @@ const Menu = ({
         <button
           onClick={() => onChangeTab(key)}
           key={key}
-          className={classNames('uppercase flex items-center', className, {
+          className={classNames('cursor-pointer uppercase flex items-center', className, {
             [activeClass]: active || tab === items[key].name,
           })}
         >

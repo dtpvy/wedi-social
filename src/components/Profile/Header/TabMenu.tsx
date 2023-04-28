@@ -9,6 +9,7 @@ import { ProfileLayoutContext } from '@/components/Layout/ProfileLayout';
 import useUserStore from '@/stores/user';
 import { trpc } from '@/utils/trpc';
 import { calcFriend } from '@/utils/user';
+import { CreateTrip } from '@/components/Trip';
 
 const TAB_NAME = {
   POSTS: 'posts',
@@ -76,28 +77,14 @@ const TabMenu = () => {
     const tabs = { ...TAB_LIST };
     if (!user) return tabs;
     tabs[TAB_NAME.POSTS].badgeNumber = user.posts.length;
-    tabs[TAB_NAME.TRIPS].badgeNumber = 10;
+    tabs[TAB_NAME.TRIPS].badgeNumber = user.joinTrip.length;
     tabs[TAB_NAME.FRIENDS].badgeNumber = calcFriend(user);
-    tabs[TAB_NAME.REQUESTS].badgeNumber = 10;
+    tabs[TAB_NAME.REQUESTS].badgeNumber = user.requests.length;
     return tabs;
   }, [user]);
 
   return (
     <>
-      <div className="border-b pb-3">
-        <div className="flex items-start gap-3">
-          <Avatar radius="xl" className="border" />
-          <Textarea placeholder="What do you think?" withAsterisk className="w-full" />
-        </div>
-        <div className="flex gap-2 mt-2">
-          <Button size="md" className="flex-1" variant="outline" color="green">
-            Create Trip
-          </Button>
-          <Button size="md" className="flex-1" variant="filled" color="green">
-            Create Post
-          </Button>
-        </div>
-      </div>
       <div className="flex flex-col gap-4 mt-4">
         <Menu
           tab={tab}

@@ -1,7 +1,7 @@
 import { CommentDetail } from '@/types/comment';
 import { PostDetail } from '@/types/post';
 import { trpc } from '@/utils/trpc';
-import { Button, HoverCard, Image } from '@mantine/core';
+import { Button, HoverCard, Image, Transition } from '@mantine/core';
 import { Reaction } from '@prisma/client';
 import { IconIcons } from '@tabler/icons-react';
 
@@ -63,10 +63,10 @@ const Reaction = ({ post, comment, refetch }: Props) => {
             <div
               onClick={() => handleReaction(d)}
               key={d.id}
-              className="transition-all ease-in-out hover:scale-110 duration-300 flex gap-1 items-center cursor-pointer"
+              className="transition-all ease-in-out hover:scale-150 duration-300 flex gap-1 items-center cursor-pointer"
             >
               <Image alt={d.name} src={d.imgUrl} width={30} height={30} />
-              {d.count}
+              <div className="font-medium text-sm">{d.count}</div>
             </div>
           ))}
         </div>

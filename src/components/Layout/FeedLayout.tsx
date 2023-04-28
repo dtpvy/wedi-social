@@ -1,11 +1,12 @@
 import classNames from '@/utils/classNames';
 import { type ReactNode } from 'react';
 
+import { CreateTrip } from '@/components/Trip';
+import useUserStore from '@/stores/user';
 import type { Tab } from '@/types/tab';
 import { IconBus, IconCalendarTime, IconMapPinFilled, IconNews } from '@tabler/icons-react';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { Avatar } from '@mantine/core';
-import useUserStore from '@/stores/user';
 
 type Props = {
   children: ReactNode;
@@ -16,62 +17,54 @@ const TAB_LIST: Record<string, Tab> = {
   FEED: {
     name: 'feed',
     url: '',
-    icon: <IconNews size={50} />,
+    icon: <IconNews size={30} />,
   },
   TRIP: {
     name: 'trip',
     url: 'trip',
-    icon: <IconBus size={50} />,
+    icon: <IconBus size={30} />,
   },
   EVENT: {
     name: 'event',
     url: 'event',
-    icon: <IconCalendarTime size={50} />,
+    icon: <IconCalendarTime size={30} />,
   },
   LOCATION: {
     name: 'location',
     url: 'location',
-    icon: <IconMapPinFilled size={50} />,
+    icon: <IconMapPinFilled size={30} />,
   },
 };
 
 const FeedLayout = ({ children, className }: Props) => {
   const router = useRouter();
-  const user = useUserStore((state) => state.user);
   const tab = router.asPath.split('/')[2] || TAB_LIST.FEED.name;
-
-  const handleChangeTab = (tab: Tab) => {
-    router.push(`/feed/${tab.url}`);
-  };
 
   return (
     <>
-      <div className="fixed top-[30px] left-[100px] mt-[70px]">
-        <div className="flex flex-col gap-4 bg-white min-h-[500px] w-[200px] shadow rounded-xl">
-          <div className="flex items-center">
-            <Avatar radius="xl" src={user?.imgUrl} />
-          </div>
-          {/* {Object.keys(TAB_LIST).map((key, index) => (
-            <div key={index} className="flex flex-col gap-4 flex-1">
-              <button
-                onClick={() => handleChangeTab(TAB_LIST[key])}
-                className={classNames(
-                  "flex-1 px-5 uppercase flex flex-col items-center justify-center gap-3 bg-white hover:bg-green-700 hover:text-white",
-                  { "bg-green-700 text-white": tab === TAB_LIST[key].name }
-                )}
-              >
-                {TAB_LIST[key].icon}
-                <div className="font-bold text-lg">{TAB_LIST[key].name}</div>
-              </button>
-              {index + 1 !== Object.keys(TAB_LIST).length && (
-                <div className="border-b-[5px] border-green-900 w-2/3 mx-auto"></div>
+      <div className="absolute top-0 bottom-0 mt-[70px] z-[5] shadow-md">
+        <div className="flex flex-col gap-4 bg-white w-[250px] h-full p-4">
+          <CreateTrip />
+          {Object.keys(TAB_LIST).map((key, index) => (
+            <Link
+              key={index}
+              href={`/feed/${TAB_LIST[key].url}`}
+              className={classNames(
+                'px-5 uppercase py-3 rounded-lg text-gray-400 no-underline flex gap-4 items-center bg-white hover:bg-teal-600 hover:text-white',
+                { 'bg-teal-700 text-white': tab === TAB_LIST[key].name }
               )}
-            </div>
-          ))} */}
+            >
+              {TAB_LIST[key].icon}
+              <div className="font-bold text-md">{TAB_LIST[key].name}</div>
+            </Link>
+          ))}
         </div>
       </div>
-      <div className="pt-[70px] pl-[132px] flex gap-8 max-h-[100vh] overflow-auto">
+      <div className="pt-[70px] px-[100px] flex gap-8 max-h-[100vh] overflow-auto">
         <div className={classNames(className)}>{children}</div>
+      </div>
+      <div className="absolute top-0 bottom-0 right-0 mt-[70px] z-[5] shadow-md">
+        <div className="flex flex-col gap-4 bg-white w-[250px] h-full p-4"></div>
       </div>
     </>
   );

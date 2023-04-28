@@ -17,6 +17,7 @@ type State = {
 };
 
 type Props = {
+  tripId?: number;
   postId?: number;
   opened?: boolean;
   privacy?: Privacy;
@@ -28,6 +29,7 @@ type Props = {
 } & LocationSeletionProps;
 
 const ModalCreate = ({
+  tripId,
   postId,
   opened = false,
   locations,
@@ -80,6 +82,7 @@ const ModalCreate = ({
         onOpenReview(postId);
       } else {
         const data = await create.mutateAsync({
+          tripId,
           ...state,
           locationIds: locations.map((d) => d.id),
         });

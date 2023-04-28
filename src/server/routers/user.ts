@@ -3,7 +3,6 @@ import { hash, verify } from 'argon2';
 import { z } from 'zod';
 import { prisma } from '../prisma';
 import { authProcedure, publicProcedure, router } from '../trpc';
-import { use } from 'react';
 
 export const userRouter = router({
   findUser: publicProcedure.input(z.object({ id: z.number() })).query(async ({ input }) => {
@@ -27,6 +26,8 @@ export const userRouter = router({
         notification: {
           where: { seen: false },
         },
+        requests: true,
+        joinTrip: true,
         receiveMessages: true,
       },
     });

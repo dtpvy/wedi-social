@@ -3,22 +3,31 @@ import { ActionIcon, Avatar } from '@mantine/core';
 import React from 'react';
 import Post from './Post';
 import { IconDots } from '@tabler/icons-react';
+import { PostTrip } from '@/types/post';
+import { Trip } from '@prisma/client';
+import dayjs from 'dayjs';
 
-const PostTrip = () => {
+type Props = {
+  post: PostTrip;
+  refetch: () => void;
+};
+
+const PostTrip = ({ post, refetch }: Props) => {
+  const { trip, ...postDetail } = post;
+
   return (
-    <div className="bg-white p-5 shadow rounded">
+    <div className="bg-white p-5 shadow rounded-lg">
       <div className="flex items-center gap-4">
         <Avatar radius="md" className="border" />
         <div className="mr-auto">
-          <div className="font-bold">Group Name</div>
-          <div className="text-gray-400 text-sm">Đã tham gia từ 20/03/2022</div>
+          <div className="font-bold">{trip?.name}</div>
+          <div className="text-gray-400 text-sm">
+            {`Đã tạo từ ${dayjs(trip?.createdAt).format('DD/MM/YYYY HH:mm')}`}
+          </div>
         </div>
-        <ActionIcon radius="xl">
-          <IconDots size="20" />
-        </ActionIcon>
       </div>
       <div className="shadow mt-4">
-        <Post post={profilePost} />
+        <Post post={postDetail} refetch={refetch} />
       </div>
     </div>
   );

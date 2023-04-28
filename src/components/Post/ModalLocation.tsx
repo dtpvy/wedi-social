@@ -62,8 +62,8 @@ const ModalLocation = ({
           <Popover.Target>
             <TextInput
               onFocus={() => setOpenedPopover(true)}
-              label="Street"
-              placeholder="Street"
+              label="Address"
+              placeholder="Address"
               onChange={(e) => setStreet(e.target.value)}
             />
           </Popover.Target>

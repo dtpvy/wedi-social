@@ -6,13 +6,13 @@ import { useState } from 'react';
 import ModalCreate from './ModalCreate';
 import ModalLocation from './ModalLocation';
 import ModalReview from './ModalReview';
-import { trpc } from '@/utils/trpc';
 
 type Props = {
   refetch: () => void;
+  tripId?: number;
 };
 
-const CreatePost = ({ refetch }: Props) => {
+const CreatePost = ({ tripId, refetch }: Props) => {
   const [modal, setModal] = useState('');
   const [postId, setPostId] = useState<number>();
   const [locations, setLocations] = useState<LocationDetail[]>([]);
@@ -32,7 +32,7 @@ const CreatePost = ({ refetch }: Props) => {
   };
 
   return (
-    <div className="bg-white shadow p-4 rounded-lg border">
+    <div className="bg-white shadow p-4 rounded-lg">
       <div className="flex items-center gap-4 w-full">
         <Avatar radius="xl" />
         <div
@@ -45,12 +45,13 @@ const CreatePost = ({ refetch }: Props) => {
           <IconMapPinFilled className="text-red-600" size={30} />
           <div>Chọn địa điểm</div>
         </div>
-        <Button color="green" radius="xl">
+        <Button onClick={() => setModal('create')} color="teal" radius="xl">
           Đăng bài
         </Button>
       </div>
 
       <ModalCreate
+        tripId={tripId}
         opened={modal === 'create'}
         onClose={() => setModal('')}
         locations={locations}

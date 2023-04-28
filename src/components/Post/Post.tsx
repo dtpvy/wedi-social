@@ -10,6 +10,7 @@ import CreateComment from './CreateComment';
 import PostAction from './PostAction';
 import Reaction from './Reaction';
 import { Privacy } from '@prisma/client';
+import useUserStore from '@/stores/user';
 
 type Props = {
   post: PostDetail;
@@ -34,10 +35,11 @@ const PrivacyConfig = {
 
 const Post = ({ post, className, refetch }: Props) => {
   const [opened, setOpened] = useState(false);
+  const user = useUserStore.use.user();
   const { creator, createdAt, content, _count, imgUrls, locations, reviews, privacy } = post;
 
   return (
-    <div className={classNames('shadow border rounded-lg p-4 bg-white', className)}>
+    <div className={classNames('shadow rounded-lg p-4 bg-white', className)}>
       <div className="flex items-center gap-2 mb-4">
         <Avatar radius="xl" src={creator.imgUrl} />
         <div className="mr-auto">
@@ -48,7 +50,7 @@ const Post = ({ post, className, refetch }: Props) => {
             <div className="font-medium">{dayjs(createdAt).format('DD-MM-YYYY HH:mm')}</div>
           </div>
         </div>
-        <PostAction post={post} refetch={refetch} />
+        {user?.id === post.creatorId && <PostAction post={post} refetch={refetch} />}
       </div>
       <Card shadow="sm" padding="lg" radius="md" withBorder>
         {!!locations?.length && (

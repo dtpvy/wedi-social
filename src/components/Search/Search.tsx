@@ -24,6 +24,7 @@ import { useRouter } from 'next/router';
 import { useMemo, useState } from 'react';
 import Message from './Message';
 import Notification from './Notification';
+import Link from 'next/link';
 
 const Search = () => {
   const router = useRouter();
@@ -62,17 +63,17 @@ const Search = () => {
   };
 
   return (
-    <>
+    <div className="w-full fixed shadow-md mb-4 z-10">
       <LoadingOverlay
         visible={loading}
         className="absolute top-0 left-0 w-screen h-screen"
         overlayBlur={2}
       />
       <div className="flex items-center justify-between bg-white pr-8 py-[5px]">
-        <button onClick={() => router.push('/feed')} className="flex items-center bg-white">
+        <Link href={'/feed'} className="flex items-center bg-white no-underline">
           <Image src="/logo.png" alt="logo" width={60} height={60} />
           <div className="font-bold uppercase text-green-700 text-2xl">wedi</div>
-        </button>
+        </Link>
         <Input
           icon={<IconSearch />}
           placeholder="Search..."
@@ -149,12 +150,12 @@ const Search = () => {
             </Popover.Dropdown>
           </Popover>
 
-          <ActionIcon onClick={() => router.push(`/profile/${user?.id}/posts`)} radius="xl">
-            <Avatar className="border shadow" radius="xl" size="lg" src={user?.imgUrl} />
+          <ActionIcon onClick={() => router.push(`/profile/${user?.id}`)} radius="xl">
+            <Avatar className="border shadow" radius="xl" size={45} src={user?.imgUrl} />
           </ActionIcon>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

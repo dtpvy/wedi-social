@@ -8,11 +8,11 @@ import { IKUpload } from 'imagekitio-react';
 import React, { useRef, useState } from 'react';
 
 const Header = () => {
+  const utils = trpc.useContext();
   const user = useUserStore((state) => state.user);
   const updateImage = trpc.user.updateImage.useMutation();
   const avatarRef = useRef<HTMLInputElement>(null);
   const bgRef = useRef<HTMLInputElement>(null);
-  const utils = trpc.useContext();
   const [loading, setLoading] = useState(false);
   const [bgLoading, setBgLoading] = useState(false);
 

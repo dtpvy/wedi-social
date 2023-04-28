@@ -19,6 +19,83 @@ export const postRouter = router({
     });
     return data;
   }),
+  feedTrip: authProcedure
+    .input(
+      z.object({
+        cursor: z.number().nullish(),
+        take: z.number().min(1).max(10).nullish(),
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      const take = input.take ?? 10;
+      const cursor = input.cursor;
+
+      const reactions = await prisma.reaction.findMany({
+        orderBy: { id: 'asc' },
+      });
+
+      const items = await prisma.post.findMany({
+        orderBy: {
+          createdAt: 'desc',
+        },
+        where: { tripId: { not: null }, privacy: Privacy.PUBLIC },
+        include: {
+          trip: true,
+          creator: true,
+          reviews: true,
+          locations: {
+            include: {
+              location: true,
+            },
+          },
+          reactions: {
+            include: {
+              reaction: true,
+            },
+            where: {
+              userId: ctx.user.id,
+            },
+          },
+          comments: {
+            orderBy: {
+              createdAt: 'desc',
+            },
+            take: 5,
+          },
+          _count: {
+            select: { comments: true, reactions: true },
+          },
+        },
+        cursor: cursor ? { id: cursor } : undefined,
+        take: take + 1,
+        skip: 0,
+      });
+
+      const countReaction = await Promise.all(
+        items.map(async (d) => {
+          const reaction = await Promise.all(
+            reactions.map(async (react) => {
+              const data = await prisma.postReaction.count({
+                where: { reactionId: react.id, postId: d.id },
+              });
+              return { ...react, count: data };
+            })
+          );
+          return { ...d, reaction };
+        })
+      );
+
+      let nextCursor: typeof cursor | undefined = undefined;
+      if (items.length > take) {
+        const nextItem = items.pop();
+        nextCursor = nextItem!.id;
+      }
+
+      return {
+        items: countReaction,
+        nextCursor,
+      };
+    }),
   feed: authProcedure
     .input(
       z.object({
