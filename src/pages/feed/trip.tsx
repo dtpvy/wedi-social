@@ -1,8 +1,8 @@
-import { FeedLayout } from "@/components/Layout";
-import { PostTrip } from "@/components/Post";
-import { Trip as TripWidget } from "@/components/Trip";
-import { posts } from "@/mocks/post";
-import { Carousel } from "@mantine/carousel";
+import { FeedLayout } from '@/components/Layout';
+import { PostTrip } from '@/components/Post';
+import { Trip as TripWidget } from '@/components/Trip';
+import { posts } from '@/mocks/post';
+import { Carousel } from '@mantine/carousel';
 
 const Trip = () => {
   return (

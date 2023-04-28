@@ -1,6 +1,6 @@
-import { FeedLayout } from "@/components/Layout";
-import { Location as LocationComponent } from "@/components/Location";
-import { trpc } from "@/utils/trpc";
+import { FeedLayout } from '@/components/Layout';
+import { Location as LocationComponent } from '@/components/Location';
+import { trpc } from '@/utils/trpc';
 
 const Location = () => {
   const query = trpc.post.feed.useInfiniteQuery(

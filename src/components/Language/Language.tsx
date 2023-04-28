@@ -1,8 +1,8 @@
-import { LanguageConfig } from "@/constants/default";
-import useTranslation from "@/hooks/useTranslation";
-import useTranslator from "@/stores/translator";
-import { Popover } from "@mantine/core";
-import { IconLanguage } from "@tabler/icons-react";
+import { LanguageConfig } from '@/constants/default';
+import useTranslation from '@/hooks/useTranslation';
+import useTranslator from '@/stores/translator';
+import { Popover } from '@mantine/core';
+import { IconLanguage } from '@tabler/icons-react';
 
 const Language = () => {
   const setLocale = useTranslator.use.setLocale();
@@ -26,9 +26,7 @@ const Language = () => {
               onClick={() => setLocale(language as keyof typeof LanguageConfig)}
               className="hover:bg-gray-100 p-2 cursor-pointer"
             >
-              {`${
-                LanguageConfig[language as keyof typeof LanguageConfig].flag
-              } ${t(
+              {`${LanguageConfig[language as keyof typeof LanguageConfig].flag} ${t(
                 LanguageConfig[language as keyof typeof LanguageConfig].label
               )}`}
             </div>

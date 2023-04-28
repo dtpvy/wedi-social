@@ -2,7 +2,7 @@
  * Instantiates a single instance PrismaClient and save it on the global object.
  * @link https://www.prisma.io/docs/support/help-articles/nextjs-prisma-client-dev-practices
  */
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from '@prisma/client';
 
 const prismaGlobal = global as typeof global & {
   prisma?: PrismaClient;
@@ -11,10 +11,7 @@ const prismaGlobal = global as typeof global & {
 export const prisma: PrismaClient =
   prismaGlobal.prisma ||
   new PrismaClient({
-    log:
-      process.env.NODE_ENV === "development"
-        ? ["query", "error", "warn"]
-        : ["error"],
+    log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
   });
 
 const softDeleteMiddleware = (models: string[]) => {
@@ -23,18 +20,18 @@ const softDeleteMiddleware = (models: string[]) => {
   /***********************************/
 
   prisma.$use(async (params, next) => {
-    if (models.includes(params.model || "")) {
-      if (params.action === "findUnique" || params.action === "findFirst") {
-        params.action = "findFirst";
-        params.args.where["isDeleted"] = false;
+    if (models.includes(params.model || '')) {
+      if (params.action === 'findUnique' || params.action === 'findFirst') {
+        params.action = 'findFirst';
+        params.args.where['isDeleted'] = false;
       }
-      if (params.action === "findMany") {
+      if (params.action === 'findMany') {
         if (params.args.where) {
           if (params.args.where.deleted == undefined) {
-            params.args.where["isDeleted"] = false;
+            params.args.where['isDeleted'] = false;
           }
         } else {
-          params.args["where"] = { isDeleted: false };
+          params.args['where'] = { isDeleted: false };
         }
       }
     }
@@ -42,16 +39,16 @@ const softDeleteMiddleware = (models: string[]) => {
   });
 
   prisma.$use(async (params, next) => {
-    if (models.includes(params.model || "")) {
-      if (params.action == "update") {
-        params.action = "updateMany";
-        params.args.where["isDeleted"] = false;
+    if (models.includes(params.model || '')) {
+      if (params.action == 'update') {
+        params.action = 'updateMany';
+        params.args.where['isDeleted'] = false;
       }
-      if (params.action == "updateMany") {
+      if (params.action == 'updateMany') {
         if (params.args.where != undefined) {
-          params.args.where["isDeleted"] = false;
+          params.args.where['isDeleted'] = false;
         } else {
-          params.args["where"] = { isDeleted: false };
+          params.args['where'] = { isDeleted: false };
         }
       }
     }
@@ -59,19 +56,19 @@ const softDeleteMiddleware = (models: string[]) => {
   });
 
   prisma.$use(async (params, next) => {
-    if (models.includes(params.model || "")) {
+    if (models.includes(params.model || '')) {
       const deletedAt = new Date();
-      if (params.action == "delete") {
-        params.action = "update";
-        params.args["data"] = { isDeleted: true, deletedAt };
+      if (params.action == 'delete') {
+        params.action = 'update';
+        params.args['data'] = { isDeleted: true, deletedAt };
       }
-      if (params.action == "deleteMany") {
-        params.action = "updateMany";
+      if (params.action == 'deleteMany') {
+        params.action = 'updateMany';
         if (params.args.data != undefined) {
-          params.args.data["isDeleted"] = true;
-          params.args.data["deletedAt"] = deletedAt;
+          params.args.data['isDeleted'] = true;
+          params.args.data['deletedAt'] = deletedAt;
         } else {
-          params.args["data"] = { isDeleted: true, deletedAt };
+          params.args['data'] = { isDeleted: true, deletedAt };
         }
       }
     }
@@ -79,9 +76,9 @@ const softDeleteMiddleware = (models: string[]) => {
   });
 };
 
-softDeleteMiddleware(["Post"]);
+softDeleteMiddleware(['Post']);
 
-if (process.env.NODE_ENV !== "production") {
+if (process.env.NODE_ENV !== 'production') {
   prismaGlobal.prisma = prisma;
 }
 

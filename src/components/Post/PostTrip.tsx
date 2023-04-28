@@ -1,8 +1,8 @@
-import { profilePost } from "@/mocks/post";
-import { ActionIcon, Avatar } from "@mantine/core";
-import React from "react";
-import Post from "./Post";
-import { IconDots } from "@tabler/icons-react";
+import { profilePost } from '@/mocks/post';
+import { ActionIcon, Avatar } from '@mantine/core';
+import React from 'react';
+import Post from './Post';
+import { IconDots } from '@tabler/icons-react';
 
 const PostTrip = () => {
   return (

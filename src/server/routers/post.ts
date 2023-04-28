@@ -1,26 +1,24 @@
-import { z } from "zod";
-import { prisma } from "../prisma";
-import { authProcedure, router } from "../trpc";
-import { Privacy } from "@prisma/client";
+import { z } from 'zod';
+import { prisma } from '../prisma';
+import { authProcedure, router } from '../trpc';
+import { Privacy } from '@prisma/client';
 
 export const postRouter = router({
-  get: authProcedure
-    .input(z.object({ id: z.number() }))
-    .query(async ({ input }) => {
-      const data = await prisma.post.findFirst({
-        where: { id: input.id },
-        include: {
-          creator: true,
-          reviews: true,
-          locations: {
-            include: {
-              location: true,
-            },
+  get: authProcedure.input(z.object({ id: z.number() })).query(async ({ input }) => {
+    const data = await prisma.post.findFirst({
+      where: { id: input.id },
+      include: {
+        creator: true,
+        reviews: true,
+        locations: {
+          include: {
+            location: true,
           },
         },
-      });
-      return data;
-    }),
+      },
+    });
+    return data;
+  }),
   feed: authProcedure
     .input(
       z.object({
@@ -33,12 +31,12 @@ export const postRouter = router({
       const cursor = input.cursor;
 
       const reactions = await prisma.reaction.findMany({
-        orderBy: { id: "asc" },
+        orderBy: { id: 'asc' },
       });
 
       const items = await prisma.post.findMany({
         orderBy: {
-          createdAt: "desc",
+          createdAt: 'desc',
         },
         where: { tripId: null },
         include: {
@@ -59,7 +57,7 @@ export const postRouter = router({
           },
           comments: {
             orderBy: {
-              createdAt: "desc",
+              createdAt: 'desc',
             },
             take: 5,
           },
@@ -109,12 +107,12 @@ export const postRouter = router({
       const cursor = input.cursor;
 
       const reactions = await prisma.reaction.findMany({
-        orderBy: { id: "asc" },
+        orderBy: { id: 'asc' },
       });
 
       const items = await prisma.post.findMany({
         orderBy: {
-          createdAt: "desc",
+          createdAt: 'desc',
         },
         where: { creatorId: ctx.user.id, tripId: null },
         include: {
@@ -207,11 +205,9 @@ export const postRouter = router({
       });
       return true;
     }),
-  delete: authProcedure
-    .input(z.object({ id: z.number() }))
-    .mutation(async ({ input }) => {
-      const { id } = input;
-      await prisma.post.delete({ where: { id } });
-      return true;
-    }),
+  delete: authProcedure.input(z.object({ id: z.number() })).mutation(async ({ input }) => {
+    const { id } = input;
+    await prisma.post.delete({ where: { id } });
+    return true;
+  }),
 });

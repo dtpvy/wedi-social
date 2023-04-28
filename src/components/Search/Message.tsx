@@ -1,12 +1,12 @@
-import useOpenMessageDialog from "@/hooks/useOpenMessageDialog";
-import useUserStore from "@/stores/user";
-import { MessageDetail } from "@/types/message";
-import { trpc } from "@/utils/trpc";
-import { Avatar, Select } from "@mantine/core";
-import { User } from "@prisma/client";
-import { IconSearch } from "@tabler/icons-react";
-import dayjs from "dayjs";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import useOpenMessageDialog from '@/hooks/useOpenMessageDialog';
+import useUserStore from '@/stores/user';
+import { MessageDetail } from '@/types/message';
+import { trpc } from '@/utils/trpc';
+import { Avatar, Select } from '@mantine/core';
+import { User } from '@prisma/client';
+import { IconSearch } from '@tabler/icons-react';
+import dayjs from 'dayjs';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 const Message = () => {
   const { show } = useOpenMessageDialog();
@@ -19,8 +19,7 @@ const Message = () => {
   );
 
   const utils = trpc.useContext();
-  const { hasPreviousPage, isFetchingPreviousPage, fetchPreviousPage } =
-    messQuery;
+  const { hasPreviousPage, isFetchingPreviousPage, fetchPreviousPage } = messQuery;
 
   const [messages, setMessages] = useState(() => {
     const nts = messQuery.data?.pages
@@ -31,23 +30,19 @@ const Message = () => {
 
   const addMess = useCallback((incoming?: MessageDetail[]) => {
     setMessages((current) => {
-      const map: Record<MessageDetail["id"], MessageDetail> = {};
+      const map: Record<MessageDetail['id'], MessageDetail> = {};
       for (const msg of current ?? []) {
         map[msg.id] = msg;
       }
       for (const msg of incoming ?? []) {
         map[msg.id] = msg;
       }
-      return Object.values(map).sort(
-        (a, b) => b.createdAt.getTime() - a.createdAt.getTime()
-      );
+      return Object.values(map).sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
     });
   }, []);
 
   useEffect(() => {
-    const msgs = messQuery.data?.pages
-      .map((page) => page.items as unknown as MessageDetail)
-      .flat();
+    const msgs = messQuery.data?.pages.map((page) => page.items as unknown as MessageDetail).flat();
     addMess(msgs);
   }, [messQuery.data?.pages, addMess]);
 
@@ -56,14 +51,14 @@ const Message = () => {
       addMess([noti as MessageDetail]);
     },
     onError(err) {
-      console.error("Subscription error:", err);
+      console.error('Subscription error:', err);
       utils.notification.infinite.invalidate();
     },
   });
 
   const { data, isLoading } = trpc.friend.friendList.useQuery({
-    search: "",
-    order: "asc",
+    search: '',
+    order: 'asc',
   });
 
   const friends = useMemo(() => {
@@ -85,9 +80,9 @@ const Message = () => {
     <div className="max-h-[300px] overflow-auto">
       <Select
         icon={<IconSearch />}
-        placeholder={isLoading ? "Loading..." : "Tìm kiếm"}
+        placeholder={isLoading ? 'Loading...' : 'Tìm kiếm'}
         data={friends || []}
-        onChange={(value) => handleShowMessDialog(Number.parseInt(value || ""))}
+        onChange={(value) => handleShowMessDialog(Number.parseInt(value || ''))}
         className="mb-3"
       />
       {!messages?.length && <div className="text-center">No data</div>}
@@ -102,11 +97,7 @@ const Message = () => {
           >
             <div className="flex items-center">
               <div className="relative inline-block shrink-0">
-                <Avatar
-                  src={imgUrl}
-                  className="w-12 h-12 rounded-full"
-                  radius="xl"
-                />
+                <Avatar src={imgUrl} className="w-12 h-12 rounded-full" radius="xl" />
                 <span className="absolute bottom-0 right-0 inline-flex items-center justify-center w-6 h-6 bg-blue-600 rounded-full">
                   <svg
                     aria-hidden="true"
@@ -121,12 +112,10 @@ const Message = () => {
                 </span>
               </div>
               <div className="ml-3 text-sm font-normal">
-                <div className="text-sm font-semibold text-gray-900">
-                  {name}
-                </div>
+                <div className="text-sm font-semibold text-gray-900">{name}</div>
                 <div className="text-sm font-normal">{`${mess.sender.name}: ${mess.content}`}</div>
                 <span className="text-xs font-medium text-blue-600 dark:text-blue-500">
-                  {dayjs(mess.createdAt).format("DD/MM/YYYY HH:mm")}
+                  {dayjs(mess.createdAt).format('DD/MM/YYYY HH:mm')}
                 </span>
               </div>
             </div>
@@ -140,10 +129,10 @@ const Message = () => {
         className="px-4 py-2 text-teal-700 underline rounded disabled:opacity-50 w-full text-center"
       >
         {isFetchingPreviousPage
-          ? "Loading more..."
+          ? 'Loading more...'
           : hasPreviousPage
-          ? "Load More"
-          : "Nothing more to load"}
+          ? 'Load More'
+          : 'Nothing more to load'}
       </button>
     </div>
   );

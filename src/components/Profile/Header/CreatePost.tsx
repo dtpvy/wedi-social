@@ -1,5 +1,5 @@
-import { Avatar, Button, Modal, TextInput } from "@mantine/core";
-import React from "react";
+import { Avatar, Button, Modal, TextInput } from '@mantine/core';
+import React from 'react';
 
 type Props = {
   opened?: boolean;

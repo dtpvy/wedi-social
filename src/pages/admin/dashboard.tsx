@@ -1,7 +1,7 @@
-import { Admin, Header } from "@/components/Admin/Dashboard";
-import { trpc } from "@/utils/trpc";
-import { Divider, Loader, Text } from "@mantine/core";
-import { Bar, BarChart, ResponsiveContainer } from "recharts";
+import { Admin, Header } from '@/components/Admin/Dashboard';
+import { trpc } from '@/utils/trpc';
+import { Divider, Loader, Text } from '@mantine/core';
+import { Bar, BarChart, ResponsiveContainer } from 'recharts';
 
 const Dashboard = () => {
   const { data, isLoading, refetch } = trpc.admin.adminList.useQuery();

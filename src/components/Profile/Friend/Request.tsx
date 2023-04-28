@@ -1,10 +1,10 @@
-import { trpc } from "@/utils/trpc";
-import { Avatar, Button } from "@mantine/core";
-import { notifications } from "@mantine/notifications";
-import { FriendStatus, User } from "@prisma/client";
-import { IconCheck, IconX } from "@tabler/icons-react";
-import { useSession } from "next-auth/react";
-import React from "react";
+import { trpc } from '@/utils/trpc';
+import { Avatar, Button } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
+import { FriendStatus, User } from '@prisma/client';
+import { IconCheck, IconX } from '@tabler/icons-react';
+import { useSession } from 'next-auth/react';
+import React from 'react';
 
 type Props = {
   user: User;
@@ -25,15 +25,15 @@ const Request = ({ user, status, friendId }: Props) => {
       await reject.mutateAsync({ userId, friendId });
       notifications.show({
         message: `Action successfully`,
-        color: "green",
+        color: 'green',
         icon: <IconCheck />,
       });
       utils.friend.friendList.refetch();
       utils.friend.requestList.refetch();
     } catch (e: any) {
       notifications.show({
-        message: "Có lỗi xảy ra. Vui lòng thử lại",
-        color: "red",
+        message: 'Có lỗi xảy ra. Vui lòng thử lại',
+        color: 'red',
         icon: <IconX />,
       });
     }
@@ -43,13 +43,13 @@ const Request = ({ user, status, friendId }: Props) => {
     try {
       await accept.mutateAsync({ userId, friendId });
       await addNoti.mutateAsync({
-        content: "Lời mời kết bạn của bạn đã được chấp nhận",
+        content: 'Lời mời kết bạn của bạn đã được chấp nhận',
         userId,
-        imgUrl: user.imgUrl || "",
+        imgUrl: user.imgUrl || '',
       });
       notifications.show({
         message: `Action successfully`,
-        color: "green",
+        color: 'green',
         icon: <IconCheck />,
       });
       utils.friend.friendList.refetch();
@@ -57,8 +57,8 @@ const Request = ({ user, status, friendId }: Props) => {
     } catch (e: any) {
       console.log(e);
       notifications.show({
-        message: "Có lỗi xảy ra. Vui lòng thử lại",
-        color: "red",
+        message: 'Có lỗi xảy ra. Vui lòng thử lại',
+        color: 'red',
         icon: <IconX />,
       });
     }

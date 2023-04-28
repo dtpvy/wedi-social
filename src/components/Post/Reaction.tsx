@@ -1,9 +1,9 @@
-import { CommentDetail } from "@/types/comment";
-import { PostDetail } from "@/types/post";
-import { trpc } from "@/utils/trpc";
-import { Button, HoverCard, Image } from "@mantine/core";
-import { Reaction } from "@prisma/client";
-import { IconIcons } from "@tabler/icons-react";
+import { CommentDetail } from '@/types/comment';
+import { PostDetail } from '@/types/post';
+import { trpc } from '@/utils/trpc';
+import { Button, HoverCard, Image } from '@mantine/core';
+import { Reaction } from '@prisma/client';
+import { IconIcons } from '@tabler/icons-react';
 
 type Props = {
   post?: PostDetail;
@@ -25,8 +25,8 @@ const Reaction = ({ post, comment, refetch }: Props) => {
           refetch();
           if (!data) return;
           const content = post
-            ? "Vừa mới thả cảm xúc vô bài viết của bạn"
-            : "Vừa mới thả cảm xúc vô bình luận của bạn";
+            ? 'Vừa mới thả cảm xúc vô bài viết của bạn'
+            : 'Vừa mới thả cảm xúc vô bình luận của bạn';
           addNoti.mutate({
             content,
             userId: (post?.creatorId || comment?.userId) as number,
@@ -42,12 +42,7 @@ const Reaction = ({ post, comment, refetch }: Props) => {
     <HoverCard position="top" withArrow shadow="md" openDelay={500}>
       <HoverCard.Target>
         {!reactions?.length ? (
-          <Button
-            variant="white"
-            leftIcon={<IconIcons />}
-            color="dark"
-            className="relative"
-          >
+          <Button variant="white" leftIcon={<IconIcons />} color="dark" className="relative">
             {_count?.reactions}
           </Button>
         ) : (

@@ -1,6 +1,6 @@
-import React from "react";
-import { useRouter } from "next/router";
-import { LocationDetail } from "@/components/Admin/Location";
+import React from 'react';
+import { useRouter } from 'next/router';
+import { LocationDetail } from '@/components/Admin/Location';
 
 const LocationInfo = () => {
   const router = useRouter();

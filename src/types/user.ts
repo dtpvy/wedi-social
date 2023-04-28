@@ -1,11 +1,4 @@
-import {
-  Friend,
-  Language,
-  Message,
-  Notification,
-  Post,
-  User,
-} from "@prisma/client";
+import { Friend, Language, Message, Notification, Post, User } from '@prisma/client';
 
 export type UserInfo = User & {
   posts: Post[];

@@ -24,6 +24,7 @@ enum LocationStatus {
 
 enum TripStatus {
     SCHEDULE
+    INPROGRESS
     DONE
 }
 
@@ -252,19 +253,21 @@ model Trip {
     id        Int        @id @default(autoincrement())
     name      String     @db.VarChar(255)
     imgUrl    String     @db.VarChar(255)
+    bgUrl     String?    @db.VarChar(255)
     status    TripStatus @default(SCHEDULE)
     creatorId Int
     startDate DateTime
+    endDate   DateTime
     privacy   Privacy
     isDeleted Boolean    @default(false)
     createdAt DateTime   @default(now())
     updatedAt DateTime   @updatedAt
     deletedAt DateTime?
 
-    posts    Post[]
-    users    JoinTrip[]
-    creator  User       @relation(fields: [creatorId], references: [id])
-    Schedule Schedule[]
+    posts     Post[]
+    users     JoinTrip[]
+    creator   User       @relation(fields: [creatorId], references: [id])
+    schedules Schedule[]
 }
 
 model JoinTrip {

@@ -1,7 +1,7 @@
-import { Tab } from "@/types/tab";
-import classNames from "@/utils/classNames";
-import { Badge } from "@mantine/core";
-import React, { ReactNode } from "react";
+import { Tab } from '@/types/tab';
+import classNames from '@/utils/classNames';
+import { Badge } from '@mantine/core';
+import React, { ReactNode } from 'react';
 
 type Props = {
   className?: string;
@@ -18,8 +18,8 @@ type Props = {
 
 const Menu = ({
   className,
-  activeClass = "",
-  titleClass = "",
+  activeClass = '',
+  titleClass = '',
   active = false,
   items,
   tab,
@@ -38,15 +38,15 @@ const Menu = ({
         <button
           onClick={() => onChangeTab(key)}
           key={key}
-          className={classNames("uppercase flex items-center", className, {
+          className={classNames('uppercase flex items-center', className, {
             [activeClass]: active || tab === items[key].name,
           })}
         >
           {leftIcon}
           <div
-            className={classNames("font-bold uppercase", titleClass, {
-              "ml-2": !!leftIcon,
-              "mr-auto": !!rightIcon || showBadgeNumber,
+            className={classNames('font-bold uppercase', titleClass, {
+              'ml-2': !!leftIcon,
+              'mr-auto': !!rightIcon || showBadgeNumber,
             })}
           >
             {items[key].name}

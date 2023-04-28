@@ -1,8 +1,8 @@
-import { ProfileLayout } from "@/components/Layout";
-import { Post } from "@/components/Post";
-import useTranslation from "@/hooks/useTranslation";
-import { profilePost } from "@/mocks/post";
-import { trpc } from "@/utils/trpc";
+import { ProfileLayout } from '@/components/Layout';
+import { Post } from '@/components/Post';
+import useTranslation from '@/hooks/useTranslation';
+import { profilePost } from '@/mocks/post';
+import { trpc } from '@/utils/trpc';
 
 const Profile = () => {
   const query = trpc.post.userPost.useInfiniteQuery(

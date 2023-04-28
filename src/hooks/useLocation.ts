@@ -1,5 +1,5 @@
-import { trpc } from "@/utils/trpc";
-import { useMemo } from "react";
+import { trpc } from '@/utils/trpc';
+import { useMemo } from 'react';
 
 type Params = {
   countryId: number | null;
@@ -9,20 +9,18 @@ type Params = {
 
 const useLocation = ({ countryId, cityId, districtId }: Params) => {
   console.log({ countryId, cityId, districtId });
-  const { data: country, isLoading: loadingCountry } =
-    trpc.location.countries.useQuery({});
+  const { data: country, isLoading: loadingCountry } = trpc.location.countries.useQuery({});
   const { data: city, isLoading: loadingCity } = trpc.location.cities.useQuery(
     { countryId: countryId as number },
-    { enabled: typeof countryId === "number" }
+    { enabled: typeof countryId === 'number' }
   );
-  const { data: district, isLoading: loadingDistrict } =
-    trpc.location.districts.useQuery(
-      { cityId: cityId as number },
-      { enabled: typeof cityId === "number" }
-    );
+  const { data: district, isLoading: loadingDistrict } = trpc.location.districts.useQuery(
+    { cityId: cityId as number },
+    { enabled: typeof cityId === 'number' }
+  );
   const { data: ward, isLoading: loadingWard } = trpc.location.wards.useQuery(
     { districtId: districtId as number },
-    { enabled: typeof districtId === "number" }
+    { enabled: typeof districtId === 'number' }
   );
 
   const countries = useMemo(() => {

@@ -1,7 +1,7 @@
-import useUserStore from "@/stores/user";
-import { Loader } from "@mantine/core";
-import { ReactNode } from "react";
-import { Search } from "../Search";
+import useUserStore from '@/stores/user';
+import { Loader } from '@mantine/core';
+import { ReactNode } from 'react';
+import { Search } from '../Search';
 
 type Props = {
   children: ReactNode;
@@ -10,7 +10,7 @@ type Props = {
 const LayoutMain = ({ children }: Props) => {
   const status = useUserStore.use.status();
 
-  if (status === "loading") {
+  if (status === 'loading') {
     return <Loader />;
   }
 

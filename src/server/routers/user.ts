@@ -1,40 +1,38 @@
-import { ERROR_MESSAGES } from "@/constants/error";
-import { hash, verify } from "argon2";
-import { z } from "zod";
-import { prisma } from "../prisma";
-import { authProcedure, publicProcedure, router } from "../trpc";
-import { use } from "react";
+import { ERROR_MESSAGES } from '@/constants/error';
+import { hash, verify } from 'argon2';
+import { z } from 'zod';
+import { prisma } from '../prisma';
+import { authProcedure, publicProcedure, router } from '../trpc';
+import { use } from 'react';
 
 export const userRouter = router({
-  findUser: publicProcedure
-    .input(z.object({ id: z.number() }))
-    .query(async ({ input }) => {
-      const { id } = input;
+  findUser: publicProcedure.input(z.object({ id: z.number() })).query(async ({ input }) => {
+    const { id } = input;
 
-      const user = await prisma.user.findFirst({
-        where: { id },
-        include: {
-          posts: true,
-          friends: {
-            where: {
-              status: "ACCEPT",
-            },
+    const user = await prisma.user.findFirst({
+      where: { id },
+      include: {
+        posts: true,
+        friends: {
+          where: {
+            status: 'ACCEPT',
           },
-          language: true,
-          userFriends: {
-            where: {
-              status: "ACCEPT",
-            },
-          },
-          notification: {
-            where: { seen: false },
-          },
-          receiveMessages: true,
         },
-      });
+        language: true,
+        userFriends: {
+          where: {
+            status: 'ACCEPT',
+          },
+        },
+        notification: {
+          where: { seen: false },
+        },
+        receiveMessages: true,
+      },
+    });
 
-      return user;
-    }),
+    return user;
+  }),
   signup: publicProcedure
     .input(
       z.object({
@@ -61,7 +59,7 @@ export const userRouter = router({
 
       return {
         status: 201,
-        message: "Account created successfully",
+        message: 'Account created successfully',
         result: result.name,
       };
     }),
@@ -87,9 +85,7 @@ export const userRouter = router({
       return true;
     }),
   updateImage: authProcedure
-    .input(
-      z.object({ imgUrl: z.string().optional(), bgUrl: z.string().optional() })
-    )
+    .input(z.object({ imgUrl: z.string().optional(), bgUrl: z.string().optional() }))
     .mutation(async ({ input, ctx }) => {
       const userId = ctx.user.id;
       await prisma.user.update({ where: { id: userId }, data: input });
@@ -107,10 +103,7 @@ export const userRouter = router({
     .mutation(async ({ input, ctx }) => {
       const userId = ctx.user.id;
       const user = await prisma.user.findFirst({ where: { id: userId } });
-      const isValidPassword = await verify(
-        user?.password || "",
-        input.password
-      );
+      const isValidPassword = await verify(user?.password || '', input.password);
       if (!isValidPassword) throw new Error(ERROR_MESSAGES.invalidPassword);
       const password = await hash(input.newPassword);
       await prisma.user.update({

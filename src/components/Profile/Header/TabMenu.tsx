@@ -1,46 +1,41 @@
-import { Avatar, Badge, Button, Textarea } from "@mantine/core";
+import { Avatar, Badge, Button, Textarea } from '@mantine/core';
 
-import { Menu } from "@/components/Menu";
-import { Tab } from "@/types/tab";
-import {
-  IconArticle,
-  IconFriends,
-  IconMap,
-  IconMessageReport,
-} from "@tabler/icons-react";
-import { useRouter } from "next/router";
-import { use, useContext, useMemo } from "react";
-import { ProfileLayoutContext } from "@/components/Layout/ProfileLayout";
-import useUserStore from "@/stores/user";
-import { trpc } from "@/utils/trpc";
-import { calcFriend } from "@/utils/user";
+import { Menu } from '@/components/Menu';
+import { Tab } from '@/types/tab';
+import { IconArticle, IconFriends, IconMap, IconMessageReport } from '@tabler/icons-react';
+import { useRouter } from 'next/router';
+import { use, useContext, useMemo } from 'react';
+import { ProfileLayoutContext } from '@/components/Layout/ProfileLayout';
+import useUserStore from '@/stores/user';
+import { trpc } from '@/utils/trpc';
+import { calcFriend } from '@/utils/user';
 
 const TAB_NAME = {
-  POSTS: "posts",
-  TRIPS: "trips",
-  FRIENDS: "friends",
-  REQUESTS: "requests",
+  POSTS: 'posts',
+  TRIPS: 'trips',
+  FRIENDS: 'friends',
+  REQUESTS: 'requests',
 };
 
 const TAB_LIST: Record<string, Tab> = {
   [TAB_NAME.POSTS]: {
-    name: "posts",
-    url: "posts",
+    name: 'posts',
+    url: 'posts',
     icon: <IconArticle />,
   },
   [TAB_NAME.TRIPS]: {
-    name: "trips",
-    url: "trips",
+    name: 'trips',
+    url: 'trips',
     icon: <IconMap />,
   },
   [TAB_NAME.FRIENDS]: {
-    name: "friends",
-    url: "friends",
+    name: 'friends',
+    url: 'friends',
     icon: <IconFriends />,
   },
   [TAB_NAME.REQUESTS]: {
-    name: "requests",
-    url: "requests",
+    name: 'requests',
+    url: 'requests',
     icon: <IconMessageReport />,
   },
 };
@@ -54,7 +49,7 @@ const TabMenu = () => {
     user?.friends.find((friend) => friend.friendId === profile?.id) ||
     user?.userFriends.find((friend) => friend.userId === profile?.id);
 
-  const tab = router.asPath.split("/")[2] || TAB_LIST.POSTS.name;
+  const tab = router.asPath.split('/')[2] || TAB_LIST.POSTS.name;
 
   const handleChangeTab = (tab: string) => {
     router.push(`/profile/${profile?.id}/${tab}`);
@@ -68,9 +63,9 @@ const TabMenu = () => {
     try {
       await addFriend.mutateAsync({ userId: profile.id });
       await addNoti.mutateAsync({
-        content: "Có người muốn kết bạn với bạn",
+        content: 'Có người muốn kết bạn với bạn',
         userId: profile.id,
-        imgUrl: profile.imgUrl || "",
+        imgUrl: profile.imgUrl || '',
       });
     } catch (e) {
       console.log(e);
@@ -92,11 +87,7 @@ const TabMenu = () => {
       <div className="border-b pb-3">
         <div className="flex items-start gap-3">
           <Avatar radius="xl" className="border" />
-          <Textarea
-            placeholder="What do you think?"
-            withAsterisk
-            className="w-full"
-          />
+          <Textarea placeholder="What do you think?" withAsterisk className="w-full" />
         </div>
         <div className="flex gap-2 mt-2">
           <Button size="md" className="flex-1" variant="outline" color="green">
@@ -133,7 +124,7 @@ const TabMenu = () => {
       )}
       {isOwner && (
         <Button
-          onClick={() => handleChangeTab("edit")}
+          onClick={() => handleChangeTab('edit')}
           size="md"
           className="w-full mt-5"
           variant="filled"

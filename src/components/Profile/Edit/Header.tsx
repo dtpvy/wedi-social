@@ -1,17 +1,11 @@
-import useUserStore from "@/stores/user";
-import { trpc } from "@/utils/trpc";
-import { Button } from "@mantine/core";
-import { notifications } from "@mantine/notifications";
-import {
-  IconCheck,
-  IconLoader,
-  IconMoodEdit,
-  IconPhotoEdit,
-  IconX,
-} from "@tabler/icons-react";
-import dayjs from "dayjs";
-import { IKUpload } from "imagekitio-react";
-import React, { useRef, useState } from "react";
+import useUserStore from '@/stores/user';
+import { trpc } from '@/utils/trpc';
+import { Button } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
+import { IconCheck, IconLoader, IconMoodEdit, IconPhotoEdit, IconX } from '@tabler/icons-react';
+import dayjs from 'dayjs';
+import { IKUpload } from 'imagekitio-react';
+import React, { useRef, useState } from 'react';
 
 const Header = () => {
   const user = useUserStore((state) => state.user);
@@ -22,22 +16,19 @@ const Header = () => {
   const [loading, setLoading] = useState(false);
   const [bgLoading, setBgLoading] = useState(false);
 
-  const handleChangeImage = async (params: {
-    imgUrl?: string;
-    bgUrl?: string;
-  }) => {
+  const handleChangeImage = async (params: { imgUrl?: string; bgUrl?: string }) => {
     try {
       await updateImage.mutateAsync(params);
       notifications.show({
         message: `Action successfully`,
-        color: "green",
+        color: 'green',
         icon: <IconCheck />,
       });
       utils.user.findUser.refetch();
     } catch (e: any) {
       notifications.show({
-        message: "Có lỗi xảy ra. Vui lòng thử lại",
-        color: "red",
+        message: 'Có lỗi xảy ra. Vui lòng thử lại',
+        color: 'red',
         icon: <IconX />,
       });
     }
@@ -51,9 +42,7 @@ const Header = () => {
         <div className="font-bold text-lg">Chỉnh sửa trang cá nhân</div>
         <div className="text-green-700 font-italic">{user?.status}</div>
         <div className="text-sm text-gray-600">
-          {`Lần chỉnh sửa gần nhất: ${dayjs(user?.updatedAt).format(
-            "DD/MM/YYYY HH:mm"
-          )}`}
+          {`Lần chỉnh sửa gần nhất: ${dayjs(user?.updatedAt).format('DD/MM/YYYY HH:mm')}`}
         </div>
       </div>
       <Button
@@ -71,8 +60,8 @@ const Header = () => {
         onSuccess={(file) => handleChangeImage({ imgUrl: file.url })}
         onError={() => {
           notifications.show({
-            message: "Có lỗi xảy ra. Vui lòng thử lại",
-            color: "red",
+            message: 'Có lỗi xảy ra. Vui lòng thử lại',
+            color: 'red',
             icon: <IconX />,
           });
           setLoading(false);
@@ -96,8 +85,8 @@ const Header = () => {
         onSuccess={(file) => handleChangeImage({ bgUrl: file.url })}
         onError={() => {
           notifications.show({
-            message: "Có lỗi xảy ra. Vui lòng thử lại",
-            color: "red",
+            message: 'Có lỗi xảy ra. Vui lòng thử lại',
+            color: 'red',
             icon: <IconX />,
           });
           setBgLoading(true);

@@ -1,6 +1,6 @@
-import { ActionIcon, Avatar } from "@mantine/core";
-import { IconDots } from "@tabler/icons-react";
-import Event from "./Event";
+import { ActionIcon, Avatar } from '@mantine/core';
+import { IconDots } from '@tabler/icons-react';
+import Event from './Event';
 
 const TripEvent = () => {
   return (

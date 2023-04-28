@@ -1,9 +1,9 @@
-import { Message } from "@prisma/client";
-import { authProcedure, router } from "../trpc";
-import EventEmitter from "events";
-import { observable } from "@trpc/server/observable";
-import { z } from "zod";
-import { prisma } from "../prisma";
+import { Message } from '@prisma/client';
+import { authProcedure, router } from '../trpc';
+import EventEmitter from 'events';
+import { observable } from '@trpc/server/observable';
+import { z } from 'zod';
+import { prisma } from '../prisma';
 
 interface MyEvents {
   send: (data: Message) => void;
@@ -12,10 +12,7 @@ declare interface MyEventEmitter {
   on<TEv extends keyof MyEvents>(event: TEv, listener: MyEvents[TEv]): this;
   off<TEv extends keyof MyEvents>(event: TEv, listener: MyEvents[TEv]): this;
   once<TEv extends keyof MyEvents>(event: TEv, listener: MyEvents[TEv]): this;
-  emit<TEv extends keyof MyEvents>(
-    event: TEv,
-    ...args: Parameters<MyEvents[TEv]>
-  ): boolean;
+  emit<TEv extends keyof MyEvents>(event: TEv, ...args: Parameters<MyEvents[TEv]>): boolean;
 }
 
 class MyEventEmitter extends EventEmitter {}
@@ -26,9 +23,9 @@ export const messageRouter = router({
   onSend: authProcedure.subscription(() => {
     return observable<Message>((emit) => {
       const onSend = (data: Message) => emit.next(data);
-      ee.on("send", onSend);
+      ee.on('send', onSend);
       return () => {
-        ee.off("send", onSend);
+        ee.off('send', onSend);
       };
     });
   }),
@@ -42,11 +39,11 @@ export const messageRouter = router({
     )
     .mutation(async ({ input, ctx }) => {
       const { id } = ctx.user;
-      const { content = "", userId, mediaUrls = [] } = input;
+      const { content = '', userId, mediaUrls = [] } = input;
       const mess = await prisma.message.create({
         data: { content, mediaUrls, senderId: id, receiverId: userId },
       });
-      ee.emit("send", mess);
+      ee.emit('send', mess);
       return mess;
     }),
   seenAll: authProcedure.input(z.object({})).mutation(async ({ ctx }) => {
@@ -112,7 +109,7 @@ export const messageRouter = router({
           ],
         },
         orderBy: {
-          createdAt: "desc",
+          createdAt: 'desc',
         },
         cursor: cursor ? { id: cursor } : undefined,
         take: take + 1,

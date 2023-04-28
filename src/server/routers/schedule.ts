@@ -1,7 +1,7 @@
-import { z } from "zod";
-import { authProcedure, router } from "../trpc";
-import { prisma } from "../prisma";
-import { Privacy, TripStatus } from "@prisma/client";
+import { z } from 'zod';
+import { authProcedure, router } from '../trpc';
+import { prisma } from '../prisma';
+import { Privacy, TripStatus } from '@prisma/client';
 
 export const scheduleRouter = router({
   create: authProcedure
@@ -49,13 +49,11 @@ export const scheduleRouter = router({
       });
       return true;
     }),
-  delete: authProcedure
-    .input(z.object({ id: z.number() }))
-    .mutation(async ({ input }) => {
-      await prisma.joinSchedule.deleteMany({ where: { scheduleId: input.id } });
-      await prisma.schedule.delete({ where: { id: input.id } });
-      return true;
-    }),
+  delete: authProcedure.input(z.object({ id: z.number() })).mutation(async ({ input }) => {
+    await prisma.joinSchedule.deleteMany({ where: { scheduleId: input.id } });
+    await prisma.schedule.delete({ where: { id: input.id } });
+    return true;
+  }),
   join: authProcedure
     .input(z.object({ id: z.number(), remindTime: z.date().optional() }))
     .mutation(async ({ input, ctx }) => {
@@ -68,16 +66,14 @@ export const scheduleRouter = router({
       });
       return true;
     }),
-  cancel: authProcedure
-    .input(z.object({ id: z.number() }))
-    .mutation(async ({ input, ctx }) => {
-      await prisma.joinSchedule.delete({
-        where: {
-          userId_scheduleId: { scheduleId: input.id, userId: ctx.user.id },
-        },
-      });
-      return true;
-    }),
+  cancel: authProcedure.input(z.object({ id: z.number() })).mutation(async ({ input, ctx }) => {
+    await prisma.joinSchedule.delete({
+      where: {
+        userId_scheduleId: { scheduleId: input.id, userId: ctx.user.id },
+      },
+    });
+    return true;
+  }),
   updateTime: authProcedure
     .input(z.object({ id: z.number(), remindTime: z.date() }))
     .mutation(async ({ input, ctx }) => {

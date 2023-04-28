@@ -1,9 +1,9 @@
-import useUserStore from "@/stores/user";
-import { trpc } from "@/utils/trpc";
-import { useForm } from "@mantine/form";
-import { notifications } from "@mantine/notifications";
-import { User } from "@prisma/client";
-import { useEffect } from "react";
+import useUserStore from '@/stores/user';
+import { trpc } from '@/utils/trpc';
+import { useForm } from '@mantine/form';
+import { notifications } from '@mantine/notifications';
+import { User } from '@prisma/client';
+import { useEffect } from 'react';
 
 export type EditForm = {
   email: string;
@@ -24,29 +24,15 @@ const useEditForm = () => {
   const form = useForm<EditForm>({
     validate: {
       phone: (value) =>
-        value
-          ? value.match("^[0-9-+]{9,15}$")
-            ? null
-            : "Invalidate"
-          : "Require",
-      name: (value) => (value ? null : "Require"),
-      languageId: (value) => (value ? null : "Require"),
+        value ? (value.match('^[0-9-+]{9,15}$') ? null : 'Invalidate') : 'Require',
+      name: (value) => (value ? null : 'Require'),
+      languageId: (value) => (value ? null : 'Require'),
     },
   });
 
   useEffect(() => {
-    const {
-      email,
-      name,
-      cityId,
-      countryId,
-      languageId,
-      districtId,
-      wardId,
-      street,
-      bio,
-      phone,
-    } = user || ({} as User);
+    const { email, name, cityId, countryId, languageId, districtId, wardId, street, bio, phone } =
+      user || ({} as User);
     form.setValues({
       email,
       name,

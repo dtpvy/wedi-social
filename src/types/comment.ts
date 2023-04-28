@@ -1,4 +1,4 @@
-import { Comment, Reaction, User } from "@prisma/client";
+import { Comment, Reaction, User } from '@prisma/client';
 
 export type CommentReaction = Reaction & {
   count: number;

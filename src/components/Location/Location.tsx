@@ -1,11 +1,11 @@
-import { ActionIcon, Avatar, Button, Text } from "@mantine/core";
+import { ActionIcon, Avatar, Button, Text } from '@mantine/core';
 import {
   IconDots,
   IconSquareRoundedChevronLeft,
   IconSquareRoundedChevronRight,
   IconStarFilled,
-} from "@tabler/icons-react";
-import Review from "./Review";
+} from '@tabler/icons-react';
+import Review from './Review';
 
 const Location = () => {
   return (

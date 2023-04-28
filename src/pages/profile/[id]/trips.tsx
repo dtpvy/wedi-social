@@ -1,5 +1,5 @@
-import { ProfileLayout } from "@/components/Layout";
-import { Trip } from "@/components/Trip";
+import { ProfileLayout } from '@/components/Layout';
+import { Trip } from '@/components/Trip';
 
 const Trips = () => {
   return (

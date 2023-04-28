@@ -1,13 +1,13 @@
-import { getPlaceList } from "@/api/place";
-import { LocationDetail } from "@/types/location";
-import { Poi } from "@/types/place";
-import { getName } from "@/utils/location";
-import { trpc } from "@/utils/trpc";
-import { Button, Loader, Modal, Popover, TextInput } from "@mantine/core";
-import { useDebouncedState } from "@mantine/hooks";
-import { useState } from "react";
-import { useQuery } from "react-query";
-import LocationSeletion, { LocationSeletionProps } from "./LocationSeletion";
+import { getPlaceList } from '@/api/place';
+import { LocationDetail } from '@/types/location';
+import { Poi } from '@/types/place';
+import { getName } from '@/utils/location';
+import { trpc } from '@/utils/trpc';
+import { Button, Loader, Modal, Popover, TextInput } from '@mantine/core';
+import { useDebouncedState } from '@mantine/hooks';
+import { useState } from 'react';
+import { useQuery } from 'react-query';
+import LocationSeletion, { LocationSeletionProps } from './LocationSeletion';
 
 type Props = {
   opened?: boolean;
@@ -24,10 +24,10 @@ const ModalLocation = ({
 }: Props) => {
   const createLocation = trpc.location.create.useMutation();
   const [openedPopover, setOpenedPopover] = useState(false);
-  const [street, setStreet] = useDebouncedState("", 500);
+  const [street, setStreet] = useDebouncedState('', 500);
 
   const { data, isLoading } = useQuery({
-    queryKey: ["getPlaceList", street],
+    queryKey: ['getPlaceList', street],
     queryFn: () => getPlaceList(street),
     enabled: !!street,
   });
@@ -82,22 +82,14 @@ const ModalLocation = ({
                   setOpenedPopover(false);
                 }}
               >
-                <div
-                  dangerouslySetInnerHTML={{ __html: place.title }}
-                  className="font-bold"
-                ></div>
-                <div className="text-gray-600 text-sm truncate">
-                  {place.address}
-                </div>
+                <div dangerouslySetInnerHTML={{ __html: place.title }} className="font-bold"></div>
+                <div className="text-gray-600 text-sm truncate">{place.address}</div>
               </div>
             ))}
           </Popover.Dropdown>
         </Popover>
 
-        <LocationSeletion
-          locations={locations}
-          onDeleteLocation={onDeleteLocation}
-        />
+        <LocationSeletion locations={locations} onDeleteLocation={onDeleteLocation} />
 
         <div className="flex justify-end gap-2">
           <Button onClick={onClose} color="red">

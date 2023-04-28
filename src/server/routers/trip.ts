@@ -1,9 +1,22 @@
-import { z } from "zod";
-import { authProcedure, router } from "../trpc";
-import { prisma } from "../prisma";
-import { Privacy, TripStatus } from "@prisma/client";
+import { z } from 'zod';
+import { authProcedure, router } from '../trpc';
+import { prisma } from '../prisma';
+import { Privacy, TripStatus } from '@prisma/client';
 
 export const tripRouter = router({
+  get: authProcedure.input(z.object({ id: z.number() })).query(async ({ input, ctx }) => {
+    const { id } = ctx.user;
+    const join = await prisma.joinTrip.findFirst({
+      where: { tripId: input.id, userId: ctx.user.id },
+    });
+    const data = await prisma.trip.findFirst({
+      where: { id: input.id, users },
+    });
+    await prisma.joinTrip.create({
+      data: { tripId: data.id, userId: id, status: 'JOINED' },
+    });
+    return true;
+  }),
   create: authProcedure
     .input(
       z.object({
@@ -14,7 +27,7 @@ export const tripRouter = router({
         privacy: z.nativeEnum(Privacy),
       })
     )
-    .query(async ({ input, ctx }) => {
+    .mutation(async ({ input, ctx }) => {
       const { id } = ctx.user;
       const data = await prisma.trip.create({
         data: {
@@ -23,7 +36,7 @@ export const tripRouter = router({
         },
       });
       await prisma.joinTrip.create({
-        data: { tripId: data.id, userId: id, status: "JOINED" },
+        data: { tripId: data.id, userId: id, status: 'JOINED' },
       });
       return true;
     }),
@@ -46,12 +59,10 @@ export const tripRouter = router({
       });
       return true;
     }),
-  delete: authProcedure
-    .input(z.object({ id: z.number() }))
-    .mutation(async ({ input }) => {
-      await prisma.trip.delete({ where: { id: input.id } });
-      return true;
-    }),
+  delete: authProcedure.input(z.object({ id: z.number() })).mutation(async ({ input }) => {
+    await prisma.trip.delete({ where: { id: input.id } });
+    return true;
+  }),
   invite: authProcedure
     .input(z.object({ id: z.number(), userId: z.number() }))
     .mutation(async ({ input, ctx }) => {
@@ -60,23 +71,21 @@ export const tripRouter = router({
           tripId: input.id,
           userId: input.userId,
           inviterId: ctx.user.id,
-          status: "PENDING",
+          status: 'PENDING',
         },
       });
       return true;
     }),
-  request: authProcedure
-    .input(z.object({ id: z.number() }))
-    .mutation(async ({ input, ctx }) => {
-      await prisma.joinTrip.create({
-        data: {
-          tripId: input.id,
-          userId: ctx.user.id,
-          status: "PENDING",
-        },
-      });
-      return true;
-    }),
+  request: authProcedure.input(z.object({ id: z.number() })).mutation(async ({ input, ctx }) => {
+    await prisma.joinTrip.create({
+      data: {
+        tripId: input.id,
+        userId: ctx.user.id,
+        status: 'PENDING',
+      },
+    });
+    return true;
+  }),
   accept: authProcedure
     .input(z.object({ id: z.number(), userId: z.number().optional() }))
     .mutation(async ({ input, ctx }) => {
@@ -87,7 +96,7 @@ export const tripRouter = router({
             tripId: input.id,
           },
         },
-        data: { status: "JOINED" },
+        data: { status: 'JOINED' },
       });
       return true;
     }),
@@ -101,7 +110,7 @@ export const tripRouter = router({
             tripId: input.id,
           },
         },
-        data: { status: "REJECTED" },
+        data: { status: 'REJECTED' },
       });
       return true;
     }),

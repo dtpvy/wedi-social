@@ -1,6 +1,6 @@
-import classNames from "@/utils/classNames";
-import { Avatar, Button, Text } from "@mantine/core";
-import { IconDots } from "@tabler/icons-react";
+import classNames from '@/utils/classNames';
+import { Avatar, Button, Text } from '@mantine/core';
+import { IconDots } from '@tabler/icons-react';
 
 type Props = {
   className?: string;
@@ -8,19 +8,15 @@ type Props = {
 
 const Trip = ({ className }: Props) => {
   return (
-    <div className={classNames("bg-white rounded-lg shadow p-4", className)}>
+    <div className={classNames('bg-white rounded-lg shadow p-4', className)}>
       <div className="flex gap-4 mb-4">
         <Avatar size="xl" />
         <div>
           <Text weight={500} lineClamp={2} size="md">
             Ghiền Đà Lạt
           </Text>
-          <div className="text-gray-400 text-sm mt-2 mb-1">
-            Tham gia từ: 2 ngày trước
-          </div>
-          <div className="text-gray-600 text-sm">
-            Hoạt động lần cuối: 10 phút trước
-          </div>
+          <div className="text-gray-400 text-sm mt-2 mb-1">Tham gia từ: 2 ngày trước</div>
+          <div className="text-gray-600 text-sm">Hoạt động lần cuối: 10 phút trước</div>
         </div>
       </div>
       <div className="flex items-center gap-2">
