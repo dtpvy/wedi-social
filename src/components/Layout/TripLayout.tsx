@@ -6,7 +6,7 @@ import { trpc } from '@/utils/trpc';
 import { Loader, Stepper, Text } from '@mantine/core';
 import { modals } from '@mantine/modals';
 import { notifications } from '@mantine/notifications';
-import { Trip, TripStatus } from '@prisma/client';
+import { JoinTripStatus, Trip, TripStatus } from '@prisma/client';
 import { IconCalendarTime, IconCheck, IconMapPinCheck, IconWalk, IconX } from '@tabler/icons-react';
 import { useRouter } from 'next/router';
 import { ReactNode, createContext } from 'react';
@@ -51,9 +51,10 @@ const TripLayout = ({ children, className }: Props) => {
 
   const active = Object.keys(TRIP_STATUS).findIndex((key) => key === data?.trip?.status);
   console.log(active, data?.trip?.status);
-  const handleDone = (step: number) => {
+  const handleDone = () => {
     const trip = data?.trip;
-    if (step !== 2 || !trip || trip.creatorId !== user?.id) return;
+    if (data?.trip?.status !== TripStatus.INPROGRESS || !trip || trip.creatorId !== user?.id)
+      return;
     modals.openConfirmModal({
       title: 'Confirm done',
       centered: true,
