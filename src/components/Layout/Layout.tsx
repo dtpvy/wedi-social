@@ -12,6 +12,7 @@ type Props = {
 const Layout = ({ children }: Props) => {
   const router = useRouter();
   const { data: session, status } = useAuth();
+  console.log('layout', { session });
 
   const isAdminPage = router.asPath.split('/')[1] === 'admin';
 

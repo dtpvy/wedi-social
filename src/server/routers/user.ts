@@ -7,7 +7,8 @@ import { authProcedure, publicProcedure, router } from '../trpc';
 export const userRouter = router({
   findUser: publicProcedure.input(z.object({ id: z.number() })).query(async ({ input }) => {
     const { id } = input;
-
+    const users = await prisma.user.findMany();
+    console.log({ users });
     const user = await prisma.user.findFirst({
       where: { id },
       include: {
@@ -31,7 +32,7 @@ export const userRouter = router({
         receiveMessages: true,
       },
     });
-
+    console.log({ user });
     return user;
   }),
   signup: publicProcedure

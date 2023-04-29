@@ -7,13 +7,14 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { MouseEvent, useState } from 'react';
 import FormCreate, { TripParams } from './FormCreate';
+import { UserInfo } from '@/types/user';
 
 type Props = {
   className?: string;
+  user: UserInfo | null;
 };
 
-const CreateTrip = ({ className }: Props) => {
-  const user = useUserStore.use.user();
+const CreateTrip = ({ user, className }: Props) => {
   const router = useRouter();
   const create = trpc.trip.create.useMutation();
   const [opened, setOpened] = useState(false);

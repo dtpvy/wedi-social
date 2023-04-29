@@ -47,7 +47,7 @@ const FeedLayout = ({ children, className }: Props) => {
   const tab = router.asPath.split('/')[2] || TAB_LIST.FEED.name;
   const { data } = trpc.user.list.useQuery({});
   const user = useUserStore((state) => state.user);
-
+  console.log('feed', { user });
   const addFriend = trpc.friend.add.useMutation();
   const addNoti = trpc.notification.push.useMutation();
 
@@ -68,7 +68,7 @@ const FeedLayout = ({ children, className }: Props) => {
     <>
       <div className="absolute top-0 bottom-0 mt-[70px] z-[5] shadow-md">
         <div className="flex flex-col gap-4 bg-white w-[250px] h-full p-4">
-          <CreateTrip />
+          <CreateTrip user={user} />
           {Object.keys(TAB_LIST).map((key, index) => (
             <Link
               key={index}
