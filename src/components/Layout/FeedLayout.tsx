@@ -2,17 +2,16 @@ import classNames from '@/utils/classNames';
 import { type ReactNode } from 'react';
 
 import { CreateTrip } from '@/components/Trip';
+import useOpenMessageDialog from '@/hooks/useOpenMessageDialog';
 import useUserStore from '@/stores/user';
 import type { Tab } from '@/types/tab';
-import { IconBus, IconCalendarTime, IconMapPinFilled, IconNews } from '@tabler/icons-react';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
 import { trpc } from '@/utils/trpc';
 import { Avatar, Button } from '@mantine/core';
-import { calcFriend } from '@/utils/user';
-import dayjs from 'dayjs';
 import { User } from '@prisma/client';
-import useOpenMessageDialog from '@/hooks/useOpenMessageDialog';
+import { IconBus, IconCalendarTime, IconMapPinFilled, IconNews } from '@tabler/icons-react';
+import dayjs from 'dayjs';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 type Props = {
   children: ReactNode;
@@ -47,7 +46,7 @@ const FeedLayout = ({ children, className }: Props) => {
   const { show } = useOpenMessageDialog();
   const tab = router.asPath.split('/')[2] || TAB_LIST.FEED.name;
   const { data } = trpc.user.list.useQuery({});
-  const user = useUserStore.use.user();
+  const user = useUserStore((state) => state.user);
 
   const addFriend = trpc.friend.add.useMutation();
   const addNoti = trpc.notification.push.useMutation();

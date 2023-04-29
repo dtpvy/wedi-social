@@ -54,8 +54,6 @@ UserButton.displayName = 'UserButton';
 const Search = () => {
   const { data: session } = useSession();
 
-  console.log({ session });
-
   return (
     <div className="flex items-center justify-between px-4 border-b">
       <div className="flex justify-center w-8/12">
