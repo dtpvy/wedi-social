@@ -10,8 +10,6 @@ import { IKContext } from 'imagekitio-react';
 import { Session } from 'next-auth';
 import { SessionProvider, getSession } from 'next-auth/react';
 import type { AppType } from 'next/app';
-
-import '@goongmaps/goong-js/dist/goong-js.css';
 import { APP_URL } from '@/utils/env';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
