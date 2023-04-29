@@ -1,11 +1,13 @@
 import { Button, Text } from '@mantine/core';
 
-import { ProfileLayoutContext } from '@/components/Layout/ProfileLayout';
 import { Menu } from '@/components/Menu';
 import useUserStore from '@/stores/user';
 import { Tab } from '@/types/tab';
+import { TripInfo } from '@/types/trip';
 import { trpc } from '@/utils/trpc';
-import { calcFriend } from '@/utils/user';
+import { modals } from '@mantine/modals';
+import { notifications } from '@mantine/notifications';
+import { JoinTripStatus } from '@prisma/client';
 import {
   IconArticle,
   IconCalendar,
@@ -15,10 +17,7 @@ import {
   IconX,
 } from '@tabler/icons-react';
 import { useRouter } from 'next/router';
-import { useContext, useMemo } from 'react';
-import { TripLayoutContext } from '@/components/Layout/TripLayout';
-import { modals } from '@mantine/modals';
-import { notifications } from '@mantine/notifications';
+import { useMemo } from 'react';
 import CreateSchedule from '../Schedule/CreateSchedule';
 
 const TAB_NAME = {
@@ -51,12 +50,16 @@ const TAB_LIST: Record<string, Tab> = {
   },
 };
 
-const TabMenu = () => {
+type Props = {
+  trip: TripInfo;
+  joined: boolean;
+};
+
+const TabMenu = ({ trip, joined }: Props) => {
   const utils = trpc.useContext();
 
   const router = useRouter();
   const user = useUserStore.use.user();
-  const { data: trip, joined } = useContext(TripLayoutContext) || {};
 
   const tab = router.asPath.split('/')[2] || TAB_LIST.POSTS.name;
 
@@ -78,6 +81,7 @@ const TabMenu = () => {
         userId: trip.creatorId,
         imgUrl: trip.imgUrl || '',
       });
+      utils.trip.get.refetch();
     } catch (e) {
       console.log(e);
     }
@@ -96,6 +100,7 @@ const TabMenu = () => {
         userId: trip.creatorId,
         imgUrl: trip.imgUrl || '',
       });
+      utils.trip.get.refetch();
     } catch (e) {
       console.log(e);
     }
@@ -132,12 +137,16 @@ const TabMenu = () => {
   const tabs = useMemo(() => {
     const tabs = { ...TAB_LIST };
     if (!user) return tabs;
-    tabs[TAB_NAME.POSTS].badgeNumber = 10;
-    tabs[TAB_NAME.SCHEDULES].badgeNumber = 10;
-    tabs[TAB_NAME.MEMBERS].badgeNumber = 10;
-    tabs[TAB_NAME.REQUESTS].badgeNumber = 10;
+    tabs[TAB_NAME.POSTS].badgeNumber = trip._count.posts;
+    tabs[TAB_NAME.SCHEDULES].badgeNumber = trip._count.posts;
+    tabs[TAB_NAME.MEMBERS].badgeNumber = trip.users.filter(
+      (d) => d.status === JoinTripStatus.JOINED
+    ).length;
+    tabs[TAB_NAME.REQUESTS].badgeNumber = trip.users.filter(
+      (d) => d.status === JoinTripStatus.PENDING
+    ).length;
     return tabs;
-  }, [user]);
+  }, [trip._count.posts, trip.users, user]);
 
   return (
     <>

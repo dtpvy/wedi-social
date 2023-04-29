@@ -1,5 +1,5 @@
 import { ERROR_MESSAGES } from '@/constants/error';
-import { Privacy, TripStatus } from '@prisma/client';
+import { JoinTripStatus, Privacy, TripStatus } from '@prisma/client';
 import { z } from 'zod';
 import { prisma } from '../prisma';
 import { authProcedure, router } from '../trpc';
@@ -112,6 +112,24 @@ export const tripRouter = router({
         nextCursor,
       };
     }),
+  memberList: authProcedure.input(z.object({ id: z.number() })).query(async ({ input, ctx }) => {
+    const data = await prisma.joinTrip.findMany({
+      where: { tripId: ctx.user.id, status: JoinTripStatus.JOINED },
+      include: {
+        user: true,
+      },
+    });
+    return data;
+  }),
+  requestList: authProcedure.input(z.object({ id: z.number() })).query(async ({ input, ctx }) => {
+    const data = await prisma.joinTrip.findMany({
+      where: { tripId: ctx.user.id, status: JoinTripStatus.PENDING },
+      include: {
+        user: true,
+      },
+    });
+    return data;
+  }),
   get: authProcedure.input(z.object({ id: z.number() })).query(async ({ input, ctx }) => {
     const join = await prisma.joinTrip.findFirst({
       where: { tripId: input.id, userId: ctx.user.id },
@@ -119,24 +137,28 @@ export const tripRouter = router({
     const data = await prisma.trip.findFirst({
       where: { id: input.id },
       include: {
+        users: {
+          include: {
+            user: true,
+          },
+        },
         _count: {
           select: {
             posts: true,
-            users: true,
             schedules: true,
           },
         },
       },
     });
     if (data?.privacy === 'PRIVATE' && !join) throw new Error(ERROR_MESSAGES.dontHavePermission);
-    if (data?.status === TripStatus.SCHEDULE && data.createdAt > new Date()) {
+    if (data?.status === TripStatus.SCHEDULE && +data.createdAt <= +new Date()) {
       await prisma.trip.update({
         where: { id: input.id },
         data: { status: TripStatus.INPROGRESS },
       });
       data.status = TripStatus.INPROGRESS;
     }
-    return { trip: data, join: !!join };
+    return { trip: data, join: !!join && join.status === JoinTripStatus.JOINED };
   }),
   create: authProcedure
     .input(

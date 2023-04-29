@@ -113,4 +113,19 @@ export const userRouter = router({
       });
       return true;
     }),
+  list: authProcedure.input(z.object({})).query(async ({ ctx }) => {
+    const productsCount = await prisma.user.count();
+    const skip = Math.floor(Math.random() * Math.max(productsCount - 10, 0));
+    const user = await prisma.user.findMany({
+      where: { id: { not: ctx.user.id } },
+      include: {
+        friends: { where: { status: 'ACCEPT', friendId: ctx.user.id } },
+        userFriends: { where: { status: 'ACCEPT', userId: ctx.user.id } },
+      },
+      take: 10,
+      skip,
+    });
+
+    return user;
+  }),
 });

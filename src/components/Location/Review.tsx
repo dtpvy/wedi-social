@@ -10,7 +10,7 @@ type Props = {
 
 const Review = ({ review }: Props) => {
   return (
-    <div className="bg-white shadow-md border rounded-lg p-4">
+    <div className="bg-white border rounded-lg p-4">
       <div className="flex items-center gap-2">
         <Avatar src={review.user.imgUrl} radius="xl" />
         <div className="mr-auto">

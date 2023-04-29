@@ -50,7 +50,7 @@ const TripLayout = ({ children, className }: Props) => {
   const done = trpc.trip.done.useMutation();
 
   const active = Object.keys(TRIP_STATUS).findIndex((key) => key === data?.trip?.status);
-
+  console.log(active, data?.trip?.status);
   const handleDone = (step: number) => {
     const trip = data?.trip;
     if (step !== 2 || !trip || trip.creatorId !== user?.id) return;
@@ -95,7 +95,7 @@ const TripLayout = ({ children, className }: Props) => {
         <Header trip={data.trip} />
         <div className="flex mt-8 mx-16 gap-8">
           <div className="w-[400px] shadow p-4 bg-white rounded-lg h-fit">
-            <TabMenu />
+            <TabMenu trip={data.trip} joined={data.join} />
           </div>
           <div className={classNames('w-full', className)}>
             <Stepper

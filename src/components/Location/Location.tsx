@@ -11,7 +11,7 @@ type Props = {
 const Location = ({ location }: Props) => {
   const { name, imgUrl, address, reviews } = location;
   return (
-    <div className="bg-white shadow rounded-md p-5 h-fit">
+    <div className="bg-white shadow rounded-lg p-5 h-fit">
       <div className="flex items-center gap-4">
         <Avatar src={imgUrl} radius="md" size="xl" className="border" />
         <div className="mr-auto w-[calc(100%-100px)]">
@@ -24,7 +24,6 @@ const Location = ({ location }: Props) => {
         </div>
       </div>
       <Carousel
-        maw={320}
         mx="auto"
         slideGap="md"
         align="start"
