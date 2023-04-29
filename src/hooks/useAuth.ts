@@ -11,7 +11,7 @@ const useAuth = () => {
   const { data, status } = session;
   const setUser = useUserStore.use.setUser();
   const setLocale = useTranslator.use.setLocale();
-
+  console.log(data);
   const { data: user } = trpc.user.findUser.useQuery(
     {
       id: data?.user.id as number,
