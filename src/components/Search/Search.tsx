@@ -144,7 +144,7 @@ const Search = () => {
                   </div>
                 </Popover.Dropdown>
               </Popover>
-              <Button onClick={() => signOut()} className="w-full">
+              <Button onClick={() => signOut({ callbackUrl: '/signin' })} className="w-full">
                 Đăng xuất
               </Button>
             </Popover.Dropdown>
