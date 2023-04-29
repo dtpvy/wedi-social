@@ -1,18 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import z, { nativeEnum } from 'zod';
-import { Modal, Card, Button, Text, Badge, Group, Radio } from '@mantine/core';
-import { useForm } from '@mantine/form';
-import { useDisclosure } from '@mantine/hooks';
 import { trpc } from '@/utils/trpc';
-import { useRouter } from 'next/router';
+import { Badge, Button, Card, Group, Modal, Text } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
 import { UserStatus } from '@prisma/client';
 import dayjs from 'dayjs';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+
 const UserDetail = () => {
   const [userBanOpened, userBan] = useDisclosure(false);
   const router = useRouter();
   let id = parseInt(router.query.id as string, 10);
   const { data: user, refetch } = trpc.admin.userDetail.useQuery({ id });
-  let obj = { id: id, status: user?.status };
+
   let setUserStatus = trpc.admin.setUserStatus.useMutation();
   const [currentStatus, setCurrentStatus] = useState<UserStatus>();
 
@@ -21,7 +20,7 @@ const UserDetail = () => {
       setCurrentStatus(user?.status);
     }
     setCurrentStatus(user?.status);
-  }, [user?.status]);
+  }, [currentStatus, user?.status]);
 
   const handleSetStatus = (status: UserStatus) => {
     setUserStatus.mutate(

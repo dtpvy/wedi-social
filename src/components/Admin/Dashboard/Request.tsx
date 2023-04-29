@@ -20,7 +20,7 @@ const Request = ({ request }: Props) => {
           <Group position="apart" mt="md" mb="xs">
             <div className="font-medium text-gray-500">{title}</div>
             <Badge color="yellow" variant="light">
-              "Chưa phản hồi"
+              Chưa phản hồi
             </Badge>
           </Group>
           <Group position="apart" mt="md" mb="xs">
@@ -38,7 +38,7 @@ const Request = ({ request }: Props) => {
             mt="md"
             radius="md"
           >
-            "Phản hồi"
+            Phản hồi
           </Button>
         </Card>
       </div>
