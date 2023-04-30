@@ -1,4 +1,4 @@
-import { ERROR_MESSAGES } from '@/constants/error';
+import ERROR_MESSAGES from '../../constants/error';
 import { hash, verify } from 'argon2';
 import { z } from 'zod';
 import { prisma } from '../prisma';

@@ -1,4 +1,4 @@
-import { ERROR_MESSAGES } from '@/constants/error';
+import ERROR_MESSAGES from '../../../constants/error';
 import { trpc } from '@/utils/trpc';
 import { Avatar, Badge, Button, Image, Text } from '@mantine/core';
 import { modals } from '@mantine/modals';
@@ -17,6 +17,7 @@ const Admin = ({ admin, refetch }: Props) => {
   const deactive = trpc.admin.deactive.useMutation();
   const active = trpc.admin.active.useMutation();
   const { data: session } = useSession();
+  const user = session ? session.user : null;
 
   const openDeleteModal = () =>
     modals.openConfirmModal({
@@ -100,7 +101,7 @@ const Admin = ({ admin, refetch }: Props) => {
           </div>
           <div className="text-sm text-gray-500 truncate dark:text-gray-400">{admin.email}</div>
         </div>
-        {session?.user.email !== admin.email && (
+        {user?.email !== admin.email && (
           <div className="inline-flex items-center text-base font-semibold text-gray-900">
             {!admin.isDeleted ? (
               <Button onClick={openDeleteModal} color="red">

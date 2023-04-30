@@ -1,10 +1,9 @@
+import useUserStore from '@/stores/user';
 import { trpc } from '@/utils/trpc';
 import { Avatar, Button } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { FriendStatus, User } from '@prisma/client';
 import { IconCheck, IconX } from '@tabler/icons-react';
-import { useSession } from 'next-auth/react';
-import React from 'react';
 
 type Props = {
   user: User;
@@ -13,7 +12,7 @@ type Props = {
 };
 
 const Request = ({ user, status, friendId }: Props) => {
-  const { data: session } = useSession();
+  const _user = useUserStore.use.user();
   const utils = trpc.useContext();
   const addNoti = trpc.notification.push.useMutation();
   const reject = trpc.friend.reject.useMutation();
@@ -71,7 +70,7 @@ const Request = ({ user, status, friendId }: Props) => {
         <div className="font-bold">{user.name}</div>
         <div className="text-sm text-gray-600">{status}</div>
       </div>
-      {friendId === session?.user.id && (
+      {friendId === _user?.id && (
         <>
           <Button onClick={handleAccept} variant="outline" color="green">
             Accept

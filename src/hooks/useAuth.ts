@@ -8,15 +8,16 @@ import { useEffect } from 'react';
 const useAuth = () => {
   const router = useRouter();
   const session = useSession();
-  const { data, status } = session;
+  const {data, status } = session;
+  const profile = data ? data.user : null;
   const setUser = useUserStore.use.setUser();
   const setLocale = useTranslator.use.setLocale();
 
   const { data: user } = trpc.user.findUser.useQuery(
     {
-      id: data?.user.id as number,
+      id: profile?.id as number,
     },
-    { enabled: !!data?.user.id }
+    { enabled: !!profile?.id }
   );
 
   useEffect(() => {

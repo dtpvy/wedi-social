@@ -3,13 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "build:1-generate": "prisma generate",
+    "build:2-migrate": "prisma migrate deploy",
+    "build:3-next": "cross-env NODE_ENV=production next build",
+    "build:4-server": "tsc --project tsconfig.server.json",
+    "build": "run-s build:*",
     "dev:wss": "cross-env PORT=3001 tsx watch src/server/wssDevServer.ts --tsconfig tsconfig.server.json ",
     "dev:next": "next dev",
     "dev": "pnpm migrate-dev && run-p dev:*",
     "migrate-dev": "prisma migrate dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "start": "cross-env NODE_ENV=production node build/server/prodServer.js"
   },
   "dependencies": {
     "@emotion/react": "^11.10.6",

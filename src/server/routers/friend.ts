@@ -1,4 +1,4 @@
-import { ERROR_MESSAGES } from '@/constants/error';
+import ERROR_MESSAGES from '../../constants/error';
 import dayjs from 'dayjs';
 import { z } from 'zod';
 import { prisma } from '../prisma';

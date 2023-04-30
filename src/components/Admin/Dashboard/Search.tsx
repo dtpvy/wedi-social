@@ -53,8 +53,7 @@ UserButton.displayName = 'UserButton';
 
 const Search = () => {
   const { data: session } = useSession();
-
-  console.log({ session });
+  const user = session ? session.user : null;
 
   return (
     <div className="flex items-center justify-between px-4 border-b">
@@ -73,9 +72,9 @@ const Search = () => {
         <Menu withArrow>
           <Menu.Target>
             <UserButton
-              image={session?.user.image || ''}
-              name={session?.user.name || ''}
-              email={session?.user.email || ''}
+              image={user?.image || ''}
+              name={user?.name || ''}
+              email={user?.email || ''}
             />
           </Menu.Target>
           <Menu.Dropdown>
