@@ -1,9 +1,9 @@
-import { z } from "zod";
-import { authedProcedure, router } from "../trpc";
-import { prisma } from "../prisma";
+import { z } from 'zod';
+import { authProcedure, router } from '../trpc';
+import { prisma } from '../prisma';
 
 export const requestRouter = router({
-  create: authedProcedure
+  create: authProcedure
     .input(
       z.object({
         title: z.string(),
@@ -22,7 +22,7 @@ export const requestRouter = router({
       });
       return true;
     }),
-  delete: authedProcedure
+  delete: authProcedure
     .input(
       z.object({
         id: z.number(),
@@ -38,10 +38,10 @@ export const requestRouter = router({
       });
       return true;
     }),
-  requestList: authedProcedure
+  requestList: authProcedure
     .input(
       z.object({
-        type: z.enum(["all", "pending", "replied"]),
+        type: z.enum(['all', 'pending', 'replied']),
       })
     )
     .query(async ({ input, ctx }) => {
@@ -56,15 +56,13 @@ export const requestRouter = router({
               admin: true,
             },
             orderBy: {
-              createdAt: "desc",
+              createdAt: 'desc',
             },
           },
         },
       });
 
-      if (type === "all") return request;
-      return request.filter((res) =>
-        type === "pending" ? !res.reply.length : res.reply.length
-      );
+      if (type === 'all') return request;
+      return request.filter((res) => (type === 'pending' ? !res.reply.length : res.reply.length));
     }),
 });

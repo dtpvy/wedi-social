@@ -1,11 +1,13 @@
-import { Language } from "@/components/Language";
-import useTranslation from "@/hooks/useTranslation";
-import { ERROR_MESSAGES } from "@/constants/error";
-import { trpc } from "@/utils/trpc";
-import { notifications } from "@mantine/notifications";
-import { IconCheck, IconX } from "@tabler/icons-react";
-import Link from "next/link";
-import { useForm } from "react-hook-form";
+import { Language } from '@/components/Language';
+import ERROR_MESSAGES from '../constants/error';
+import { TRACKING_EVENT, TRACKING_PAGE } from '@/constants/tracking';
+import { trpc } from '@/utils/trpc';
+import { notifications } from '@mantine/notifications';
+import { IconCheck, IconX } from '@tabler/icons-react';
+import Link from 'next/link';
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import useTranslation from '@/hooks/useTranslation';
 
 type RegisterForm = {
   email: string;
@@ -16,6 +18,7 @@ type RegisterForm = {
 };
 
 const Signup = () => {
+  const tracking = trpc.tracking.add.useMutation();
   const signup = trpc.user.signup.useMutation();
   const { t } = useTranslation();
   const {
@@ -29,35 +32,40 @@ const Signup = () => {
     try {
       const res = await signup.mutateAsync(data);
       notifications.show({
-        // message: `Account creates successfully. Hellp ${res.result}`,
         message: `${t("notiCreateAccountSuccesfullyText")} ${res.result}`,
-        color: "green",
+        color: 'green',
         icon: <IconCheck />,
       });
     } catch (e: any) {
       if (e.message === ERROR_MESSAGES.userExist) {
         notifications.show({
           message: t("notiAccountExistedText"),
-          color: "red",
+          color: 'red',
           icon: <IconX />,
         });
-      } else if (
-        e.message.includes("Unique constraint failed on the fields: (`phone`)")
-      ) {
+      } else if (e.message.includes('Unique constraint failed on the fields: (`phone`)')) {
         notifications.show({
           message: t("numberPhoneExistedText"),
-          color: "red",
+          color: 'red',
           icon: <IconX />,
         });
       } else {
         notifications.show({
           message: t("errorTryAgainText"),
-          color: "red",
+          color: 'red',
           icon: <IconX />,
         });
       }
     }
   };
+
+  useEffect(() => {
+    tracking.mutate({
+      event: TRACKING_EVENT.ENTER_SIGNIN,
+      page: TRACKING_PAGE.SIGNIN,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <section className="bg-gray-50 dark:bg-gray-900">
@@ -70,10 +78,7 @@ const Signup = () => {
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
               {t("signupTitleText")}
             </h1>
-            <form
-              className="space-y-4 md:space-y-6"
-              onSubmit={handleSubmit(onSubmit)}
-            >
+            <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit(onSubmit)}>
               <div className="flex items-center justify-between">
                 <div>
                   <label
@@ -88,7 +93,7 @@ const Signup = () => {
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder={t("yourNameText")}
                     required
-                    {...register("name")}
+                    {...register('name')}
                   />
                 </div>
                 <div>
@@ -105,7 +110,7 @@ const Signup = () => {
                     placeholder={t("phoneText")}
                     required
                     maxLength={10}
-                    {...register("phone")}
+                    {...register('phone')}
                   />
                 </div>
               </div>
@@ -122,7 +127,7 @@ const Signup = () => {
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="name@company.com"
                   required
-                  {...register("email")}
+                  {...register('email')}
                 />
               </div>
               <div>
@@ -138,7 +143,7 @@ const Signup = () => {
                   placeholder="••••••••"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   required
-                  {...register("password")}
+                  {...register('password')}
                 />
               </div>
               <div>
@@ -154,9 +159,9 @@ const Signup = () => {
                   placeholder="••••••••"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   required
-                  {...register("confirmPassword", {
+                  {...register('confirmPassword', {
                     validate: (val: string) => {
-                      if (watch("password") !== val) {
+                      if (watch('password') !== val) {
                         return t("passwordDontMatchText");
                       }
                     },
@@ -174,11 +179,8 @@ const Signup = () => {
                   />
                 </div>
                 <div className="ml-3 text-sm">
-                  <label
-                    htmlFor="terms"
-                    className="font-light text-gray-500 dark:text-gray-300"
-                  >
-                    {t("acceptWithText")}
+                  <label htmlFor="terms" className="font-light text-gray-500 dark:text-gray-300">
+                  {t("acceptWithText")}
                     <a
                       className="ml-1 font-medium text-green-700 hover:underline dark:text-primary-500"
                       href="#"
@@ -189,9 +191,7 @@ const Signup = () => {
                 </div>
               </div>
               {errors.confirmPassword && (
-                <div className="text-red-600 text-center my-2">
-                  {t("passwordDontMatchText")}
-                </div>
+                <div className="text-red-600 text-center my-2">{t("passwordDontMatchText")}</div>
               )}
               <button
                 type="submit"
@@ -200,7 +200,7 @@ const Signup = () => {
                 {t("signupTitleText")}
               </button>
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                {t("signupText")}{" "}
+              {t("signupText")}{" "}
                 <Link
                   href="/signin"
                   className="font-medium text-green-700 hover:underline dark:text-primary-500"

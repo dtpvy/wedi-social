@@ -1,32 +1,39 @@
-import { ERROR_MESSAGES } from "@/constants/error";
-import { hash, verify } from "argon2";
-import { z } from "zod";
-import { prisma } from "../prisma";
-import { authedProcedure, publicProcedure, router } from "../trpc";
-import { use } from "react";
+import ERROR_MESSAGES from '../../constants/error';
+import { hash, verify } from 'argon2';
+import { z } from 'zod';
+import { prisma } from '../prisma';
+import { authProcedure, publicProcedure, router } from '../trpc';
 
 export const userRouter = router({
-  findUser: publicProcedure
-    .input(z.object({ id: z.number() }))
-    .query(async ({ input }) => {
-      const { id } = input;
+  findUser: publicProcedure.input(z.object({ id: z.number() })).query(async ({ input }) => {
+    const { id } = input;
 
-      const user = await prisma.user.findFirst({
-        where: { id },
-        include: {
-          posts: true,
-          friends: true,
-          language: true,
-          userFriends: true,
-          notification: {
-            where: { seen: false },
+    const user = await prisma.user.findFirst({
+      where: { id },
+      include: {
+        posts: true,
+        friends: {
+          where: {
+            status: 'ACCEPT',
           },
-          receiveMessages: true,
         },
-      });
+        language: true,
+        userFriends: {
+          where: {
+            status: 'ACCEPT',
+          },
+        },
+        notification: {
+          where: { seen: false },
+        },
+        requests: true,
+        joinTrip: true,
+        receiveMessages: true,
+      },
+    });
 
-      return user;
-    }),
+    return user;
+  }),
   signup: publicProcedure
     .input(
       z.object({
@@ -53,12 +60,12 @@ export const userRouter = router({
 
       return {
         status: 201,
-        message: "Account created successfully",
+        message: 'Account created successfully',
         result: result.name,
       };
     }),
 
-  updateInfo: authedProcedure
+  updateInfo: authProcedure
     .input(
       z.object({
         email: z.string(),
@@ -78,31 +85,26 @@ export const userRouter = router({
       await prisma.user.update({ where: { id: userId }, data: input });
       return true;
     }),
-  updateImage: authedProcedure
-    .input(
-      z.object({ imgUrl: z.string().optional(), bgUrl: z.string().optional() })
-    )
+  updateImage: authProcedure
+    .input(z.object({ imgUrl: z.string().optional(), bgUrl: z.string().optional() }))
     .mutation(async ({ input, ctx }) => {
       const userId = ctx.user.id;
       await prisma.user.update({ where: { id: userId }, data: input });
       return true;
     }),
-  updateLanguage: authedProcedure
+  updateLanguage: authProcedure
     .input(z.object({ languageId: z.number() }))
     .mutation(async ({ input, ctx }) => {
       const userId = ctx.user.id;
       await prisma.user.update({ where: { id: userId }, data: input });
       return true;
     }),
-  updatePassword: authedProcedure
+  updatePassword: authProcedure
     .input(z.object({ password: z.string(), newPassword: z.string() }))
     .mutation(async ({ input, ctx }) => {
       const userId = ctx.user.id;
       const user = await prisma.user.findFirst({ where: { id: userId } });
-      const isValidPassword = await verify(
-        user?.password || "",
-        input.password
-      );
+      const isValidPassword = await verify(user?.password || '', input.password);
       if (!isValidPassword) throw new Error(ERROR_MESSAGES.invalidPassword);
       const password = await hash(input.newPassword);
       await prisma.user.update({
@@ -111,4 +113,19 @@ export const userRouter = router({
       });
       return true;
     }),
+  list: authProcedure.input(z.object({})).query(async ({ ctx }) => {
+    const productsCount = await prisma.user.count();
+    const skip = Math.floor(Math.random() * Math.max(productsCount - 10, 0));
+    const user = await prisma.user.findMany({
+      where: { id: { not: ctx.user.id } },
+      include: {
+        friends: { where: { status: 'ACCEPT', friendId: ctx.user.id } },
+        userFriends: { where: { status: 'ACCEPT', userId: ctx.user.id } },
+      },
+      take: 10,
+      skip,
+    });
+
+    return user;
+  }),
 });

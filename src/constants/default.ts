@@ -1,10 +1,10 @@
 export const LanguageConfig = {
   vi: {
-    flag: "🇻🇳",
-    label: "vietnamText",
+    flag: '🇻🇳',
+    label: 'vietnamText',
   },
   en: {
-    flag: "🇺🇸",
-    label: "englishText",
+    flag: '🇺🇸',
+    label: 'englishText',
   },
 };

@@ -1,6 +1,6 @@
-import { RequestList } from "@/components/Admin/Request";
-import { Text } from "@mantine/core";
-import React from "react";
+import { RequestList } from '@/components/Admin/Request';
+import { Text } from '@mantine/core';
+import React from 'react';
 
 const Request = () => {
   return (

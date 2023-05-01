@@ -1,12 +1,14 @@
-import { Language } from "@/components/Language";
-import useTranslation from "@/hooks/useTranslation";
-import { Image, Notification, Select } from "@mantine/core";
-import { IconX } from "@tabler/icons-react";
-import { signIn } from "next-auth/react";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { useTransition } from "react";
-import { useForm } from "react-hook-form";
+import { Language } from '@/components/Language';
+import { TRACKING_EVENT, TRACKING_PAGE } from '@/constants/tracking';
+import useTranslation from '@/hooks/useTranslation';
+import { trpc } from '@/utils/trpc';
+import { Image, Notification } from '@mantine/core';
+import { IconX } from '@tabler/icons-react';
+import { signIn } from 'next-auth/react';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 
 type LoginForm = {
   email: string;
@@ -16,14 +18,23 @@ type LoginForm = {
 
 const Signin = () => {
   const router = useRouter();
+  const tracking = trpc.tracking.add.useMutation();
   const { register, handleSubmit } = useForm<LoginForm>();
   const { t } = useTranslation();
 
   const error = !!router.query.error;
 
   const onSubmit = (data: LoginForm) => {
-    signIn("credentials", { ...data, callbackUrl: "/feed" });
+    signIn('credentials', { ...data, callbackUrl: '/feed' });
   };
+
+  useEffect(() => {
+    tracking.mutate({
+      event: TRACKING_EVENT.ENTER_SIGNIN,
+      page: TRACKING_PAGE.SIGNIN,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <section className="bg-gray-50 dark:bg-gray-900">
@@ -40,51 +51,48 @@ const Signin = () => {
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-              {t("signinTitleText")}
+              {t('signinTitleText')}
             </h1>
-            <form
-              className="space-y-4 md:space-y-6"
-              onSubmit={handleSubmit(onSubmit)}
-            >
+            <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit(onSubmit)}>
               <div>
                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                  {t("emailText")}
+                  {t('emailText')}
                 </label>
                 <input
                   type="email"
                   id="email"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  placeholder={t("emailText")}
+                  placeholder={t('emailText')}
                   required
-                  {...register("email")}
+                  {...register('email')}
                 />
               </div>
               <div>
                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                  {t("passwordText")}
+                  {t('passwordText')}
                 </label>
                 <input
                   type="password"
                   id="password"
-                  placeholder={t("passwordText")}
+                  placeholder={t('passwordText')}
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   required
-                  {...register("password")}
+                  {...register('password')}
                 />
               </div>
               <button
                 type="submit"
                 className="w-full text-white bg-green-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
               >
-                {t("signinText")}
+                {t('signinText')}
               </button>
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                {t("signinQuestionText")}
+                {t('signinQuestionText')}
                 <Link
                   href="/signup"
                   className="ml-2 font-medium text-green-700 hover:underline dark:text-primary-500"
                 >
-                  {t("signupText")}
+                  {t('signupText')}
                 </Link>
               </p>
             </form>

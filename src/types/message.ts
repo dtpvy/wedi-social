@@ -1,3 +1,3 @@
-import { Message, User } from "@prisma/client";
+import { Message, User } from '@prisma/client';
 
 export type MessageDetail = Message & { sender: User; receiver: User };

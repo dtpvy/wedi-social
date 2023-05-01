@@ -1,9 +1,9 @@
-import { observable } from "@trpc/server/observable";
-import { EventEmitter } from "events";
-import { prisma } from "../prisma";
-import { z } from "zod";
-import { authedProcedure, publicProcedure, router } from "../trpc";
-import { Notification } from "@prisma/client";
+import { observable } from '@trpc/server/observable';
+import { EventEmitter } from 'events';
+import { prisma } from '../prisma';
+import { z } from 'zod';
+import { authProcedure, publicProcedure, router } from '../trpc';
+import { Notification } from '@prisma/client';
 
 interface MyEvents {
   push: (data: Notification) => void;
@@ -12,10 +12,7 @@ declare interface MyEventEmitter {
   on<TEv extends keyof MyEvents>(event: TEv, listener: MyEvents[TEv]): this;
   off<TEv extends keyof MyEvents>(event: TEv, listener: MyEvents[TEv]): this;
   once<TEv extends keyof MyEvents>(event: TEv, listener: MyEvents[TEv]): this;
-  emit<TEv extends keyof MyEvents>(
-    event: TEv,
-    ...args: Parameters<MyEvents[TEv]>
-  ): boolean;
+  emit<TEv extends keyof MyEvents>(event: TEv, ...args: Parameters<MyEvents[TEv]>): boolean;
 }
 
 class MyEventEmitter extends EventEmitter {}
@@ -23,11 +20,12 @@ class MyEventEmitter extends EventEmitter {}
 const ee = new MyEventEmitter();
 
 export const notificationRouter = router({
-  push: authedProcedure
+  push: authProcedure
     .input(
       z.object({
         content: z.string(),
         link: z.string().optional(),
+        imgUrl: z.string(),
         userId: z.number(),
       })
     )
@@ -36,16 +34,16 @@ export const notificationRouter = router({
       const noti = await prisma.notification.create({
         data: { ...input, actorId: id },
       });
-      ee.emit("push", noti);
+      ee.emit('push', noti);
       return noti;
     }),
-  seenAll: authedProcedure.input(z.object({})).mutation(async ({ ctx }) => {
+  seenAll: authProcedure.input(z.object({})).mutation(async ({ ctx }) => {
     await prisma.notification.updateMany({
       where: { userId: ctx.user.id },
       data: { seen: true },
     });
   }),
-  infinite: authedProcedure
+  infinite: authProcedure
     .input(
       z.object({
         cursor: z.number().nullish(),
@@ -61,7 +59,7 @@ export const notificationRouter = router({
           userId: ctx.user.id,
         },
         orderBy: {
-          createdAt: "desc",
+          createdAt: 'desc',
         },
         cursor: cursor ? { id: cursor } : undefined,
         take: take + 1,
@@ -81,13 +79,12 @@ export const notificationRouter = router({
         nextCursor,
       };
     }),
-
   onPush: publicProcedure.subscription(() => {
     return observable<Notification>((emit) => {
       const onPush = (data: Notification) => emit.next(data);
-      ee.on("push", onPush);
+      ee.on('push', onPush);
       return () => {
-        ee.off("push", onPush);
+        ee.off('push', onPush);
       };
     });
   }),

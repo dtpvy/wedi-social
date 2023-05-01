@@ -1,20 +1,14 @@
-import { ProfileLayoutContext } from "@/components/Layout/ProfileLayout";
-import useEditForm, { EditForm } from "@/hooks/useEditForm";
-import useLocation from "@/hooks/useLocation";
-import { trpc } from "@/utils/trpc";
-import { Button, Select, TextInput, Textarea } from "@mantine/core";
-import { notifications } from "@mantine/notifications";
-import {
-  IconAt,
-  IconCheck,
-  IconLanguage,
-  IconPhone,
-  IconX,
-} from "@tabler/icons-react";
-import { useContext, useMemo } from "react";
-import Header from "./Header";
-import { useDisclosure } from "@mantine/hooks";
-import ChangePassword from "./ChangePassword";
+import { ProfileLayoutContext } from '@/components/Layout/ProfileLayout';
+import useEditForm, { EditForm } from '@/hooks/useEditForm';
+import useLocation from '@/hooks/useLocation';
+import { trpc } from '@/utils/trpc';
+import { Button, Select, TextInput, Textarea } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
+import { IconAt, IconCheck, IconLanguage, IconPhone, IconX } from '@tabler/icons-react';
+import { useContext, useMemo } from 'react';
+import Header from './Header';
+import { useDisclosure } from '@mantine/hooks';
+import ChangePassword from './ChangePassword';
 
 const Edit = () => {
   const { isOwner } = useContext(ProfileLayoutContext) || {};
@@ -23,8 +17,7 @@ const Edit = () => {
 
   const { getInputProps, onSubmit, values, setValues } = useEditForm();
 
-  const { data: language, isLoading: loading } =
-    trpc.location.languages.useQuery({});
+  const { data: language, isLoading: loading } = trpc.location.languages.useQuery({});
 
   const languages = useMemo(() => {
     return (language || []).map((d) => ({
@@ -34,15 +27,9 @@ const Edit = () => {
   }, [language]);
 
   const { countries, cities, districts, wards } = useLocation({
-    countryId:
-      typeof values.countryId === "string"
-        ? +values.countryId
-        : values.countryId,
-    cityId: typeof values.cityId === "string" ? +values.cityId : values.cityId,
-    districtId:
-      typeof values.districtId === "string"
-        ? +values.districtId
-        : values.districtId,
+    countryId: typeof values.countryId === 'string' ? +values.countryId : values.countryId,
+    cityId: typeof values.cityId === 'string' ? +values.cityId : values.cityId,
+    districtId: typeof values.districtId === 'string' ? +values.districtId : values.districtId,
   });
 
   const utils = trpc.useContext();
@@ -60,14 +47,14 @@ const Edit = () => {
       });
       notifications.show({
         message: `Action successfully`,
-        color: "green",
+        color: 'green',
         icon: <IconCheck />,
       });
       utils.user.findUser.refetch();
     } catch (e: any) {
       notifications.show({
-        message: "Có lỗi xảy ra. Vui lòng thử lại",
-        color: "red",
+        message: 'Có lỗi xảy ra. Vui lòng thử lại',
+        color: 'red',
         icon: <IconX />,
       });
     }
@@ -79,10 +66,7 @@ const Edit = () => {
         <div className="text-center">Bạn không có quyền vô trang này</div>
       ) : (
         <>
-          <form
-            onSubmit={onSubmit(handleSubmit)}
-            className="flex flex-col gap-3"
-          >
+          <form onSubmit={onSubmit(handleSubmit)} className="flex flex-col gap-3">
             <Header />
             <div className="flex gap-3 flex-wrap">
               <TextInput
@@ -92,14 +76,14 @@ const Edit = () => {
                 label="Email"
                 withAsterisk
                 disabled
-                {...getInputProps("email")}
+                {...getInputProps('email')}
               />
               <TextInput
                 className="flex-1"
                 placeholder="Your name"
                 label="Your name"
                 withAsterisk
-                {...getInputProps("name")}
+                {...getInputProps('name')}
               />
             </div>
             <div className="flex gap-3 flex-wrap">
@@ -109,7 +93,7 @@ const Edit = () => {
                 placeholder="Your phone"
                 label="Your phone"
                 withAsterisk
-                {...getInputProps("phone")}
+                {...getInputProps('phone')}
               />
               <Select
                 icon={<IconLanguage />}
@@ -117,7 +101,7 @@ const Edit = () => {
                 placeholder="Language"
                 label="Language"
                 data={languages}
-                {...getInputProps("languageId")}
+                {...getInputProps('languageId')}
                 withAsterisk
               />
             </div>
@@ -127,7 +111,7 @@ const Edit = () => {
                 placeholder="Country"
                 label="Country"
                 data={countries}
-                {...getInputProps("countryId")}
+                {...getInputProps('countryId')}
                 onChange={(value) => {
                   if (values.countryId === value) return;
                   setValues((prev) => ({
@@ -144,7 +128,7 @@ const Edit = () => {
                 placeholder="City"
                 label="City"
                 data={cities}
-                {...getInputProps("cityId")}
+                {...getInputProps('cityId')}
                 onChange={(value) => {
                   if (values.cityId === value) return;
                   setValues((prev) => ({
@@ -162,7 +146,7 @@ const Edit = () => {
                 placeholder="District"
                 label="District"
                 data={districts}
-                {...getInputProps("districtId")}
+                {...getInputProps('districtId')}
                 onChange={(value) => {
                   if (values.districtId === value) return;
                   setValues((prev) => ({
@@ -177,20 +161,16 @@ const Edit = () => {
                 placeholder="Ward"
                 label="Ward"
                 data={wards}
-                {...getInputProps("wardId")}
+                {...getInputProps('wardId')}
               />
             </div>
             <TextInput
               className="flex-1"
               placeholder="Street"
               label="Street"
-              {...getInputProps("street")}
+              {...getInputProps('street')}
             />
-            <Textarea
-              placeholder="Description"
-              label="Description"
-              {...getInputProps("bio")}
-            />
+            <Textarea placeholder="Description" label="Description" {...getInputProps('bio')} />
             <div className="flex item-center mt-3 gap-2 justify-end">
               <Button onClick={open} color="green" variant="outline">
                 Change password

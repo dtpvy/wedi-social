@@ -1,9 +1,9 @@
-import { trpc } from "@/utils/trpc";
-import { Button, Modal, TextInput, Textarea } from "@mantine/core";
-import { useForm } from "@mantine/form";
-import { notifications } from "@mantine/notifications";
-import { IconCheck } from "@tabler/icons-react";
-import React from "react";
+import { trpc } from '@/utils/trpc';
+import { Button, Modal, TextInput, Textarea } from '@mantine/core';
+import { useForm } from '@mantine/form';
+import { notifications } from '@mantine/notifications';
+import { IconCheck } from '@tabler/icons-react';
+import React from 'react';
 
 type Props = {
   close: () => void;
@@ -16,12 +16,12 @@ const CreateRequest = ({ opened = false, close }: Props) => {
 
   const form = useForm({
     initialValues: {
-      title: "",
-      content: "",
+      title: '',
+      content: '',
     },
     validate: {
-      title: (value) => (value.length ? null : "Require"),
-      content: (value) => (value.length ? null : "Require"),
+      title: (value) => (value.length ? null : 'Require'),
+      content: (value) => (value.length ? null : 'Require'),
     },
   });
 
@@ -31,7 +31,7 @@ const CreateRequest = ({ opened = false, close }: Props) => {
         utils.request.requestList.refetch();
         notifications.show({
           message: `Create successfully`,
-          color: "green",
+          color: 'green',
           icon: <IconCheck />,
         });
       },
@@ -39,30 +39,22 @@ const CreateRequest = ({ opened = false, close }: Props) => {
   };
 
   return (
-    <Modal
-      opened={opened}
-      onClose={close}
-      title="Create Request"
-      centered
-      size="lg"
-    >
+    <Modal opened={opened} onClose={close} title="Create Request" centered size="lg">
       <form onSubmit={form.onSubmit(onSubmit)}>
         <TextInput
           placeholder="Nguyên nhân"
           label="Nguyên nhân"
           withAsterisk
-          {...form.getInputProps("title")}
+          {...form.getInputProps('title')}
         />
         <Textarea
           minRows={10}
           placeholder="Mô tả"
           label="Mô tả chi tiết"
           withAsterisk
-          {...form.getInputProps("content")}
+          {...form.getInputProps('content')}
         />
-        <div className="text-red-500 text-sm mt-3">
-          Lưu ý: Bạn không thể chỉnh sửa khi đã tạo
-        </div>
+        <div className="text-red-500 text-sm mt-3">Lưu ý: Bạn không thể chỉnh sửa khi đã tạo</div>
         <div className="flex justify-between mt-3">
           <Button onClick={close} color="green" variant="outline">
             Huỷ

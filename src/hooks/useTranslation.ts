@@ -1,4 +1,4 @@
-import useTranslator from "@/stores/translator";
+import useTranslator from '@/stores/translator';
 
 const useTranslation = () => {
   const locale = useTranslator((state) => state.locale);

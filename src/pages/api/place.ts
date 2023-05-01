@@ -1,21 +1,14 @@
-import axios from "axios";
+import axios from 'axios';
+import { NextApiRequest, NextApiResponse } from 'next';
 
-type Params = {
-  city: string;
-  district: string;
-  ward: string;
-  street: string;
-};
-
-const MAP_URL = "https://rsapi.goong.io/Place/AutoComplete";
-
-const placeAPI = ({ city, district, ward, street }: Params) => {
-  const input = [street, ward, district, city].join(", ");
-  return axios
-    .get(MAP_URL, {
-      params: { api_key: process.env.API_MAP_KEY, input },
+const place = async (req: NextApiRequest, res: NextApiResponse) => {
+  const params = req.query;
+  const data = await axios
+    .get('https://map.coccoc.com/map/search.json', {
+      params,
     })
     .then((res) => res.data);
+  res.status(200).send(data);
 };
 
-export default placeAPI;
+export default place;

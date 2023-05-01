@@ -1,8 +1,8 @@
-import { trpc } from "@/utils/trpc";
-import { ActionIcon, Avatar, Text } from "@mantine/core";
-import { modals } from "@mantine/modals";
-import { notifications } from "@mantine/notifications";
-import { IconCheck, IconX } from "@tabler/icons-react";
+import { trpc } from '@/utils/trpc';
+import { ActionIcon, Avatar, Text } from '@mantine/core';
+import { modals } from '@mantine/modals';
+import { notifications } from '@mantine/notifications';
+import { IconCheck, IconX } from '@tabler/icons-react';
 
 type Props = {
   id: number;
@@ -17,25 +17,25 @@ const FriendWidget = ({ id, name, imgUrl, mutualFriends }: Props) => {
 
   const openDeleteModal = () =>
     modals.openConfirmModal({
-      title: "Delete your profile",
+      title: 'Delete your profile',
       centered: true,
       children: <Text size="sm">{`Are you sure unfriend ${name}?`}</Text>,
-      labels: { confirm: "Yes", cancel: "Cancel" },
-      confirmProps: { color: "red" },
+      labels: { confirm: 'Yes', cancel: 'Cancel' },
+      confirmProps: { color: 'red' },
       onCancel: () => null,
       onConfirm: async () => {
         try {
           await deleteFriend.mutateAsync({ userId: id });
           notifications.show({
-            message: "Action successfully",
-            color: "green",
+            message: 'Action successfully',
+            color: 'green',
             icon: <IconCheck />,
           });
           utils.friend.friendList.refetch();
         } catch (e: any) {
           notifications.show({
-            message: "Có lỗi xảy ra. Vui lòng thử lại",
-            color: "red",
+            message: 'Có lỗi xảy ra. Vui lòng thử lại',
+            color: 'red',
             icon: <IconX />,
           });
         }
@@ -51,12 +51,7 @@ const FriendWidget = ({ id, name, imgUrl, mutualFriends }: Props) => {
         </Text>
         <div className="text-gray-400 text-sm mt-1">{`${mutualFriends} bạn chung`}</div>
       </div>
-      <ActionIcon
-        onClick={openDeleteModal}
-        color="red"
-        radius="xl"
-        variant="outline"
-      >
+      <ActionIcon onClick={openDeleteModal} color="red" radius="xl" variant="outline">
         <IconX size={20} />
       </ActionIcon>
     </div>

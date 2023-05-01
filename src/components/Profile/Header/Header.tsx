@@ -1,15 +1,15 @@
-import { ProfileLayoutContext } from "@/components/Layout/ProfileLayout";
-import { UserInfo } from "@/types/user";
-import { calcFriend } from "@/utils/user";
-import { Avatar, Image, Loader } from "@mantine/core";
+import { ProfileLayoutContext } from '@/components/Layout/ProfileLayout';
+import { UserInfo } from '@/types/user';
+import { calcFriend } from '@/utils/user';
+import { Avatar, Image, Loader } from '@mantine/core';
 import {
   IconBrandFacebookFilled,
   IconBrandInstagram,
   IconBrandTwitterFilled,
   IconPointFilled,
-} from "@tabler/icons-react";
-import dayjs from "dayjs";
-import { useContext } from "react";
+} from '@tabler/icons-react';
+import dayjs from 'dayjs';
+import { useContext } from 'react';
 
 const Header = () => {
   const { data: user } = useContext(ProfileLayoutContext) || {};
@@ -21,12 +21,7 @@ const Header = () => {
     <div className="bg-white pb-5">
       <div className="relative">
         {user.bgUrl ? (
-          <Image
-            alt="background"
-            height={200}
-            src={user.bgUrl}
-            className="w-full"
-          />
+          <Image alt="background" height={200} src={user.bgUrl} className="w-full" />
         ) : (
           <div className="h-[200px] bg-gray-100"></div>
         )}
@@ -35,9 +30,7 @@ const Header = () => {
           <Avatar src={user.imgUrl} className=" w-full h-full rounded-full" />
         </div>
       </div>
-      <div className="font-bold pt-6 text-3xl text-center pb-3">
-        {user.name || user.email}
-      </div>
+      <div className="font-bold pt-6 text-3xl text-center pb-3">{user.name || user.email}</div>
       <div className="flex justify-between font-medium text-md px-16 w-full">
         <div className="flex gap-3 flex-1">
           <div>
@@ -56,7 +49,7 @@ const Header = () => {
               <IconPointFilled size={16} />
             </>
           )}
-          <span>{`Joined ${dayjs(user.createdAt).format("MMM YYYY")}`}</span>
+          <span>{`Joined ${dayjs(user.createdAt).format('MMM YYYY')}`}</span>
         </div>
         <div className="flex gap-3 flex-1 justify-end">
           <IconBrandFacebookFilled size={20} />

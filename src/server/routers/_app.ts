@@ -1,14 +1,21 @@
-import { publicProcedure, router } from "../trpc";
-import { adminRouter } from "./admin";
-import { friendRouter } from "./friend";
-import { locationRouter } from "./location";
-import { messageRouter } from "./message";
-import { notificationRouter } from "./notification";
-import { requestRouter } from "./request";
-import { userRouter } from "./user";
+import { publicProcedure, router } from '../trpc';
+import { adminRouter } from './admin';
+import { commentRouter } from './comment';
+import { friendRouter } from './friend';
+import { locationRouter } from './location';
+import { messageRouter } from './message';
+import { notificationRouter } from './notification';
+import { postRouter } from './post';
+import { reactionRouter } from './reaction';
+import { requestRouter } from './request';
+import { reviewRouter } from './review';
+import { scheduleRouter } from './schedule';
+import { trackingRouter } from './tracking';
+import { tripRouter } from './trip';
+import { userRouter } from './user';
 
 export const appRouter = router({
-  healthcheck: publicProcedure.query(() => "yay!"),
+  healthcheck: publicProcedure.query(() => 'yay!'),
 
   user: userRouter,
   admin: adminRouter,
@@ -17,6 +24,13 @@ export const appRouter = router({
   request: requestRouter,
   message: messageRouter,
   location: locationRouter,
+  post: postRouter,
+  comment: commentRouter,
+  reaction: reactionRouter,
+  review: reviewRouter,
+  trip: tripRouter,
+  schedule: scheduleRouter,
+  tracking: trackingRouter,
 });
 
 export type AppRouter = typeof appRouter;

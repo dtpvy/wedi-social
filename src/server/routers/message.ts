@@ -1,9 +1,9 @@
-import { Message } from "@prisma/client";
-import { authedProcedure, router } from "../trpc";
-import EventEmitter from "events";
-import { observable } from "@trpc/server/observable";
-import { z } from "zod";
-import { prisma } from "../prisma";
+import { Message } from '@prisma/client';
+import { authProcedure, router } from '../trpc';
+import EventEmitter from 'events';
+import { observable } from '@trpc/server/observable';
+import { z } from 'zod';
+import { prisma } from '../prisma';
 
 interface MyEvents {
   send: (data: Message) => void;
@@ -12,10 +12,7 @@ declare interface MyEventEmitter {
   on<TEv extends keyof MyEvents>(event: TEv, listener: MyEvents[TEv]): this;
   off<TEv extends keyof MyEvents>(event: TEv, listener: MyEvents[TEv]): this;
   once<TEv extends keyof MyEvents>(event: TEv, listener: MyEvents[TEv]): this;
-  emit<TEv extends keyof MyEvents>(
-    event: TEv,
-    ...args: Parameters<MyEvents[TEv]>
-  ): boolean;
+  emit<TEv extends keyof MyEvents>(event: TEv, ...args: Parameters<MyEvents[TEv]>): boolean;
 }
 
 class MyEventEmitter extends EventEmitter {}
@@ -23,16 +20,16 @@ class MyEventEmitter extends EventEmitter {}
 const ee = new MyEventEmitter();
 
 export const messageRouter = router({
-  onSend: authedProcedure.subscription(() => {
+  onSend: authProcedure.subscription(() => {
     return observable<Message>((emit) => {
       const onSend = (data: Message) => emit.next(data);
-      ee.on("send", onSend);
+      ee.on('send', onSend);
       return () => {
-        ee.off("send", onSend);
+        ee.off('send', onSend);
       };
     });
   }),
-  send: authedProcedure
+  send: authProcedure
     .input(
       z.object({
         content: z.string().optional(),
@@ -42,20 +39,20 @@ export const messageRouter = router({
     )
     .mutation(async ({ input, ctx }) => {
       const { id } = ctx.user;
-      const { content = "", userId, mediaUrls = [] } = input;
+      const { content = '', userId, mediaUrls = [] } = input;
       const mess = await prisma.message.create({
         data: { content, mediaUrls, senderId: id, receiverId: userId },
       });
-      ee.emit("send", mess);
+      ee.emit('send', mess);
       return mess;
     }),
-  seenAll: authedProcedure.input(z.object({})).mutation(async ({ ctx }) => {
+  seenAll: authProcedure.input(z.object({})).mutation(async ({ ctx }) => {
     await prisma.message.updateMany({
       where: { OR: [{ receiverId: ctx.user.id }, { senderId: ctx.user.id }] },
       data: { updatedAt: new Date() },
     });
   }),
-  infinite: authedProcedure
+  infinite: authProcedure
     .input(
       z.object({
         cursor: z.number().nullish(),
@@ -86,7 +83,7 @@ export const messageRouter = router({
         nextCursor: cursor + 1,
       };
     }),
-  conversation: authedProcedure
+  conversation: authProcedure
     .input(
       z.object({
         cursor: z.number().nullish(),
@@ -112,7 +109,7 @@ export const messageRouter = router({
           ],
         },
         orderBy: {
-          createdAt: "desc",
+          createdAt: 'desc',
         },
         cursor: cursor ? { id: cursor } : undefined,
         take: take + 1,
