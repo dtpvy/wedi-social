@@ -34,6 +34,10 @@ const Signup = () => {
         color: "green",
         icon: <IconCheck />,
       });
+      tracking.mutate({
+        event: TRACKING_EVENT.ENTER_SIGNUP,
+        page: TRACKING_PAGE.SIGNUP,
+      });
     } catch (e: any) {
       if (e.message === ERROR_MESSAGES.userExist) {
         notifications.show({
@@ -59,13 +63,13 @@ const Signup = () => {
     }
   };
 
-  useEffect(() => {
-    tracking.mutate({
-      event: TRACKING_EVENT.ENTER_SIGNIN,
-      page: TRACKING_PAGE.SIGNIN,
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // useEffect(() => {
+  //   tracking.mutate({
+  //     event: TRACKING_EVENT.ENTER_SIGNUP,
+  //     page: TRACKING_PAGE.SIGNUP,
+  //   });
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   return (
     <section className="bg-gray-50 dark:bg-gray-900">

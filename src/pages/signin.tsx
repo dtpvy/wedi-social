@@ -26,15 +26,19 @@ const Signin = () => {
 
   const onSubmit = (data: LoginForm) => {
     signIn("credentials", { ...data, callbackUrl: "/feed" });
-  };
-
-  useEffect(() => {
     tracking.mutate({
       event: TRACKING_EVENT.ENTER_SIGNIN,
       page: TRACKING_PAGE.SIGNIN,
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  };
+
+  // useEffect(() => {
+  //   tracking.mutate({
+  //     event: TRACKING_EVENT.ENTER_SIGNIN,
+  //     page: TRACKING_PAGE.SIGNIN,
+  //   });
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   return (
     <section className="bg-gray-50 dark:bg-gray-900">

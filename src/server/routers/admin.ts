@@ -3,7 +3,7 @@ import { prisma } from "../prisma";
 import { Prisma } from "@prisma/client";
 import { adminAuthProcedure, router } from "../trpc";
 import { ERROR_MESSAGES } from "@/constants/error";
-import { UserStatus } from "@prisma/client";
+import { UserStatus, LocationStatus } from "@prisma/client";
 import { request } from "https";
 
 export const adminRouter = router({
@@ -36,6 +36,34 @@ export const adminRouter = router({
         where: { id },
         data: { isDeleted: true, deletedAt: new Date() },
       });
+
+      return {
+        status: 201,
+        message: "Action successfully",
+        result: true,
+      };
+    }),
+  deactiveLocation: adminAuthProcedure
+    .input(
+      z.object({
+        id: z.number(),
+        createdAt: z.date(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      const { id, createdAt } = input;
+      const location = await prisma.location.findFirst({
+        where: { id: input.id },
+      });
+
+      if (!location || location.createdAt >= createdAt) {
+        throw new Error(ERROR_MESSAGES.dontHavePermission);
+      }
+
+      // await prisma.location.update({
+      //   where: { id },
+      //   data: { deletedAt: new Date() },
+      // });
 
       return {
         status: 201,
@@ -114,6 +142,39 @@ export const adminRouter = router({
         result: true,
       };
     }),
+
+  setLocationStatus: adminAuthProcedure
+    .input(
+      z.object({
+        id: z.number(),
+        status: z.nativeEnum(LocationStatus).optional(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      let { id, status } = input;
+      const admin = await prisma.admin.findFirst({
+        where: { email: ctx.user.email },
+      });
+      if (!admin) {
+        throw new Error(ERROR_MESSAGES.dontHavePermission);
+      }
+
+      const location = await prisma.location.findFirst({
+        where: { id: id },
+      });
+
+      await prisma.location.update({
+        where: { id },
+        data: { status: status },
+      });
+
+      return {
+        status: 201,
+        message: "Action successfully",
+        result: true,
+      };
+    }),
+
   userDetail: adminAuthProcedure
     .input(
       z.object({
@@ -248,10 +309,6 @@ export const adminRouter = router({
   locationList: adminAuthProcedure.query(async () => {
     const locations = await prisma.location.findMany({
       include: {
-        ward: true,
-        district: true,
-        city: true,
-        country: true,
         posts: true,
         reviews: true,
         schedules: true,
@@ -272,10 +329,6 @@ export const adminRouter = router({
       const location = prisma.location.findUnique({
         where: { id: input.locationId },
         include: {
-          ward: true,
-          district: true,
-          city: true,
-          country: true,
           posts: true,
         },
       });
@@ -296,18 +349,7 @@ export const adminRouter = router({
           reactions: true,
           comments: true,
           trips: true,
-          locations: {
-            include: {
-              location: {
-                include: {
-                  district: true,
-                  ward: true,
-                  city: true,
-                  country: true,
-                },
-              },
-            },
-          },
+          locations: true,
         },
       });
 

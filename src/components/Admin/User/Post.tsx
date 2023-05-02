@@ -1,6 +1,7 @@
 import React from "react";
 import { Card, Image, Text, Button, Group, Divider } from "@mantine/core";
 import dayjs from "dayjs";
+import { trpc } from "@/utils/trpc";
 
 type Props = {
   post: any;
@@ -14,12 +15,11 @@ const Post = ({ post }: Props) => {
     userName,
     numOfReactions,
     numOfComments,
-    locations,
+    locationId,
     dateCreated,
   } = post;
-  // let locationList = locations.map((location: any) => {
-  //   return location.country + location.city;
-  // });
+
+  let { data: location } = trpc.admin.locationDetail.useQuery({ locationId });
 
   return (
     <Card
@@ -33,12 +33,7 @@ const Post = ({ post }: Props) => {
       <Group position="apart" className="mx-3">
         <p className="my-0">{userName}</p>
         <Group>
-          <p className="my-0">Địa chỉ: {}</p>
-
-          <p className="my-0">
-            Địa chỉ:{" "}
-            {/* {`${location.street}, ${location.ward}, ${location.district}, ${location.city}, ${location.nation},`} */}
-          </p>
+          <p className="my-0">Địa chỉ:{location?.address}</p>
         </Group>
       </Group>
       <Image
@@ -46,7 +41,7 @@ const Post = ({ post }: Props) => {
         maw={240}
         src={imgURL}
         alt="Random unsplash image"
-        caption="My dog begging for treats"
+        caption=""
         className="mx-auto"
       />
       <p className="text-gray-800 ml-3">{content}</p>

@@ -12,14 +12,6 @@ const User = () => {
     id: userId,
   });
   let posts = postList?.map((post) => {
-    let locations = post.locations.map((l) => {
-      let temp = {
-        status: l.location.status,
-        name: l.location.name,
-        address: `${l.location.street}, ${l.location.ward}, ${l.location.district}, ${l.location.city}`,
-      };
-      return temp;
-    });
     return (
       <div>
         <Post
@@ -28,12 +20,12 @@ const User = () => {
             id: post.id,
             numOfReactions: post.reactions.length,
             numOfComments: post.comments.length,
-            locations: locations,
+            locationId: post.locations[0].locationId,
             userName: user?.name,
             imgURL: post.imgUrls,
           }}
         />
-        <p>{locations.length}</p>
+        <p>{post.locations.length}</p>
       </div>
     );
   });

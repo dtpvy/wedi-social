@@ -4,7 +4,8 @@ import ComponentBox from "../ComponentBox";
 import { trpc } from "@/utils/trpc";
 import { Text, Badge, Button, Card, Group, Avatar } from "@mantine/core";
 
-const RequestList = () => {
+const RequestList = (props: any) => {
+  let { statusVisibility } = props;
   const requests = trpc.admin.requestList.useQuery();
 
   console.log(requests.data);
@@ -16,8 +17,7 @@ const RequestList = () => {
         <p className="w-3/12 pl-2">User</p>
         {/* <p className="w-2/12">Nội dung</p> */}
         <p className="w-2/12">Ngày tạo</p>
-        <p className="w-1/12 mx-3">Trình trạng</p>
-        <p className="w-1/12"></p>
+        <p className="w-1/12 ml-6">Trình trạng</p>
       </div>
 
       {requests.data?.requests.map((request) => (
@@ -28,8 +28,10 @@ const RequestList = () => {
               input2: request.title,
               input3: request.user.name,
               input4: request.createdAt,
-              input5: request.reply.length != 0 ? true : false,
+              status:
+                request.reply.length != 0 ? "Đã phản hồi" : "Chưa phản hồi",
               type: "request",
+              statusVisibility,
             }}
           />
         </div>

@@ -17,6 +17,11 @@ import {
   Line,
   LineChart,
 } from "recharts";
+import {
+  TRACKING_EVENT,
+  TRACKING_PAGE,
+  TRACKING_TITLE,
+} from "@/constants/tracking";
 
 const Dashboard = () => {
   const { data, isLoading, refetch } = trpc.admin.adminList.useQuery();
@@ -27,9 +32,8 @@ const Dashboard = () => {
 
   // }))
   const { data: tracking } = trpc.admin.trackingPage.useQuery({});
-
-  const _data = (tracking?.trackingPage || []).map((d) => ({
-    name: d.page,
+  const _data = (tracking?.trackingEvent || []).map((d) => ({
+    name: TRACKING_TITLE[d.event],
     sum: d._sum.amount,
   }));
   const event_data = (tracking?.trackingEvent || []).map((d) => ({
@@ -46,23 +50,25 @@ const Dashboard = () => {
       </Text>
       <Header />
       <Divider my="sm" />
-      <div className="flex justify-around">
-        <BarChart width={400} height={300} data={_data}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis />
-          <Tooltip />
-          <Bar dataKey="sum" fill="#8884d8" />
-          <text
-            x="60%"
-            y="300"
-            textAnchor="middle"
-            fontWeight="bold"
-            fontSize={16}
-          >
-            My Chart Title
-          </text>
-        </BarChart>
+      <div className="flex flex-col justify-around items-center">
+        <div className="chart-container">
+          <BarChart width={800} height={300} data={_data}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <Bar dataKey="sum" fill="#8884d8" />
+            <text
+              x="60%"
+              y="300"
+              textAnchor="middle"
+              fontWeight="bold"
+              fontSize={16}
+            >
+              My Chart Title
+            </text>
+          </BarChart>
+        </div>
         <PieChart width={400} height={400}>
           <Pie
             data={event_data}
@@ -101,16 +107,7 @@ const Dashboard = () => {
           />
         </PieChart>
       </div>
-      <div>
-        <LineChart width={600} height={300} data={_data}>
-          <Line type="monotone" dataKey="value" stroke="#8884d8" />
-          <CartesianGrid stroke="#ccc" />
-          <XAxis dataKey="name" />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-        </LineChart>
-      </div>
+
       <Text size="xl" className="relative px-4 ml-8 pt-3 font-semibold">
         Danh sách Admin:
         {isLoading && <Loader className="absolute top-1/2 left-1/2 -tr" />}

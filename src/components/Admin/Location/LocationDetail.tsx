@@ -13,22 +13,42 @@ import { useDisclosure } from "@mantine/hooks";
 import { IconEdit } from "@tabler/icons-react";
 import { trpc } from "@/utils/trpc";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { LocationStatus } from "@prisma/client";
 
 const LocationDetail = () => {
   const router = useRouter();
   let id = parseInt(router.query.id as string, 10);
-  let { data: location } = trpc.admin.locationDetail.useQuery({
+  let { data: location, refetch } = trpc.admin.locationDetail.useQuery({
     locationId: id,
   });
-  const [locationEditOpened, locationEdit] = useDisclosure(false);
-  const [locationDeleteOpened, locationDelete] = useDisclosure(false);
+  const [LocationStatusModalOpened, LocationStatusModal] = useDisclosure(false);
+  let setLocationStatus = trpc.admin.setLocationStatus.useMutation();
+  const [currentStatus, setCurrentStatus] = useState<LocationStatus>();
 
-  const handleEdit = () => {
-    locationEdit.close();
+  useEffect(() => {
+    if (!currentStatus) {
+      setCurrentStatus(location?.status);
+    }
+    setCurrentStatus(location?.status);
+  }, [location?.status]);
+
+  const handleSetStatus = (status: LocationStatus) => {
+    setLocationStatus.mutate(
+      { id, status },
+      {
+        onSuccess: () => {
+          // setCurrentStatus(status);
+          refetch();
+          LocationStatusModal.close();
+        },
+        onError: () => {
+          console.log("something wrong");
+        },
+      }
+    );
   };
-  const handleDelete = () => {
-    locationDelete.close();
-  };
+
   return (
     <div className="flex w-full justify-center my-3">
       <Card
@@ -41,17 +61,20 @@ const LocationDetail = () => {
         <Group position="apart">
           <div className="px-3">
             <div className="font-medium text-gray-500">{location?.name}</div>
-            <Text>
-              Địa chỉ:{" "}
-              {`${location?.street}, ${location?.ward.name}, ${location?.district.name}, ${location?.city.name}, ${location?.country.name}`}
-            </Text>
+            <Text>Địa chỉ: {`${location?.address}`}</Text>
             <Text>
               Số bài viết đi kèm:{" "}
               <span className="font-medium">{location?.posts.length}</span>
             </Text>
             <Text>Hình ảnh: </Text>
           </div>
-          <Badge color="green">{location?.status}</Badge>
+          <Badge
+            color={
+              location?.status === LocationStatus.ACTIVE ? "green" : "yellow"
+            }
+          >
+            {location?.status}
+          </Badge>
         </Group>
         {/* <Image
           maw={240}
@@ -62,67 +85,45 @@ const LocationDetail = () => {
         /> */}
 
         <Modal
-          opened={locationEditOpened}
-          onClose={locationEdit.close}
-          title="Chỉnh sửa địa điểm"
-        >
-          <Text>
-            Điểm du lịch <span className="font-medium">{location?.name}</span>
-          </Text>
-          <TextInput label="Tên địa điểm" placeholder="Nhập tên" />
-          <TextInput
-            data-autofocus
-            label="Địa chỉ:"
-            placeholder="Nhập địa chỉ mới"
-            mt="md"
-          />
-          <Button
-            variant="default"
-            color="blue"
-            mt="md"
-            radius="md"
-            onClick={handleEdit}
-            leftIcon={<IconEdit size="1rem" />}
-          >
-            Chỉnh sửa
-          </Button>
-        </Modal>
-        <Modal
-          opened={locationDeleteOpened}
-          onClose={locationDelete.close}
+          opened={LocationStatusModalOpened}
+          onClose={LocationStatusModal.close}
           className="text-center"
         >
-          <Text>Bạn có chắc muốn xóa địa điểm?</Text>
+          <Text>
+            Bạn có chắc muốn đánh dấu địa điểm{" "}
+            {location?.status !== LocationStatus.ACTIVE
+              ? "ngưng hoạt động"
+              : "mở hoạt động"}
+            ?
+          </Text>
           <Button
             variant="default"
-            color="blue"
+            color={
+              location?.status === LocationStatus.ACTIVE ? "green" : "yellow"
+            }
             mt="md"
             radius="md"
-            onClick={handleDelete}
+            onClick={() =>
+              handleSetStatus(
+                location?.status === LocationStatus.DEACTIVE
+                  ? LocationStatus.ACTIVE
+                  : LocationStatus.DEACTIVE
+              )
+            }
           >
-            Xóa
+            Xác nhận
           </Button>
         </Modal>
 
         <Group position="center">
           <Button
-            variant="default"
-            color="blue"
-            mt="md"
-            radius="md"
-            onClick={locationEdit.open}
-            leftIcon={<IconEdit size="1rem" />}
-          >
-            Chỉnh sửa
-          </Button>
-          <Button
-            onClick={locationDelete.open}
+            onClick={LocationStatusModal.open}
             variant="default"
             color="blue"
             mt="md"
             radius="md"
           >
-            Xóa
+            Ngưng hoạt động
           </Button>
         </Group>
       </Card>

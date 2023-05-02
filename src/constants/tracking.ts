@@ -13,8 +13,8 @@ const TRACKING_EVENT = {
 };
 
 const TRACKING_TITLE = {
-  [TRACKING_EVENT.ENTER_SIGNIN]: "Xem trang Đăng nhập",
-  [TRACKING_EVENT.ENTER_SIGNUP]: "Xem trang Đăng ký",
+  [TRACKING_EVENT.ENTER_SIGNIN]: "Lượt truy cập",
+  [TRACKING_EVENT.ENTER_SIGNUP]: "Người dùng",
   [TRACKING_EVENT.ENTER_FEED]: "Xem trang Lướt",
   [TRACKING_EVENT.ENTER_PROFILE]: "Xem trang cá nhân",
   [TRACKING_EVENT.ENTER_TRIP]: "Xem trang Chuyến đi",
