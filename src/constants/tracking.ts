@@ -1,6 +1,8 @@
 const TRACKING_EVENT = {
   ENTER_SIGNIN: "enterSignin",
   ENTER_SIGNUP: "enterSignup",
+  SIGNIN: "signin",
+  SIGNUP: "signup",
   ENTER_FEED: "enterFeed",
   ENTER_PROFILE: "enterProfile",
   ENTER_TRIP: "enterTrip",
@@ -13,11 +15,13 @@ const TRACKING_EVENT = {
 };
 
 const TRACKING_TITLE = {
-  [TRACKING_EVENT.ENTER_SIGNIN]: "Lượt truy cập",
-  [TRACKING_EVENT.ENTER_SIGNUP]: "Người dùng",
-  [TRACKING_EVENT.ENTER_FEED]: "Xem trang Lướt",
-  [TRACKING_EVENT.ENTER_PROFILE]: "Xem trang cá nhân",
-  [TRACKING_EVENT.ENTER_TRIP]: "Xem trang Chuyến đi",
+  [TRACKING_EVENT.SIGNIN]: "Lượt truy cập",
+  [TRACKING_EVENT.SIGNUP]: "Người dùng",
+  [TRACKING_EVENT.ENTER_SIGNIN]: "Truy cập trang đăng nhập",
+  [TRACKING_EVENT.ENTER_SIGNUP]: "Truy cập trang đăng ký",
+  [TRACKING_EVENT.ENTER_FEED]: "Truy cập trang Lướt",
+  [TRACKING_EVENT.ENTER_PROFILE]: "Truy cập trang cá nhân",
+  [TRACKING_EVENT.ENTER_TRIP]: "Truy cập trang Chuyến đi",
   [TRACKING_EVENT.ADD_FRIEND]: "Kết bạn",
   [TRACKING_EVENT.CREATE_POST]: "Tạo bài viết",
   [TRACKING_EVENT.CREATE_COMMENT]: "Tạo comment",

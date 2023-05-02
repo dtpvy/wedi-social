@@ -14,7 +14,7 @@ const Request = ({ request }: Props) => {
   };
 
   return (
-    <Grid.Col span={4}>
+    <Grid.Col span={12}>
       <div className="w-full">
         <Card shadow="sm" padding="lg" radius="md" withBorder>
           <Group position="apart" mt="md" mb="xs">
