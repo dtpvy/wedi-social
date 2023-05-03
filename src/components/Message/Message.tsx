@@ -1,21 +1,14 @@
-import useMessageStore from "@/stores/message";
-import useUserStore from "@/stores/user";
-import { MessageDetail } from "@/types/message";
-import classNames from "@/utils/classNames";
-import { trpc } from "@/utils/trpc";
-import {
-  ActionIcon,
-  Avatar,
-  Dialog,
-  Image,
-  Loader,
-  TextInput,
-} from "@mantine/core";
-import { notifications } from "@mantine/notifications";
-import { IconPhoto, IconSend, IconX } from "@tabler/icons-react";
-import dayjs from "dayjs";
-import { IKUpload } from "imagekitio-react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import useMessageStore from '@/stores/message';
+import useUserStore from '@/stores/user';
+import { MessageDetail } from '@/types/message';
+import classNames from '@/utils/classNames';
+import { trpc } from '@/utils/trpc';
+import { ActionIcon, Avatar, Dialog, Image, Loader, TextInput } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
+import { IconPhoto, IconSend, IconX } from '@tabler/icons-react';
+import dayjs from 'dayjs';
+import { IKUpload } from 'imagekitio-react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 const Message = () => {
   const userInfo = useUserStore.use.user();
@@ -23,7 +16,7 @@ const Message = () => {
   const user = useMessageStore.use.user();
   const setOpen = useMessageStore.use.setOpen();
   const send = trpc.message.send.useMutation();
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
 
   const [firstLoad, setFirstLoad] = useState(false);
 
@@ -50,23 +43,19 @@ const Message = () => {
 
   const addMess = useCallback((incoming?: MessageDetail[]) => {
     setMessages((current) => {
-      const map: Record<MessageDetail["id"], MessageDetail> = {};
+      const map: Record<MessageDetail['id'], MessageDetail> = {};
       for (const msg of current ?? []) {
         map[msg.id] = msg;
       }
       for (const msg of incoming ?? []) {
         map[msg.id] = msg;
       }
-      return Object.values(map).sort(
-        (a, b) => a.createdAt.getTime() - b.createdAt.getTime()
-      );
+      return Object.values(map).sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
     });
   }, []);
 
   useEffect(() => {
-    const msgs = messQuery.data?.pages
-      .map((page) => page.items as unknown as MessageDetail)
-      .flat();
+    const msgs = messQuery.data?.pages.map((page) => page.items as unknown as MessageDetail).flat();
     addMess(msgs);
   }, [messQuery.data?.pages, addMess]);
 
@@ -76,8 +65,8 @@ const Message = () => {
     }
 
     scrollTargetRef.current.scrollIntoView({
-      behavior: "smooth",
-      block: "end",
+      behavior: 'smooth',
+      block: 'end',
     });
   }, [scrollTargetRef]);
 
@@ -96,7 +85,7 @@ const Message = () => {
       addMess([noti as MessageDetail]);
     },
     onError(err) {
-      console.error("Subscription error:", err);
+      console.error('Subscription error:', err);
       utils.notification.infinite.invalidate();
     },
   });
@@ -111,7 +100,7 @@ const Message = () => {
       },
       { onSuccess: () => scrollToBottomOfList() }
     );
-    setMessage("");
+    setMessage('');
   };
 
   return (
@@ -147,10 +136,9 @@ const Message = () => {
             <div
               key={mess.id}
               className={classNames(
-                "w-full max-w-xs px-2 py-1 text-gray-900 bg-white rounded-lg shadow border mb-2",
+                'w-full max-w-xs px-2 py-1 text-gray-900 bg-white rounded-lg shadow border mb-2',
                 {
-                  "bg-green-600 text-white ml-auto":
-                    mess.senderId === userInfo?.id,
+                  'bg-green-600 text-white ml-auto': mess.senderId === userInfo?.id,
                 }
               )}
             >
@@ -166,7 +154,7 @@ const Message = () => {
                 )}
                 <div className="text-sm font-normal">{mess.content}</div>
                 <span className="text-xs font-medium">
-                  {dayjs(mess.createdAt).format("DD/MM/YYYY HH:mm")}
+                  {dayjs(mess.createdAt).format('DD/MM/YYYY HH:mm')}
                 </span>
               </div>
             </div>
@@ -180,11 +168,7 @@ const Message = () => {
         <div ref={scrollTargetRef}></div>
       </div>
       <div className="flex items-center gap-3 absolute bottom-0 left-0 right-0 py-2 px-2 border-t">
-        <ActionIcon
-          onClick={() => uploadRef.current?.click()}
-          color="teal"
-          variant="filled"
-        >
+        <ActionIcon onClick={() => uploadRef.current?.click()} color="teal" variant="filled">
           <IconPhoto />
         </ActionIcon>
 
@@ -194,8 +178,8 @@ const Message = () => {
           onSuccess={(file) => onSend([file.url])}
           onError={() =>
             notifications.show({
-              message: "Có lỗi xảy ra. Vui lòng thử lại",
-              color: "red",
+              message: 'Có lỗi xảy ra. Vui lòng thử lại',
+              color: 'red',
               icon: <IconX />,
             })
           }

@@ -1,34 +1,20 @@
-import React from "react";
-import { Card, Image, Text, Button, Group, Divider } from "@mantine/core";
-import dayjs from "dayjs";
-import { trpc } from "@/utils/trpc";
+import React from 'react';
+import { Card, Image, Text, Button, Group, Divider } from '@mantine/core';
+import dayjs from 'dayjs';
+import { trpc } from '@/utils/trpc';
 
 type Props = {
   post: any;
 };
 
 const Post = ({ post }: Props) => {
-  const {
-    id,
-    content,
-    imgURL,
-    userName,
-    numOfReactions,
-    numOfComments,
-    locationId,
-    dateCreated,
-  } = post;
+  const { id, content, imgURL, userName, numOfReactions, numOfComments, locationId, dateCreated } =
+    post;
 
   let { data: location } = trpc.admin.locationDetail.useQuery({ locationId });
 
   return (
-    <Card
-      shadow="sm"
-      radius="lg"
-      withBorder
-      className="mt-3 w-9/12 px-8"
-      key={id}
-    >
+    <Card shadow="sm" radius="lg" withBorder className="mt-3 px-8" key={id}>
       <p className="my-0 text-gray-300">Post#{id}</p>
       <Group position="apart" className="mx-3">
         <p className="my-0">{userName}</p>
@@ -47,7 +33,7 @@ const Post = ({ post }: Props) => {
       <p className="text-gray-800 ml-3">{content}</p>
       <Divider my="sm" />
       <Group position="apart">
-        <p className="my-0">Ngày: {dayjs(dateCreated).format("DD/MM/YYYY")} </p>
+        <p className="my-0">Ngày: {dayjs(dateCreated).format('DD/MM/YYYY')} </p>
         <p className="my-0">Lượt tương tác: {numOfReactions}</p>
         <p className="my-0">Lượt comment: {numOfComments}</p>
       </Group>

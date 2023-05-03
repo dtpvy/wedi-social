@@ -1,8 +1,8 @@
-import React from "react";
-import { useRouter } from "next/router";
-import { UserDetail } from "@/components/Admin/User";
-import { trpc } from "@/utils/trpc";
-import Post from "@/components/Admin/User/Post";
+import React from 'react';
+import { useRouter } from 'next/router';
+import { UserDetail } from '@/components/Admin/User';
+import { trpc } from '@/utils/trpc';
+import Post from '@/components/Admin/User/Post';
 
 const User = () => {
   const router = useRouter();
@@ -13,7 +13,7 @@ const User = () => {
   });
   let posts = postList?.map((post) => {
     return (
-      <div>
+      <div className="w-9/12">
         <Post
           post={{
             content: post.content,
@@ -25,7 +25,6 @@ const User = () => {
             imgURL: post.imgUrls,
           }}
         />
-        <p>{post.locations.length}</p>
       </div>
     );
   });

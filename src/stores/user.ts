@@ -1,8 +1,8 @@
-import { UserInfo } from "@/types/user";
-import { create } from "zustand";
-import createSelectors from "./createSelectors";
+import { UserInfo } from '@/types/user';
+import { create } from 'zustand';
+import createSelectors from './createSelectors';
 
-export type AuthStatus = "loading" | "authenticated" | "unauthenticated";
+export type AuthStatus = 'loading' | 'authenticated' | 'unauthenticated';
 
 type State = {
   user: UserInfo | null;
@@ -16,7 +16,7 @@ type Action = {
 const useUserStore = createSelectors(
   create<State & Action>((set) => ({
     user: null,
-    status: "loading",
+    status: 'loading',
     setUser: ({ user, status }) => {
       set({ user, status });
     },

@@ -1,7 +1,7 @@
-import { Admin, Header } from "@/components/Admin/Dashboard";
-import { trpc } from "@/utils/trpc";
-import { Divider, Loader } from "@mantine/core";
-import dayjs from "dayjs";
+import { Admin, Header } from '@/components/Admin/Dashboard';
+import { trpc } from '@/utils/trpc';
+import { Divider, Loader } from '@mantine/core';
+import dayjs from 'dayjs';
 import {
   Bar,
   BarChart,
@@ -18,12 +18,8 @@ import {
   Scatter,
   ScatterChart,
   Text,
-} from "recharts";
-import {
-  TRACKING_EVENT,
-  TRACKING_PAGE,
-  TRACKING_TITLE,
-} from "@/constants/tracking";
+} from 'recharts';
+import { TRACKING_EVENT, TRACKING_PAGE, TRACKING_TITLE } from '@/constants/tracking';
 
 const Dashboard = () => {
   const { data, isLoading, refetch } = trpc.admin.adminList.useQuery();
@@ -31,7 +27,7 @@ const Dashboard = () => {
   const { data: tracking } = trpc.admin.trackingPage.useQuery({});
   const bar_data1 = (tracking?.trackingEvent || [])
     .map((d) => {
-      if (d.event == "signin" || d.event == "singup")
+      if (d.event == 'signin' || d.event == 'singup')
         return {
           name: TRACKING_TITLE[d.event],
           sum: d._sum.amount,
@@ -48,15 +44,13 @@ const Dashboard = () => {
     sum: d._sum.amount,
   }));
 
-  const COLORS = ["#0088FE", "#00C49F", "#fba32b"];
+  const COLORS = ['#0088FE', '#00C49F', '#fba32b'];
   return (
     <div>
       <p className="px-4 ml-8 pt-1 font-semibold text-xl">Pending requests:</p>
       <Header />
       <Divider my="sm" />
-      <p className="px-4 ml-8 pt-2 font-semibold text-xl">
-        Thống kê qua biểu đồ:
-      </p>
+      <p className="px-4 ml-8 pt-2 font-semibold text-xl">Thống kê qua biểu đồ:</p>
       <div className="flex flex-col justify-around items-center">
         <svg width={600} height={50}>
           <Text x={330} y={30} textAnchor="middle" fontSize={20}>
@@ -72,7 +66,7 @@ const Dashboard = () => {
             <Bar dataKey="sum" fill="#66DC9C" />
           </BarChart>
         </div>
-        <div>
+        {/* <div>
           <svg width={600} height={50}>
             <Text x={300} y={30} textAnchor="middle" fontSize={20}>
               Biểu đồ so sánh lượt truy cập các trang
@@ -106,7 +100,7 @@ const Dashboard = () => {
               }}
             />
           </PieChart>
-        </div>
+        </div> */}
 
         <div className="chart-container">
           <svg width={600} height={50}>

@@ -1,6 +1,6 @@
-import { FeedLayout } from "@/components/Layout";
-import { CreatePost, Post } from "@/components/Post";
-import { trpc } from "@/utils/trpc";
+import { FeedLayout } from '@/components/Layout';
+import { CreatePost, Post } from '@/components/Post';
+import { trpc } from '@/utils/trpc';
 import { TRACKING_EVENT, TRACKING_PAGE } from "@/constants/tracking";
 import { useEffect } from "react";
 
@@ -12,8 +12,7 @@ const Feed = () => {
     }
   );
 
-  const utils = trpc.useContext();
-  const { data: res, fetchNextPage, isFetching, hasNextPage, refetch } = query;
+  const { data: res, fetchNextPage, isFetchingNextPage, hasNextPage, refetch } = query;
   const data = res?.pages.flatMap((d) => d?.items || []) || [];
   //add tracking
   const tracking = trpc.tracking.add.useMutation();
@@ -32,6 +31,18 @@ const Feed = () => {
           <Post key={post.id} post={post} refetch={query.refetch} />
         ))}
       </div>
+      <button
+        data-testid="loadMore"
+        onClick={() => fetchNextPage()}
+        disabled={!hasNextPage || isFetchingNextPage}
+        className="cursor-pointer px-4 py-2 text-teal-700 underline rounded disabled:opacity-50 w-full text-center"
+      >
+        {isFetchingNextPage
+          ? 'Loading more...'
+          : hasNextPage
+          ? 'Load More'
+          : 'Nothing more to load'}
+      </button>
     </FeedLayout>
   );
 };

@@ -1,13 +1,13 @@
-import { getPlaceList } from "@/api/place";
-import { LocationDetail } from "@/types/location";
-import { Poi, Prediction } from "@/types/place";
-import { trpc } from "@/utils/trpc";
-import { Button, Loader, Modal, Popover, TextInput } from "@mantine/core";
-import { useDebouncedState } from "@mantine/hooks";
-import { useState } from "react";
-import { useQuery } from "react-query";
-import LocationSeletion, { LocationSeletionProps } from "./LocationSeletion";
-import { getName } from "@/utils/location";
+import { getPlaceList } from '@/api/place';
+import { LocationDetail } from '@/types/location';
+import { Poi } from '@/types/place';
+import { getName } from '@/utils/location';
+import { trpc } from '@/utils/trpc';
+import { Button, Loader, Modal, Popover, TextInput } from '@mantine/core';
+import { useDebouncedState } from '@mantine/hooks';
+import { useState } from 'react';
+import { useQuery } from 'react-query';
+import LocationSeletion, { LocationSeletionProps } from './LocationSeletion';
 
 type Props = {
   opened?: boolean;
@@ -24,13 +24,11 @@ const ModalLocation = ({
 }: Props) => {
   const createLocation = trpc.location.create.useMutation();
   const [openedPopover, setOpenedPopover] = useState(false);
-  const [street, setStreet] = useDebouncedState("", 500);
+  const [street, setStreet] = useDebouncedState('', 500);
 
   const { data, isLoading } = useQuery({
-    queryKey: ["getPlaceList"],
-    queryFn: () => {
-      return getPlaceList(street);
-    },
+    queryKey: ['getPlaceList', street],
+    queryFn: () => getPlaceList(street),
     enabled: !!street,
   });
 
@@ -64,13 +62,17 @@ const ModalLocation = ({
           <Popover.Target>
             <TextInput
               onFocus={() => setOpenedPopover(true)}
-              label="Street"
-              placeholder="Street"
+              label="Address"
+              placeholder="Address"
               onChange={(e) => setStreet(e.target.value)}
             />
           </Popover.Target>
           <Popover.Dropdown className="min-h-[100px] max-h-[200px] overflow-auto px-0 py-1 cursor-pointer">
-            {isLoading && <Loader />}
+            {isLoading && (
+              <div className="text-center">
+                <Loader className="" />
+              </div>
+            )}
             {data?.result.poi.map((place) => (
               <div
                 key={place.hash}
@@ -80,29 +82,14 @@ const ModalLocation = ({
                   setOpenedPopover(false);
                 }}
               >
-                <div
-                  dangerouslySetInnerHTML={{ __html: place.title }}
-                  className="font-bold"
-                ></div>
-                <div className="text-gray-600 text-sm truncate">
-                  {place.address}
-                </div>
+                <div dangerouslySetInnerHTML={{ __html: place.title }} className="font-bold"></div>
+                <div className="text-gray-600 text-sm truncate">{place.address}</div>
               </div>
             ))}
           </Popover.Dropdown>
         </Popover>
 
-        <LocationSeletion
-          locations={locations}
-          onDeleteLocation={onDeleteLocation}
-        />
-        {/* <MapGL
-        {...viewport}
-        width="100%"
-        height="300px"
-        onViewportChange={setViewport}
-        goongApiAccessToken={GOONG_MAPTILES_KEY}
-      /> */}
+        <LocationSeletion locations={locations} onDeleteLocation={onDeleteLocation} />
 
         <div className="flex justify-end gap-2">
           <Button onClick={onClose} color="red">

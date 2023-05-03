@@ -1,12 +1,12 @@
-import { Language } from "@/components/Language";
-import { ERROR_MESSAGES } from "@/constants/error";
-import { TRACKING_EVENT, TRACKING_PAGE } from "@/constants/tracking";
-import { trpc } from "@/utils/trpc";
-import { notifications } from "@mantine/notifications";
-import { IconCheck, IconX } from "@tabler/icons-react";
-import Link from "next/link";
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { Language } from '@/components/Language';
+import ERROR_MESSAGES from '../constants/error';
+import { TRACKING_EVENT, TRACKING_PAGE } from '@/constants/tracking';
+import { trpc } from '@/utils/trpc';
+import { notifications } from '@mantine/notifications';
+import { IconCheck, IconX } from '@tabler/icons-react';
+import Link from 'next/link';
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 
 type RegisterForm = {
   email: string;
@@ -31,7 +31,7 @@ const Signup = () => {
       const res = await signup.mutateAsync(data);
       notifications.show({
         message: `Account creates successfully. Hellp ${res.result}`,
-        color: "green",
+        color: 'green',
         icon: <IconCheck />,
       });
       tracking.mutate({
@@ -41,22 +41,20 @@ const Signup = () => {
     } catch (e: any) {
       if (e.message === ERROR_MESSAGES.userExist) {
         notifications.show({
-          message: "Account is already existed",
-          color: "red",
+          message: 'Account is already existed',
+          color: 'red',
           icon: <IconX />,
         });
-      } else if (
-        e.message.includes("Unique constraint failed on the fields: (`phone`)")
-      ) {
+      } else if (e.message.includes('Unique constraint failed on the fields: (`phone`)')) {
         notifications.show({
-          message: "Số diện thoại đã tồn tại",
-          color: "red",
+          message: 'Số diện thoại đã tồn tại',
+          color: 'red',
           icon: <IconX />,
         });
       } else {
         notifications.show({
-          message: "Có lỗi xảy ra. Vui lòng thử lại",
-          color: "red",
+          message: 'Có lỗi xảy ra. Vui lòng thử lại',
+          color: 'red',
           icon: <IconX />,
         });
       }
@@ -82,10 +80,7 @@ const Signup = () => {
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
               Create account
             </h1>
-            <form
-              className="space-y-4 md:space-y-6"
-              onSubmit={handleSubmit(onSubmit)}
-            >
+            <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit(onSubmit)}>
               <div className="flex items-center justify-between">
                 <div>
                   <label
@@ -100,7 +95,7 @@ const Signup = () => {
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Your name"
                     required
-                    {...register("name")}
+                    {...register('name')}
                   />
                 </div>
                 <div>
@@ -117,7 +112,7 @@ const Signup = () => {
                     placeholder="Your phone"
                     required
                     maxLength={10}
-                    {...register("phone")}
+                    {...register('phone')}
                   />
                 </div>
               </div>
@@ -134,7 +129,7 @@ const Signup = () => {
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="name@company.com"
                   required
-                  {...register("email")}
+                  {...register('email')}
                 />
               </div>
               <div>
@@ -150,7 +145,7 @@ const Signup = () => {
                   placeholder="••••••••"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   required
-                  {...register("password")}
+                  {...register('password')}
                 />
               </div>
               <div>
@@ -166,10 +161,10 @@ const Signup = () => {
                   placeholder="••••••••"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   required
-                  {...register("confirmPassword", {
+                  {...register('confirmPassword', {
                     validate: (val: string) => {
-                      if (watch("password") !== val) {
-                        return "Your passwords do no match";
+                      if (watch('password') !== val) {
+                        return 'Your passwords do no match';
                       }
                     },
                   })}
@@ -186,10 +181,7 @@ const Signup = () => {
                   />
                 </div>
                 <div className="ml-3 text-sm">
-                  <label
-                    htmlFor="terms"
-                    className="font-light text-gray-500 dark:text-gray-300"
-                  >
+                  <label htmlFor="terms" className="font-light text-gray-500 dark:text-gray-300">
                     I accept the
                     <a
                       className="ml-1 font-medium text-green-700 hover:underline dark:text-primary-500"
@@ -201,9 +193,7 @@ const Signup = () => {
                 </div>
               </div>
               {errors.confirmPassword && (
-                <div className="text-red-600 text-center my-2">
-                  Your passwords do no match
-                </div>
+                <div className="text-red-600 text-center my-2">Your passwords do no match</div>
               )}
               <button
                 type="submit"
@@ -212,7 +202,7 @@ const Signup = () => {
                 Create an account
               </button>
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                Already have an account?{" "}
+                Already have an account?{' '}
                 <Link
                   href="/signin"
                   className="font-medium text-green-700 hover:underline dark:text-primary-500"

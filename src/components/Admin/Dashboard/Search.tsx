@@ -1,24 +1,16 @@
-import {
-  Avatar,
-  Input,
-  Button,
-  UnstyledButton,
-  Group,
-  Text,
-  Menu,
-} from "@mantine/core";
+import { Avatar, Input, Button, UnstyledButton, Group, Text, Menu } from '@mantine/core';
 import {
   IconSearch,
   IconChevronDown,
   IconSquareRoundedArrowRightFilled,
   IconHome2,
-} from "@tabler/icons-react";
-import { forwardRef } from "react";
-import React from "react";
-import Link from "next/link";
-import { signOut, useSession } from "next-auth/react";
+} from '@tabler/icons-react';
+import { forwardRef } from 'react';
+import React from 'react';
+import Link from 'next/link';
+import { signOut, useSession } from 'next-auth/react';
 
-interface UserButtonProps extends React.ComponentPropsWithoutRef<"button"> {
+interface UserButtonProps extends React.ComponentPropsWithoutRef<'button'> {
   image: string;
   name: string;
   email: string;
@@ -31,11 +23,10 @@ const UserButton = forwardRef<HTMLButtonElement, UserButtonProps>(
     <UnstyledButton
       ref={ref}
       sx={(theme) => ({
-        display: "block",
-        width: "100%",
-        padding: "0.8rem",
-        color:
-          theme.colorScheme === "dark" ? theme.colors.dark[0] : theme.black,
+        display: 'block',
+        width: '100%',
+        padding: '0.8rem',
+        color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
       })}
       {...others}
     >
@@ -58,12 +49,11 @@ const UserButton = forwardRef<HTMLButtonElement, UserButtonProps>(
   )
 );
 
-UserButton.displayName = "UserButton";
+UserButton.displayName = 'UserButton';
 
 const Search = () => {
   const { data: session } = useSession();
-
-  console.log({ session });
+  const user = session ? session.user : null;
 
   return (
     <div className="flex items-center justify-between px-4 border-b">
@@ -73,9 +63,7 @@ const Search = () => {
           icon={<IconSearch />}
           placeholder="Search"
           rightSection={
-            <Button className=" hover:bg-sky-100 bg-neutral-400 rounded-l-none">
-              Tìm kiếm
-            </Button>
+            <Button className=" hover:bg-sky-100 bg-neutral-400 rounded-l-none">Tìm kiếm</Button>
           }
         /> */}
       </div>
@@ -84,14 +72,14 @@ const Search = () => {
         <Menu withArrow>
           <Menu.Target>
             <UserButton
-              image={session?.user.image || ""}
-              name={session?.user.name || ""}
-              email={session?.user.email || ""}
+              image={user?.image || ''}
+              name={user?.name || ''}
+              email={user?.email || ''}
             />
           </Menu.Target>
           <Menu.Dropdown>
             <Menu.Item
-              onClick={() => signOut({ callbackUrl: "/admin/signin" })}
+              onClick={() => signOut({ callbackUrl: '/admin/signin' })}
               icon={<IconSquareRoundedArrowRightFilled size={14} />}
             >
               Đăng xuất

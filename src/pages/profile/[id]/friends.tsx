@@ -1,17 +1,17 @@
-import { ProfileLayout } from "@/components/Layout";
-import { Friend } from "@/components/Profile/Friend";
-import FriendRequest from "@/components/Profile/Friend/FriendRequest";
-import { trpc } from "@/utils/trpc";
-import { Button, Input, Loader } from "@mantine/core";
-import { useDebouncedState } from "@mantine/hooks";
-import { IconSearch } from "@tabler/icons-react";
-import { useState } from "react";
+import { ProfileLayout } from '@/components/Layout';
+import { Friend } from '@/components/Profile/Friend';
+import FriendRequest from '@/components/Profile/Friend/FriendRequest';
+import { trpc } from '@/utils/trpc';
+import { Button, Input, Loader } from '@mantine/core';
+import { useDebouncedState } from '@mantine/hooks';
+import { IconSearch } from '@tabler/icons-react';
+import { useState } from 'react';
 
 const Friends = () => {
-  const [type, setType] = useState("");
+  const [type, setType] = useState('');
 
-  const [value, setValue] = useDebouncedState("", 200);
-  const [order, setOrder] = useState("asc");
+  const [value, setValue] = useDebouncedState('', 200);
+  const [order, setOrder] = useState('asc');
 
   const { data, isLoading } = trpc.friend.friendList.useQuery({
     search: value,
@@ -29,27 +29,17 @@ const Friends = () => {
           className="mr-auto"
         />
         <Button
-          onClick={() => setOrder(order === "asc" ? "desc" : "asc")}
+          onClick={() => setOrder(order === 'asc' ? 'desc' : 'asc')}
           radius="xl"
           variant="light"
           color="green"
         >
-          {order === "asc" ? "Gần đây" : "Từ đầu"}
+          {order === 'asc' ? 'Gần đây' : 'Từ đầu'}
         </Button>
-        <Button
-          onClick={() => setType("request")}
-          radius="xl"
-          variant="outline"
-          color="green"
-        >
+        <Button onClick={() => setType('request')} radius="xl" variant="outline" color="green">
           Lời mời kết bạn
         </Button>
-        <Button
-          onClick={() => setType("owner")}
-          radius="xl"
-          variant="outline"
-          color="green"
-        >
+        <Button onClick={() => setType('owner')} radius="xl" variant="outline" color="green">
           Yêu cầu kết bạn
         </Button>
       </div>
@@ -68,11 +58,7 @@ const Friends = () => {
           );
         })}
       </div>
-      <FriendRequest
-        opened={!!type}
-        owner={type === "request"}
-        onClose={() => setType("")}
-      />
+      <FriendRequest opened={!!type} owner={type === 'request'} onClose={() => setType('')} />
     </ProfileLayout>
   );
 };

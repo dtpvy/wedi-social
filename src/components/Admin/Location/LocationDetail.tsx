@@ -51,13 +51,7 @@ const LocationDetail = () => {
 
   return (
     <div className="flex w-full justify-center my-3">
-      <Card
-        shadow="sm"
-        padding="xl"
-        radius="md"
-        withBorder
-        className="w-8/12 pl-5"
-      >
+      <Card shadow="sm" padding="xl" radius="md" withBorder className="w-8/12 pl-5">
         <Group position="apart">
           <div className="px-3">
             <div className="font-medium text-gray-500">{location?.name}</div>

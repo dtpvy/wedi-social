@@ -1,8 +1,8 @@
-import React from "react";
-import RequestBox from "./RequestBox";
-import ComponentBox from "../ComponentBox";
-import { trpc } from "@/utils/trpc";
-import { Text, Badge, Button, Card, Group, Avatar } from "@mantine/core";
+import React from 'react';
+import RequestBox from './RequestBox';
+import ComponentBox from '../ComponentBox';
+import { trpc } from '@/utils/trpc';
+import { Text, Badge, Button, Card, Group, Avatar } from '@mantine/core';
 
 const RequestList = (props: any) => {
   let { statusVisibility } = props;

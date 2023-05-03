@@ -1,10 +1,10 @@
-import { Button } from "@mantine/core";
-import { signIn } from "next-auth/react";
-import React from "react";
+import { Button } from '@mantine/core';
+import { signIn } from 'next-auth/react';
+import React from 'react';
 
 const Signin = () => {
   const handleSignin = () => {
-    signIn("google", { callbackUrl: "/admin/dashboard" });
+    signIn('google', { callbackUrl: '/admin/dashboard' });
   };
 
   return (

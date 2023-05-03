@@ -24,26 +24,15 @@ const LocationList = (props: any) => {
           label="Chọn loại hình du lịch"
           placeholder="Chọn"
           data={[
-            { value: "Ăn uống", label: "Ăn uống" },
-            { value: "Đi chơi", label: "Đi chơi" },
-            { value: "Di tích lịch sử", label: "Di tích lịch sử" },
+            { value: 'Ăn uống', label: 'Ăn uống' },
+            { value: 'Đi chơi', label: 'Đi chơi' },
+            { value: 'Di tích lịch sử', label: 'Di tích lịch sử' },
           ]}
           mt="md"
-        />{" "}
+        />{' '}
         <TextInput label="Tên địa điểm" placeholder="Nhập tên" mt="md" />
-        <TextInput
-          data-autofocus
-          label="Địa chỉ:"
-          placeholder="Nhập địa chỉ mới"
-          mt="md"
-        />
-        <Button
-          variant="default"
-          color="blue"
-          mt="md"
-          radius="md"
-          onClick={handleAdd}
-        >
+        <TextInput data-autofocus label="Địa chỉ:" placeholder="Nhập địa chỉ mới" mt="md" />
+        <Button variant="default" color="blue" mt="md" radius="md" onClick={handleAdd}>
           Thêm địa điểm
         </Button>
       </Modal>

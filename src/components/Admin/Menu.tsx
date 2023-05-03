@@ -1,13 +1,8 @@
-import React, { useState } from "react";
-import classNames from "classnames";
-import { TAB_LIST } from "@/constants/admin";
-import { Tab } from "@/types/tab";
-import {
-  IconUsers,
-  IconLayoutDashboard,
-  IconMapPin,
-  IconHelpHexagon,
-} from "@tabler/icons-react";
+import React, { useState } from 'react';
+import classNames from 'classnames';
+import { TAB_LIST } from '@/constants/admin';
+import { Tab } from '@/types/tab';
+import { IconUsers, IconLayoutDashboard, IconMapPin, IconHelpHexagon } from '@tabler/icons-react';
 
 type Props = {
   tab: string;
@@ -22,8 +17,8 @@ const Menu = ({ tab, onChangeTab }: Props) => {
         <button
           onClick={() => onChangeTab(TAB_LIST[key as keyof typeof TAB_LIST])}
           key={key}
-          className={classNames("px-5 py-3 capitalize flex rounded", {
-            "bg-slate-200": tab === TAB_LIST[key as keyof typeof TAB_LIST].name,
+          className={classNames('px-5 py-3 capitalize flex rounded', {
+            'bg-slate-200': tab === TAB_LIST[key as keyof typeof TAB_LIST].name,
           })}
         >
           <div className="flex items-center">

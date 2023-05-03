@@ -1,5 +1,5 @@
-import Link from "next/link";
-import React from "react";
+import Link from 'next/link';
+import React from 'react';
 
 const NotFound = () => {
   return (
@@ -10,8 +10,8 @@ const NotFound = () => {
             <h1 className="text-9xl font-bold text-green-600">404</h1>
             <h1 className="text-6xl font-medium py-8">oops! Page not found</h1>
             <p className="text-2xl pb-8 px-12 font-medium">
-              Oops! The page you are looking for does not exist. It might have
-              been moved or deleted.
+              Oops! The page you are looking for does not exist. It might have been moved or
+              deleted.
             </p>
             <Link
               href="/"

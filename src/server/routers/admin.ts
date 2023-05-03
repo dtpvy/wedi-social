@@ -1,10 +1,10 @@
-import { z } from "zod";
-import { prisma } from "../prisma";
-import { Prisma } from "@prisma/client";
-import { adminAuthProcedure, router } from "../trpc";
-import { ERROR_MESSAGES } from "@/constants/error";
-import { UserStatus, LocationStatus } from "@prisma/client";
-import { request } from "https";
+import { z } from 'zod';
+import { prisma } from '../prisma';
+import { Prisma } from '@prisma/client';
+import { adminAuthProcedure, router } from '../trpc';
+import ERROR_MESSAGES from '@/constants/error';
+import { UserStatus, LocationStatus } from '@prisma/client';
+import { request } from 'https';
 
 export const adminRouter = router({
   adminList: adminAuthProcedure.query(async () => {
@@ -39,7 +39,7 @@ export const adminRouter = router({
 
       return {
         status: 201,
-        message: "Action successfully",
+        message: 'Action successfully',
         result: true,
       };
     }),
@@ -67,7 +67,7 @@ export const adminRouter = router({
 
       return {
         status: 201,
-        message: "Action successfully",
+        message: 'Action successfully',
         result: true,
       };
     }),
@@ -95,7 +95,7 @@ export const adminRouter = router({
 
       return {
         status: 201,
-        message: "Action successfully",
+        message: 'Action successfully',
         result: true,
       };
     }),
@@ -138,7 +138,7 @@ export const adminRouter = router({
 
       return {
         status: 201,
-        message: "Action successfully",
+        message: 'Action successfully',
         result: true,
       };
     }),
@@ -170,7 +170,7 @@ export const adminRouter = router({
 
       return {
         status: 201,
-        message: "Action successfully",
+        message: 'Action successfully',
         result: true,
       };
     }),
@@ -261,7 +261,7 @@ export const adminRouter = router({
 
       return {
         status: 201,
-        message: "Action successfully",
+        message: 'Action successfully',
         result: true,
       };
     }),
@@ -286,19 +286,19 @@ export const adminRouter = router({
       });
       return {
         status: 201,
-        message: "Action successfully",
+        message: 'Action successfully',
         result: true,
       };
     }),
   trackingPage: adminAuthProcedure.input(z.object({})).query(async ({}) => {
     const trackingPage = await prisma.tracking.groupBy({
-      by: ["page"],
+      by: ['page'],
       _sum: {
         amount: true,
       },
     });
     const trackingEvent = await prisma.tracking.groupBy({
-      by: ["event"],
+      by: ['event'],
       _sum: {
         amount: true,
       },
@@ -348,7 +348,6 @@ export const adminRouter = router({
         include: {
           reactions: true,
           comments: true,
-          trips: true,
           locations: true,
         },
       });
