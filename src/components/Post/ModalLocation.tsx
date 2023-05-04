@@ -8,6 +8,7 @@ import { useDebouncedState } from '@mantine/hooks';
 import { useState } from 'react';
 import { useQuery } from 'react-query';
 import LocationSeletion, { LocationSeletionProps } from './LocationSeletion';
+import useTranslation from '@/hooks/useTranslation';
 
 type Props = {
   opened?: boolean;
@@ -49,8 +50,10 @@ const ModalLocation = ({
     } catch (e) {}
   };
 
+  const { t } = useTranslation();
+
   return (
-    <Modal title="Choose Location" opened={opened} onClose={onClose} size="lg">
+    <Modal title= {t('selectLocationText')} opened={opened} onClose={onClose} size="lg">
       <div className="flex flex-col gap-2">
         <Popover
           opened={openedPopover}
@@ -62,8 +65,8 @@ const ModalLocation = ({
           <Popover.Target>
             <TextInput
               onFocus={() => setOpenedPopover(true)}
-              label="Address"
-              placeholder="Address"
+              label={t('addressText')}
+              placeholder= {t('addressText')}
               onChange={(e) => setStreet(e.target.value)}
             />
           </Popover.Target>
@@ -93,10 +96,10 @@ const ModalLocation = ({
 
         <div className="flex justify-end gap-2">
           <Button onClick={onClose} color="red">
-            Huỷ
+            {t('cancelText')}
           </Button>
           <Button onClick={onClose} disabled={!location} color="green">
-            Tiếp tục
+            {t('goOnText')}
           </Button>
         </div>
       </div>

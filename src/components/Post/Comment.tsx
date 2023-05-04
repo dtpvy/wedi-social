@@ -10,6 +10,7 @@ import dayjs from 'dayjs';
 import { useCallback, useEffect, useState } from 'react';
 import CreateComment from './CreateComment';
 import Reaction from './Reaction';
+import useTranslation from '@/hooks/useTranslation';
 
 type Props = {
   postId: number;
@@ -98,6 +99,8 @@ const Comment = ({ postId, creatorId, refetch }: Props) => {
       },
     });
 
+  const { t } = useTranslation();
+
   return (
     <div className="flex flex-col gap-3">
       {comments?.map((comment) =>
@@ -137,7 +140,7 @@ const Comment = ({ postId, creatorId, refetch }: Props) => {
                       size="xs"
                       variant="outline"
                     >
-                      Xoá
+                      {t('deleteText')}
                     </Button>
                     <Button
                       onClick={() => setCommentId(comment.id)}
@@ -145,7 +148,7 @@ const Comment = ({ postId, creatorId, refetch }: Props) => {
                       size="xs"
                       variant="outline"
                     >
-                      Edit
+                      {t('editText')}
                     </Button>
                   </>
                 )}
@@ -167,7 +170,7 @@ const Comment = ({ postId, creatorId, refetch }: Props) => {
           onClick={() => query.fetchNextPage()}
           className="text-center underline text-green-600 cursor-pointer"
         >
-          Xem thêm
+          {t('loadMoreText')}
         </div>
       )}
     </div>

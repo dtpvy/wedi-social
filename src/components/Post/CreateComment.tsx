@@ -8,6 +8,7 @@ import { User } from '@prisma/client';
 import { IconPhoto, IconSend, IconX } from '@tabler/icons-react';
 import { IKUpload } from 'imagekitio-react';
 import { useEffect, useRef, useState } from 'react';
+import useTranslation from '@/hooks/useTranslation';
 
 type Props = {
   postId: number;
@@ -69,6 +70,8 @@ const CreateComment = ({ postId, creator, comment, onCancel, onUpdate, onCreate 
     }
   };
 
+  const { t } = useTranslation();
+
   return (
     <div className="flex gap-3">
       <Avatar radius="xl" src={user?.imgUrl || ''} />
@@ -78,7 +81,7 @@ const CreateComment = ({ postId, creator, comment, onCancel, onUpdate, onCreate 
             onChange={(e) => setContent(e.target.value)}
             className="flex-1"
             value={content}
-            placeholder="Write comment"
+            placeholder= {t('writeCommentText')}
           />
           <div className="flex flex-col gap-1">
             <div className="flex gap-3">
@@ -97,7 +100,7 @@ const CreateComment = ({ postId, creator, comment, onCancel, onUpdate, onCreate 
                 onSuccess={(file) => handleChooseImage(file.url)}
                 onError={() => {
                   notifications.show({
-                    message: 'Có lỗi xảy ra. Vui lòng thử lại',
+                    message: t('errorTryAgainText'),
                     color: 'red',
                     icon: <IconX />,
                   });
@@ -119,7 +122,7 @@ const CreateComment = ({ postId, creator, comment, onCancel, onUpdate, onCreate 
             </div>
             {typeof onCancel === 'function' && (
               <div onClick={onCancel} className="underline text-gray-600">
-                Huỷ
+                {t('cancelText')}
               </div>
             )}
           </div>
@@ -140,7 +143,7 @@ const CreateComment = ({ postId, creator, comment, onCancel, onUpdate, onCreate 
                 <CloseButton
                   className="absolute top-2 right-7"
                   onClick={() => handleDeleteImage(imgUrl)}
-                  title="Close popover"
+                  title= {t('closePopoverText')}
                   size="md"
                   iconSize={20}
                   radius="xl"

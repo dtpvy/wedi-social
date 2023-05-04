@@ -11,6 +11,7 @@ import PostAction from './PostAction';
 import Reaction from './Reaction';
 import { Privacy } from '@prisma/client';
 import useUserStore from '@/stores/user';
+import useTranslation from '@/hooks/useTranslation';
 
 type Props = {
   post: PostDetail;
@@ -18,25 +19,27 @@ type Props = {
   refetch: () => void;
 };
 
-const PrivacyConfig = {
-  [Privacy.PUBLIC]: {
-    icon: <IconWorld />,
-    text: 'publicText',
-  },
-  [Privacy.FRIEND]: {
-    icon: <IconEyeCog />,
-    text: 'friendText',
-  },
-  [Privacy.PRIVATE]: {
-    icon: <IconLockSquare />,
-    text: 'privateText',
-  },
-};
-
 const Post = ({ post, className, refetch }: Props) => {
   const [opened, setOpened] = useState(false);
   const user = useUserStore.use.user();
   const { creator, createdAt, content, _count, imgUrls, locations, reviews, privacy } = post;
+  
+  const { t } = useTranslation();
+  
+  const PrivacyConfig = {
+    [Privacy.PUBLIC]: {
+      icon: <IconWorld />,
+      text: t('publicModeText')
+    },
+    [Privacy.FRIEND]: {
+      icon: <IconEyeCog />,
+      text: t('friendModeText'),
+    },
+    [Privacy.PRIVATE]: {
+      icon: <IconLockSquare />,
+      text: t('privateModeText'),
+    },
+  };
 
   return (
     <div className={classNames('shadow rounded-lg p-4 bg-white', className)}>

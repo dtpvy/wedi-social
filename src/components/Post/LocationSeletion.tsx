@@ -5,6 +5,7 @@ import { Carousel } from '@mantine/carousel';
 import { CloseButton, Image } from '@mantine/core';
 import { Location } from '@prisma/client';
 import React from 'react';
+import useTranslation from '@/hooks/useTranslation';
 
 export type LocationSeletionProps = {
   readonly?: boolean;
@@ -19,6 +20,9 @@ const LocationSeletion = ({
   className,
   onDeleteLocation,
 }: LocationSeletionProps) => {
+  
+  const { t } = useTranslation();
+
   return (
     <div
       className={classNames('h-[200px] flex items-center justify-center relative mt-3', className)}
@@ -50,7 +54,7 @@ const LocationSeletion = ({
                 {!readonly && (
                   <CloseButton
                     onClick={() => onDeleteLocation(data)}
-                    title="Close popover"
+                    title= {t('closePopoverText')}
                     size="md"
                     iconSize={20}
                     radius="xl"
@@ -61,7 +65,7 @@ const LocationSeletion = ({
             ))}
           </Carousel>
         ) : (
-          <div className="text-center font-bold">Bạn chưa chọn địa điểm nào.</div>
+          <div className="text-center font-bold">{t('youDontChooseAnyAddressText')}</div>
         )}
       </div>
     </div>

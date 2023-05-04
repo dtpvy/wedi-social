@@ -83,6 +83,24 @@
   "loadingText": "Đang tải...",
   "feedBackText": "Nhận xét",
   "activeText": "Hoạt động",
-  "deactiveText": "Không hoạt động"
-
+  "deactiveText": "Không hoạt động",
+  "privateModeText": "Chỉ mình tôi",
+  "publicModeText": "Công khai",
+  "friendModeText": "Bạn bè",
+  "addressText": "Địa chỉ",
+  "goOnText": "Tiếp tục",
+  "privacyText": "Quyền riêng tư",
+  "closePopoverText": "Đóng",
+  "chooseImageText": "Chọn ảnh",
+  "youDontChooseAnyAddressText":"Bạn chưa chọn địa điểm nào.",
+  "youDontReviewLocationText": " Bạn chưa đánh giá địa điểm",
+  "whenYouRateYourArticleWillBeTiedToTheRating:": ". Khi bạn đánh giá bài viết của bạn sẽ gắn với đánh giá:",
+  "youReviewedLocationText": "Bạn đã đánh giá địa điểm",
+  "doYouWantToUpdateTheReview": ". Bạn có muốn cập nhật đánh giá:",
+  "reviewText": "Đánh giá",
+  "ignoreText": "Bỏ qua",
+  "reviewSuccessfullyText": "Đánh giá thành công",
+  "writeCommentText": "Viết bình luận",
+  "deleteText": "Xóa",
+  "editText": "Chỉnh sửa"
 }
