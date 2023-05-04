@@ -3,10 +3,21 @@ import { CreatePost, Post } from '@/components/Post';
 import { trpc } from '@/utils/trpc';
 import { useRouter } from 'next/router';
 import React from 'react';
+import { useEffect } from 'react';
+import { TRACKING_EVENT, TRACKING_PAGE } from '@/constants/tracking';
 
 const Posts = () => {
   const router = useRouter();
   const { id } = router.query;
+  //add tracking
+  const tracking = trpc.tracking.add.useMutation();
+  useEffect(() => {
+    tracking.mutate({
+      event: TRACKING_EVENT.ENTER_TRIP,
+      page: TRACKING_PAGE.TRIP,
+    });
+  }, []);
+  //
   const query = trpc.trip.post.useInfiniteQuery(
     { tripId: +(id as string) },
     {

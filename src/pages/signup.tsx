@@ -59,8 +59,8 @@ const Signup = () => {
 
   useEffect(() => {
     tracking.mutate({
-      event: TRACKING_EVENT.ENTER_SIGNIN,
-      page: TRACKING_PAGE.SIGNIN,
+      event: TRACKING_EVENT.ENTER_SIGNUP,
+      page: TRACKING_PAGE.SIGNUP,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

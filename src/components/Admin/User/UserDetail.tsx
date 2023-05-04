@@ -1,10 +1,12 @@
-import { trpc } from '@/utils/trpc';
-import { Badge, Button, Card, Group, Modal, Text } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
-import { UserStatus } from '@prisma/client';
-import dayjs from 'dayjs';
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
+import z, { nativeEnum } from "zod";
+import { Modal, Card, Button, Text, Badge, Group, Radio } from "@mantine/core";
+import { useForm } from "@mantine/form";
+import { useDisclosure } from "@mantine/hooks";
+import { trpc } from "@/utils/trpc";
+import { useRouter } from "next/router";
+import { UserStatus } from "@prisma/client";
+import dayjs from "dayjs";
 
 const UserDetail = () => {
   const [userBanOpened, userBan] = useDisclosure(false);
