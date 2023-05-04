@@ -1,9 +1,9 @@
-import { LocationList } from "@/components/Admin/Location";
-import { Text, Menu, Button, Divider } from "@mantine/core";
-import React from "react";
-import { useState } from "react";
+import { LocationList } from '@/components/Admin/Location';
+import { Text, Menu, Button, Divider } from '@mantine/core';
+import React from 'react';
+import { useState } from 'react';
 const Location = () => {
-  const [statusVisibility, setStatusVisibility] = useState("");
+  const [statusVisibility, setStatusVisibility] = useState('');
 
   return (
     <div>
@@ -16,15 +16,9 @@ const Location = () => {
             <Button>Bộ lọc status</Button>
           </Menu.Target>
           <Menu.Dropdown>
-            <Menu.Item onClick={() => setStatusVisibility("All")}>
-              Tất cả
-            </Menu.Item>
-            <Menu.Item onClick={() => setStatusVisibility("ACTIVE")}>
-              NOTVERIFIED
-            </Menu.Item>
-            <Menu.Item onClick={() => setStatusVisibility("DEACTIVE")}>
-              BANNED
-            </Menu.Item>
+            <Menu.Item onClick={() => setStatusVisibility('All')}>Tất cả</Menu.Item>
+            <Menu.Item onClick={() => setStatusVisibility('ACTIVE')}>ACTIVE</Menu.Item>
+            <Menu.Item onClick={() => setStatusVisibility('DEACTIVE')}>DEACTIVE</Menu.Item>
           </Menu.Dropdown>
         </Menu>
       </div>
