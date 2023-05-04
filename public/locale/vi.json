@@ -83,7 +83,9 @@
   "changeavatarText" : "Đổi hình đại diện",
   "changebackgroundText" : "Đổi hình nền",
   "lasteditText" : "Lần cuối chỉnh sửa",
-  "allText" :"Tất cả"
-  
+  "allText" :"Tất cả",
+  "publicText" : "Công khai",
+  "onlymeText" : "Chỉ mình tôi",
+  "nolacationText" : "Bạn chưa chọn địa điểm nào."
 
 }
