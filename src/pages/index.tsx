@@ -1,12 +1,20 @@
-import { Button, Image } from '@mantine/core';
-import { IconArrowRight } from '@tabler/icons-react';
+import { LanguageConfig } from '@/constants/default';
+import useLocale from '@/hooks/useLocale';
+import useTranslation from '@/hooks/useTranslation';
+import { Image } from '@mantine/core';
 import type { NextPage } from 'next';
-import { useSession } from 'next-auth/react';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 
 const Home: NextPage = () => {
-  const router = useRouter();
+  const { update } = useLocale();
+  const { t, locale } = useTranslation();
+
+  const { flag, label } = LanguageConfig[locale];
+
+  const handleChangeLanguage = () => {
+    if (locale === 'vi') update('en');
+    else update('vi');
+  };
 
   return (
     <>
@@ -48,12 +56,17 @@ const Home: NextPage = () => {
               </svg>
             </button>
           </div>
-
+          <button
+            onClick={handleChangeLanguage}
+            className="ml-auto bg-white text-gray-800 font-bold rounded-full mt-4 lg:mt-0 py-4 px-8 shadow opacity-75 focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
+          >
+            {flag} {t(label)}
+          </button>
           <Link
             href="/signin"
-            className="mx-auto lg:mx-0 bg-white text-gray-800 font-bold rounded-full mt-4 lg:mt-0 py-3 my-1 px-8 shadow opacity-75 focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
+            className="ml-3 bg-white text-gray-800 font-bold rounded-full mt-4 lg:mt-0 py-3 my-1 px-8 shadow opacity-75 focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
           >
-            Signin
+            {t('signinText')}
           </Link>
         </div>
       </nav>
