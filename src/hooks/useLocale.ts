@@ -1,9 +1,9 @@
-import useTranslator from "@/stores/translator";
-import useUserStore from "@/stores/user";
-import { APP_URL } from "@/utils/env";
-import axios from "axios";
+import useTranslator from '@/stores/translator';
+import useUserStore from '@/stores/user';
+import { APP_URL } from '@/utils/env';
+import axios from 'axios';
 
-import { useEffect } from "react";
+import { useEffect } from 'react';
 
 const translateUrl = `${APP_URL}/api/translate`;
 

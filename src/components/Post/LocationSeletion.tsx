@@ -1,10 +1,10 @@
-import { LocationDetail } from "@/types/location";
-import classNames from "@/utils/classNames";
-import { getName } from "@/utils/location";
-import { Carousel } from "@mantine/carousel";
-import { CloseButton, Image } from "@mantine/core";
-import { Location } from "@prisma/client";
-import React from "react";
+import { LocationDetail } from '@/types/location';
+import classNames from '@/utils/classNames';
+import { getName } from '@/utils/location';
+import { Carousel } from '@mantine/carousel';
+import { CloseButton, Image } from '@mantine/core';
+import { Location } from '@prisma/client';
+import React from 'react';
 import useTranslation from "@/hooks/useTranslation"; 
 export type LocationSeletionProps = {
   readonly?: boolean;
@@ -22,10 +22,7 @@ const LocationSeletion = ({
   const { t } = useTranslation();
   return (
     <div
-      className={classNames(
-        "h-[200px] flex items-center justify-center relative mt-3",
-        className
-      )}
+      className={classNames('h-[200px] flex items-center justify-center relative mt-3', className)}
     >
       <Image
         alt="location"

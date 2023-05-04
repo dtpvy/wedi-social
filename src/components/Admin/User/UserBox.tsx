@@ -1,6 +1,6 @@
-import { Badge, Button, Card, Group, Image, Avatar } from "@mantine/core";
-import { useRouter } from "next/router";
-import React from "react";
+import { Badge, Button, Card, Group, Image, Avatar } from '@mantine/core';
+import { useRouter } from 'next/router';
+import React from 'react';
 
 type Props = {
   user: any;
@@ -21,9 +21,7 @@ const UserBox = ({ user }: Props) => {
         <Avatar radius="xl" className="inline-block" />
       </div>
       <div className="font-sm text-gray-500">Email:{}</div>
-      <div className="font-sm text-gray-500">
-        Trạng thái hoạt động: {status}
-      </div>
+      <div className="font-sm text-gray-500">Trạng thái hoạt động: {status}</div>
 
       <Button
         onClick={onNavigaToUserDetail}
@@ -33,7 +31,7 @@ const UserBox = ({ user }: Props) => {
         mt="md"
         radius="md"
       >
-        {status === "PENDING" ? "Feed back" : "Details"}
+        {status === 'PENDING' ? 'Feed back' : 'Details'}
       </Button>
     </Card>
   );

@@ -1,17 +1,9 @@
-import React from "react";
-import {
-  Modal,
-  Card,
-  Button,
-  Text,
-  Badge,
-  Group,
-  Divider,
-} from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
-import { trpc } from "@/utils/trpc";
-import dayjs from "dayjs";
-import CreateReply from "./CreateReply";
+import React from 'react';
+import { Modal, Card, Button, Text, Badge, Group, Divider } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
+import { trpc } from '@/utils/trpc';
+import dayjs from 'dayjs';
+import CreateReply from './CreateReply';
 type Props = {
   id: number;
 };
@@ -20,7 +12,7 @@ const RequestDetail = ({ id }: Props) => {
   const { data: replies } = trpc.admin.replyList.useQuery({ requestId: id });
   const [opened, respond] = useDisclosure(false);
   const [deleteRequestOpened, deleteRequest] = useDisclosure(false);
-  let date = dayjs(request?.createdAt).format("DD/MM/YYYY");
+  let date = dayjs(request?.createdAt).format('DD/MM/YYYY');
 
   let handleDelete = () => {
     deleteRequest.close();
@@ -36,8 +28,8 @@ const RequestDetail = ({ id }: Props) => {
         <Text weight={500} className="text-xl font-bold text-gray-800">
           {request?.title} <span className="text-gray-500">#{request?.id}</span>
         </Text>
-        <Badge color={replies?.length ? "blue" : "pink"} variant="light">
-          {replies?.length ? "Đã phản hồi" : "Chưa phản hồi"}
+        <Badge color={replies?.length ? 'blue' : 'pink'} variant="light">
+          {replies?.length ? 'Đã phản hồi' : 'Chưa phản hồi'}
         </Badge>
       </div>
       <Divider my="sm" />
@@ -53,13 +45,7 @@ const RequestDetail = ({ id }: Props) => {
       <Text size="m">{request?.content}</Text>
 
       <Group position="center">
-        <Button
-          variant="outline"
-          color="blue"
-          mt="md"
-          radius="md"
-          onClick={respond.open}
-        >
+        <Button variant="outline" color="blue" mt="md" radius="md" onClick={respond.open}>
           Phản hồi
         </Button>
         <CreateReply opened={opened} close={sendRespond} id={id} />

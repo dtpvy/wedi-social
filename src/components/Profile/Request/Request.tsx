@@ -1,8 +1,8 @@
-import { RequestDetail } from "@/types/request";
-import { trpc } from "@/utils/trpc";
-import { ActionIcon, Avatar, Text } from "@mantine/core";
-import { modals } from "@mantine/modals";
-import { notifications } from "@mantine/notifications";
+import { RequestDetail } from '@/types/request';
+import { trpc } from '@/utils/trpc';
+import { ActionIcon, Avatar, Text } from '@mantine/core';
+import { modals } from '@mantine/modals';
+import { notifications } from '@mantine/notifications';
 import {
   IconCheck,
   IconDots,
@@ -11,9 +11,9 @@ import {
   IconTrack,
   IconTrash,
   IconX,
-} from "@tabler/icons-react";
-import dayjs from "dayjs";
-import React from "react";
+} from '@tabler/icons-react';
+import dayjs from 'dayjs';
+import React from 'react';
 
 type Props = {
   request: RequestDetail;
@@ -26,25 +26,25 @@ const Request = ({ request }: Props) => {
 
   const openDeleteModal = () =>
     modals.openConfirmModal({
-      title: "Delete your profile",
+      title: 'Delete your profile',
       centered: true,
       children: <Text size="sm">{`Are you sure delete this request?`}</Text>,
-      labels: { confirm: "Yes", cancel: "Cancel" },
-      confirmProps: { color: "red" },
+      labels: { confirm: 'Yes', cancel: 'Cancel' },
+      confirmProps: { color: 'red' },
       onCancel: () => null,
       onConfirm: async () => {
         try {
           await deleteRequest.mutateAsync({ id });
           notifications.show({
-            message: "Action successfully",
-            color: "green",
+            message: 'Action successfully',
+            color: 'green',
             icon: <IconCheck />,
           });
           utils.request.requestList.refetch();
         } catch (e: any) {
           notifications.show({
-            message: "Có lỗi xảy ra. Vui lòng thử lại",
-            color: "red",
+            message: 'Có lỗi xảy ra. Vui lòng thử lại',
+            color: 'red',
             icon: <IconX />,
           });
         }
@@ -56,15 +56,8 @@ const Request = ({ request }: Props) => {
       <div className="flex items-center gap-4 mb-4">
         <Avatar radius="xl" />
         <div className="font-bold">Request #{id}</div>
-        <div className="ml-auto">
-          {dayjs(createdAt).format("HH:mm DD/MM/YYYY")}
-        </div>
-        <ActionIcon
-          onClick={openDeleteModal}
-          variant="light"
-          color="red"
-          radius="xl"
-        >
+        <div className="ml-auto">{dayjs(createdAt).format('HH:mm DD/MM/YYYY')}</div>
+        <ActionIcon onClick={openDeleteModal} variant="light" color="red" radius="xl">
           <IconTrash size={20} />
         </ActionIcon>
       </div>
@@ -79,7 +72,7 @@ const Request = ({ request }: Props) => {
         )}
         <div className="flex items-center gap-2 ml-auto">
           <IconMessages />
-          <span>{reply.length ? reply.length : "Chưa có phản hồi"}</span>
+          <span>{reply.length ? reply.length : 'Chưa có phản hồi'}</span>
         </div>
       </div>
     </div>

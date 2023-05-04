@@ -1,11 +1,13 @@
 import {
   Friend,
+  JoinTrip,
   Language,
   Message,
   Notification,
   Post,
+  Request,
   User,
-} from "@prisma/client";
+} from '@prisma/client';
 
 export type UserInfo = User & {
   posts: Post[];
@@ -14,4 +16,6 @@ export type UserInfo = User & {
   notification: Notification[];
   receiveMessages: Message[];
   language: Language | null;
+  requests: Request[];
+  joinTrip: JoinTrip[];
 };

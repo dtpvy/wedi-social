@@ -1,7 +1,7 @@
-import { Context } from "./context";
-import { initTRPC, TRPCError } from "@trpc/server";
-import superjson from "superjson";
-import { prisma } from "./prisma";
+import { Context } from './context';
+import { initTRPC, TRPCError } from '@trpc/server';
+import superjson from 'superjson';
+import { prisma } from './prisma';
 
 const t = initTRPC.context<Context>().create({
   transformer: superjson,
@@ -22,7 +22,7 @@ const isAuthed = middleware(({ next, ctx }) => {
   const user = ctx.session?.user;
 
   if (!user?.id) {
-    throw new TRPCError({ code: "UNAUTHORIZED" });
+    throw new TRPCError({ code: 'UNAUTHORIZED' });
   }
 
   return next({
@@ -36,7 +36,7 @@ const isAdminAuthed = middleware(async ({ next, ctx }) => {
   const user = ctx.session?.user;
   console.log(user);
   if (!user?.name && !user?.isAdmin) {
-    throw new TRPCError({ code: "UNAUTHORIZED" });
+    throw new TRPCError({ code: 'UNAUTHORIZED' });
   }
 
   const admin = await prisma.admin.findFirst({
@@ -44,7 +44,7 @@ const isAdminAuthed = middleware(async ({ next, ctx }) => {
   });
 
   if (admin?.isDeleted) {
-    throw new TRPCError({ code: "NOT_FOUND" });
+    throw new TRPCError({ code: 'NOT_FOUND' });
   }
 
   return next({

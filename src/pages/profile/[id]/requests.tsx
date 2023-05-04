@@ -7,7 +7,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { useState } from "react";
 import useTranslation from "@/hooks/useTranslation"; 
 const requests = () => {
-  const [type, setType] = useState<"all" | "pending" | "replied">("all");
+  const [type, setType] = useState<'all' | 'pending' | 'replied'>('all');
   const [opened, { open, close }] = useDisclosure(false);
   const { t } = useTranslation();
   const { data, isLoading } = trpc.request.requestList.useQuery({ type });
@@ -17,25 +17,25 @@ const requests = () => {
       <div className="bg-white rounded shadow p-4 flex items-center gap-4">
         <Button
           radius="xl"
-          variant={type === "all" ? "light" : "outline"}
+          variant={type === 'all' ? 'light' : 'outline'}
           color="green"
-          onClick={() => setType("all")}
+          onClick={() => setType('all')}
         >
           {t("allText")}
         </Button>
         <Button
           radius="xl"
-          variant={type === "replied" ? "light" : "outline"}
+          variant={type === 'replied' ? 'light' : 'outline'}
           color="green"
-          onClick={() => setType("replied")}
+          onClick={() => setType('replied')}
         >
           {t("responsedText")}
         </Button>
         <Button
           radius="xl"
-          variant={type === "pending" ? "light" : "outline"}
+          variant={type === 'pending' ? 'light' : 'outline'}
           color="green"
-          onClick={() => setType("pending")}
+          onClick={() => setType('pending')}
         >
           {t("noresponsedText")}
         </Button>

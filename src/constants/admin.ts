@@ -1,20 +1,20 @@
-import { Tab } from "@/types/tab";
+import { Tab } from '@/types/tab';
 
 export const TAB_LIST: Record<string, Tab> = {
   DASHBOARD: {
-    name: "dashboard",
-    url: "dashboard",
+    name: 'dashboard',
+    url: 'dashboard',
   },
   USER: {
-    name: "user",
-    url: "user",
+    name: 'user',
+    url: 'user',
   },
   LOCATION: {
-    name: "location",
-    url: "location",
+    name: 'location',
+    url: 'location',
   },
   REQUEST: {
-    name: "request",
-    url: "request",
+    name: 'request',
+    url: 'request',
   },
 };

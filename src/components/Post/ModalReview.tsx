@@ -1,10 +1,10 @@
-import { LocationDetail } from "@/types/location";
-import classNames from "@/utils/classNames";
-import { trpc } from "@/utils/trpc";
-import { Button, Modal, Rating } from "@mantine/core";
-import { notifications } from "@mantine/notifications";
-import { IconCheck, IconX } from "@tabler/icons-react";
-import { useMemo, useState } from "react";
+import { LocationDetail } from '@/types/location';
+import classNames from '@/utils/classNames';
+import { trpc } from '@/utils/trpc';
+import { Button, Modal, Rating } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
+import { IconCheck, IconX } from '@tabler/icons-react';
+import { useMemo, useState } from 'react';
 
 type Props = {
   postId: number;
@@ -54,15 +54,15 @@ const ModalReview = ({ postId, locations, opened = false, onClose }: Props) => {
         rating: rating[locationId] as number,
       });
       notifications.show({
-        message: "Review successfully",
-        color: "green",
+        message: 'Review successfully',
+        color: 'green',
         icon: <IconCheck />,
       });
       handleHide(locationId);
     } catch {
       notifications.show({
-        message: "Có lỗi xảy ra. Vui lòng thử lại",
-        color: "red",
+        message: 'Có lỗi xảy ra. Vui lòng thử lại',
+        color: 'red',
         icon: <IconX />,
       });
     }
@@ -75,28 +75,22 @@ const ModalReview = ({ postId, locations, opened = false, onClose }: Props) => {
           return (
             <div
               key={review.id}
-              className={classNames(
-                "flex flex-col gap-2 shadow border p-3 rounded",
-                { hidden: hide.includes(review.id) }
-              )}
+              className={classNames('flex flex-col gap-2 shadow border p-3 rounded', {
+                hidden: hide.includes(review.id),
+              })}
             >
               {!review.review ? (
                 <div>
-                  Bạn chưa review địa điểm {review.name}. Khi bạn đánh giá bài
-                  viết của bạn sẽ gắn với đánh giá:
+                  Bạn chưa review địa điểm {review.name}. Khi bạn đánh giá bài viết của bạn sẽ gắn
+                  với đánh giá:
                 </div>
               ) : (
-                <div>
-                  Bạn đã review địa điểm {review.name}. Bạn có muốn cập nhật
-                  đánh giá:
-                </div>
+                <div>Bạn đã review địa điểm {review.name}. Bạn có muốn cập nhật đánh giá:</div>
               )}
               <div className="flex gap-2 items-center">
                 <div>Đánh giá:</div>
                 <Rating
-                  onChange={(value) =>
-                    setRating((prev) => ({ ...prev, [review.id]: value }))
-                  }
+                  onChange={(value) => setRating((prev) => ({ ...prev, [review.id]: value }))}
                   value={rating[review.id]}
                   size="xl"
                 />
