@@ -7,17 +7,10 @@ import {
   IconBrandInstagram,
   IconBrandTwitterFilled,
   IconPointFilled,
-<<<<<<< HEAD
 } from "@tabler/icons-react";
 import dayjs from "dayjs";
 import { useContext } from "react";
 import useTranslation from "@/hooks/useTranslation"; 
-=======
-} from '@tabler/icons-react';
-import dayjs from 'dayjs';
-import { useContext } from 'react';
-
->>>>>>> 2f8308d4a445472f12d75e18f18f1f8757f8d31f
 const Header = () => {
   const { data: user } = useContext(ProfileLayoutContext) || {};
   const { t } = useTranslation();
