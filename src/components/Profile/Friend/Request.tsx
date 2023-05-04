@@ -45,7 +45,7 @@ const Request = ({ user, status, friendId }: Props) => {
       
       await accept.mutateAsync({ userId, friendId });
       await addNoti.mutateAsync({
-        content: "ERROR ?!?",
+        content: String(t("addsuccessText")),
         userId,
       });
       notifications.show({
