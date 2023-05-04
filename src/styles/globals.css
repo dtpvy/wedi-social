@@ -20,4 +20,20 @@ body {
 
 button {
   background: none;
+  cursor: pointer;
+}
+
+ol,
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+a,
+a:hover,
+a:active,
+a:visited {
+  text-decoration: none;
+  color: black;
 }
