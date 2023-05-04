@@ -330,6 +330,7 @@ export const adminRouter = router({
         where: { id: input.locationId },
         include: {
           posts: true,
+          reviews: true,
         },
       });
       return location;
@@ -353,6 +354,25 @@ export const adminRouter = router({
       });
 
       return posts;
+    }),
+  postRating: adminAuthProcedure
+    .input(
+      z.object({
+        locationId: z.number(),
+        userId: z.number(),
+        postId: z.number(),
+      })
+    )
+    .query(async ({ input }) => {
+      const rating = await prisma.review.findFirst({
+        where: {
+          userId: input.userId,
+          postId: input.postId,
+          locationId: input.locationId,
+        },
+      });
+
+      return rating;
     }),
   // Recent7DaysPosts: adminAuthedProcedure.query(async () => {
   //   const currentDate = new Date();

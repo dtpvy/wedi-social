@@ -1,20 +1,12 @@
-import React from "react";
-import {
-  Modal,
-  Card,
-  Button,
-  Text,
-  Badge,
-  Group,
-  TextInput,
-  Image,
-} from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
-import { IconEdit } from "@tabler/icons-react";
-import { trpc } from "@/utils/trpc";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { LocationStatus } from "@prisma/client";
+import React from 'react';
+import { Modal, Card, Button, Text, Badge, Group, TextInput, Image } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
+import { IconEdit } from '@tabler/icons-react';
+import { trpc } from '@/utils/trpc';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import { LocationStatus } from '@prisma/client';
+import RatingDisplay from '../RatingDisplay';
 
 const LocationDetail = () => {
   const router = useRouter();
@@ -43,40 +35,57 @@ const LocationDetail = () => {
           LocationStatusModal.close();
         },
         onError: () => {
-          console.log("something wrong");
+          console.log('something wrong');
         },
       }
     );
   };
+  let avgReview = 0;
+  if (location?.reviews && Array.isArray(location.reviews) && location.reviews.length !== 0) {
+    avgReview = 0;
+    for (let i of location.reviews) {
+      avgReview += i.rating;
+    }
+    avgReview = avgReview / location.reviews.length;
+  }
 
   return (
     <div className="flex w-full justify-center my-3">
       <Card shadow="sm" padding="xl" radius="md" withBorder className="w-8/12 pl-5">
-        <Group position="apart">
+        <Group position="apart" className="px-4">
           <div className="px-3">
-            <div className="font-medium text-gray-500">{location?.name}</div>
-            <Text>Địa chỉ: {`${location?.address}`}</Text>
+            <div className="text-l font-semibold text-gray-800">{location?.name}</div>
+            <Text className="font-normal">
+              Địa chỉ: <span className="text-gray-800 font-medium">{`${location?.address}`}</span>
+            </Text>
             <Text>
-              Số bài viết đi kèm:{" "}
-              <span className="font-medium">{location?.posts.length}</span>
+              Số bài viết đi kèm:{' '}
+              <span className="text-gray-800 font-medium">{location?.posts.length}</span>
+            </Text>
+            <Text>
+              Loại hình du lịch:{' '}
+              <span className="text-gray-800 font-medium">{location?.category}</span>
             </Text>
             <Text>Hình ảnh: </Text>
           </div>
-          <Badge
-            color={
-              location?.status === LocationStatus.ACTIVE ? "green" : "yellow"
-            }
-          >
-            {location?.status}
-          </Badge>
+          <div className="flex flex-col">
+            <Badge color={location?.status === LocationStatus.ACTIVE ? 'green' : 'yellow'}>
+              {location?.status}
+            </Badge>
+            <RatingDisplay
+              rating={avgReview}
+              maxRating={5}
+              numRatings={location?.reviews?.length || 0}
+            />
+          </div>
         </Group>
-        {/* <Image
+        <Image
           maw={240}
           radius="md"
-          src={}
+          src={location?.imgUrl}
           alt="Random image"
           className="mx-auto"
-        /> */}
+        />
 
         <Modal
           opened={LocationStatusModalOpened}
@@ -84,17 +93,12 @@ const LocationDetail = () => {
           className="text-center"
         >
           <Text>
-            Bạn có chắc muốn đánh dấu địa điểm{" "}
-            {location?.status !== LocationStatus.ACTIVE
-              ? "ngưng hoạt động"
-              : "mở hoạt động"}
-            ?
+            Bạn có chắc muốn đánh dấu địa điểm{' '}
+            {location?.status == LocationStatus.ACTIVE ? 'ngưng hoạt động' : 'mở hoạt động'}?
           </Text>
           <Button
             variant="default"
-            color={
-              location?.status === LocationStatus.ACTIVE ? "green" : "yellow"
-            }
+            color={location?.status === LocationStatus.ACTIVE ? 'green' : 'yellow'}
             mt="md"
             radius="md"
             onClick={() =>
@@ -117,7 +121,7 @@ const LocationDetail = () => {
             mt="md"
             radius="md"
           >
-            Ngưng hoạt động
+            {location?.status == LocationStatus.ACTIVE ? 'Ngưng hoạt động' : 'Mở hoạt động'}
           </Button>
         </Group>
       </Card>

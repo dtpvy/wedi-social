@@ -22,7 +22,9 @@ const User = () => {
             numOfComments: post.comments.length,
             locationId: post.locations[0].locationId,
             userName: user?.name,
-            imgURL: post.imgUrls,
+            imgUrls: post.imgUrls,
+            userId: user?.id,
+            privacy: post.privacy,
           }}
         />
       </div>
