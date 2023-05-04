@@ -1,29 +1,29 @@
-import { prisma } from "@/server/prisma";
-import { verify } from "argon2";
-import NextAuth from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
-import GoogleProvider from "next-auth/providers/google";
+import { prisma } from '@/server/prisma';
+import { verify } from 'argon2';
+import NextAuth from 'next-auth';
+import CredentialsProvider from 'next-auth/providers/credentials';
+import GoogleProvider from 'next-auth/providers/google';
 
 const EMAIL_WHITE_LIST = [
-  "dtpvy0202@gmail.com",
-  "cminhchanh2803@gmail.com",
-  "nvquang20@clc.fitus.edu.vn",
+  'dtpvy0202@gmail.com',
+  'cminhchanh2803@gmail.com',
+  'nvquang20@clc.fitus.edu.vn',
 ];
 
 export const authOptions = {
   providers: [
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID || "",
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
+      clientId: process.env.GOOGLE_CLIENT_ID || '',
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
     }),
     CredentialsProvider({
-      name: "Email",
+      name: 'Email',
       credentials: {
-        email: { label: "Email", type: "email", placeholder: "Email" },
+        email: { label: 'Email', type: 'email', placeholder: 'Email' },
         password: {
-          label: "Password",
-          type: "password",
-          placeholder: "Password",
+          label: 'Password',
+          type: 'password',
+          placeholder: 'Password',
         },
       },
       authorize: async (credentials, req) => {
@@ -31,7 +31,7 @@ export const authOptions = {
         const user = await prisma.user.findFirst({
           where: { email },
         });
-
+        console.log(user);
         if (!user) {
           return null;
         }
@@ -52,12 +52,8 @@ export const authOptions = {
   ],
   callbacks: {
     async signIn({ account, profile }: any) {
-      if (account.provider === "google") {
-        if (
-          !profile.email_verified ||
-          !EMAIL_WHITE_LIST.includes(profile.email)
-        )
-          return false;
+      if (account.provider === 'google') {
+        if (!profile.email_verified || !EMAIL_WHITE_LIST.includes(profile.email)) return false;
         const exist = await prisma.admin.findFirst({
           where: { email: profile.email },
         });
@@ -79,7 +75,7 @@ export const authOptions = {
     jwt: async ({ token, user, account }: any) => {
       if (user) {
         token.id = user.id;
-        if (account.provider === "google") {
+        if (account.provider === 'google') {
           token.user = { ...token.user, isAdmin: true };
         } else {
           token.user = { ...token.user, ...user, isAdmin: false };
@@ -98,7 +94,7 @@ export const authOptions = {
     },
   },
   pages: {
-    signIn: "/admin/signin",
+    signIn: '/admin/signin',
   },
 };
 

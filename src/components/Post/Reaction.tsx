@@ -1,31 +1,77 @@
-import {
-  IconHeartFilled,
-  IconMoodHappy,
-  IconMoodHappyFilled,
-  IconThumbUpFilled,
-} from "@tabler/icons-react";
-import classNames from "classnames";
-import React from "react";
+import { CommentDetail } from '@/types/comment';
+import { PostDetail } from '@/types/post';
+import { trpc } from '@/utils/trpc';
+import { Button, HoverCard, Image, Transition } from '@mantine/core';
+import { Reaction } from '@prisma/client';
+import { IconIcons } from '@tabler/icons-react';
 
-const Reaction = () => {
+type Props = {
+  post?: PostDetail;
+  comment?: CommentDetail;
+  refetch: () => void;
+};
+
+const Reaction = ({ post, comment, refetch }: Props) => {
+  const react = trpc.reaction.react.useMutation();
+  const utils = trpc.useContext();
+  const addNoti = trpc.notification.push.useMutation();
+  const { reaction, _count, reactions } = post || comment || {};
+
+  const handleReaction = (reaction: Reaction) => {
+    react.mutate(
+      { reactionId: reaction.id, postId: post?.id, commentId: comment?.id },
+      {
+        onSuccess: (data) => {
+          refetch();
+          if (!data) return;
+          const content = post
+            ? 'Vừa mới thả cảm xúc vô bài viết của bạn'
+            : 'Vừa mới thả cảm xúc vô bình luận của bạn';
+          addNoti.mutate({
+            content,
+            userId: (post?.creatorId || comment?.userId) as number,
+            imgUrl: reaction.imgUrl,
+          });
+          utils.user.findUser.refetch();
+        },
+      }
+    );
+  };
+
   return (
-    <div
-      className={classNames(
-        "flex items-center gap-4 p-4 rounded-lg bg-white absolute bottom-[calc(100%+8px)] shadow left-0 border",
-        "before:content-[''] before:absolute before:w-0 before:h-0 before:top-full",
-        "before:border-t-[12px] before:border-t-solid before:border-t-[#ccc]",
-        "before:border-l-[12px] before:border-l-solid before:border-l-transparent",
-        "before:border-r-[12px] before:border-r-solid before:border-r-transparent",
-        "after:content-[''] after:absolute after:w-0 after:h-0 after:top-full after:left-[18px]",
-        "after:border-t-[10px] after:border-t-solid after:border-t-[#fff]",
-        "after:border-l-[10px] after:border-l-solid after:border-l-transparent",
-        "after:border-r-[10px] after:border-r-solid after:border-r-transparent"
-      )}
-    >
-      <IconThumbUpFilled className="text-blue-600" />
-      <IconHeartFilled className="text-pink-600" />
-      <IconMoodHappyFilled className="text-yellow-400" />
-    </div>
+    <HoverCard position="top" withArrow shadow="md" openDelay={500}>
+      <HoverCard.Target>
+        {!reactions?.length ? (
+          <Button variant="white" leftIcon={<IconIcons />} color="dark" className="relative">
+            {_count?.reactions}
+          </Button>
+        ) : (
+          <div className="flex gap-1 items-center ml-3 mr-5">
+            <Image
+              alt={reactions[0].reaction.name}
+              src={reactions[0].reaction.imgUrl}
+              width={30}
+              height={30}
+            />
+            {_count?.reactions}
+          </div>
+        )}
+      </HoverCard.Target>
+      <HoverCard.Dropdown>
+        <div className="flex justify-between gap-3">
+          {reaction?.map((d) => (
+            <div
+              onClick={() => handleReaction(d)}
+              key={d.id}
+              className="transition-all ease-in-out hover:scale-150 duration-300 flex gap-1 items-center cursor-pointer"
+            >
+              <Image alt={d.name} src={d.imgUrl} width={30} height={30} />
+              <div className="font-medium text-sm">{d.count}</div>
+            </div>
+          ))}
+        </div>
+      </HoverCard.Dropdown>
+    </HoverCard>
   );
 };
 

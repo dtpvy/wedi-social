@@ -1,9 +1,18 @@
+<<<<<<< HEAD
 import { trpc } from "@/utils/trpc";
 import { ActionIcon, Avatar, Text } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { notifications } from "@mantine/notifications";
 import { IconCheck, IconX } from "@tabler/icons-react";
 import useTranslation from "@/hooks/useTranslation"; 
+=======
+import { trpc } from '@/utils/trpc';
+import { ActionIcon, Avatar, Text } from '@mantine/core';
+import { modals } from '@mantine/modals';
+import { notifications } from '@mantine/notifications';
+import { IconCheck, IconX } from '@tabler/icons-react';
+
+>>>>>>> 2f8308d4a445472f12d75e18f18f1f8757f8d31f
 type Props = {
   id: number;
   name: string;
@@ -18,25 +27,43 @@ const FriendWidget = ({ id, name, imgUrl, mutualFriends }: Props) => {
 
   const openDeleteModal = () =>
     modals.openConfirmModal({
+<<<<<<< HEAD
       title: t("titleDeleteFriendText"),
       centered: true,
       children: <Text size="sm">{t("deleteFriendText")}</Text>,
       labels: { confirm: t("yesText"), cancel: t("cancelText") },
       confirmProps: { color: "red" },
+=======
+      title: 'Delete your profile',
+      centered: true,
+      children: <Text size="sm">{`Are you sure unfriend ${name}?`}</Text>,
+      labels: { confirm: 'Yes', cancel: 'Cancel' },
+      confirmProps: { color: 'red' },
+>>>>>>> 2f8308d4a445472f12d75e18f18f1f8757f8d31f
       onCancel: () => null,
       onConfirm: async () => {
         try {
           await deleteFriend.mutateAsync({ userId: id });
           notifications.show({
+<<<<<<< HEAD
             message: t("addsuccessText"),
             color: "green",
+=======
+            message: 'Action successfully',
+            color: 'green',
+>>>>>>> 2f8308d4a445472f12d75e18f18f1f8757f8d31f
             icon: <IconCheck />,
           });
           utils.friend.friendList.refetch();
         } catch (e: any) {
           notifications.show({
+<<<<<<< HEAD
             message: t("addfailedText"),
             color: "red",
+=======
+            message: 'Có lỗi xảy ra. Vui lòng thử lại',
+            color: 'red',
+>>>>>>> 2f8308d4a445472f12d75e18f18f1f8757f8d31f
             icon: <IconX />,
           });
         }
@@ -52,12 +79,7 @@ const FriendWidget = ({ id, name, imgUrl, mutualFriends }: Props) => {
         </Text>
         <div className="text-gray-400 text-sm mt-1">{`${mutualFriends} ${t("mutualfriendText")}`}</div>
       </div>
-      <ActionIcon
-        onClick={openDeleteModal}
-        color="red"
-        radius="xl"
-        variant="outline"
-      >
+      <ActionIcon onClick={openDeleteModal} color="red" radius="xl" variant="outline">
         <IconX size={20} />
       </ActionIcon>
     </div>

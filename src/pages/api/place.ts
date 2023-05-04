@@ -1,10 +1,10 @@
-import axios from "axios";
-import { NextApiRequest, NextApiResponse } from "next";
+import axios from 'axios';
+import { NextApiRequest, NextApiResponse } from 'next';
 
 const place = async (req: NextApiRequest, res: NextApiResponse) => {
   const params = req.query;
   const data = await axios
-    .get("https://map.coccoc.com/map/search.json", {
+    .get('https://map.coccoc.com/map/search.json', {
       params,
     })
     .then((res) => res.data);

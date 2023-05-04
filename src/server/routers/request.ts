@@ -1,6 +1,6 @@
-import { z } from "zod";
-import { authProcedure, router } from "../trpc";
-import { prisma } from "../prisma";
+import { z } from 'zod';
+import { authProcedure, router } from '../trpc';
+import { prisma } from '../prisma';
 
 export const requestRouter = router({
   create: authProcedure
@@ -41,7 +41,7 @@ export const requestRouter = router({
   requestList: authProcedure
     .input(
       z.object({
-        type: z.enum(["all", "pending", "replied"]),
+        type: z.enum(['all', 'pending', 'replied']),
       })
     )
     .query(async ({ input, ctx }) => {
@@ -56,15 +56,13 @@ export const requestRouter = router({
               admin: true,
             },
             orderBy: {
-              createdAt: "desc",
+              createdAt: 'desc',
             },
           },
         },
       });
 
-      if (type === "all") return request;
-      return request.filter((res) =>
-        type === "pending" ? !res.reply.length : res.reply.length
-      );
+      if (type === 'all') return request;
+      return request.filter((res) => (type === 'pending' ? !res.reply.length : res.reply.length));
     }),
 });

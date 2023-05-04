@@ -1,12 +1,13 @@
-import NotFound from "@/pages/404";
-import { UserInfo } from "@/types/user";
-import classNames from "@/utils/classNames";
-import { trpc } from "@/utils/trpc";
-import { Loader } from "@mantine/core";
-import { useRouter } from "next/router";
-import { ReactNode, createContext } from "react";
-import { Header, TabMenu } from "../Profile/Header";
-import useUserStore from "@/stores/user";
+import NotFound from '@/pages/404';
+import { UserInfo } from '@/types/user';
+import classNames from '@/utils/classNames';
+import { trpc } from '@/utils/trpc';
+import { Loader } from '@mantine/core';
+import { useRouter } from 'next/router';
+import { ReactNode, createContext } from 'react';
+import { Header, TabMenu } from '../Profile/Header';
+import useUserStore from '@/stores/user';
+import { CreateTrip } from '../Trip';
 
 type Props = {
   children: ReactNode;
@@ -26,10 +27,10 @@ const ProfileLayout = ({ children, className }: Props) => {
     id: +(id as string),
   });
 
+  console.log(data);
+
   if (isLoading) {
-    return (
-      <Loader className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
-    );
+    return <Loader className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />;
   }
 
   if (!data) {
@@ -42,9 +43,10 @@ const ProfileLayout = ({ children, className }: Props) => {
         <Header />
         <div className="flex mt-8 mx-16 gap-8">
           <div className="w-[400px] shadow p-4 bg-white rounded-lg h-fit">
+            <CreateTrip className="mt-0" />
             <TabMenu />
           </div>
-          <div className={classNames("w-full", className)}>{children}</div>
+          <div className={classNames('w-full', className)}>{children}</div>
         </div>
       </div>
     </ProfileLayoutContext.Provider>

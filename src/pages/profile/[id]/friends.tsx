@@ -9,7 +9,7 @@ import { useState } from "react";
 import useTranslation from "@/hooks/useTranslation"; 
 
 const Friends = () => {
-  const [type, setType] = useState("");
+  const [type, setType] = useState('');
 
   const [value, setValue] = useDebouncedState("", 200);
   const [order, setOrder] = useState("asc");
@@ -31,7 +31,7 @@ const Friends = () => {
           className="mr-auto"
         />
         <Button
-          onClick={() => setOrder(order === "asc" ? "desc" : "asc")}
+          onClick={() => setOrder(order === 'asc' ? 'desc' : 'asc')}
           radius="xl"
           variant="light"
           color="green"
@@ -70,11 +70,7 @@ const Friends = () => {
           );
         })}
       </div>
-      <FriendRequest
-        opened={!!type}
-        owner={type === "request"}
-        onClose={() => setType("")}
-      />
+      <FriendRequest opened={!!type} owner={type === 'request'} onClose={() => setType('')} />
     </ProfileLayout>
   );
 };

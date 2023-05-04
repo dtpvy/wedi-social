@@ -1,8 +1,8 @@
-import React from "react";
-import RequestBox from "./RequestBox";
-import ComponentBox from "../ComponentBox";
-import { trpc } from "@/utils/trpc";
-import { Text, Badge, Button, Card, Group, Avatar } from "@mantine/core";
+import React from 'react';
+import RequestBox from './RequestBox';
+import ComponentBox from '../ComponentBox';
+import { trpc } from '@/utils/trpc';
+import { Text, Badge, Button, Card, Group, Avatar } from '@mantine/core';
 
 const RequestList = () => {
   const requests = trpc.admin.requestList.useQuery();
@@ -29,7 +29,7 @@ const RequestList = () => {
               input3: request.user.name,
               input4: request.createdAt,
               input5: request.reply.length != 0 ? true : false,
-              type: "request",
+              type: 'request',
             }}
           />
         </div>

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { ERROR_MESSAGES } from "@/constants/error";
 import dayjs from "dayjs";
 import { z } from "zod";
@@ -30,19 +31,47 @@ export const friendRouter = router({
       const data = await prisma.friend.create({
         data: { userId: id, friendId: userId, status: 'PENDING' },
       });
+=======
+import ERROR_MESSAGES from '../../constants/error';
+import dayjs from 'dayjs';
+import { z } from 'zod';
+import { prisma } from '../prisma';
+import { authProcedure, router } from '../trpc';
+import { Friend, User } from '@prisma/client';
 
+export const friendRouter = router({
+  add: authProcedure.input(z.object({ userId: z.number() })).mutation(async ({ input, ctx }) => {
+    const { id } = ctx.user;
+    const { userId } = input;
+    const request = await prisma.friend.findFirst({
+      where: { userId: id, friendId: userId },
+    });
+>>>>>>> 2f8308d4a445472f12d75e18f18f1f8757f8d31f
+
+    if (request?.status === 'REJECT' && dayjs().diff(request.updatedAt, 'days') < 1) {
       return {
-        status: 200,
-        data,
+        status: 302,
+        message: ERROR_MESSAGES.waitRejectedRequest,
+        time: dayjs().diff(request.updatedAt, 'minute'),
       };
-    }),
+    }
+
+    const data = await prisma.friend.create({
+      data: { userId: id, friendId: userId, status: 'PENDING' },
+    });
+
+    return {
+      status: 200,
+      data,
+    };
+  }),
   reject: authProcedure
     .input(z.object({ userId: z.number(), friendId: z.number() }))
     .mutation(async ({ input }) => {
       const { userId, friendId } = input;
       await prisma.friend.update({
         where: { userId_friendId: { userId, friendId } },
-        data: { status: "REJECT" },
+        data: { status: 'REJECT' },
       });
 
       return true;
@@ -53,30 +82,28 @@ export const friendRouter = router({
       const { userId, friendId } = input;
       await prisma.friend.update({
         where: { userId_friendId: { userId, friendId } },
-        data: { status: "ACCEPT" },
+        data: { status: 'ACCEPT' },
       });
 
       return true;
     }),
-  delete: authProcedure
-    .input(z.object({ userId: z.number() }))
-    .mutation(async ({ input, ctx }) => {
-      const { id } = ctx.user;
-      const { userId } = input;
+  delete: authProcedure.input(z.object({ userId: z.number() })).mutation(async ({ input, ctx }) => {
+    const { id } = ctx.user;
+    const { userId } = input;
 
-      try {
-        await Promise.all([
-          prisma.friend.delete({
-            where: { userId_friendId: { userId, friendId: id } },
-          }),
-          prisma.friend.delete({
-            where: { userId_friendId: { friendId: userId, userId: id } },
-          }),
-        ]);
-      } catch {}
+    try {
+      await Promise.all([
+        prisma.friend.delete({
+          where: { userId_friendId: { userId, friendId: id } },
+        }),
+        prisma.friend.delete({
+          where: { userId_friendId: { friendId: userId, userId: id } },
+        }),
+      ]);
+    } catch {}
 
-      return true;
-    }),
+    return true;
+  }),
   requestList: authProcedure
     .input(
       z.object({
@@ -84,11 +111,9 @@ export const friendRouter = router({
       })
     )
     .query(async ({ input, ctx }) => {
-      const params = input.owner
-        ? { friendId: ctx.user.id }
-        : { userId: ctx.user.id };
+      const params = input.owner ? { friendId: ctx.user.id } : { userId: ctx.user.id };
       const request = prisma.friend.findMany({
-        where: { status: "PENDING", ...params },
+        where: { status: 'PENDING', ...params },
         include: { user: true, friend: true },
       });
       return request;
@@ -101,31 +126,31 @@ export const friendRouter = router({
 
       const listFriend = async (
         id: number,
-        fieldA: "userId" | "friendId",
-        fieldB: "friend" | "user"
+        fieldA: 'userId' | 'friendId',
+        fieldB: 'friend' | 'user'
       ) => {
         const select = {
           id: true,
           name: true,
           imgUrl: true,
           friends: {
-            where: { status: "ACCEPT", friendId: { not: id } },
+            where: { status: 'ACCEPT', friendId: { not: id } },
             include: {
               friend: {
                 include: {
-                  friends: { where: { status: "ACCEPT", friendId: id } },
-                  userFriends: { where: { status: "ACCEPT", userId: id } },
+                  friends: { where: { status: 'ACCEPT', friendId: id } },
+                  userFriends: { where: { status: 'ACCEPT', userId: id } },
                 },
               },
             },
           },
           userFriends: {
-            where: { status: "ACCEPT", userId: { not: id } },
+            where: { status: 'ACCEPT', userId: { not: id } },
             include: {
               user: {
                 include: {
-                  friends: { where: { status: "ACCEPT", friendId: id } },
-                  userFriends: { where: { status: "ACCEPT", userId: id } },
+                  friends: { where: { status: 'ACCEPT', friendId: id } },
+                  userFriends: { where: { status: 'ACCEPT', userId: id } },
                 },
               },
             },
@@ -134,7 +159,7 @@ export const friendRouter = router({
 
         return prisma.friend.findMany({
           where: {
-            status: "ACCEPT",
+            status: 'ACCEPT',
             [fieldA]: id,
             [fieldB]: {
               name: {
@@ -143,12 +168,12 @@ export const friendRouter = router({
             },
           },
           orderBy: {
-            createdAt: order as "asc" | "desc",
+            createdAt: order as 'asc' | 'desc',
           },
           select: {
             user: {
               select:
-                fieldB === "user"
+                fieldB === 'user'
                   ? (select as any)
                   : {
                       id: true,
@@ -159,7 +184,7 @@ export const friendRouter = router({
             },
             friend: {
               select:
-                fieldB === "friend"
+                fieldB === 'friend'
                   ? (select as any)
                   : {
                       id: true,
@@ -186,8 +211,8 @@ export const friendRouter = router({
       };
 
       const [list1, list2] = await Promise.all([
-        listFriend(id, "userId", "friend"),
-        listFriend(id, "friendId", "user"),
+        listFriend(id, 'userId', 'friend'),
+        listFriend(id, 'friendId', 'user'),
       ]);
 
       const list = [...list1, ...list2].map((item) => {

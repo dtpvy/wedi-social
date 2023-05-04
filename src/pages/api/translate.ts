@@ -1,9 +1,9 @@
-import { readFileSync } from "fs";
-import { NextApiRequest, NextApiResponse } from "next";
+import { readFileSync } from 'fs';
+import { NextApiRequest, NextApiResponse } from 'next';
 
 const FILE = {
-  vi: "public/locale/vi.json",
-  en: "public/locale/en.json",
+  vi: 'public/locale/vi.json',
+  en: 'public/locale/en.json',
 };
 
 const translate = async (_: NextApiRequest, res: NextApiResponse) => {
@@ -11,9 +11,10 @@ const translate = async (_: NextApiRequest, res: NextApiResponse) => {
     (translate: Record<string, Record<string, string>>, key: string) => {
       return {
         ...translate,
-        [key]: JSON.parse(
-          readFileSync(FILE[key as keyof typeof FILE], "utf8")
-        ) as Record<string, string>,
+        [key]: JSON.parse(readFileSync(FILE[key as keyof typeof FILE], 'utf8')) as Record<
+          string,
+          string
+        >,
       };
     },
     { vi: {}, en: {} }

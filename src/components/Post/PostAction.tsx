@@ -1,17 +1,17 @@
-import { PostDetail } from "@/types/post";
-import { trpc } from "@/utils/trpc";
-import { ActionIcon, Button, Popover, Text } from "@mantine/core";
-import { modals } from "@mantine/modals";
-import { notifications } from "@mantine/notifications";
-import { IconCheck, IconDots, IconX } from "@tabler/icons-react";
-import { type } from "os";
-import React, { useState } from "react";
-import CreatePost from "./CreatePost";
-import ModalCreate from "./ModalCreate";
-import ModalLocation from "./ModalLocation";
-import ModalReview from "./ModalReview";
-import { LocationDetail } from "@/types/location";
-import { Location } from "@prisma/client";
+import { PostDetail } from '@/types/post';
+import { trpc } from '@/utils/trpc';
+import { ActionIcon, Button, Popover, Text } from '@mantine/core';
+import { modals } from '@mantine/modals';
+import { notifications } from '@mantine/notifications';
+import { IconCheck, IconDots, IconX } from '@tabler/icons-react';
+import { type } from 'os';
+import React, { useState } from 'react';
+import CreatePost from './CreatePost';
+import ModalCreate from './ModalCreate';
+import ModalLocation from './ModalLocation';
+import ModalReview from './ModalReview';
+import { LocationDetail } from '@/types/location';
+import { Location } from '@prisma/client';
 
 type Props = {
   post: PostDetail;
@@ -21,7 +21,7 @@ type Props = {
 const PostAction = ({ post, refetch }: Props) => {
   const { content, privacy, imgUrls, locations: rawLocations } = post;
 
-  const [modal, setModal] = useState("");
+  const [modal, setModal] = useState('');
   const [opened, setOpened] = useState(false);
   const [locations, setLocations] = useState<LocationDetail[]>(
     rawLocations.map((d) => d.location) || []
@@ -41,25 +41,25 @@ const PostAction = ({ post, refetch }: Props) => {
   const openDeleteModal = () => {
     setOpened(false);
     modals.openConfirmModal({
-      title: "Delete your profile",
+      title: 'Delete your profile',
       centered: true,
       children: <Text size="sm">Are you sure delete this post</Text>,
-      labels: { confirm: "Yes", cancel: "Cancel" },
-      confirmProps: { color: "red" },
+      labels: { confirm: 'Yes', cancel: 'Cancel' },
+      confirmProps: { color: 'red' },
       onCancel: () => null,
       onConfirm: async () => {
         try {
           await deletePost.mutateAsync({ id: post.id });
           notifications.show({
-            message: "Action successfully",
-            color: "green",
+            message: 'Action successfully',
+            color: 'green',
             icon: <IconCheck />,
           });
           refetch();
         } catch (e: any) {
           notifications.show({
-            message: "Có lỗi xảy ra. Vui lòng thử lại",
-            color: "red",
+            message: 'Có lỗi xảy ra. Vui lòng thử lại',
+            color: 'red',
             icon: <IconX />,
           });
         }
@@ -69,12 +69,12 @@ const PostAction = ({ post, refetch }: Props) => {
 
   const handleOpen = () => {
     setOpened(false);
-    setModal("create");
+    setModal('create');
   };
 
   const handleUpdatePost = () => {
     refetch();
-    setModal("review");
+    setModal('review');
   };
 
   return (
@@ -87,11 +87,7 @@ const PostAction = ({ post, refetch }: Props) => {
       shadow="md"
     >
       <Popover.Target>
-        <ActionIcon
-          onClick={() => setOpened(!opened)}
-          color="green"
-          radius="xl"
-        >
+        <ActionIcon onClick={() => setOpened(!opened)} color="green" radius="xl">
           <IconDots size="20" />
         </ActionIcon>
       </Popover.Target>
@@ -111,32 +107,32 @@ const PostAction = ({ post, refetch }: Props) => {
       </Popover.Dropdown>
       <ModalCreate
         postId={post.id}
-        content={content || ""}
+        content={content || ''}
         privacy={privacy}
         imgUrls={imgUrls}
-        opened={modal === "create"}
-        onClose={() => setModal("")}
+        opened={modal === 'create'}
+        onClose={() => setModal('')}
         locations={locations}
         onOpenReview={handleUpdatePost}
-        onCreateLocation={() => setModal("location")}
+        onCreateLocation={() => setModal('location')}
         onDeleteLocation={handleDeleteLocation}
       />
 
       <ModalLocation
         locations={locations}
-        opened={modal === "location"}
-        onClose={() => setModal("create")}
+        opened={modal === 'location'}
+        onClose={() => setModal('create')}
         onAddLocation={handleCreateLocation}
         onDeleteLocation={handleDeleteLocation}
       />
 
-      {modal === "review" && (
+      {modal === 'review' && (
         <ModalReview
           opened
           postId={post.id}
           locations={locations}
           onClose={() => {
-            setModal("");
+            setModal('');
             setLocations([]);
             refetch();
           }}

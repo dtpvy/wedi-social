@@ -1,48 +1,48 @@
-import React from "react";
-import { Button, Modal, Text, Divider, Select, TextInput } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
-import { IconSquarePlus } from "@tabler/icons-react";
-import ComponentBox from "../ComponentBox";
+import React from 'react';
+import { Button, Modal, Text, Divider, Select, TextInput } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
+import { IconSquarePlus } from '@tabler/icons-react';
+import ComponentBox from '../ComponentBox';
 const LocationList = () => {
   const locations = [
     {
       id: 1,
-      name: "Quán ăn 1",
+      name: 'Quán ăn 1',
       review: 3.5,
-      ward: "1",
-      district: "1",
-      city: "HCM",
-      nation: "Vietnam",
-      status: "open",
-      travelType: "Ăn uống",
+      ward: '1',
+      district: '1',
+      city: 'HCM',
+      nation: 'Vietnam',
+      status: 'open',
+      travelType: 'Ăn uống',
       image:
-        "https://images.unsplash.com/photo-1511216335778-7cb8f49fa7a3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80",
+        'https://images.unsplash.com/photo-1511216335778-7cb8f49fa7a3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80',
     },
     {
       id: 3,
-      name: "Quán lẩu 2",
+      name: 'Quán lẩu 2',
       review: 4,
-      ward: "1",
-      district: "1",
-      city: "HCM",
-      nation: "Vietnam",
-      status: "open",
-      travelType: "Ăn uống",
+      ward: '1',
+      district: '1',
+      city: 'HCM',
+      nation: 'Vietnam',
+      status: 'open',
+      travelType: 'Ăn uống',
       image:
-        "https://images.unsplash.com/photo-1511216335778-7cb8f49fa7a3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80",
+        'https://images.unsplash.com/photo-1511216335778-7cb8f49fa7a3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80',
     },
     {
       id: 2,
-      name: "Quán nước 3",
+      name: 'Quán nước 3',
       review: 2.2,
-      ward: "1",
-      district: "1",
-      city: "HCM",
-      nation: "Vietnam",
-      status: "open",
-      travelType: "Ăn uống",
+      ward: '1',
+      district: '1',
+      city: 'HCM',
+      nation: 'Vietnam',
+      status: 'open',
+      travelType: 'Ăn uống',
       image:
-        "https://images.unsplash.com/photo-1511216335778-7cb8f49fa7a3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80",
+        'https://images.unsplash.com/photo-1511216335778-7cb8f49fa7a3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80',
     },
   ];
 
@@ -62,26 +62,15 @@ const LocationList = () => {
           label="Chọn loại hình du lịch"
           placeholder="Chọn"
           data={[
-            { value: "Ăn uống", label: "Ăn uống" },
-            { value: "Đi chơi", label: "Đi chơi" },
-            { value: "Di tích lịch sử", label: "Di tích lịch sử" },
+            { value: 'Ăn uống', label: 'Ăn uống' },
+            { value: 'Đi chơi', label: 'Đi chơi' },
+            { value: 'Di tích lịch sử', label: 'Di tích lịch sử' },
           ]}
           mt="md"
-        />{" "}
+        />{' '}
         <TextInput label="Tên địa điểm" placeholder="Nhập tên" mt="md" />
-        <TextInput
-          data-autofocus
-          label="Địa chỉ:"
-          placeholder="Nhập địa chỉ mới"
-          mt="md"
-        />
-        <Button
-          variant="default"
-          color="blue"
-          mt="md"
-          radius="md"
-          onClick={handleAdd}
-        >
+        <TextInput data-autofocus label="Địa chỉ:" placeholder="Nhập địa chỉ mới" mt="md" />
+        <Button variant="default" color="blue" mt="md" radius="md" onClick={handleAdd}>
           Thêm địa điểm
         </Button>
       </Modal>
@@ -122,7 +111,7 @@ const LocationList = () => {
                 input3: `${location.ward}, ${location.district}, ${location.city}, ${location.nation}`,
                 input4: location.travelType,
                 status: location.status,
-                type: "location",
+                type: 'location',
               }}
             />
           </div>
