@@ -21,17 +21,21 @@ const Menu = ({ tab, onChangeTab }: Props) => {
             'bg-slate-200': tab === TAB_LIST[key as keyof typeof TAB_LIST].name,
           })}
         >
-          {TAB_LIST[key as keyof typeof TAB_LIST].name == 'dashboard' && (
-            <IconLayoutDashboard className="pr-2" />
-          )}
-          {TAB_LIST[key as keyof typeof TAB_LIST].name == 'user' && <IconUsers className="pr-2" />}
-          {TAB_LIST[key as keyof typeof TAB_LIST].name == 'location' && (
-            <IconMapPin className="pr-2" />
-          )}
-          {TAB_LIST[key as keyof typeof TAB_LIST].name == 'request' && (
-            <IconHelpHexagon className="pr-2" />
-          )}
-          {TAB_LIST[key as keyof typeof TAB_LIST].name}
+          <div className="flex items-center">
+            {TAB_LIST[key as keyof typeof TAB_LIST].name == "dashboard" && (
+              <IconLayoutDashboard className="pr-2 pb-1" />
+            )}
+            {TAB_LIST[key as keyof typeof TAB_LIST].name == "user" && (
+              <IconUsers className="pr-2 pb-1" />
+            )}
+            {TAB_LIST[key as keyof typeof TAB_LIST].name == "location" && (
+              <IconMapPin className="pr-2 pb-1" />
+            )}
+            {TAB_LIST[key as keyof typeof TAB_LIST].name == "request" && (
+              <IconHelpHexagon className="pr-2 pb-1" />
+            )}
+            {TAB_LIST[key as keyof typeof TAB_LIST].name}
+          </div>
         </button>
       ))}
     </div>
