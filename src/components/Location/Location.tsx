@@ -6,8 +6,9 @@ import {
   IconStarFilled,
 } from "@tabler/icons-react";
 import Review from "./Review";
-
+import useTranslation from "@/hooks/useTranslation"; 
 const Location = () => {
+  const { t } = useTranslation();
   return (
     <div className="bg-white shadow rounded-md p-5">
       <div className="flex items-center gap-4">
@@ -34,10 +35,10 @@ const Location = () => {
       </div>
       <div className="flex items-center gap-3">
         <Button className="flex-1" color="green" radius="md">
-          Viết bài
+          {t("createPostText")}
         </Button>
         <Button variant="outline" color="green" radius="md">
-          Xem địa điểm
+          {t("visitLocationText")}
         </Button>
       </div>
     </div>

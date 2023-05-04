@@ -23,7 +23,7 @@ import { IKUpload } from "imagekitio-react";
 import { useRef, useState } from "react";
 import LocationSeletion, { LocationSeletionProps } from "./LocationSeletion";
 import classNames from "@/utils/classNames";
-
+import useTranslation from "@/hooks/useTranslation"; 
 type State = {
   content: string;
   imgUrls: string[];
@@ -82,7 +82,7 @@ const ModalCreate = ({
       state.imgUrls.filter((url) => url !== imgUrl)
     );
   };
-
+  const { t } = useTranslation();
   const handleCreate = async () => {
     if (!location) return;
     try {
@@ -123,9 +123,9 @@ const ModalCreate = ({
           onChange={(value) => onChangeField("privacy", value)}
           icon={<IconEyeEdit size="1rem" />}
           data={[
-            { value: Privacy.PUBLIC, label: "Công khai" },
-            { value: Privacy.FRIEND, label: "Bạn bè" },
-            { value: Privacy.PRIVATE, label: "Chỉ mình tôi" },
+            { value: Privacy.PUBLIC, label: t("publicText") },
+            { value: Privacy.FRIEND, label: t("friendText") },
+            { value: Privacy.PRIVATE, label: t("onlymeText") },
           ]}
         />
       </div>
@@ -182,7 +182,7 @@ const ModalCreate = ({
           variant="outline"
           color="red"
         >
-          Chọn địa điểm
+          {t("selectLocationText")}
         </Button>
         <Button
           color="teal"

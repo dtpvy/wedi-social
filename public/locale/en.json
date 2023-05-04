@@ -68,7 +68,6 @@
   "statusresponseText": "Haven't responsed yet",
   "vietnamText": "Vietnamese",
   "englishText": "English",
-
   "errorText" : "Error,please try again",
   "oldestText" : "Oldest",
   "noaccessText" : "You can't access this page",
@@ -84,6 +83,9 @@
   "changeavatarText" : "Change Avatar",
   "changebackgroundText" : "Change background ",
   "lasteditText" : "Last edited",
-  "allText" : "All"
+  "allText" : "All",
+  "publicText" : "Public",
+  "onlymeText" : "Only me",
+  "nolacationText" : "No location selected"
 
 }

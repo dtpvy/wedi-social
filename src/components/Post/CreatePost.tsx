@@ -7,7 +7,7 @@ import ModalCreate from "./ModalCreate";
 import ModalLocation from "./ModalLocation";
 import ModalReview from "./ModalReview";
 import { trpc } from "@/utils/trpc";
-
+import useTranslation from "@/hooks/useTranslation"; 
 type Props = {
   refetch: () => void;
 };
@@ -16,7 +16,7 @@ const CreatePost = ({ refetch }: Props) => {
   const [modal, setModal] = useState("");
   const [postId, setPostId] = useState<number>();
   const [locations, setLocations] = useState<LocationDetail[]>([]);
-
+  const { t } = useTranslation();
   const handleCreateLocation = (location: LocationDetail) => {
     if (locations.find((d) => d.id === location.id)) return;
     setLocations((prev) => [...(prev || []), location]);
@@ -39,17 +39,17 @@ const CreatePost = ({ refetch }: Props) => {
           onClick={() => setModal("create")}
           className="rounded-full w-1/2 cursor-pointer hover:bg-gray-100 px-3 py-2 border"
         >
-          Write something...
+          {t("statusText")}
         </div>
         <div
           onClick={() => setModal("location")}
           className="flex items-center gap-1 ml-auto"
         >
           <IconMapPinFilled className="text-red-600" size={30} />
-          <div>Chọn địa điểm</div>
+          <div>{t("selectLocationText")}</div>
         </div>
         <Button color="green" radius="xl">
-          Đăng bài
+          {t("postVerbText")}
         </Button>
       </div>
 

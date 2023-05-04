@@ -50,14 +50,9 @@ const FriendWidget = ({ id, name, imgUrl, mutualFriends }: Props) => {
         <Text weight={500} lineClamp={2} size="md">
           {name}
         </Text>
-        <div className="text-gray-400 text-sm mt-1">{`${mutualFriends} ${t("mutualfriendText")}`}</div>
+        <div className="text-gray-400 text-sm mt-1">{t("mutualfriendText")}</div>
       </div>
-      <ActionIcon
-        onClick={openDeleteModal}
-        color="red"
-        radius="xl"
-        variant="outline"
-      >
+      <ActionIcon onClick={openDeleteModal} color="red" radius="xl" variant="outline">
         <IconX size={20} />
       </ActionIcon>
     </div>

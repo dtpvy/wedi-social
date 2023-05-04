@@ -5,7 +5,7 @@ import { Carousel } from "@mantine/carousel";
 import { CloseButton, Image } from "@mantine/core";
 import { Location } from "@prisma/client";
 import React from "react";
-
+import useTranslation from "@/hooks/useTranslation"; 
 export type LocationSeletionProps = {
   readonly?: boolean;
   locations: LocationDetail[];
@@ -19,6 +19,7 @@ const LocationSeletion = ({
   className,
   onDeleteLocation,
 }: LocationSeletionProps) => {
+  const { t } = useTranslation();
   return (
     <div
       className={classNames(
@@ -65,7 +66,7 @@ const LocationSeletion = ({
           </Carousel>
         ) : (
           <div className="text-center font-bold">
-            Bạn chưa chọn địa điểm nào.
+            {t("nolacationText")}
           </div>
         )}
       </div>
