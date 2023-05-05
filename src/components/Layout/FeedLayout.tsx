@@ -13,7 +13,7 @@ import { calcFriend } from '@/utils/user';
 import dayjs from 'dayjs';
 import { User } from '@prisma/client';
 import useOpenMessageDialog from '@/hooks/useOpenMessageDialog';
-
+import useTranslation from '@/hooks/useTranslation';
 type Props = {
   children: ReactNode;
   className?: string;
@@ -43,6 +43,7 @@ const TAB_LIST: Record<string, Tab> = {
 };
 
 const FeedLayout = ({ children, className }: Props) => {
+  const { t } = useTranslation();
   const router = useRouter();
   const { show } = useOpenMessageDialog();
   const tab = router.asPath.split('/')[2] || TAB_LIST.FEED.name;
@@ -56,7 +57,7 @@ const FeedLayout = ({ children, className }: Props) => {
     try {
       await addFriend.mutateAsync({ userId: profile.id });
       await addNoti.mutateAsync({
-        content: 'Có người muốn kết bạn với bạn',
+        content: String(t("friendnotifText")),
         userId: profile.id,
         imgUrl: user?.imgUrl || '',
       });
@@ -110,7 +111,7 @@ const FeedLayout = ({ children, className }: Props) => {
                   variant="gradient"
                   gradient={{ from: 'teal', to: 'lime', deg: 105 }}
                 >
-                  Kết bạn
+                  {t("addfriendText")}
                 </Button>
               ) : (
                 <Button
