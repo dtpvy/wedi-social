@@ -10,7 +10,7 @@ import useUserStore from '@/stores/user';
 import { trpc } from '@/utils/trpc';
 import { calcFriend } from '@/utils/user';
 import { CreateTrip } from '@/components/Trip';
-
+import useTranslation from '@/hooks/useTranslation';
 const TAB_NAME = {
   POSTS: 'posts',
   TRIPS: 'trips',
@@ -82,7 +82,7 @@ const TabMenu = () => {
     tabs[TAB_NAME.REQUESTS].badgeNumber = user.requests.length;
     return tabs;
   }, [user]);
-
+  const { t } = useTranslation(); 
   return (
     <>
       <div className="flex flex-col gap-4 mt-4">
@@ -117,7 +117,7 @@ const TabMenu = () => {
           variant="filled"
           color="green"
         >
-          Edit Profile
+          {t("editprofileText")}
         </Button>
       )}
     </>

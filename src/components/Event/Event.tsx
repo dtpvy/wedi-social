@@ -13,7 +13,7 @@ import {
 } from '@tabler/icons-react';
 import dayjs from 'dayjs';
 import { useRef, useState } from 'react';
-
+import useTranslation from "@/hooks/useTranslation"; 
 type Props = {
   schedule: ScheduleDetail;
   refetch: () => void;
@@ -29,7 +29,7 @@ const Event = ({ schedule, refetch }: Props) => {
   const cancel = trpc.schedule.cancel.useMutation();
   const join = trpc.schedule.join.useMutation();
   const update = trpc.schedule.updateTime.useMutation();
-
+  const { t } = useTranslation(); 
   const handleCancel = () => {
     cancel.mutate({ id: schedule.id }, { onSuccess: refetch });
   };
@@ -96,7 +96,7 @@ const Event = ({ schedule, refetch }: Props) => {
                     variant="outline"
                     color="teal"
                   >
-                    Update
+                    {t("updateText")}
                   </Button>
                 </Group>
               </HoverCard.Dropdown>

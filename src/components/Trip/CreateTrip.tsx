@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { MouseEvent, useState } from 'react';
 import FormCreate, { TripParams } from './FormCreate';
-
+import useTranslation from '@/hooks/useTranslation';
 type Props = {
   className?: string;
 };
@@ -29,7 +29,7 @@ const CreateTrip = ({ className }: Props) => {
     e.preventDefault();
     setOpened(true);
   };
-
+  const { t } = useTranslation();
   return (
     <>
       <Link href={`/profile/${user?.id}`} className={classNames('no-underline mt-5', className)}>
@@ -42,7 +42,7 @@ const CreateTrip = ({ className }: Props) => {
             </div>
           </div>
 
-          <div className="mt-2 mb-1 text-sm">Tạo những chuyến đi chơi với bạn bè, gia đình</div>
+          <div className="mt-2 mb-1 text-sm">{t("invitingText")}</div>
           <Button
             onClick={handleOpen}
             className="w-full"
