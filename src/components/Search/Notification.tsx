@@ -84,10 +84,11 @@ const Notification = () => {
         className="cursor-pointer px-4 py-2 text-teal-700 underline rounded disabled:opacity-50 w-full text-center"
       >
         {isFetchingNextPage
-          ? 'Loading more...'
+          ? t('loadingMoreText')
           : hasNextPage
-          ? 'Load More'
-          : 'Nothing more to load'}
+          ? t('loadMoreText')
+          : t('notifEndText')
+          }
       </button>
     </div>
   );
