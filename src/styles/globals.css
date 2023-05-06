@@ -29,11 +29,3 @@ ul {
   margin: 0;
   padding: 0;
 }
-
-a,
-a:hover,
-a:active,
-a:visited {
-  text-decoration: none;
-  color: black;
-}

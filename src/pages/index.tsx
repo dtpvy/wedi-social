@@ -1,15 +1,40 @@
 import { LanguageConfig } from '@/constants/default';
 import useLocale from '@/hooks/useLocale';
 import useTranslation from '@/hooks/useTranslation';
+import classNames from '@/utils/classNames';
 import { Image } from '@mantine/core';
 import type { NextPage } from 'next';
 import Link from 'next/link';
+import { useCallback, useEffect, useState } from 'react';
 
 const Home: NextPage = () => {
   const { update } = useLocale();
   const { t, locale } = useTranslation();
-
   const { flag, label } = LanguageConfig[locale];
+
+  const [show, setShow] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  const controlNavbar = useCallback(() => {
+    if (typeof window !== 'undefined') {
+      if (window.scrollY > 100 && window.scrollY > lastScrollY) {
+        setShow(false);
+      } else {
+        setShow(true);
+      }
+
+      setLastScrollY(window.scrollY);
+    }
+  }, [lastScrollY]);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      window.addEventListener('scroll', controlNavbar);
+      return () => {
+        window.removeEventListener('scroll', controlNavbar);
+      };
+    }
+  }, [controlNavbar, lastScrollY]);
 
   const handleChangeLanguage = () => {
     if (locale === 'vi') update('en');
@@ -17,63 +42,51 @@ const Home: NextPage = () => {
   };
 
   return (
-    <>
-      <nav id="header" className="fixed left-0 right-0 z-30 top-0 text-white">
-        <div className="w-full bg-gradient-to-r from-teal-600 to-lime-500 flex flex-wrap items-center justify-between mt-0 py-2 px-4">
-          <div className="pl-4 flex items-center gap-2">
-            <svg
-              className="h-8 fill-current inline"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 512.005 512.005"
-            >
-              <rect
-                fill="#000000"
-                x="16.539"
-                y="425.626"
-                width="479.767"
-                height="50.502"
-                transform="matrix(1,0,0,1,0,0)"
-              />
-              <path
-                className="plane-take-off"
-                d=" M 510.7 189.151 C 505.271 168.95 484.565 156.956 464.365 162.385 L 330.156 198.367 L 155.924 35.878 L 107.19 49.008 L 211.729 230.183 L 86.232 263.767 L 36.614 224.754 L 0 234.603 L 45.957 314.27 L 65.274 347.727 L 105.802 336.869 L 240.011 300.886 L 349.726 271.469 L 483.935 235.486 C 504.134 230.057 516.129 209.352 510.7 189.151 Z "
-              />
-            </svg>
-            <div className="text-white font-bold text-2xl lg:text-4xl">WEDI</div>
-          </div>
-          <div className="block lg:hidden pr-4">
-            <button
-              id="nav-toggle"
-              className="flex items-center p-1 text-green-800 hover:text-gray-900 focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
-            >
-              <svg
-                className="fill-current h-6 w-6"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <title>Menu</title>
-                <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
-              </svg>
-            </button>
-          </div>
-          <button
-            onClick={handleChangeLanguage}
-            className="ml-auto bg-white text-gray-800 font-bold rounded-full mt-4 lg:mt-0 py-4 px-8 shadow opacity-75 focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
+    <div className="bg-white">
+      <nav
+        className={classNames(
+          'fixed left-0 right-0 shadow-lg z-30 top-0 text-white bg-gradient-to-r from-teal-600 to-lime-500 flex flex-wrap items-center justify-between my-0 py-2 px-4',
+          { 'transition-all	-translate-y-full': !show }
+        )}
+      >
+        <div className="pl-4 flex items-center gap-2">
+          <svg
+            className="h-8 fill-current inline"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 512.005 512.005"
           >
-            {flag} {t(label)}
-          </button>
-          <Link
-            href="/signin"
-            className="ml-3 bg-white text-gray-800 font-bold rounded-full mt-4 lg:mt-0 py-3 my-1 px-8 shadow opacity-75 focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
-          >
-            {t('signinText')}
-          </Link>
+            <rect
+              fill="#000000"
+              x="16.539"
+              y="425.626"
+              width="479.767"
+              height="50.502"
+              transform="matrix(1,0,0,1,0,0)"
+            />
+            <path
+              className="plane-take-off"
+              d=" M 510.7 189.151 C 505.271 168.95 484.565 156.956 464.365 162.385 L 330.156 198.367 L 155.924 35.878 L 107.19 49.008 L 211.729 230.183 L 86.232 263.767 L 36.614 224.754 L 0 234.603 L 45.957 314.27 L 65.274 347.727 L 105.802 336.869 L 240.011 300.886 L 349.726 271.469 L 483.935 235.486 C 504.134 230.057 516.129 209.352 510.7 189.151 Z "
+            />
+          </svg>
+          <div className="text-white font-bold text-2xl lg:text-4xl">WEDI</div>
         </div>
+        <button
+          onClick={handleChangeLanguage}
+          className="ml-auto bg-white leading-[18px] text-gray-800 font-bold rounded-full py-4 px-8 shadow opacity-75 focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
+        >
+          {flag} {t(label)}
+        </button>
+        <Link
+          href="/signin"
+          className="ml-3 no-underline bg-white leading-[18px] text-gray-800 font-bold rounded-full py-4 px-8 shadow opacity-75 focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
+        >
+          {t('signinText')}
+        </Link>
       </nav>
       <div className="relative pt-12">
         <Image alt="bg" src="/bg-landing.png" width="100%" />
         <div className="pt-24 absolute top-0 left-0 right-0">
-          <div className="container px-3 mx-auto flex flex-wrap flex-col md:flex-row items-center">
+          <div className="container px-3 mx-auto flex items-center">
             <div className="flex flex-col w-full md:w-2/5 justify-center items-start text-center md:text-left">
               <h1 className="mt-10 mb-4 text-5xl font-bold leading-tight">
                 Wedi - Mạng xã hội du lịch tại Việt Nam
@@ -84,13 +97,14 @@ const Home: NextPage = () => {
               </p>
               <Link
                 href="/signup"
-                className="mx-auto lg:mx-0 bg-white text-gray-800 font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
+                className="mx-auto no-underline lg:mx-0 bg-white text-gray-800 font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
               >
                 Tham gia cùng chúng tôi
               </Link>
             </div>
           </div>
         </div>
+        <div></div>
       </div>
       <section className="bg-white py-8">
         <div className="container max-w-5xl mx-auto m-8">
@@ -127,8 +141,8 @@ const Home: NextPage = () => {
                   d="M119.9,721.42c-3-5.51.4-12.27,4.29-17.18s8.61-10,8.51-16.29c-.15-9-9.7-14.31-17.33-19.09a84,84,0,0,1-15.56-12.51A22.8,22.8,0,0,1,95,650c-1.58-3.52-1.54-7.52-1.44-11.37q.51-19.26,1.91-38.49"
                   fill="none"
                   stroke="#3f3d56"
-                  stroke-miterlimit="10"
-                  stroke-width="4"
+                  strokeMiterlimit="10"
+                  strokeWidth="4"
                 />
                 <path
                   transform="translate(-11.5 -150.75)"
@@ -198,49 +212,49 @@ const Home: NextPage = () => {
                   d="M387.5,490A66.5,66.5,0,1,1,321,423.5,66.47,66.47,0,0,1,387.5,490Z"
                   fill="none"
                   stroke="#f2f2f2"
-                  stroke-miterlimit="10"
-                  stroke-width="2"
+                  strokeMiterlimit="10"
+                  strokeWidth="2"
                 />
                 <path
                   transform="translate(-11.5 -150.75)"
                   d="M325.38,467.23l8.3,13,35.53,55.59a66.5,66.5,0,0,1-103.32-8.57l43.54-84.94.91,1.43"
                   fill="none"
                   stroke="#f2f2f2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
                 />
                 <path
                   transform="translate(-11.5 -150.75)"
                   d="M385.31,507a66.46,66.46,0,0,1-16.1,28.82l-35.53-55.59,15.69-24.78a.66.66,0,0,1,1.1,0C353.76,460.32,371,486,385.31,507Z"
                   fill="none"
                   stroke="#f2f2f2"
-                  stroke-miterlimit="10"
-                  stroke-width="2"
+                  strokeMiterlimit="10"
+                  strokeWidth="2"
                 />
                 <path
                   transform="translate(-11.5 -150.75)"
                   d="M337.5,452.5a15,15,0,0,1-12.12,14.73l-15-23.51a15,15,0,0,1,27.16,8.78Z"
                   fill="none"
                   stroke="#f2f2f2"
-                  stroke-miterlimit="10"
-                  stroke-width="2"
+                  strokeMiterlimit="10"
+                  strokeWidth="2"
                 />
                 <path
                   transform="translate(-11.5 -150.75)"
                   d="m347.5 481.5"
                   fill="none"
                   stroke="#f2f2f2"
-                  stroke-miterlimit="10"
-                  stroke-width="2"
+                  strokeMiterlimit="10"
+                  strokeWidth="2"
                 />
                 <path
                   transform="translate(-11.5 -150.75)"
                   d="m333.5 480.5"
                   fill="none"
                   stroke="#f2f2f2"
-                  stroke-miterlimit="10"
-                  stroke-width="2"
+                  strokeMiterlimit="10"
+                  strokeWidth="2"
                 />
                 <path
                   transform="translate(-11.5 -150.75)"
@@ -495,8 +509,8 @@ const Home: NextPage = () => {
                   fill="none"
                   opacity=".8"
                   stroke="#40C057"
-                  stroke-miterlimit="10"
-                  stroke-width="2"
+                  strokeMiterlimit="10"
+                  strokeWidth="2"
                 />
                 <path
                   transform="translate(-11.697 -13.011)"
@@ -504,8 +518,8 @@ const Home: NextPage = () => {
                   fill="none"
                   opacity=".8"
                   stroke="#40C057"
-                  stroke-miterlimit="10"
-                  stroke-width="2"
+                  strokeMiterlimit="10"
+                  strokeWidth="2"
                 />
                 <circle cx="214.07" cy="310.65" r="11.968" fill="#40C057" />
                 <circle cx="322.2" cy="566.52" r="11.968" fill="#40C057" />
@@ -543,7 +557,7 @@ const Home: NextPage = () => {
                 <div className="flex items-center justify-center">
                   <a
                     href="https://nextjs.org/"
-                    className="mx-auto lg:mx-0 gradient font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
+                    className="mx-auto no-underline text-white bg-green-600 font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
                   >
                     View details
                   </a>
@@ -563,7 +577,7 @@ const Home: NextPage = () => {
                 <div className="flex items-center justify-center">
                   <a
                     href="https://tailwindcss.com/"
-                    className="mx-auto lg:mx-0 gradient font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
+                    className="mx-auto no-underline text-white bg-green-600 font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
                   >
                     View details
                   </a>
@@ -582,7 +596,7 @@ const Home: NextPage = () => {
                 <div className="flex items-center justify-center">
                   <a
                     href="https://trpc.io/"
-                    className="mx-auto lg:mx-0 gradient font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
+                    className="mx-auto no-underline text-white bg-green-600 font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
                   >
                     View details
                   </a>
@@ -598,7 +612,7 @@ const Home: NextPage = () => {
                 <div className="flex items-center justify-center">
                   <a
                     href="https://www.postgresql.org/"
-                    className="mx-auto lg:mx-0 gradient font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
+                    className="mx-auto no-underline text-white bg-green-600 font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
                   >
                     View details
                   </a>
@@ -615,8 +629,8 @@ const Home: NextPage = () => {
           version="1.1"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-            <g transform="translate(-1.000000, -14.000000)" fill-rule="nonzero">
+          <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
+            <g transform="translate(-1.000000, -14.000000)" fillRule="nonzero">
               <g className="wave" fill="#f8fafc">
                 <path d="M1440,84 C1383.555,64.3 1342.555,51.3 1317,45 C1259.5,30.824 1206.707,25.526 1169,22 C1129.711,18.326 1044.426,18.475 980,22 C954.25,23.409 922.25,26.742 884,32 C845.122,37.787 818.455,42.121 804,45 C776.833,50.41 728.136,61.77 713,65 C660.023,76.309 621.544,87.729 584,94 C517.525,105.104 484.525,106.438 429,108 C379.49,106.484 342.823,104.484 319,102 C278.571,97.783 231.737,88.736 205,84 C154.629,75.076 86.296,57.743 0,32 L0,0 L1440,0 L1440,84 Z"></path>
               </g>
@@ -775,7 +789,7 @@ const Home: NextPage = () => {
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 };
 
