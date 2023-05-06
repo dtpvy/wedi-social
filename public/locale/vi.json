@@ -29,7 +29,7 @@
   "hoursAgoText": "{{1}} giờ trước",
   "minutesAgoText": "{{1}} phút trước",
   "openGroupText": "Xem nhóm",
-  "memberSinceText": "Đã tham gia từ: {{dd/mm/yyyy}}",
+  "memberSinceText": "Đã tham gia từ",
   "groupplhText": "Chọn nhóm",
   "participatebtnText": "Tham gia",
   "noparticipatebtnText": "Không tham gia",
@@ -102,5 +102,13 @@
   "reviewSuccessfullyText": "Đánh giá thành công",
   "writeCommentText": "Viết bình luận",
   "deleteText": "Xóa",
-  "editText": "Chỉnh sửa"
+  "editText": "Chỉnh sửa",
+  "deletePostText": "Xóa bài viết",
+  "editPostText": "Chỉnh sửa bài viết",
+  "subscriptionErrorText": "Bạn chưa đăng ký gói dịch vụ nào",
+  "sureDeleteCommentText": "Bạn có chắc chắn muốn xóa bình luận này?",
+  "justCommentedOnYourPostText":"Vừa mới bình luận vào bài viết của bạn",
+  "deleteProfileText": "Xóa tài khoản",
+  "reactedYourPostText": "đã thả cảm xúc vào bài viết của bạn",
+  "reactedYourCommentText": "đã thả cảm xúc vào bình luận của bạn"
 }

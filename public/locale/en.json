@@ -29,7 +29,7 @@
   "hoursAgoText": "{{1}} hour(s) ago",
   "minutesAgoText": "{{1}} minute(s) ago",
   "openGroupText": "Open group",
-  "memberSinceText": "Member since: {{dd/mm/yyyy}}",
+  "memberSinceText": "Member since:",
   "groupplhText": "Select group",
   "participatebtnText": "Apply",
   "noparticipatebtnText": "Decline",
@@ -102,5 +102,13 @@
   "reviewSuccessfullyText": "Review successfully",
   "writeCommentText": "Write comment",
   "deleteText": "Delete",
-  "editText": "Edit"
+  "editText": "Edit",
+  "deletePostText": "Delete post",
+  "editPostText": "Edit post",
+  "subscriptionErrorText": "Subscription error",
+  "sureDeleteCommentText": "Are you sure delete this comment?",
+  "justCommentedOnYourPostText": "just commented on your post",
+  "deleteProfileText": "Delete your profile",
+  "reactedYourPostText": "reacted your post",
+  "reactedYourCommentText": "reacted your comment"
 }
