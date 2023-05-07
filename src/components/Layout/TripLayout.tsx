@@ -50,7 +50,7 @@ const TripLayout = ({ children, className }: Props) => {
   const done = trpc.trip.done.useMutation();
 
   const active = Object.keys(TRIP_STATUS).findIndex((key) => key === data?.trip?.status);
-  console.log(active, data?.trip?.status);
+
   const handleDone = () => {
     const trip = data?.trip;
     if (data?.trip?.status !== TripStatus.INPROGRESS || !trip || trip.creatorId !== user?.id)
