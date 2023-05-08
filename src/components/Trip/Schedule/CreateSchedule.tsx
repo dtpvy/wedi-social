@@ -8,6 +8,7 @@ import { useRouter } from 'next/router';
 import { MouseEvent, useContext, useState } from 'react';
 import FormCreate, { ScheduleParams } from './FormCreate';
 import { TripLayoutContext } from '@/components/Layout/TripLayout';
+import useTranslation from '@/hooks/useTranslation';  
 
 type Props = {
   className?: string;
@@ -33,6 +34,8 @@ const CreateSchedule = ({ tripId, className }: Props) => {
     setOpened(true);
   };
 
+  const { t } = useTranslation();
+
   return (
     <div>
       <div className="bg-gray-100 text-black p-4 rounded-xl w-full">
@@ -40,7 +43,7 @@ const CreateSchedule = ({ tripId, className }: Props) => {
           <Avatar size="lg" radius="xl" src={data?.imgUrl} />
           <div>
             <div className="font-medium">{data?.name}</div>
-            <div className="text-gray-600 text-sm">Tạo những lịch trình đi chơi thôi</div>
+            <div className="text-gray-600 text-sm">{t('createScheduleDescribeText')}</div>
           </div>
         </div>
 
@@ -51,10 +54,10 @@ const CreateSchedule = ({ tripId, className }: Props) => {
           variant="gradient"
           gradient={{ from: 'teal', to: 'blue', deg: 60 }}
         >
-          Create Schedule
+          {t('createScheduleText')}
         </Button>
       </div>
-      <Modal opened={opened} size="lg" onClose={() => setOpened(false)} title="Create Schedule">
+      <Modal opened={opened} size="lg" onClose={() => setOpened(false)} title={t('createScheduleText')}>
         <FormCreate onSubmit={handleCreate} />
       </Modal>
     </div>

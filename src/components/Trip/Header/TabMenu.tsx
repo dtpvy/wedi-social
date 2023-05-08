@@ -19,6 +19,7 @@ import {
 import { useRouter } from 'next/router';
 import { useMemo } from 'react';
 import CreateSchedule from '../Schedule/CreateSchedule';
+import useTranslation from '@/hooks/useTranslation';
 
 const TAB_NAME = {
   POSTS: 'posts',
@@ -72,12 +73,14 @@ const TabMenu = ({ trip, joined }: Props) => {
   const deleteTrip = trpc.trip.delete.useMutation();
   const addNoti = trpc.notification.push.useMutation();
 
+  const { t } = useTranslation();
+
   const handleRequest = async () => {
     if (!trip) return;
     try {
       await request.mutateAsync({ id: trip.id });
       await addNoti.mutateAsync({
-        content: `Muốn gia nhập chuyến đi ${trip.name}`,
+        content: `${t('wantToJoinTripText')} ${trip.name}`,
         userId: trip.creatorId,
         imgUrl: trip.imgUrl || '',
       });
@@ -96,7 +99,7 @@ const TabMenu = ({ trip, joined }: Props) => {
       }
       await leave.mutateAsync({ id: trip.id });
       await addNoti.mutateAsync({
-        content: `Đã rời khỏi chuyến đi ${trip.name}`,
+        content: `${t('leavedTripText')} ${trip.name}`,
         userId: trip.creatorId,
         imgUrl: trip.imgUrl || '',
       });
@@ -108,24 +111,24 @@ const TabMenu = ({ trip, joined }: Props) => {
 
   const openDeleteModal = () => {
     modals.openConfirmModal({
-      title: 'Delete trip',
+      title: t('deleteTripText'),
       centered: true,
-      children: <Text size="sm">If you leave, trip will be deleted?</Text>,
-      labels: { confirm: 'Leave', cancel: 'Cancel' },
+      children: <Text size="sm">{t('youLeaveTripDeleteText')}</Text>,
+      labels: { confirm: t('leaveText'), cancel: t('cancelText') },
       confirmProps: { color: 'red' },
       onCancel: () => null,
       onConfirm: async () => {
         try {
           await deleteTrip.mutateAsync({ id: trip?.id as number });
           notifications.show({
-            message: 'Action successfully',
+            message: t('addsuccessText'),
             color: 'green',
             icon: <IconCheck />,
           });
           router.push('/feed');
         } catch (e: any) {
           notifications.show({
-            message: 'Có lỗi xảy ra. Vui lòng thử lại',
+            message: t('errorTryAgainText'),
             color: 'red',
             icon: <IconX />,
           });
@@ -172,7 +175,7 @@ const TabMenu = ({ trip, joined }: Props) => {
           variant="filled"
           color="green"
         >
-          Join Trip
+          {t('joinTripText')}
         </Button>
       ) : (
         <Button
@@ -182,7 +185,7 @@ const TabMenu = ({ trip, joined }: Props) => {
           variant="filled"
           color="green"
         >
-          Leave Trip
+          {t('leaveTripText')}
         </Button>
       )}
       {user?.id === trip?.creatorId && (
@@ -193,7 +196,7 @@ const TabMenu = ({ trip, joined }: Props) => {
           variant="outline"
           color="green"
         >
-          Edit Trip
+          {t('editTripText')}
         </Button>
       )}
     </>

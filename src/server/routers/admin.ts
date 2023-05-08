@@ -1,8 +1,10 @@
-import { UserStatus } from '@prisma/client';
 import { z } from 'zod';
-import ERROR_MESSAGES from '../../constants/error';
 import { prisma } from '../prisma';
+import { Prisma } from '@prisma/client';
 import { adminAuthProcedure, router } from '../trpc';
+import ERROR_MESSAGES from '@/constants/error';
+import { UserStatus, LocationStatus } from '@prisma/client';
+import { request } from 'https';
 
 export const adminRouter = router({
   adminList: adminAuthProcedure.query(async () => {
@@ -34,6 +36,34 @@ export const adminRouter = router({
         where: { id },
         data: { isDeleted: true, deletedAt: new Date() },
       });
+
+      return {
+        status: 201,
+        message: 'Action successfully',
+        result: true,
+      };
+    }),
+  deactiveLocation: adminAuthProcedure
+    .input(
+      z.object({
+        id: z.number(),
+        createdAt: z.date(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      const { id, createdAt } = input;
+      const location = await prisma.location.findFirst({
+        where: { id: input.id },
+      });
+
+      if (!location || location.createdAt >= createdAt) {
+        throw new Error(ERROR_MESSAGES.dontHavePermission);
+      }
+
+      // await prisma.location.update({
+      //   where: { id },
+      //   data: { deletedAt: new Date() },
+      // });
 
       return {
         status: 201,
@@ -112,6 +142,39 @@ export const adminRouter = router({
         result: true,
       };
     }),
+
+  setLocationStatus: adminAuthProcedure
+    .input(
+      z.object({
+        id: z.number(),
+        status: z.nativeEnum(LocationStatus).optional(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      let { id, status } = input;
+      const admin = await prisma.admin.findFirst({
+        where: { email: ctx.user.email },
+      });
+      if (!admin) {
+        throw new Error(ERROR_MESSAGES.dontHavePermission);
+      }
+
+      const location = await prisma.location.findFirst({
+        where: { id: id },
+      });
+
+      await prisma.location.update({
+        where: { id },
+        data: { status: status },
+      });
+
+      return {
+        status: 201,
+        message: 'Action successfully',
+        result: true,
+      };
+    }),
+
   userDetail: adminAuthProcedure
     .input(
       z.object({
@@ -228,13 +291,102 @@ export const adminRouter = router({
       };
     }),
   trackingPage: adminAuthProcedure.input(z.object({})).query(async ({}) => {
-    const tracking = await prisma.tracking.groupBy({
+    const trackingPage = await prisma.tracking.groupBy({
       by: ['page'],
       _sum: {
         amount: true,
       },
     });
-    console.log(tracking);
-    return tracking;
+    const trackingEvent = await prisma.tracking.groupBy({
+      by: ['event'],
+      _sum: {
+        amount: true,
+      },
+    });
+    console.log(trackingPage);
+    return { trackingPage, trackingEvent };
   }),
+  locationList: adminAuthProcedure.query(async () => {
+    const locations = await prisma.location.findMany({
+      include: {
+        posts: true,
+        reviews: true,
+        schedules: true,
+      },
+    });
+    return {
+      status: 200,
+      result: locations,
+    };
+  }),
+  locationDetail: adminAuthProcedure
+    .input(
+      z.object({
+        locationId: z.number(),
+      })
+    )
+    .query(async ({ input }) => {
+      const location = prisma.location.findUnique({
+        where: { id: input.locationId },
+        include: {
+          posts: true,
+          reviews: true,
+        },
+      });
+      return location;
+    }),
+  userPosts: adminAuthProcedure
+    .input(
+      z.object({
+        userId: z.number(),
+      })
+    )
+    .query(async ({ input }) => {
+      const posts = await prisma.post.findMany({
+        where: {
+          creatorId: input.userId,
+        },
+        include: {
+          reactions: true,
+          comments: true,
+          locations: true,
+        },
+      });
+
+      return posts;
+    }),
+  postRating: adminAuthProcedure
+    .input(
+      z.object({
+        locationId: z.number(),
+        userId: z.number(),
+        postId: z.number(),
+      })
+    )
+    .query(async ({ input }) => {
+      const rating = await prisma.review.findFirst({
+        where: {
+          userId: input.userId,
+          postId: input.postId,
+          locationId: input.locationId,
+        },
+      });
+
+      return rating;
+    }),
+  // Recent7DaysPosts: adminAuthedProcedure.query(async () => {
+  //   const currentDate = new Date();
+  //   const lastSevenDays = new Date(
+  //     currentDate.getTime() - 7 * 24 * 60 * 60 * 1000
+  //   );
+  //   type CustomScalarFieldEnum = (typeof Prisma.PostScalarFieldEnum)[] | "date";
+  //   const recentData = await prisma.post.groupBy({
+  //     where: {
+  //       createdAt: {
+  //         gt: lastSevenDays,
+  //       },
+  //     },
+  //   });
+  //   return recentData;
+  // }),
 });
