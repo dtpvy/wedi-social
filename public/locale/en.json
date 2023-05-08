@@ -110,5 +110,19 @@
   "justCommentedOnYourPostText": "just commented on your post",
   "deleteProfileText": "Delete your profile",
   "reactedYourPostText": "reacted your post",
-  "reactedYourCommentText": "reacted your comment"
+  "reactedYourCommentText": "reacted your comment",
+  "havenAnyMessageText": "You haven't any message. Let's start a conversation",
+  "writeText": "Write",
+  "addFriendText": "Add friend",
+  "messengerText": "Messenger",
+  "createTripWithFriendAndFamilyText": "Create trip with friend and family",
+  "changeBackgroundText": "Change background",
+  "changeAvatarText": "Change avatar",
+  "startDateText": "Start date",
+  "endDateText": "End date",
+  "updateText": "Update",
+  "createText": "Create",
+  "nameText": "Name",
+  "requireText": "Require",
+  "startDateCannotBeGreaterThanEndDateText": "Start date cannot be greater than end date"
 }

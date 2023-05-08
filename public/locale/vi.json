@@ -110,5 +110,19 @@
   "justCommentedOnYourPostText":"Vừa mới bình luận vào bài viết của bạn",
   "deleteProfileText": "Xóa tài khoản",
   "reactedYourPostText": "đã thả cảm xúc vào bài viết của bạn",
-  "reactedYourCommentText": "đã thả cảm xúc vào bình luận của bạn"
+  "reactedYourCommentText": "đã thả cảm xúc vào bình luận của bạn",
+  "havenAnyMessageText": "Chưa có tin nhắn nào. Nhắn tin đầu đề bắt đầu mối quan hệ.",
+  "writeText": "Nhập",
+  "addFriendText": "Thêm bạn",
+  "messengerText": "Tin nhắn",
+  "createTripWithFriendAndFamilyText": "Tạo những chuyến đi chơi với bạn bè, gia đình",
+  "changeBackgroundText": "Thay đổi hình nền",
+  "changeAvatarText": "Thay đổi ảnh đại diện",
+  "startDateText": "Ngày bắt đầu",
+  "endDateText":  "Ngày kết thúc",
+  "updateText": "Cập nhật",
+  "createText": "Tạo",
+  "nameText": "Tên",
+  "requireText": "Bắt buộc",
+  "startDateCannotBeGreaterThanEndDateText": "Ngày bắt đầu không được lớn hơn ngày kết thúc"
 }
