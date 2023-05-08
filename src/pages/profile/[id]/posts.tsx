@@ -1,7 +1,11 @@
 import { ProfileLayout } from '@/components/Layout';
 import { CreatePost, Post } from '@/components/Post';
 import { trpc } from '@/utils/trpc';
+
+import { useEffect } from 'react';
+import { TRACKING_EVENT, TRACKING_PAGE } from '@/constants/tracking';
 import useTranslation from '@/hooks/useTranslation';
+
 const Profile = () => {
   const query = trpc.post.userPost.useInfiniteQuery(
     {},
@@ -12,7 +16,15 @@ const Profile = () => {
   const { t } = useTranslation();
   const { data: res, fetchNextPage, isFetchingNextPage, hasNextPage, refetch } = query;
   const data = res?.pages.flatMap((d) => d?.items || []) || [];
-
+  //add tracking
+  const tracking = trpc.tracking.add.useMutation();
+  useEffect(() => {
+    tracking.mutate({
+      event: TRACKING_EVENT.ENTER_PROFILE,
+      page: TRACKING_PAGE.PROFILE,
+    });
+  }, []);
+  //
   return (
     <ProfileLayout className="w-full flex flex-col gap-4">
       <CreatePost refetch={refetch} />

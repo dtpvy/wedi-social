@@ -25,14 +25,19 @@ const Signin = () => {
   const error = !!router.query.error;
 
   const onSubmit = (data: LoginForm) => {
+    //add tracking
+    tracking.mutate({
+      event: TRACKING_EVENT.SIGNIN,
+      page: TRACKING_PAGE.SIGNIN,
+    }); ///
     signIn('credentials', { ...data, callbackUrl: '/feed' });
   };
-
+  //add tracking
   useEffect(() => {
     tracking.mutate({
       event: TRACKING_EVENT.ENTER_SIGNIN,
       page: TRACKING_PAGE.SIGNIN,
-    });
+    }); ///
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

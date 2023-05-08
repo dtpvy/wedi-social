@@ -1,3 +1,7 @@
+import { decode } from 'he';
+
 export const getName = (title: string) => {
-  return title.replace(/<[^>]*>/g, '');
+  const decodedText = decode(title);
+  const regex = /<[^>]+>/g;
+  return decodedText.replace(regex, '');
 };
