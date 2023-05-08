@@ -114,7 +114,7 @@ export const tripRouter = router({
     }),
   memberList: authProcedure.input(z.object({ id: z.number() })).query(async ({ input, ctx }) => {
     const data = await prisma.joinTrip.findMany({
-      where: { tripId: ctx.user.id, status: JoinTripStatus.JOINED },
+      where: { tripId: input.id, status: JoinTripStatus.JOINED },
       include: {
         user: true,
       },
@@ -123,7 +123,7 @@ export const tripRouter = router({
   }),
   requestList: authProcedure.input(z.object({ id: z.number() })).query(async ({ input, ctx }) => {
     const data = await prisma.joinTrip.findMany({
-      where: { tripId: ctx.user.id, status: JoinTripStatus.PENDING },
+      where: { tripId: input.id, status: JoinTripStatus.PENDING },
       include: {
         user: true,
       },

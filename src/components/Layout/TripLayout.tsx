@@ -12,7 +12,7 @@ import { useRouter } from 'next/router';
 import { ReactNode, createContext } from 'react';
 
 type Props = {
-  children: ReactNode;
+  children: JSX.Element;
   className?: string;
 };
 
@@ -90,6 +90,8 @@ const TripLayout = ({ children, className }: Props) => {
     return <NotFound />;
   }
 
+  const C = children;
+
   return (
     <TripLayoutContext.Provider value={{ data: data.trip, joined: data.join }}>
       <div className="py-[70px]">
@@ -115,7 +117,7 @@ const TripLayout = ({ children, className }: Props) => {
                 />
               ))}
             </Stepper>
-            {children}
+            <Component />
           </div>
         </div>
       </div>
