@@ -4,6 +4,7 @@ import { Avatar, Button, Text } from '@mantine/core';
 import { IconDots } from '@tabler/icons-react';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
+import useTranslation from '@/hooks/useTranslation';
 
 type Props = {
   className?: string;
@@ -13,6 +14,7 @@ type Props = {
 const Trip = ({ trip, className }: Props) => {
   const router = useRouter();
   const { name, users, posts, imgUrl } = trip;
+  const { t } = useTranslation();
 
   return (
     <div className={classNames('bg-white rounded-lg shadow p-4', className)}>
@@ -39,7 +41,7 @@ const Trip = ({ trip, className }: Props) => {
           className="w-full"
           color="green"
         >
-          Xem nhóm
+        {t("openGroupText")}
         </Button>
       </div>
     </div>

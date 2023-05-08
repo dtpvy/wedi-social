@@ -76,7 +76,7 @@ const Search = () => {
         </Link>
         <Input
           icon={<IconSearch />}
-          placeholder="Search..."
+          placeholder= {`${t("searchText")}...`}
           radius="xl"
           size="md"
           className="w-1/2"
@@ -145,7 +145,7 @@ const Search = () => {
                 </Popover.Dropdown>
               </Popover>
               <Button onClick={() => signOut({ callbackUrl: '/signin' })} className="w-full">
-                Đăng xuất
+              {t("signoutText")}
               </Button>
             </Popover.Dropdown>
           </Popover>

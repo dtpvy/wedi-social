@@ -4,7 +4,7 @@ import { Avatar, Button } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { FriendStatus, User } from '@prisma/client';
 import { IconCheck, IconX } from '@tabler/icons-react';
-
+import useTranslation from '@/hooks/useTranslation';
 type Props = {
   user: User;
   friendId: number;
@@ -18,12 +18,12 @@ const Request = ({ user, status, friendId }: Props) => {
   const reject = trpc.friend.reject.useMutation();
   const accept = trpc.friend.accept.useMutation();
   const userId = user.id;
-
+  const { t } = useTranslation(); 
   const handleReject = async () => {
     try {
       await reject.mutateAsync({ userId, friendId });
       notifications.show({
-        message: `Action successfully`,
+        message: t("addsuccessText"),
         color: 'green',
         icon: <IconCheck />,
       });
@@ -31,7 +31,7 @@ const Request = ({ user, status, friendId }: Props) => {
       utils.friend.requestList.refetch();
     } catch (e: any) {
       notifications.show({
-        message: 'Có lỗi xảy ra. Vui lòng thử lại',
+        message: t("addfailedText"),
         color: 'red',
         icon: <IconX />,
       });
@@ -42,12 +42,12 @@ const Request = ({ user, status, friendId }: Props) => {
     try {
       await accept.mutateAsync({ userId, friendId });
       await addNoti.mutateAsync({
-        content: 'Lời mời kết bạn của bạn đã được chấp nhận',
+        content: String(t("acceptedfriendText")),
         userId,
         imgUrl: user.imgUrl || '',
       });
       notifications.show({
-        message: `Action successfully`,
+        message: t("addsuccessText"),
         color: 'green',
         icon: <IconCheck />,
       });
@@ -56,7 +56,7 @@ const Request = ({ user, status, friendId }: Props) => {
     } catch (e: any) {
       console.log(e);
       notifications.show({
-        message: 'Có lỗi xảy ra. Vui lòng thử lại',
+        message: t("errorTryAgainText"),
         color: 'red',
         icon: <IconX />,
       });
@@ -73,10 +73,10 @@ const Request = ({ user, status, friendId }: Props) => {
       {friendId === _user?.id && (
         <>
           <Button onClick={handleAccept} variant="outline" color="green">
-            Accept
+            {t("acceptText")}
           </Button>
           <Button onClick={handleReject} color="green">
-            Reject
+            {t("rejectText")}
           </Button>
         </>
       )}

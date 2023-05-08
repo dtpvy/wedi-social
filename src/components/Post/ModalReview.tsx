@@ -5,6 +5,7 @@ import { Button, Modal, Rating } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconCheck, IconX } from '@tabler/icons-react';
 import { useMemo, useState } from 'react';
+import useTranslation from '@/hooks/useTranslation';
 
 type Props = {
   postId: number;
@@ -54,19 +55,21 @@ const ModalReview = ({ postId, locations, opened = false, onClose }: Props) => {
         rating: rating[locationId] as number,
       });
       notifications.show({
-        message: 'Review successfully',
+        message: t('reviewSuccessfullyText'),
         color: 'green',
         icon: <IconCheck />,
       });
       handleHide(locationId);
     } catch {
       notifications.show({
-        message: 'Có lỗi xảy ra. Vui lòng thử lại',
+        message: t('errorTryAgainText'),
         color: 'red',
         icon: <IconX />,
       });
     }
   };
+
+  const { t } = useTranslation();
 
   return (
     <Modal title="Review Location" opened={opened} onClose={onClose} size="lg">
@@ -81,14 +84,13 @@ const ModalReview = ({ postId, locations, opened = false, onClose }: Props) => {
             >
               {!review.review ? (
                 <div>
-                  Bạn chưa review địa điểm {review.name}. Khi bạn đánh giá bài viết của bạn sẽ gắn
-                  với đánh giá:
+                  {t('youDontReviewLocationText')}{" "}{review.name}{t('whenYouRateYourArticleWillBeTiedToTheRating:')}
                 </div>
               ) : (
-                <div>Bạn đã review địa điểm {review.name}. Bạn có muốn cập nhật đánh giá:</div>
+                <div>{t('youReviewedLocationText')}{" "}{review.name}{t('doYouWantToUpdateTheReview')}</div>
               )}
               <div className="flex gap-2 items-center">
-                <div>Đánh giá:</div>
+                <div>{t('reviewText')}:</div>
                 <Rating
                   onChange={(value) => setRating((prev) => ({ ...prev, [review.id]: value }))}
                   value={rating[review.id]}
@@ -97,10 +99,10 @@ const ModalReview = ({ postId, locations, opened = false, onClose }: Props) => {
               </div>
               <div className="flex justify-end gap-2">
                 <Button color="red" onClick={() => handleHide(review.id)}>
-                  Bỏ qua
+                  {t('ignoreText')}
                 </Button>
                 <Button onClick={() => handleReview(review.id)} color="green">
-                  Đánh giá
+                  {t('reviewText')}
                 </Button>
               </div>
             </div>
