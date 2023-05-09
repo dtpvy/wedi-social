@@ -21,6 +21,7 @@ const Profile = () => {
       event: TRACKING_EVENT.ENTER_PROFILE,
       page: TRACKING_PAGE.PROFILE,
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   //
   return (

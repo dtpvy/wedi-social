@@ -1,4 +1,4 @@
-import ERROR_MESSAGES from '@/constants/error';
+import ERROR_MESSAGES from '@/constants/errorMessage';
 import { trpc } from '@/utils/trpc';
 import { Button, Modal, PasswordInput } from '@mantine/core';
 import { useForm } from '@mantine/form';

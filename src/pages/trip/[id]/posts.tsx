@@ -16,6 +16,7 @@ const Posts = () => {
       event: TRACKING_EVENT.ENTER_TRIP,
       page: TRACKING_PAGE.TRIP,
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   //
   const query = trpc.trip.post.useInfiniteQuery(

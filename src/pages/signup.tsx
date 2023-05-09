@@ -1,5 +1,5 @@
 import { Language } from '@/components/Language';
-import ERROR_MESSAGES from '../constants/error';
+import ERROR_MESSAGES from '../constants/errorMessage';
 import { TRACKING_EVENT, TRACKING_PAGE } from '@/constants/tracking';
 import { trpc } from '@/utils/trpc';
 import { notifications } from '@mantine/notifications';

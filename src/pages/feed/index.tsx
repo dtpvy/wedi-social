@@ -1,8 +1,8 @@
 import { FeedLayout } from '@/components/Layout';
 import { CreatePost, Post } from '@/components/Post';
 import { trpc } from '@/utils/trpc';
-import { TRACKING_EVENT, TRACKING_PAGE } from "@/constants/tracking";
-import { useEffect } from "react";
+import { TRACKING_EVENT, TRACKING_PAGE } from '@/constants/tracking';
+import { useEffect } from 'react';
 
 const Feed = () => {
   const query = trpc.post.feed.useInfiniteQuery(
@@ -21,6 +21,7 @@ const Feed = () => {
       event: TRACKING_EVENT.ENTER_FEED,
       page: TRACKING_PAGE.FEED,
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

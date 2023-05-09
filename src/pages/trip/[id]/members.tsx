@@ -18,7 +18,7 @@ const Members = () => {
           <div key={index} className="bg-white rounded-lg p-3 flex items-center gap-2">
             <Avatar radius="xl" src={member.user.imgUrl} />
             <div>
-              <div className="font-medium">{`${member.user.name}${}`}</div>
+              <div className="font-medium">{`${member.user.name}`}</div>
               <div className="text-sm text-gray-600">{`Tham gia: ${dayjs(member.updatedAt).format(
                 'DD/MM/YYYY'
               )}`}</div>
@@ -29,13 +29,5 @@ const Members = () => {
     </TripLayout>
   );
 };
-
-Members.getLayout = function getLayout(page: ) {
-  return (
-    <Layout>
-      <NestedLayout>{page}</NestedLayout>
-    </Layout>
-  )
-}
 
 export default Members;
