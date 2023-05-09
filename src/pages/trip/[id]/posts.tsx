@@ -47,7 +47,7 @@ const Posts = () => {
           ? t("loadingMoreText")
           : hasNextPage
           ? t("loadMoreText")
-          : t("notifEndText")}
+          : t("postEndText")}
       </button>
     </TripLayout>
   );

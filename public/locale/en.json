@@ -125,5 +125,8 @@
   "leavetripText":"Leave trip",
   "edittripText":"Edit trip",
   "createscheduleText":"Create schedule",
-  "addfriendText":"Add friend"
+  "addfriendText":"Add friend",
+  "tripEndText" :"No more trip to display",
+  "postEndText" :"No more post to display",
+  "locationEndText" :"No more post to display"
 }

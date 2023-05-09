@@ -55,7 +55,7 @@ const Trip = () => {
           ? t("loadingMoreText")
           : hasNextPage
           ? t("loadMoreText")
-          : t("notifEndText")}
+          : t("tripEndText")}
         </button>
       </div>
     </FeedLayout>

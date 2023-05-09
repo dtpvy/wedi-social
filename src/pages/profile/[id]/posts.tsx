@@ -41,7 +41,7 @@ const Profile = () => {
           ? t("loadingMoreText")
           : hasNextPage
           ? t("loadMoreText")
-          : t("notifEndText")}
+          : t("postEndText")}
       </button>
     </ProfileLayout>
   );
