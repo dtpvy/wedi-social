@@ -1,33 +1,39 @@
-import {User} from '../node_modules/.pnpm/@prisma+client@4.12.0_prisma@4.12.0/node_modules/.prisma/client/index'
-describe('User', () => {
-    it('should have the correct properties', () => {
-      const user: User = {
-        id: 1,
-        name: 'John Doe',
-        imgUrl: null,
-        bgUrl: null,
-        password: '123456',
-        email: 'johndoe@example.com',
-        phone: '1234567890',
-        bio: null,
-        status: 'ACTIVE',
-        languageId: null,
-        cityId: null,
-        districtId: null,
-        wardId: null,
-        countryId: null,
-        street: null,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      };
-      
-      expect(typeof user.id).toBe('number');
-      expect(typeof user.name).toBe('string');
-      expect(typeof user.password).toBe('string');
-      expect(typeof user.email).toBe('string');
-      expect(user.status).toEqual('ACTIVE');
-      expect(user.createdAt).toBeInstanceOf(Date);
-      expect(user.updatedAt).toBeInstanceOf(Date);
-    });
-  });
+import {UserStatus} from '../node_modules/.pnpm/@prisma+client@4.12.0_prisma@4.12.0/node_modules/.prisma/client/index'
+import {FriendStatus} from '../node_modules/.pnpm/@prisma+client@4.12.0_prisma@4.12.0/node_modules/.prisma/client'
+import {calcFriend} from '../src/utils/user'
+
   
+describe('calcFriend', () => {
+  it('should return the correct number of friends for a user', () => {
+    const userInfo = {
+      id: 1,
+      name: "John Doe",
+      imgUrl: "https://example.com/avatar.jpg",
+      bgUrl: "https://example.com/cover.jpg",
+      password: "secret",
+      email: "john.doe@example.com",
+      phone: "123456789",
+      bio: "Hello, I'm John Doe!",
+      status: UserStatus.ACTIVE,
+      languageId: 1,
+      cityId: 1,
+      districtId: 2,
+      wardId: 3,
+      countryId: 4,
+      street: "123 Main St.",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      posts: [],
+      friends: [{userId: 1,friendId: 1,status: FriendStatus.ACCEPT,createdAt: new Date(),updatedAt: new Date()},
+        {userId: 2,friendId: 2,status: FriendStatus.ACCEPT,createdAt: new Date(),updatedAt: new Date()}],
+      userFriends: [],
+      notification: [],
+      receiveMessages: [],
+      language: null,
+      requests: [],
+      joinTrip: []
+    };
+    const result = calcFriend(userInfo);
+    expect(result).toEqual(2);
+  });
+});
