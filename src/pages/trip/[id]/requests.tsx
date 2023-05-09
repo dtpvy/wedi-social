@@ -4,6 +4,7 @@ import { ActionIcon, Avatar } from '@mantine/core';
 import { IconCheck, IconX } from '@tabler/icons-react';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
+import useTranslation from '@/hooks/useTranslation';
 
 const Requests = () => {
   const router = useRouter();
@@ -39,6 +40,8 @@ const Requests = () => {
     );
   };
 
+  const { t } = useTranslation();
+  
   return (
     <TripLayout className="w-full flex flex-col gap-4">
       <div className="grid grid-cols-2 gap-4">
@@ -47,7 +50,7 @@ const Requests = () => {
             <Avatar radius="xl" src={member.user.imgUrl} />
             <div>
               <div className="font-medium">{member.user.name}</div>
-              <div className="text-sm text-gray-600">{`Tham gia: ${dayjs(member.updatedAt).format(
+              <div className="text-sm text-gray-600">{`${t('joinedGroupText')} ${dayjs(member.updatedAt).format(
                 'DD/MM/YYYY'
               )}`}</div>
             </div>

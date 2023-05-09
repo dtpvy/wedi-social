@@ -29,9 +29,11 @@ const Trip = ({ trip, className }: Props) => {
               {`Tham gia từ: ${dayjs(users[0].createdAt).format('HH:mm DD/MM/YYYY')}`}
             </div>
           )}
-          <div className="text-gray-600 text-sm">
-            {`Bài đăng lần cuối: ${dayjs(posts[0].createdAt).format('HH:mm DD/MM/YYYY')}`}
-          </div>
+          {posts.length && (
+            <div className="text-gray-600 text-sm">
+              {`Bài đăng lần cuối: ${dayjs(posts[0].createdAt).format('HH:mm DD/MM/YYYY')}`}
+            </div>
+          )}
         </div>
       </div>
       <div className="flex items-center gap-2">

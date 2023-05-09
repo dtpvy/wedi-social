@@ -8,6 +8,7 @@ import dayjs from 'dayjs';
 import { IKUpload } from 'imagekitio-react';
 import { useRef, useState } from 'react';
 import useTranslation from '@/hooks/useTranslation';
+
 export type TripParams = {
   name: string;
   imgUrl: string;
@@ -28,6 +29,8 @@ const FormCreate = ({ trip, onSubmit }: Props) => {
   const [loading, setLoading] = useState(false);
   const [bgLoading, setBgLoading] = useState(false);
 
+  const { t } = useTranslation();
+
   const {
     getInputProps,
     setFieldValue,
@@ -44,12 +47,12 @@ const FormCreate = ({ trip, onSubmit }: Props) => {
     },
 
     validate: {
-      name: (value) => (!!value ? null : 'Require'),
-      startDate: (value) => (!!value ? null : 'Require'),
-      imgUrl: (value) => (!!value ? null : 'Require'),
+      name: (value) => (!!value ? null : t('requireText')),
+      startDate: (value) => (!!value ? null : t('requireText')),
+      imgUrl: (value) => (!!value ? null : t('requireText')),
       endDate: (value, values) =>
         value && dayjs(values.startDate).diff(value, 'd') > 0
-          ? 'Start date cannot be greater than end date'
+          ? t('startDateCannotBeGreaterThanEndDateText')
           : null,
     },
   });
@@ -60,7 +63,7 @@ const FormCreate = ({ trip, onSubmit }: Props) => {
         {values.bgUrl && (
           <CloseButton
             onClick={() => setFieldValue('bgUrl', '')}
-            title="Close popover"
+            title= {t('closePopoverText')}
             size="lg"
             iconSize={20}
             radius="xl"
@@ -84,7 +87,7 @@ const FormCreate = ({ trip, onSubmit }: Props) => {
             variant="gradient"
             gradient={{ from: 'teal', to: 'lime', deg: 105 }}
           >
-            {t("changebackgroundText")}
+            {t('changeBackgroundText')}
           </Button>
           <IKUpload
             inputRef={bgRef}
@@ -96,7 +99,7 @@ const FormCreate = ({ trip, onSubmit }: Props) => {
             }}
             onError={() => {
               notifications.show({
-                message: 'Có lỗi xảy ra. Vui lòng thử lại',
+                message: t('errorTryAgainText'),
                 color: 'red',
                 icon: <IconX />,
               });
@@ -111,7 +114,7 @@ const FormCreate = ({ trip, onSubmit }: Props) => {
             variant="gradient"
             gradient={{ from: 'teal', to: 'blue', deg: 60 }}
           >
-            {t("changeavatarText")}
+            {t('changeAvatarText')}
           </Button>
           <IKUpload
             inputRef={avatarRef}
@@ -123,7 +126,7 @@ const FormCreate = ({ trip, onSubmit }: Props) => {
             }}
             onError={() => {
               notifications.show({
-                message: 'Có lỗi xảy ra. Vui lòng thử lại',
+                message: t('errorTryAgainText'),
                 color: 'red',
                 icon: <IconX />,
               });
@@ -135,29 +138,29 @@ const FormCreate = ({ trip, onSubmit }: Props) => {
         </div>
       </div>
       <div className="grid grid-cols-2 gap-4 mt-4">
-        <TextInput withAsterisk placeholder={t("nameText")} label={t("nameText")} {...getInputProps('name')} />
+        <TextInput withAsterisk placeholder= {t('nameText')} label= {t('nameText')} {...getInputProps('name')} />
         <Select
-          label={t("privacyText")}
-          placeholder={t("privacyText")}
+          label= {t('privacyText')}
+          placeholder= {t('privacyText')}
           icon={<IconEyeEdit size="1rem" />}
           data={[
-            { value: Privacy.PUBLIC, label: 'Công khai' },
-            { value: Privacy.FRIEND, label: 'Bạn bè' },
-            { value: Privacy.PRIVATE, label: 'Chỉ mình tôi' },
+            { value: Privacy.PUBLIC, label: t('publicModeText') },
+            { value: Privacy.FRIEND, label: t('friendModeText') },
+            { value: Privacy.PRIVATE, label: t('privateModeText') },
           ]}
           {...getInputProps('privacy')}
         />
         <DateInput
           withAsterisk
-          label={t("startdateText")}
-          placeholder={t("startdateText")}
+          label= {t('startDateText')}
+          placeholder= {t('startDateText')}
           maw={400}
           className="flex-1"
           {...getInputProps('startDate')}
         />
         <DateInput
-          label={t("enddateText")}
-          placeholder={t("enddateText")}
+          label= {t('endDateText')}
+          placeholder= {t('endDateText')}
           maw={400}
           className="flex-1"
           {...getInputProps('endDate')}
@@ -165,7 +168,7 @@ const FormCreate = ({ trip, onSubmit }: Props) => {
       </div>
       <div className="mt-4 justify-between flex items-center">
         <Button type="submit" variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}>
-          {trip ? 'Update' : 'Create'}
+          {trip ? t('updateText') : t('createText')}
         </Button>
         {getInputProps('imgUrl').error && (
           <div className="text-red-600 text-sm">Avatar {getInputProps('imgUrl').error}</div>

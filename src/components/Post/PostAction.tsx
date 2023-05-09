@@ -12,6 +12,7 @@ import ModalLocation from './ModalLocation';
 import ModalReview from './ModalReview';
 import { LocationDetail } from '@/types/location';
 import { Location } from '@prisma/client';
+import useTranslation from '@/hooks/useTranslation';
 
 type Props = {
   post: PostDetail;
@@ -37,28 +38,28 @@ const PostAction = ({ post, refetch }: Props) => {
   };
 
   const deletePost = trpc.post.delete.useMutation();
-
+  const { t } = useTranslation();
   const openDeleteModal = () => {
     setOpened(false);
     modals.openConfirmModal({
-      title: 'Delete your profile',
+      title: t('"deleteProfileText":'),
       centered: true,
       children: <Text size="sm">Are you sure delete this post</Text>,
-      labels: { confirm: 'Yes', cancel: 'Cancel' },
+      labels: { confirm:t('yesText'), cancel: t('cancelText')},
       confirmProps: { color: 'red' },
       onCancel: () => null,
       onConfirm: async () => {
         try {
           await deletePost.mutateAsync({ id: post.id });
           notifications.show({
-            message: 'Action successfully',
+            message: t('addsuccessText'),
             color: 'green',
             icon: <IconCheck />,
           });
           refetch();
         } catch (e: any) {
           notifications.show({
-            message: 'Có lỗi xảy ra. Vui lòng thử lại',
+            message: t('errorTryAgainText'),
             color: 'red',
             icon: <IconX />,
           });
@@ -76,7 +77,7 @@ const PostAction = ({ post, refetch }: Props) => {
     refetch();
     setModal('review');
   };
-
+  
   return (
     <Popover
       opened={opened}
@@ -96,13 +97,13 @@ const PostAction = ({ post, refetch }: Props) => {
           onClick={openDeleteModal}
           className="text-red-600 cursor-pointer p-2 text-center font-medium hover:bg-red-50"
         >
-          Xoá bài viết
+          {t('deletePostText')}
         </div>
         <div
           onClick={handleOpen}
           className="text-gray-600 cursor-pointer p-2 text-center font-medium hover:bg-gray-100"
         >
-          Sửa bài viết
+          {t('editPostText')}
         </div>
       </Popover.Dropdown>
       <ModalCreate

@@ -8,6 +8,7 @@ import { IconSearch } from '@tabler/icons-react';
 import dayjs from 'dayjs';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import useTranslation from '@/hooks/useTranslation';
+
 const Message = () => {
   const { show } = useOpenMessageDialog();
   const user = useUserStore.use.user();
@@ -81,7 +82,7 @@ const Message = () => {
     <div className="max-h-[300px] overflow-auto">
       <Select
         icon={<IconSearch />}
-        placeholder={isLoading ? 'Loading...' : 'Tìm kiếm'}
+        placeholder={isLoading ? t('loadingText') : t('searchText')}
         data={friends || []}
         onChange={(value) => handleShowMessDialog(Number.parseInt(value || ''))}
         className="mb-3"
@@ -131,10 +132,11 @@ const Message = () => {
         className="px-4 py-2 text-teal-700 underline rounded disabled:opacity-50 w-full text-center"
       >
         {isFetchingPreviousPage
-          ? t("loadingMoreText")
+          ? t('loadingMoreText')
           : hasPreviousPage
-          ? t("loadMoreText")
-          : t("notifEndText")}
+          ? t('loadMoreText')
+          : t('notifEndText')
+          }
       </button>
     </div>
   );

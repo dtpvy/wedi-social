@@ -7,8 +7,11 @@ import { LoadingOverlay } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconCheck, IconX } from '@tabler/icons-react';
 import { useRouter } from 'next/router';
+import useTranslation from '@/hooks/useTranslation';
 
 const Edit = () => {
+  const { t } = useTranslation();
+
   const router = useRouter();
   const { id } = router.query;
   const { data, isLoading } = trpc.trip.get.useQuery({ id: +(id as string) });
@@ -21,14 +24,14 @@ const Edit = () => {
     try {
       await update.mutateAsync({ id: data.trip.id, ...value });
       notifications.show({
-        message: `Action successfully`,
+        message: `${t('addsuccessText')}`,
         color: 'green',
         icon: <IconCheck />,
       });
     } catch (e: any) {
       console.log(e);
       notifications.show({
-        message: 'Có lỗi xảy ra. Vui lòng thử lại',
+        message: t('errorTryAgainText'),
         color: 'red',
         icon: <IconX />,
       });

@@ -10,6 +10,7 @@ import { IconClock } from '@tabler/icons-react';
 import dayjs from 'dayjs';
 import { ChangeEvent, useRef, useState } from 'react';
 import { useQuery } from 'react-query';
+import useTranslation from '@/hooks/useTranslation';
 
 export type ScheduleParams = {
   name: string;
@@ -37,6 +38,8 @@ const FormCreate = ({ schedule, onSubmit }: Props) => {
     enabled: !!street,
   });
 
+  const { t } = useTranslation();
+
   const {
     getInputProps,
     setFieldValue,
@@ -53,12 +56,12 @@ const FormCreate = ({ schedule, onSubmit }: Props) => {
     },
 
     validate: {
-      name: (value) => (!!value ? null : 'Require'),
-      locationId: (value) => (!!value ? null : 'Require'),
-      startTime: (value) => (!!value ? null : 'Require'),
+      name: (value) => (!!value ? null : t('requireText')),
+      locationId: (value) => (!!value ? null : t('requireText')),
+      startTime: (value) => (!!value ? null : t('requireText')),
       endTime: (value, values) =>
         value && dayjs(values.startTime).diff(value, 'd') > 0
-          ? 'Start date cannot be greater than end date'
+          ? t('startDateCannotBeGreaterThanEndDateText')
           : null,
     },
   });
@@ -99,8 +102,8 @@ const FormCreate = ({ schedule, onSubmit }: Props) => {
           <TextInput
             value={street}
             onFocus={() => setOpenedPopover(true)}
-            label="Address"
-            placeholder="Address"
+            label= {t('addressText')}
+            placeholder= {t('addressText')}
             onChange={(e) => setStreet(e.target.value)}
           />
         </Popover.Target>
@@ -126,12 +129,12 @@ const FormCreate = ({ schedule, onSubmit }: Props) => {
         </Popover.Dropdown>
       </Popover>
       <div className="grid grid-cols-2 gap-4 mt-4">
-        <TextInput withAsterisk placeholder="Name" label="Name" {...getInputProps('name')} />
+        <TextInput withAsterisk placeholder="Name" label={t('nameText')} {...getInputProps('name')} />
         <TimeInput
           className="w-full"
           value={dayjs(values.reminderTime).format('HH:mm')}
-          label="Time Reminder"
-          placeholder="Time Reminder"
+          label= {t('timeReminderText')}
+          placeholder= {t('timeReminderText')}
           ref={ref}
           rightSection={
             <ActionIcon onClick={() => ref.current?.showPicker()}>
@@ -143,24 +146,24 @@ const FormCreate = ({ schedule, onSubmit }: Props) => {
         />
         <DateInput
           withAsterisk
-          label="Start time"
-          placeholder="Start time"
+          label={t('startDateText')}
+          placeholder= {t('startDateText')}
           maw={400}
           className="flex-1"
           {...getInputProps('startTime')}
         />
         <DateInput
-          label="End time"
-          placeholder="End time"
+          label= {t('endDateText')}
+          placeholder= {t('endDateText')}
           maw={400}
           className="flex-1"
           {...getInputProps('endTime')}
         />
       </div>
-      <Textarea maxRows={4} label="Description" placeholder="Description" className="mt-4" />
+      <Textarea maxRows={4} label= {t('descriptionText')} placeholder= {t('descriptionText')} className="mt-4" />
       <div className="mt-4 text-right">
         <Button type="submit" variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}>
-          {schedule ? 'Update' : 'Create'}
+          {schedule ? t('updateText') : t('createText')}
         </Button>
       </div>
     </form>

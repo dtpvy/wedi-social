@@ -9,6 +9,7 @@ import { IconPhoto, IconSend, IconX } from '@tabler/icons-react';
 import dayjs from 'dayjs';
 import { IKUpload } from 'imagekitio-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import useTranslation from '@/hooks/useTranslation';
 
 const Message = () => {
   const userInfo = useUserStore.use.user();
@@ -102,6 +103,8 @@ const Message = () => {
     );
     setMessage('');
   };
+  
+  const { t } = useTranslation();
 
   return (
     <Dialog
@@ -126,7 +129,7 @@ const Message = () => {
               onClick={() => fetchNextPage()}
               className="underline text-green-600 text-center cursor-pointer"
             >
-              Load More
+              {t('loadMoreText')}
             </div>
           )
         )}
@@ -162,7 +165,7 @@ const Message = () => {
         })}
         {!messages?.length && (
           <div className="bg-green-600 text-white mx-4 px-2 rounded text-center">
-            Chưa có tin nhắn nào. Nhắn tin đầu đề bắt đầu mối quan hệ.
+            {t('havenAnyMessageText')}
           </div>
         )}
         <div ref={scrollTargetRef}></div>
@@ -178,7 +181,7 @@ const Message = () => {
           onSuccess={(file) => onSend([file.url])}
           onError={() =>
             notifications.show({
-              message: 'Có lỗi xảy ra. Vui lòng thử lại',
+              message: t('errorTryAgainText'),
               color: 'red',
               icon: <IconX />,
             })
@@ -190,7 +193,7 @@ const Message = () => {
           onChange={(e) => setMessage(e.target.value)}
           value={message}
           className="w-full"
-          placeholder="Nhập"
+          placeholder= {t('writeText')}
           radius="xl"
         />
         <ActionIcon

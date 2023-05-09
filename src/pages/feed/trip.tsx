@@ -5,6 +5,7 @@ import { posts } from '@/mocks/post';
 import { trpc } from '@/utils/trpc';
 import { Carousel } from '@mantine/carousel';
 import useTranslation from '@/hooks/useTranslation';
+
 const Trip = () => {
   const { data } = trpc.trip.feed.useQuery({});
 
@@ -17,7 +18,9 @@ const Trip = () => {
 
   const { data: res, fetchNextPage, isFetchingNextPage, hasNextPage, refetch } = query;
   const posts = res?.pages.flatMap((d) => d?.items || []) || [];
+
   const { t } = useTranslation();
+
   return (
     <FeedLayout className="pt-8 px-[200px] w-full">
       <Carousel

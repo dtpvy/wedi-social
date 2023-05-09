@@ -6,6 +6,7 @@ import { IconDots } from '@tabler/icons-react';
 import { PostTrip } from '@/types/post';
 import { Trip } from '@prisma/client';
 import dayjs from 'dayjs';
+import useTranslation from '@/hooks/useTranslation';
 
 type Props = {
   post: PostTrip;
@@ -15,6 +16,8 @@ type Props = {
 const PostTrip = ({ post, refetch }: Props) => {
   const { trip, ...postDetail } = post;
 
+  const {t} = useTranslation();
+  
   return (
     <div className="bg-white p-5 shadow rounded-lg">
       <div className="flex items-center gap-4">
@@ -22,7 +25,7 @@ const PostTrip = ({ post, refetch }: Props) => {
         <div className="mr-auto">
           <div className="font-bold">{trip?.name}</div>
           <div className="text-gray-400 text-sm">
-            {`Đã tạo từ ${dayjs(trip?.createdAt).format('DD/MM/YYYY HH:mm')}`}
+            {`${t('memberSinceText')} ${dayjs(trip?.createdAt).format('DD/MM/YYYY HH:mm')}`}
           </div>
         </div>
       </div>

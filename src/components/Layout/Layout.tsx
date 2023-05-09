@@ -18,9 +18,9 @@ const Layout = ({ children }: Props) => {
   if (status === 'loading') {
     return <Loader className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />;
   }
-
+  console.log(session?.user, 'asdas');
   if (!session?.user) {
-    return <>{children}</>;
+    return <div className="bg-black">{children}</div>;
   }
 
   if (isAdminPage) {
