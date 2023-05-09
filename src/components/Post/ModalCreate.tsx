@@ -9,6 +9,7 @@ import { IKUpload } from 'imagekitio-react';
 import { useRef, useState } from 'react';
 import LocationSeletion, { LocationSeletionProps } from './LocationSeletion';
 import classNames from '@/utils/classNames';
+import useTranslation from '@/hooks/useTranslation';
 
 type State = {
   content: string;
@@ -71,6 +72,8 @@ const ModalCreate = ({
     );
   };
 
+  const { t } = useTranslation();
+
   const handleCreate = async () => {
     if (!location) return;
     try {
@@ -101,20 +104,20 @@ const ModalCreate = ({
       onClose={onClose}
       opened={opened}
       size="lg"
-      title={<div className="font-medium text-lg">Create a post</div>}
+      title={<div className="font-medium text-lg">{t('createpostText')}</div>}
     >
       <div className="flex gap-3 items-center mb-3">
         <Avatar src={user?.imgUrl} radius="xl" />
         <div className="flex-1">{user?.name}</div>
         <Select
           value={state.privacy}
-          placeholder="Privacy"
+          placeholder= {t('privacyText') as string}
           onChange={(value) => onChangeField('privacy', value)}
           icon={<IconEyeEdit size="1rem" />}
           data={[
-            { value: Privacy.PUBLIC, label: 'Công khai' },
-            { value: Privacy.FRIEND, label: 'Bạn bè' },
-            { value: Privacy.PRIVATE, label: 'Chỉ mình tôi' },
+            { value: Privacy.PUBLIC, label: t('publicModeText') },
+            { value: Privacy.FRIEND, label: t('friendModeText') },
+            { value: Privacy.PRIVATE, label: t('privateModeText') },
           ]}
         />
       </div>
@@ -123,7 +126,7 @@ const ModalCreate = ({
         onChange={(e) => onChangeField('content', e.target.value)}
         maxLength={500}
         minRows={10}
-        placeholder="What do you think?"
+        placeholder= {t('statusText')}
       />
       <LocationSeletion
         readonly={isUpdate}
@@ -147,7 +150,7 @@ const ModalCreate = ({
               <CloseButton
                 className="absolute top-2 right-6"
                 onClick={() => handleDeleteImage(imgUrl)}
-                title="Close popover"
+                title= {t('closePopoverText')}
                 size="md"
                 iconSize={20}
                 radius="xl"
@@ -171,7 +174,7 @@ const ModalCreate = ({
           variant="outline"
           color="red"
         >
-          Chọn địa điểm
+          {t('selectLocationText')}
         </Button>
         <Button
           color="teal"
@@ -180,7 +183,7 @@ const ModalCreate = ({
           onClick={() => mediaRef.current?.click()}
           disabled={mediaLoading}
         >
-          Choose media
+          {t('chooseImageText')}
         </Button>
         <Button
           onClick={handleCreate}
@@ -196,7 +199,7 @@ const ModalCreate = ({
           onSuccess={(file) => handleChooseImage(file.url)}
           onError={() => {
             notifications.show({
-              message: 'Có lỗi xảy ra. Vui lòng thử lại',
+              message: t('errorTryAgainText'),
               color: 'red',
               icon: <IconX />,
             });

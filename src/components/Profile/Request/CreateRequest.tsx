@@ -4,6 +4,7 @@ import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 import { IconCheck } from '@tabler/icons-react';
 import React from 'react';
+import useTranslation from '@/hooks/useTranslation';
 
 type Props = {
   close: () => void;
@@ -13,7 +14,7 @@ type Props = {
 const CreateRequest = ({ opened = false, close }: Props) => {
   const create = trpc.request.create.useMutation();
   const utils = trpc.useContext();
-
+  const { t } = useTranslation(); 
   const form = useForm({
     initialValues: {
       title: '',
@@ -60,7 +61,7 @@ const CreateRequest = ({ opened = false, close }: Props) => {
             Huỷ
           </Button>
           <Button type="submit" color="green">
-            Tạo request
+            {t("createrequestText")}
           </Button>
         </div>
       </form>

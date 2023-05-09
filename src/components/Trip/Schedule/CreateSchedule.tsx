@@ -8,6 +8,7 @@ import { useRouter } from 'next/router';
 import { MouseEvent, useContext, useState } from 'react';
 import FormCreate, { ScheduleParams } from './FormCreate';
 import { TripLayoutContext } from '@/components/Layout/TripLayout';
+import useTranslation from '@/hooks/useTranslation';
 
 type Props = {
   className?: string;
@@ -16,7 +17,7 @@ type Props = {
 
 const CreateSchedule = ({ tripId, className }: Props) => {
   const { data } = useContext(TripLayoutContext) || {};
-
+  const { t } = useTranslation(); 
   const router = useRouter();
   const create = trpc.schedule.create.useMutation();
   const [opened, setOpened] = useState(false);
@@ -40,7 +41,7 @@ const CreateSchedule = ({ tripId, className }: Props) => {
           <Avatar size="lg" radius="xl" src={data?.imgUrl} />
           <div>
             <div className="font-medium">{data?.name}</div>
-            <div className="text-gray-600 text-sm">Tạo những lịch trình đi chơi thôi</div>
+            <div className="text-gray-600 text-sm">{t("advertiseText")}</div>
           </div>
         </div>
 
@@ -51,7 +52,7 @@ const CreateSchedule = ({ tripId, className }: Props) => {
           variant="gradient"
           gradient={{ from: 'teal', to: 'blue', deg: 60 }}
         >
-          Create Schedule
+          {t("createscheduleText")}
         </Button>
       </div>
       <Modal opened={opened} size="lg" onClose={() => setOpened(false)} title="Create Schedule">

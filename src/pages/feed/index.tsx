@@ -1,8 +1,10 @@
 import { FeedLayout } from '@/components/Layout';
 import { CreatePost, Post } from '@/components/Post';
 import { trpc } from '@/utils/trpc';
+
 import { TRACKING_EVENT, TRACKING_PAGE } from '@/constants/tracking';
 import { useEffect } from 'react';
+import useTranslation from '@/hooks/useTranslation';
 
 const Feed = () => {
   const query = trpc.post.feed.useInfiniteQuery(
@@ -14,6 +16,8 @@ const Feed = () => {
 
   const { data: res, fetchNextPage, isFetchingNextPage, hasNextPage, refetch } = query;
   const data = res?.pages.flatMap((d) => d?.items || []) || [];
+
+  const { t } = useTranslation();
   //add tracking
   const tracking = trpc.tracking.add.useMutation();
   useEffect(() => {
@@ -39,10 +43,10 @@ const Feed = () => {
         className="cursor-pointer px-4 py-2 text-teal-700 underline rounded disabled:opacity-50 w-full text-center"
       >
         {isFetchingNextPage
-          ? 'Loading more...'
+          ? t('loadingMoreText')
           : hasNextPage
-          ? 'Load More'
-          : 'Nothing more to load'}
+          ? t('loadMoreText')
+          : t('notifEndText')}
       </button>
     </FeedLayout>
   );

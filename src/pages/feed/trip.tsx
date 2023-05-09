@@ -4,7 +4,7 @@ import { Trip as TripWidget } from '@/components/Trip';
 import { posts } from '@/mocks/post';
 import { trpc } from '@/utils/trpc';
 import { Carousel } from '@mantine/carousel';
-
+import useTranslation from '@/hooks/useTranslation';
 const Trip = () => {
   const { data } = trpc.trip.feed.useQuery({});
 
@@ -17,7 +17,7 @@ const Trip = () => {
 
   const { data: res, fetchNextPage, isFetchingNextPage, hasNextPage, refetch } = query;
   const posts = res?.pages.flatMap((d) => d?.items || []) || [];
-
+  const { t } = useTranslation();
   return (
     <FeedLayout className="pt-8 px-[200px] w-full">
       <Carousel
@@ -51,11 +51,11 @@ const Trip = () => {
           disabled={!hasNextPage || isFetchingNextPage}
           className="cursor-pointer px-4 py-2 text-teal-700 underline rounded disabled:opacity-50 w-full text-center"
         >
-          {isFetchingNextPage
-            ? 'Loading more...'
-            : hasNextPage
-            ? 'Load More'
-            : 'Nothing more to load'}
+        {isFetchingNextPage
+          ? t("loadingMoreText")
+          : hasNextPage
+          ? t("loadMoreText")
+          : t("notifEndText")}
         </button>
       </div>
     </FeedLayout>

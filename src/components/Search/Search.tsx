@@ -29,7 +29,7 @@ import Link from 'next/link';
 const Search = () => {
   const router = useRouter();
   const utils = trpc.useContext();
-  const { t, locale: language } = useTranslation();
+  const { t, locale: language, languages, updateLanguage } = useTranslation();
 
   const [opened, setOpened] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -37,8 +37,6 @@ const Search = () => {
   const user = useUserStore.use.user();
   const seeAll = trpc.notification.seenAll.useMutation();
   const seeAllMess = trpc.message.seenAll.useMutation();
-  const { data: languages } = trpc.location.languages.useQuery({});
-  const updateLanguage = trpc.user.updateLanguage.useMutation();
 
   const mess = useMemo(() => {
     return user?.receiveMessages.filter((d) => d.createdAt === d.updatedAt);
@@ -76,7 +74,7 @@ const Search = () => {
         </Link>
         <Input
           icon={<IconSearch />}
-          placeholder="Search..."
+          placeholder= {`${t("searchText")}...`}
           radius="xl"
           size="md"
           className="w-1/2"
@@ -145,7 +143,7 @@ const Search = () => {
                 </Popover.Dropdown>
               </Popover>
               <Button onClick={() => signOut({ callbackUrl: '/signin' })} className="w-full">
-                Đăng xuất
+              {t("signoutText")}
               </Button>
             </Popover.Dropdown>
           </Popover>

@@ -5,11 +5,12 @@ import { IconSearch } from '@tabler/icons-react';
 import { trpc } from '@/utils/trpc';
 import { ScheduleDetail } from '@/types/schedule';
 import { useState } from 'react';
+import useTranslation from '@/hooks/useTranslation';
 
 const Event = () => {
   const [join, setJoin] = useState<'all' | 'joined' | 'notjoin'>('all');
   const { data, refetch } = trpc.schedule.feed.useQuery({ joined: join });
-
+  const { t } = useTranslation();
   return (
     <FeedLayout className="pt-8 px-[200px] w-full">
       <div className="bg-white rounded shadow p-4 flex items-center gap-4 mb-8">
@@ -27,7 +28,7 @@ const Event = () => {
           variant={join === 'joined' ? 'filled' : 'outline'}
           color="green"
         >
-          Tham gia
+        {t("participatebtnText")}
         </Button>
         <Button
           onClick={() => setJoin('notjoin')}
@@ -35,7 +36,7 @@ const Event = () => {
           variant={join === 'notjoin' ? 'filled' : 'outline'}
           color="green"
         >
-          Chua tham gia
+          {t("noparticipatebtnText")}
         </Button>
       </div>
       <div className="grid grid-cols-2 gap-4 pb-8">

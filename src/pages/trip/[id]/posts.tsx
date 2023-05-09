@@ -3,8 +3,11 @@ import { CreatePost, Post } from '@/components/Post';
 import { trpc } from '@/utils/trpc';
 import { useRouter } from 'next/router';
 import React from 'react';
+
+
 import { useEffect } from 'react';
 import { TRACKING_EVENT, TRACKING_PAGE } from '@/constants/tracking';
+import useTranslation from '@/hooks/useTranslation';
 
 const Posts = () => {
   const router = useRouter();
@@ -25,10 +28,10 @@ const Posts = () => {
       getNextPageParam: (d) => d.nextCursor,
     }
   );
-
+  const { t } = useTranslation();
   const { data: res, fetchNextPage, isFetchingNextPage, hasNextPage, refetch } = query;
   const data = res?.pages.flatMap((d) => d?.items || []) || [];
-
+  
   return (
     <TripLayout className="w-full flex flex-col gap-4">
       <CreatePost refetch={refetch} tripId={+(id as string)} />
@@ -42,10 +45,10 @@ const Posts = () => {
         className="cursor-pointer px-4 py-2 text-teal-700 underline rounded disabled:opacity-50 w-full text-center"
       >
         {isFetchingNextPage
-          ? 'Loading more...'
+          ? t("loadingMoreText")
           : hasNextPage
-          ? 'Load More'
-          : 'Nothing more to load'}
+          ? t("loadMoreText")
+          : t("notifEndText")}
       </button>
     </TripLayout>
   );

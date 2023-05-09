@@ -7,7 +7,7 @@ import { IconEyeEdit, IconX } from '@tabler/icons-react';
 import dayjs from 'dayjs';
 import { IKUpload } from 'imagekitio-react';
 import { useRef, useState } from 'react';
-
+import useTranslation from '@/hooks/useTranslation';
 export type TripParams = {
   name: string;
   imgUrl: string;
@@ -53,7 +53,7 @@ const FormCreate = ({ trip, onSubmit }: Props) => {
           : null,
     },
   });
-
+  const { t } = useTranslation();
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="relative">
@@ -84,7 +84,7 @@ const FormCreate = ({ trip, onSubmit }: Props) => {
             variant="gradient"
             gradient={{ from: 'teal', to: 'lime', deg: 105 }}
           >
-            Change background
+            {t("changebackgroundText")}
           </Button>
           <IKUpload
             inputRef={bgRef}
@@ -111,7 +111,7 @@ const FormCreate = ({ trip, onSubmit }: Props) => {
             variant="gradient"
             gradient={{ from: 'teal', to: 'blue', deg: 60 }}
           >
-            Change avatar
+            {t("changeavatarText")}
           </Button>
           <IKUpload
             inputRef={avatarRef}
@@ -135,10 +135,10 @@ const FormCreate = ({ trip, onSubmit }: Props) => {
         </div>
       </div>
       <div className="grid grid-cols-2 gap-4 mt-4">
-        <TextInput withAsterisk placeholder="Name" label="Name" {...getInputProps('name')} />
+        <TextInput withAsterisk placeholder={t("nameText")} label={t("nameText")} {...getInputProps('name')} />
         <Select
-          label="Privacy"
-          placeholder="Privacy"
+          label={t("privacyText")}
+          placeholder={t("privacyText")}
           icon={<IconEyeEdit size="1rem" />}
           data={[
             { value: Privacy.PUBLIC, label: 'Công khai' },
@@ -149,15 +149,15 @@ const FormCreate = ({ trip, onSubmit }: Props) => {
         />
         <DateInput
           withAsterisk
-          label="Start date"
-          placeholder="Start date"
+          label={t("startdateText")}
+          placeholder={t("startdateText")}
           maw={400}
           className="flex-1"
           {...getInputProps('startDate')}
         />
         <DateInput
-          label="End date"
-          placeholder="End date"
+          label={t("enddateText")}
+          placeholder={t("enddateText")}
           maw={400}
           className="flex-1"
           {...getInputProps('endDate')}

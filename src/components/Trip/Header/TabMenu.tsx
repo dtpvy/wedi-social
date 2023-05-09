@@ -19,6 +19,7 @@ import {
 import { useRouter } from 'next/router';
 import { useMemo } from 'react';
 import CreateSchedule from '../Schedule/CreateSchedule';
+import useTranslation from '@/hooks/useTranslation';
 
 const TAB_NAME = {
   POSTS: 'posts',
@@ -71,7 +72,7 @@ const TabMenu = ({ trip, joined }: Props) => {
   const leave = trpc.trip.leave.useMutation();
   const deleteTrip = trpc.trip.delete.useMutation();
   const addNoti = trpc.notification.push.useMutation();
-
+  const { t } = useTranslation(); 
   const handleRequest = async () => {
     if (!trip) return;
     try {
@@ -118,14 +119,14 @@ const TabMenu = ({ trip, joined }: Props) => {
         try {
           await deleteTrip.mutateAsync({ id: trip?.id as number });
           notifications.show({
-            message: 'Action successfully',
+            message: t("addsuccessText"),
             color: 'green',
             icon: <IconCheck />,
           });
           router.push('/feed');
         } catch (e: any) {
           notifications.show({
-            message: 'Có lỗi xảy ra. Vui lòng thử lại',
+            message: t("addfailedText"),
             color: 'red',
             icon: <IconX />,
           });
@@ -172,7 +173,7 @@ const TabMenu = ({ trip, joined }: Props) => {
           variant="filled"
           color="green"
         >
-          Join Trip
+          {t("jointripText")}
         </Button>
       ) : (
         <Button
@@ -182,7 +183,7 @@ const TabMenu = ({ trip, joined }: Props) => {
           variant="filled"
           color="green"
         >
-          Leave Trip
+          {t("leavetripText")}
         </Button>
       )}
       {user?.id === trip?.creatorId && (
@@ -193,7 +194,7 @@ const TabMenu = ({ trip, joined }: Props) => {
           variant="outline"
           color="green"
         >
-          Edit Trip
+          {t("edittripText")}
         </Button>
       )}
     </>

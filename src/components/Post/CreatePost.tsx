@@ -6,6 +6,7 @@ import { useState } from 'react';
 import ModalCreate from './ModalCreate';
 import ModalLocation from './ModalLocation';
 import ModalReview from './ModalReview';
+import useTranslation from '@/hooks/useTranslation';
 
 type Props = {
   refetch: () => void;
@@ -31,6 +32,8 @@ const CreatePost = ({ tripId, refetch }: Props) => {
     setModal('review');
   };
 
+  const  { t } = useTranslation();
+  
   return (
     <div className="bg-white shadow p-4 rounded-lg">
       <div className="flex items-center gap-4 w-full">
@@ -39,14 +42,14 @@ const CreatePost = ({ tripId, refetch }: Props) => {
           onClick={() => setModal('create')}
           className="rounded-full w-1/2 cursor-pointer hover:bg-gray-100 px-3 py-2 border"
         >
-          Write something...
+          {t('statusText')}
         </div>
         <div onClick={() => setModal('location')} className="flex items-center gap-1 ml-auto">
           <IconMapPinFilled className="text-red-600" size={30} />
-          <div>Chọn địa điểm</div>
+          <div>{t("selectLocationText")}</div>
         </div>
         <Button onClick={() => setModal('create')} color="teal" radius="xl">
-          Đăng bài
+          {t('postVerbText')}
         </Button>
       </div>
 

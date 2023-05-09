@@ -5,11 +5,13 @@ import { trpc } from '@/utils/trpc';
 import { Button, Loader } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useState } from 'react';
+import useTranslation from '@/hooks/useTranslation';
+
 
 const requests = () => {
   const [type, setType] = useState<'all' | 'pending' | 'replied'>('all');
   const [opened, { open, close }] = useDisclosure(false);
-
+  const { t } = useTranslation(); 
   const { data, isLoading } = trpc.request.requestList.useQuery({ type });
 
   return (
@@ -21,7 +23,7 @@ const requests = () => {
           color="green"
           onClick={() => setType('all')}
         >
-          Tất cả
+          {t("allText")}
         </Button>
         <Button
           radius="xl"
@@ -29,7 +31,7 @@ const requests = () => {
           color="green"
           onClick={() => setType('replied')}
         >
-          Đã phản hồi
+          {t("responsedText")}
         </Button>
         <Button
           radius="xl"
@@ -37,10 +39,10 @@ const requests = () => {
           color="green"
           onClick={() => setType('pending')}
         >
-          Chưa phản hồi
+          {t("noresponsedText")}
         </Button>
         <Button onClick={open} className="ml-auto" radius="xl" color="green">
-          Tạo request
+          {t("createrequestText")}
         </Button>
       </div>
       {isLoading && <Loader />}
