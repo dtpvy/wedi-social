@@ -163,5 +163,8 @@
   "leavetripText" : "Rời chuyến đi",
   "edittripText":"Chỉnh sửa chuyến đi",
   "createscheduleText":"Tạo lịch trình",
-  "addfriendText":"Kết bạn"
+  "addfriendText":"Kết bạn",
+  "tripEndText" :"Hết chuyến đi để hiện thị rồi nha",
+  "postEndText" :"Hết bài viết để hiển thị rồi nha",
+  "locationEndText" :"Hết địa điểm để hiển thị rồi nha"
 }

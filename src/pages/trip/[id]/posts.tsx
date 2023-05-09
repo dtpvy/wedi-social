@@ -46,8 +46,8 @@ const Posts = () => {
         {isFetchingNextPage
           ? t('loadingMoreText')
           : hasNextPage
-          ? t('loadMoreText')
-          : t('notifEndText')
+          ? t("loadMoreText")
+          : t("postEndText")}
           }
       </button>
     </TripLayout>
