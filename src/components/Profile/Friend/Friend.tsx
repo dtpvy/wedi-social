@@ -3,6 +3,7 @@ import { ActionIcon, Avatar, Text } from '@mantine/core';
 import { modals } from '@mantine/modals';
 import { notifications } from '@mantine/notifications';
 import { IconCheck, IconX } from '@tabler/icons-react';
+import useTranslation from '@/hooks/useTranslation';
 
 type Props = {
   id: number;
@@ -14,7 +15,7 @@ type Props = {
 const FriendWidget = ({ id, name, imgUrl, mutualFriends }: Props) => {
   const deleteFriend = trpc.friend.delete.useMutation();
   const utils = trpc.useContext();
-
+  const { t } = useTranslation(); 
   const openDeleteModal = () =>
     modals.openConfirmModal({
       title: 'Delete your profile',
@@ -27,14 +28,14 @@ const FriendWidget = ({ id, name, imgUrl, mutualFriends }: Props) => {
         try {
           await deleteFriend.mutateAsync({ userId: id });
           notifications.show({
-            message: 'Action successfully',
+            message: t("addsuccessText"),
             color: 'green',
             icon: <IconCheck />,
           });
           utils.friend.friendList.refetch();
         } catch (e: any) {
           notifications.show({
-            message: 'Có lỗi xảy ra. Vui lòng thử lại',
+            message: t("errorTryAgainText"),
             color: 'red',
             icon: <IconX />,
           });
@@ -49,7 +50,7 @@ const FriendWidget = ({ id, name, imgUrl, mutualFriends }: Props) => {
         <Text weight={500} lineClamp={2} size="md">
           {name}
         </Text>
-        <div className="text-gray-400 text-sm mt-1">{`${mutualFriends} bạn chung`}</div>
+        <div className="text-gray-400 text-sm mt-1">{`${mutualFriends} ${t("mutualfriendText")}`}</div>
       </div>
       <ActionIcon onClick={openDeleteModal} color="red" radius="xl" variant="outline">
         <IconX size={20} />

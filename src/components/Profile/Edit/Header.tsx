@@ -6,7 +6,7 @@ import { IconCheck, IconLoader, IconMoodEdit, IconPhotoEdit, IconX } from '@tabl
 import dayjs from 'dayjs';
 import { IKUpload } from 'imagekitio-react';
 import React, { useRef, useState } from 'react';
-
+import useTranslation from '@/hooks/useTranslation';
 const Header = () => {
   const utils = trpc.useContext();
   const user = useUserStore((state) => state.user);
@@ -35,7 +35,7 @@ const Header = () => {
     setLoading(false);
     setBgLoading(false);
   };
-
+  const { t } = useTranslation();
   return (
     <div className="flex gap-3 items-center mb-4">
       <div className="mr-auto">
@@ -51,7 +51,7 @@ const Header = () => {
         leftIcon={loading ? <IconLoader /> : <IconMoodEdit />}
         disabled={loading}
       >
-        Change Avatar
+        {t("changeavatarText")}
       </Button>
       <IKUpload
         inputRef={avatarRef}
@@ -76,7 +76,7 @@ const Header = () => {
         leftIcon={bgLoading ? <IconLoader /> : <IconPhotoEdit />}
         loading={updateImage.isLoading}
       >
-        Change Background
+        {t("changebackgroundText")}
       </Button>
       <IKUpload
         inputRef={bgRef}

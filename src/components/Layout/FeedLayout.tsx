@@ -14,7 +14,6 @@ import dayjs from 'dayjs';
 import { User } from '@prisma/client';
 import useOpenMessageDialog from '@/hooks/useOpenMessageDialog';
 import useTranslation from '@/hooks/useTranslation';
-
 type Props = {
   children: ReactNode;
   className?: string;
@@ -58,7 +57,7 @@ const FeedLayout = ({ children, className }: Props) => {
     try {
       await addFriend.mutateAsync({ userId: profile.id });
       await addNoti.mutateAsync({
-        content: 'Có người muốn kết bạn với bạn',
+        content: String(t("friendnotifText")),
         userId: profile.id,
         imgUrl: user?.imgUrl || '',
       });

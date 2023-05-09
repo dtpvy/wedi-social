@@ -56,7 +56,7 @@ const FormCreate = ({ trip, onSubmit }: Props) => {
           : null,
     },
   });
-
+  const { t } = useTranslation();
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="relative">

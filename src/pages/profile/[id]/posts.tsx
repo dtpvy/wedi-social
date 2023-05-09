@@ -1,8 +1,10 @@
 import { ProfileLayout } from '@/components/Layout';
 import { CreatePost, Post } from '@/components/Post';
 import { trpc } from '@/utils/trpc';
+
 import { useEffect } from 'react';
 import { TRACKING_EVENT, TRACKING_PAGE } from '@/constants/tracking';
+import useTranslation from '@/hooks/useTranslation';
 
 const Profile = () => {
   const query = trpc.post.userPost.useInfiniteQuery(
@@ -11,7 +13,7 @@ const Profile = () => {
       getNextPageParam: (d) => d.nextCursor,
     }
   );
-
+  const { t } = useTranslation();
   const { data: res, fetchNextPage, isFetchingNextPage, hasNextPage, refetch } = query;
   const data = res?.pages.flatMap((d) => d?.items || []) || [];
   //add tracking
@@ -36,10 +38,10 @@ const Profile = () => {
         className="cursor-pointer px-4 py-2 text-teal-700 underline rounded disabled:opacity-50 w-full text-center"
       >
         {isFetchingNextPage
-          ? 'Loading more...'
+          ? t("loadingMoreText")
           : hasNextPage
-          ? 'Load More'
-          : 'Nothing more to load'}
+          ? t("loadMoreText")
+          : t("notifEndText")}
       </button>
     </ProfileLayout>
   );

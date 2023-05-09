@@ -78,7 +78,6 @@ const Message = () => {
   };
 
   const {t} = useTranslation();
-
   return (
     <div className="max-h-[300px] overflow-auto">
       <Select
@@ -92,6 +91,7 @@ const Message = () => {
       {messages?.map((mess) => {
         const userProfile = profile(mess);
         const { imgUrl, name } = userProfile;
+        
         return (
           <div
             key={mess.id}
