@@ -4,6 +4,7 @@ import { trpc } from '@/utils/trpc';
 import { Button, HoverCard, Image, Transition } from '@mantine/core';
 import { Reaction } from '@prisma/client';
 import { IconIcons } from '@tabler/icons-react';
+import useTranslation from '@/hooks/useTranslation';
 
 type Props = {
   post?: PostDetail;
@@ -17,6 +18,8 @@ const Reaction = ({ post, comment, refetch }: Props) => {
   const addNoti = trpc.notification.push.useMutation();
   const { reaction, _count, reactions } = post || comment || {};
 
+  const { t } = useTranslation();
+
   const handleReaction = (reaction: Reaction) => {
     react.mutate(
       { reactionId: reaction.id, postId: post?.id, commentId: comment?.id },
@@ -25,8 +28,8 @@ const Reaction = ({ post, comment, refetch }: Props) => {
           refetch();
           if (!data) return;
           const content = post
-            ? 'Vừa mới thả cảm xúc vô bài viết của bạn'
-            : 'Vừa mới thả cảm xúc vô bình luận của bạn';
+            ? 'đã thả cảm xúc vào bài viết của bạn'
+            : 'đã thả cảm xúc vào bình luận của bạn';
           addNoti.mutate({
             content,
             userId: (post?.creatorId || comment?.userId) as number,

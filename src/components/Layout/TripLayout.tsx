@@ -10,6 +10,7 @@ import { JoinTripStatus, Trip, TripStatus } from '@prisma/client';
 import { IconCalendarTime, IconCheck, IconMapPinCheck, IconWalk, IconX } from '@tabler/icons-react';
 import { useRouter } from 'next/router';
 import { ReactNode, createContext } from 'react';
+import useTranslation from '@/hooks/useTranslation';
 
 type Props = {
   children: ReactNode;
@@ -18,18 +19,18 @@ type Props = {
 
 const TRIP_STATUS = {
   [TripStatus.SCHEDULE]: {
-    title: 'scheduleTitleText',
-    description: 'scheduleDescriptionText',
+    title: 'Schedule',
+    description: '',
     icon: <IconCalendarTime />,
   },
   [TripStatus.INPROGRESS]: {
-    title: 'inprogressTitleText',
-    description: 'inprogressDescriptionText',
+    title: 'Inprogress',
+    description: '',
     icon: <IconWalk />,
   },
   [TripStatus.DONE]: {
-    title: 'doneTitleText',
-    description: 'doneDescriptionText',
+    title: 'Done',
+    description: '',
     icon: <IconMapPinCheck />,
   },
 };
@@ -51,29 +52,31 @@ const TripLayout = ({ children, className }: Props) => {
 
   const active = Object.keys(TRIP_STATUS).findIndex((key) => key === data?.trip?.status);
 
+  const {t} = useTranslation();
+
   const handleDone = () => {
     const trip = data?.trip;
     if (data?.trip?.status !== TripStatus.INPROGRESS || !trip || trip.creatorId !== user?.id)
       return;
     modals.openConfirmModal({
-      title: 'Confirm done',
+      title: t('confirmDoneText'),
       centered: true,
       children: <Text size="sm">Xác nhận chuyến đi kết thúc</Text>,
-      labels: { confirm: 'Yes', cancel: 'Cancel' },
+      labels: { confirm: t('yesText'), cancel: t('cancelText') },
       confirmProps: { color: 'red' },
       onCancel: () => null,
       onConfirm: async () => {
         try {
           await done.mutateAsync({ id: trip.id });
           notifications.show({
-            message: 'Action successfully',
+            message: t('addsuccessText'),
             color: 'green',
             icon: <IconCheck />,
           });
           refetch();
         } catch (e: any) {
           notifications.show({
-            message: 'Có lỗi xảy ra. Vui lòng thử lại',
+            message: t('errorTryAgainText'),
             color: 'red',
             icon: <IconX />,
           });

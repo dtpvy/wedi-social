@@ -44,10 +44,11 @@ const Posts = () => {
         className="cursor-pointer px-4 py-2 text-teal-700 underline rounded disabled:opacity-50 w-full text-center"
       >
         {isFetchingNextPage
-          ? t("loadingMoreText")
+          ? t('loadingMoreText')
           : hasNextPage
-          ? t("loadMoreText")
-          : t("notifEndText")}
+          ? t('loadMoreText')
+          : t('notifEndText')
+          }
       </button>
     </TripLayout>
   );

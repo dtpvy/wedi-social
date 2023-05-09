@@ -56,12 +56,14 @@ const Comment = ({ postId, creatorId, refetch }: Props) => {
     addComment(msgs);
   }, [query.data?.pages, addComment]);
 
+  const { t } = useTranslation();
+
   trpc.comment.onCreate.useSubscription(undefined, {
     onData(noti) {
       addComment([noti as CommentDetail]);
     },
     onError(err) {
-      console.error('Subscription error:', err);
+      console.error(t('subscriptionErrorText'), err);
       utils.notification.infinite.invalidate();
     },
   });
@@ -73,17 +75,17 @@ const Comment = ({ postId, creatorId, refetch }: Props) => {
 
   const openDeleteModal = (id: number) =>
     modals.openConfirmModal({
-      title: 'Delete your profile',
+      title: t('deletePostText'),
       centered: true,
-      children: <Text size="sm">Are you sure delete this comment</Text>,
-      labels: { confirm: 'Yes', cancel: 'Cancel' },
+      children: <Text size="sm">{t('sureDeleteCommentText')}</Text>,
+      labels: { confirm: t('yesText'), cancel: t('cancelText') },
       confirmProps: { color: 'red' },
       onCancel: () => null,
       onConfirm: async () => {
         try {
           await deleteComment.mutateAsync({ id });
           notifications.show({
-            message: 'Action successfully',
+            message: t('addsuccessText'),
             color: 'green',
             icon: <IconCheck />,
           });
@@ -91,15 +93,13 @@ const Comment = ({ postId, creatorId, refetch }: Props) => {
           refetch();
         } catch (e: any) {
           notifications.show({
-            message: 'Có lỗi xảy ra. Vui lòng thử lại',
+            message: t('errorTryAgainText'),
             color: 'red',
             icon: <IconX />,
           });
         }
       },
     });
-
-  const { t } = useTranslation();
 
   return (
     <div className="flex flex-col gap-3">

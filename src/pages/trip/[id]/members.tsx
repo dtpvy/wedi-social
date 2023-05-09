@@ -5,11 +5,14 @@ import { Avatar } from '@mantine/core';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import React from 'react';
+import useTranslation from '@/hooks/useTranslation';
 
 const Members = () => {
   const router = useRouter();
   const { id } = router.query;
   const { data } = trpc.trip.memberList.useQuery({ id: +(id as string) });
+
+  const { t } = useTranslation();
 
   return (
     <TripLayout className="w-full flex flex-col gap-4">
@@ -19,7 +22,7 @@ const Members = () => {
             <Avatar radius="xl" src={member.user.imgUrl} />
             <div>
               <div className="font-medium">{member.user.name}</div>
-              <div className="text-sm text-gray-600">{`Tham gia: ${dayjs(member.updatedAt).format(
+              <div className="text-sm text-gray-600">{`${t('joinedGroupText')} ${dayjs(member.updatedAt).format(
                 'DD/MM/YYYY'
               )}`}</div>
             </div>

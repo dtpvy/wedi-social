@@ -46,6 +46,8 @@ const CreateComment = ({ postId, creator, comment, onCancel, onUpdate, onCreate 
     setImgUrls((prev) => prev.filter((url) => url !== imgUrl));
   };
 
+  const { t } = useTranslation();
+  
   const handleCreate = async () => {
     try {
       if (!comment) {
@@ -69,8 +71,6 @@ const CreateComment = ({ postId, creator, comment, onCancel, onUpdate, onCreate 
       console.log(e);
     }
   };
-
-  const { t } = useTranslation();
 
   return (
     <div className="flex gap-3">

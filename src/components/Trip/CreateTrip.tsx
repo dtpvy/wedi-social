@@ -8,6 +8,7 @@ import { useRouter } from 'next/router';
 import { MouseEvent, useState } from 'react';
 import FormCreate, { TripParams } from './FormCreate';
 import useTranslation from '@/hooks/useTranslation';
+
 type Props = {
   className?: string;
 };
@@ -29,7 +30,9 @@ const CreateTrip = ({ className }: Props) => {
     e.preventDefault();
     setOpened(true);
   };
+
   const { t } = useTranslation();
+
   return (
     <>
       <Link href={`/profile/${user?.id}`} className={classNames('no-underline mt-5', className)}>
@@ -38,11 +41,11 @@ const CreateTrip = ({ className }: Props) => {
             <Avatar radius="xl" src={user?.imgUrl} />
             <div>
               <div className="font-medium">{user?.name}</div>
-              <div className="text-gray-600 text-sm">{user?.bio || 'What do you think?'}</div>
+              <div className="text-gray-600 text-sm">{user?.bio || t('statusText')}</div>
             </div>
           </div>
 
-          <div className="mt-2 mb-1 text-sm">{t("invitingText")}</div>
+          <div className="mt-2 mb-1 text-sm">{t('createTripWithFriendAndFamilyText')}</div>
           <Button
             onClick={handleOpen}
             className="w-full"
@@ -50,11 +53,11 @@ const CreateTrip = ({ className }: Props) => {
             variant="gradient"
             gradient={{ from: 'teal', to: 'blue', deg: 60 }}
           >
-            Create Trip
+            {t('createtripText')}
           </Button>
         </div>
       </Link>
-      <Modal opened={opened} size="lg" onClose={() => setOpened(false)} title="Create Trip">
+      <Modal opened={opened} size="lg" onClose={() => setOpened(false)} title= {t('createtripText')}>
         <FormCreate onSubmit={handleCreate} />
       </Modal>
     </>
