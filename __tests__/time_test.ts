@@ -1,18 +1,19 @@
 import { getTimePost } from '../src/utils/time';
-import dayjs from 'dayjs';
 
 
-describe('getTimePost', () => {
-    test('returns correct result for post created less than a month ago', () => {
-      const postCreatedAt = dayjs().subtract(1, 'day').toDate();
-      const expected = dayjs(postCreatedAt).fromNow();
+describe("getTimePost", () => {
+    it("returns post time ago if less than a month", () => {
+      const now = new Date();
+      const postCreatedAt = new Date(now.getTime() - 1000 * 60 * 60 * 24);
+      const expected = "a day ago";
       const result = getTimePost(postCreatedAt);
       expect(result).toEqual(expected);
     });
   
-    test('returns correct result for post created more than a month ago', () => {
-      const postCreatedAt = dayjs().subtract(2, 'month').toDate();
-      const expected = dayjs(postCreatedAt).format('DD/MM/YYYY');
+    it("returns formatted date if more than a month", () => {
+      const now = new Date();
+      const postCreatedAt = new Date(now.getTime() - 1000 * 60 * 60 * 24 * 31);
+      const expected = postCreatedAt.getDate() + "/" + (postCreatedAt.getMonth() + 1) + "/" + postCreatedAt.getFullYear();
       const result = getTimePost(postCreatedAt);
       expect(result).toEqual(expected);
     });
