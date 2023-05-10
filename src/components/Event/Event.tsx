@@ -1,4 +1,3 @@
-import useUserStore from '@/stores/auth';
 import { ScheduleDetail } from '@/types/schedule';
 import { trpc } from '@/utils/trpc';
 import { ActionIcon, Avatar, Button, Group, HoverCard, Modal, Text, Tooltip } from '@mantine/core';
@@ -14,13 +13,14 @@ import {
 import dayjs from 'dayjs';
 import { useRef, useState } from 'react';
 import useTranslation from '@/hooks/useTranslation';
+import useAppStore from '@/stores/store';
 type Props = {
   schedule: ScheduleDetail;
   refetch: () => void;
 };
 
 const Event = ({ schedule, refetch }: Props) => {
-  const user = useUserStore.use.user();
+  const user = useAppStore.use.user();
   const ref = useRef<HTMLInputElement>(null);
   const { name, location, description, startTime, joinSchedule } = schedule;
   const joined = joinSchedule.find((d) => d.userId === user?.id);
@@ -77,7 +77,7 @@ const Event = ({ schedule, refetch }: Props) => {
               </HoverCard.Target>
               <HoverCard.Dropdown>
                 <TimeInput
-                  label= {t('timeReminderText')}
+                  label={t('timeReminderText')}
                   ref={ref}
                   defaultValue={dayjs(joined.reminderTime).format('HH:mm')}
                   rightSection={

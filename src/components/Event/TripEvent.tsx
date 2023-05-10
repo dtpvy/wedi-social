@@ -1,8 +1,7 @@
-import { ActionIcon, Avatar } from '@mantine/core';
-import { IconDots } from '@tabler/icons-react';
-import Event from './Event';
 import { ScheduleDetail } from '@/types/schedule';
+import { Avatar } from '@mantine/core';
 import dayjs from 'dayjs';
+import Event from './Event';
 
 type Props = {
   event: ScheduleDetail;
