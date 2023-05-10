@@ -54,7 +54,7 @@ const CreateComment = ({ postId, creator, comment, onCancel, onUpdate, onCreate 
         await create.mutateAsync({ postId, imgUrls, content });
         if (creator) {
           await addNoti.mutateAsync({
-            content: 'Vừa mới bình luận vào bài viết của bạn',
+            content: `${t('justCommentedOnYourPostText')}`,
             userId: creator.id,
             imgUrl: creator.imgUrl || '',
           });

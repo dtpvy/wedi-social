@@ -10,6 +10,7 @@ import {
 } from '@tabler/icons-react';
 import dayjs from 'dayjs';
 import { useContext } from 'react';
+import useTranslation from '@/hooks/useTranslation';
 
 const Header = () => {
   const { data: user } = useContext(ProfileLayoutContext) || {};
@@ -17,6 +18,8 @@ const Header = () => {
   if (!user) {
     return <Loader />;
   }
+  const { t } = useTranslation();
+  
   return (
     <div className="bg-white pb-5">
       <div className="relative">
@@ -49,7 +52,7 @@ const Header = () => {
               <IconPointFilled size={16} />
             </>
           )}
-          <span>{`Joined ${dayjs(user.createdAt).format('MMM YYYY')}`}</span>
+          <span>{`${t('joinedGroupText')} ${dayjs(user.createdAt).format('MMM YYYY')}`}</span>
         </div>
         <div className="flex gap-3 flex-1 justify-end">
           <IconBrandFacebookFilled size={20} />

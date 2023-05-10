@@ -37,11 +37,11 @@
   "acceptedfriendText": "Your friend request has been accepted",
   "createPostText": "Create post",
   "visitLocationText": "Visit location",
-  "postText": "Post(s)",
-  "friendText": "Friend(s)",
+  "postText": "Post",
+  "friendText": "Friend",
   "createtripText": "Create Trip",
   "createpostText": "Create Post",
-  "requestText": "Request(s)",
+  "requestText": "Request",
   "editprofileText": "Edit Profile",
   "recentText": "Recently",
   "friendrequestText": "Friend request",
@@ -188,5 +188,7 @@
   "linksText": "Links",
   "legalText": "Legal",
   "socialText": "Social",
-  "companyText": "Company"
+  "companyText": "Company",
+  "feedText": "Feed",
+  "eventText": "Event"
 }

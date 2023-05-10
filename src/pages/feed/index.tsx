@@ -2,10 +2,9 @@ import { FeedLayout } from '@/components/Layout';
 import { CreatePost, Post } from '@/components/Post';
 import { trpc } from '@/utils/trpc';
 
-import { TRACKING_EVENT, TRACKING_PAGE } from "@/constants/tracking";
-import { useEffect } from "react";
+import { TRACKING_EVENT, TRACKING_PAGE } from '@/constants/tracking';
+import { useEffect } from 'react';
 import useTranslation from '@/hooks/useTranslation';
-
 
 const Feed = () => {
   const query = trpc.post.feed.useInfiniteQuery(
@@ -28,7 +27,6 @@ const Feed = () => {
     });
   }, []);
 
-
   return (
     <FeedLayout className="pt-8 px-[200px] w-full">
       <CreatePost refetch={refetch} />
@@ -44,11 +42,10 @@ const Feed = () => {
         className="cursor-pointer px-4 py-2 text-teal-700 underline rounded disabled:opacity-50 w-full text-center"
       >
         {isFetchingNextPage
-          ? t("loadingMoreText")
+          ? t('loadingMoreText')
           : hasNextPage
-          ? t("loadMoreText")
-          : t("notifEndText")
-        }
+          ? t('loadMoreText')
+          : t('notifEndText')}
       </button>
     </FeedLayout>
   );

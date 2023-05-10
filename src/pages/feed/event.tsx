@@ -28,7 +28,7 @@ const Event = () => {
           variant={join === 'joined' ? 'filled' : 'outline'}
           color="green"
         >
-        {t("participatebtnText")}
+          {t('participatebtnText')}
         </Button>
         <Button
           onClick={() => setJoin('notjoin')}
@@ -36,7 +36,7 @@ const Event = () => {
           variant={join === 'notjoin' ? 'filled' : 'outline'}
           color="green"
         >
-          {t("noparticipatebtnText")}
+          {t('noparticipatebtnText')}
         </Button>
       </div>
       <div className="grid grid-cols-2 gap-4 pb-8">

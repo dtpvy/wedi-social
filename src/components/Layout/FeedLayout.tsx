@@ -19,31 +19,32 @@ type Props = {
   className?: string;
 };
 
-const TAB_LIST: Record<string, Tab> = {
-  FEED: {
-    name: 'feed',
-    url: '',
-    icon: <IconNews size={30} />,
-  },
-  TRIP: {
-    name: 'trip',
-    url: 'trip',
-    icon: <IconBus size={30} />,
-  },
-  EVENT: {
-    name: 'event',
-    url: 'event',
-    icon: <IconCalendarTime size={30} />,
-  },
-  LOCATION: {
-    name: 'location',
-    url: 'location',
-    icon: <IconMapPinFilled size={30} />,
-  },
-};
-
 const FeedLayout = ({ children, className }: Props) => {
   const { t } = useTranslation();
+
+  const TAB_LIST: Record<string, Tab> = {
+    FEED: {
+      name: t('feedText'),
+      url: '',
+      icon: <IconNews size={30} />,
+    },
+    TRIP: {
+      name: t('tripText'),
+      url: 'trip',
+      icon: <IconBus size={30} />,
+    },
+    EVENT: {
+      name: t('eventText'),
+      url: 'event',
+      icon: <IconCalendarTime size={30} />,
+    },
+    LOCATION: {
+      name: t('locationText'),
+      url: 'location',
+      icon: <IconMapPinFilled size={30} />,
+    },
+  };
+
   const router = useRouter();
   const { show } = useOpenMessageDialog();
   const tab = router.asPath.split('/')[2] || TAB_LIST.FEED.name;
@@ -57,7 +58,7 @@ const FeedLayout = ({ children, className }: Props) => {
     try {
       await addFriend.mutateAsync({ userId: profile.id });
       await addNoti.mutateAsync({
-        content: String(t("friendnotifText")),
+        content: String(t('friendnotifText')),
         userId: profile.id,
         imgUrl: user?.imgUrl || '',
       });
