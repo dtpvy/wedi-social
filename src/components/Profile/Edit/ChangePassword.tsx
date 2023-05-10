@@ -5,6 +5,7 @@ import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 import { IconCheck, IconX } from '@tabler/icons-react';
 import React from 'react';
+import useTranslation from '@/hooks/useTranslation';
 
 type Props = {
   opened?: boolean;
@@ -12,6 +13,7 @@ type Props = {
 };
 
 const ChangePassword = ({ opened = false, close }: Props) => {
+  const { t } = useTranslation();
   const utils = trpc.useContext();
   const update = trpc.user.updatePassword.useMutation();
   const { getInputProps, onSubmit, setFieldError, reset } = useForm({
@@ -21,10 +23,10 @@ const ChangePassword = ({ opened = false, close }: Props) => {
       confirmPassword: '',
     },
     validate: {
-      password: (value) => (value ? null : 'Require'),
-      newPassword: (value) => (value ? null : 'Require'),
+      password: (value) => (value ? null : t('requireText')),
+      newPassword: (value) => (value ? null : t('requireText')),
       confirmPassword: (value, values) =>
-        value !== values.newPassword ? 'Passwords did not match' : null,
+        value !== values.newPassword ? t('passwordDidNotMatchText') : null,
     },
   });
 
@@ -35,16 +37,16 @@ const ChangePassword = ({ opened = false, close }: Props) => {
       close();
       reset();
       notifications.show({
-        message: `Action successfully`,
+        message: `${t('addsuccessText')}`,
         color: 'green',
         icon: <IconCheck />,
       });
     } catch (e: any) {
       if (e.message === ERROR_MESSAGES.invalidPassword) {
-        setFieldError('password', e.message);
+        setFieldError(`${t('passwordText')}`, e.message);
       } else {
         notifications.show({
-          message: 'Có lỗi xảy ra. Vui lòng thử lại',
+          message: t('errorTryAgainText'),
           color: 'red',
           icon: <IconX />,
         });
@@ -53,28 +55,28 @@ const ChangePassword = ({ opened = false, close }: Props) => {
   };
 
   return (
-    <Modal opened={opened} onClose={close} title="Change password">
+    <Modal opened={opened} onClose={close} title={t('changePasswordText')}>
       <form onSubmit={onSubmit(handleSubmit)}>
         <PasswordInput
-          placeholder="Password"
-          label="Password"
+          placeholder={t('passwordText')}
+          label={t('passwordText')}
           withAsterisk
           {...getInputProps('password')}
         />
         <PasswordInput
-          placeholder="New Password"
-          label="New Password"
+          placeholder={t('newPasswordText')}
+          label={t('newPasswordText')}
           withAsterisk
           {...getInputProps('newPassword')}
         />
         <PasswordInput
-          placeholder="Confirm Password"
-          label="Confirm Password"
+          placeholder={t('confirmPasswordText')}
+          label={t('confirmPasswordText')}
           withAsterisk
           {...getInputProps('confirmPassword')}
         />
         <Button type="submit" className="w-full mt-3" color="green">
-          Change Password
+          {t('changePasswordText')}
         </Button>
       </form>
     </Modal>

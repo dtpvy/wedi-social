@@ -1,4 +1,6 @@
-import useUserStore from '@/stores/auth';
+import useTranslation from '@/hooks/useTranslation';
+import useAppStore from '@/stores/store';
+import classNames from '@/utils/classNames';
 import { trpc } from '@/utils/trpc';
 import { Carousel } from '@mantine/carousel';
 import { Avatar, Button, CloseButton, Image, Modal, Select, Textarea } from '@mantine/core';
@@ -8,8 +10,6 @@ import { IconEyeEdit, IconLoader, IconMapPinFilled, IconPhoto, IconX } from '@ta
 import { IKUpload } from 'imagekitio-react';
 import { useRef, useState } from 'react';
 import LocationSeletion, { LocationSeletionProps } from './LocationSeletion';
-import classNames from '@/utils/classNames';
-import useTranslation from '@/hooks/useTranslation';
 
 type State = {
   content: string;
@@ -43,7 +43,7 @@ const ModalCreate = ({
   onDeleteLocation,
 }: Props) => {
   const mediaRef = useRef<HTMLInputElement>(null);
-  const user = useUserStore((state) => state.user);
+  const user = useAppStore.use.user();
   const create = trpc.post.create.useMutation();
   const update = trpc.post.update.useMutation();
 

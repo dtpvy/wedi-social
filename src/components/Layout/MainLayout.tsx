@@ -1,17 +1,21 @@
-import useUserStore from '@/stores/auth';
-import { Loader } from '@mantine/core';
+import { Loader, LoadingOverlay } from '@mantine/core';
 import { ReactNode } from 'react';
 import { Search } from '../Search';
+import { useSession } from 'next-auth/react';
 
 type Props = {
   children: ReactNode;
 };
 
-const LayoutMain = ({ children }: Props) => {
-  const status = useUserStore.use.status();
+const MainLayout = ({ children }: Props) => {
+  const { status } = useSession();
 
   if (status === 'loading') {
-    return <Loader />;
+    return (
+      <div className="w-screen h-screen relative">
+        <LoadingOverlay visible />
+      </div>
+    );
   }
 
   return (
@@ -22,4 +26,4 @@ const LayoutMain = ({ children }: Props) => {
   );
 };
 
-export default LayoutMain;
+export default MainLayout;

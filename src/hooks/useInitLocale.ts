@@ -1,12 +1,14 @@
-import useAuthStore from '@/stores/auth';
+import useAppStore from '@/stores/store';
+import { useSession } from 'next-auth/react';
 
 import { useEffect, useState } from 'react';
 
 const useInitLocale = () => {
   const [locale, setLocale] = useState('vi');
 
-  const user = useAuthStore.use.user();
-  const status = useAuthStore.use.status();
+  const { status } = useSession();
+  const user = useAppStore.use.user();
+
   useEffect(() => {
     if (status === 'loading') {
       return;

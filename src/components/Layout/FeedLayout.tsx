@@ -2,53 +2,55 @@ import classNames from '@/utils/classNames';
 import { type ReactNode } from 'react';
 
 import { CreateTrip } from '@/components/Trip';
-import useUserStore from '@/stores/auth';
-import type { Tab } from '@/types/tab';
-import { IconBus, IconCalendarTime, IconMapPinFilled, IconNews } from '@tabler/icons-react';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { trpc } from '@/utils/trpc';
-import { Avatar, Button } from '@mantine/core';
-import { calcFriend } from '@/utils/user';
-import dayjs from 'dayjs';
-import { User } from '@prisma/client';
+
 import useOpenMessageDialog from '@/hooks/useOpenMessageDialog';
 import useTranslation from '@/hooks/useTranslation';
-type Props = {
-  children: ReactNode;
-  className?: string;
-};
+import useAppStore from '@/stores/store';
+import type { Tab } from '@/types/tab';
+import { trpc } from '@/utils/trpc';
+import { Avatar, Button } from '@mantine/core';
+import { User } from '@prisma/client';
+import { IconBus, IconCalendarTime, IconMapPinFilled, IconNews } from '@tabler/icons-react';
+import dayjs from 'dayjs';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 const TAB_LIST: Record<string, Tab> = {
   FEED: {
-    name: 'feed',
+    name: 'feedText',
     url: '',
     icon: <IconNews size={30} />,
   },
   TRIP: {
-    name: 'trip',
+    name: 'tripText',
     url: 'trip',
     icon: <IconBus size={30} />,
   },
   EVENT: {
-    name: 'event',
+    name: 'eventText',
     url: 'event',
     icon: <IconCalendarTime size={30} />,
   },
   LOCATION: {
-    name: 'location',
+    name: 'locationText',
     url: 'location',
     icon: <IconMapPinFilled size={30} />,
   },
 };
 
+type Props = {
+  children: ReactNode;
+  className?: string;
+};
+
 const FeedLayout = ({ children, className }: Props) => {
   const { t } = useTranslation();
+
   const router = useRouter();
   const { show } = useOpenMessageDialog();
   const tab = router.asPath.split('/')[2] || TAB_LIST.FEED.name;
   const { data } = trpc.user.list.useQuery({});
-  const user = useUserStore.use.user();
+  const user = useAppStore.use.user();
 
   const addFriend = trpc.friend.add.useMutation();
   const addNoti = trpc.notification.push.useMutation();
@@ -81,7 +83,7 @@ const FeedLayout = ({ children, className }: Props) => {
               )}
             >
               {TAB_LIST[key].icon}
-              <div className="font-bold text-md">{TAB_LIST[key].name}</div>
+              <div className="font-bold text-md">{t(TAB_LIST[key].name)}</div>
             </Link>
           ))}
         </div>

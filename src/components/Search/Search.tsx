@@ -1,6 +1,6 @@
 import { LanguageConfig } from '@/constants/default';
 import useTranslation from '@/hooks/useTranslation';
-import useUserStore from '@/stores/auth';
+
 import { trpc } from '@/utils/trpc';
 import {
   ActionIcon,
@@ -26,6 +26,7 @@ import Message from './Message';
 import Notification from './Notification';
 import Link from 'next/link';
 import { Language } from '@prisma/client';
+import useAppStore from '@/stores/store';
 
 const Search = () => {
   const router = useRouter();
@@ -36,7 +37,7 @@ const Search = () => {
   const [opened, setOpened] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const user = useUserStore.use.user();
+  const user = useAppStore.use.user();
   const seeAll = trpc.notification.seenAll.useMutation();
   const seeAllMess = trpc.message.seenAll.useMutation();
 
@@ -70,7 +71,7 @@ const Search = () => {
         className="absolute top-0 left-0 w-screen h-screen"
         overlayBlur={2}
       />
-      <div className="flex items-center justify-between bg-white pr-8 py-[5px]">
+      <div className="flex items-center justify-between bg-white px-8 py-[5px]">
         <Link href={'/feed'} className="flex items-center bg-white no-underline">
           <Image src="/logo.png" alt="logo" width={60} height={60} />
           <div className="font-bold uppercase text-green-700 text-2xl">wedi</div>

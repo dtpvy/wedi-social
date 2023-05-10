@@ -1,4 +1,5 @@
-import useUserStore from '@/stores/auth';
+import useTranslation from '@/hooks/useTranslation';
+import useAppStore from '@/stores/store';
 import { CommentDetail } from '@/types/comment';
 import { trpc } from '@/utils/trpc';
 import { Carousel } from '@mantine/carousel';
@@ -8,7 +9,6 @@ import { User } from '@prisma/client';
 import { IconPhoto, IconSend, IconX } from '@tabler/icons-react';
 import { IKUpload } from 'imagekitio-react';
 import { useEffect, useRef, useState } from 'react';
-import useTranslation from '@/hooks/useTranslation';
 
 type Props = {
   postId: number;
@@ -20,7 +20,7 @@ type Props = {
 };
 
 const CreateComment = ({ postId, creator, comment, onCancel, onUpdate, onCreate }: Props) => {
-  const user = useUserStore((state) => state.user);
+  const user = useAppStore.use.user();
   const uploadRef = useRef<HTMLInputElement>(null);
   const utils = trpc.useContext();
 
@@ -47,14 +47,14 @@ const CreateComment = ({ postId, creator, comment, onCancel, onUpdate, onCreate 
   };
 
   const { t } = useTranslation();
-  
+
   const handleCreate = async () => {
     try {
       if (!comment) {
         await create.mutateAsync({ postId, imgUrls, content });
         if (creator) {
           await addNoti.mutateAsync({
-            content: 'Vừa mới bình luận vào bài viết của bạn',
+            content: `${t('justCommentedOnYourPostText')}`,
             userId: creator.id,
             imgUrl: creator.imgUrl || '',
           });

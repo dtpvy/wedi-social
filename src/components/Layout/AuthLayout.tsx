@@ -1,12 +1,11 @@
 import { ReactNode } from 'react';
 
 import LocaleProvider from '@/components/Language/LocaleProvider';
-import useInitLocale from '@/hooks/useInitLocale';
 import useAuth from '@/hooks/useAuth';
+import useInitLocale from '@/hooks/useInitLocale';
 import { LoadingOverlay } from '@mantine/core';
 import { useRouter } from 'next/router';
 import { AdminLayout } from '.';
-import { APP_URL } from '@/utils/env';
 
 type Props = {
   children: ReactNode;
@@ -33,7 +32,7 @@ const AuthLayout = ({ children }: Props) => {
     router.asPath.startsWith('/signup')
   ) {
     router.push('/feed');
-    return;
+    return <></>;
   }
 
   if (isAdminPage) {

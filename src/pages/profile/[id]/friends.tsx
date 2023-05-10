@@ -25,7 +25,7 @@ const Friends = () => {
           onChange={(e) => setValue(e.target.value)}
           icon={<IconSearch />}
           radius="xl"
-          placeholder="Search..."
+          placeholder= {t('searchText')} 
           className="mr-auto"
         />
         <Button

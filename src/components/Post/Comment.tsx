@@ -1,4 +1,5 @@
-import useUserStore from '@/stores/auth';
+import useTranslation from '@/hooks/useTranslation';
+import useAppStore from '@/stores/store';
 import { CommentDetail } from '@/types/comment';
 import { trpc } from '@/utils/trpc';
 import { Carousel } from '@mantine/carousel';
@@ -10,7 +11,6 @@ import dayjs from 'dayjs';
 import { useCallback, useEffect, useState } from 'react';
 import CreateComment from './CreateComment';
 import Reaction from './Reaction';
-import useTranslation from '@/hooks/useTranslation';
 
 type Props = {
   postId: number;
@@ -19,7 +19,7 @@ type Props = {
 };
 
 const Comment = ({ postId, creatorId, refetch }: Props) => {
-  const user = useUserStore((state) => state.user);
+  const user = useAppStore.use.user();
   const [commentId, setCommentId] = useState<number>();
 
   const query = trpc.comment.infinite.useInfiniteQuery(

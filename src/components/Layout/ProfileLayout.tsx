@@ -1,12 +1,11 @@
 import NotFound from '@/pages/404';
-import { UserInfo } from '@/types/user';
+import useProfileStore from '@/stores/store';
 import classNames from '@/utils/classNames';
 import { trpc } from '@/utils/trpc';
-import { Loader } from '@mantine/core';
+import { LoadingOverlay } from '@mantine/core';
 import { useRouter } from 'next/router';
-import { ReactNode, createContext } from 'react';
+import { ReactNode } from 'react';
 import { Header, TabMenu } from '../Profile/Header';
-import useUserStore from '@/stores/auth';
 import { CreateTrip } from '../Trip';
 
 type Props = {
@@ -14,23 +13,25 @@ type Props = {
   className?: string;
 };
 
-export const ProfileLayoutContext = createContext<{
-  data: UserInfo;
-  isOwner: boolean;
-} | null>(null);
-
 const ProfileLayout = ({ children, className }: Props) => {
   const router = useRouter();
-  const user = useUserStore.use.user();
-  const { id } = router.query;
-  const { data, isLoading } = trpc.user.findUser.useQuery({
-    id: +(id as string),
-  });
+  const setProfile = useProfileStore.use.setProfile();
 
-  console.log(data);
+  const { id } = router.query;
+  const { data, isLoading } = trpc.user.findUser.useQuery(
+    {
+      id: +(id as string),
+    },
+    {
+      onSuccess: (data) => {
+        if (!data) return;
+        setProfile(data);
+      },
+    }
+  );
 
   if (isLoading) {
-    return <Loader className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />;
+    return <LoadingOverlay visible overlayBlur={2} className="top-0 left-0 right-0 bottom-0" />;
   }
 
   if (!data) {
@@ -38,18 +39,16 @@ const ProfileLayout = ({ children, className }: Props) => {
   }
 
   return (
-    <ProfileLayoutContext.Provider value={{ data, isOwner: user?.id == id }}>
-      <div className="py-[70px]">
-        <Header />
-        <div className="flex mt-8 mx-16 gap-8">
-          <div className="w-[400px] shadow p-4 bg-white rounded-lg h-fit">
-            <CreateTrip className="mt-0" />
-            <TabMenu />
-          </div>
-          <div className={classNames('w-full', className)}>{children}</div>
+    <div className="py-[70px]">
+      <Header />
+      <div className="flex mt-8 mx-16 gap-8">
+        <div className="w-[400px] shadow p-4 bg-white rounded-lg h-fit">
+          <CreateTrip className="mt-0" />
+          <TabMenu />
         </div>
+        <div className={classNames('w-full', className)}>{children}</div>
       </div>
-    </ProfileLayoutContext.Provider>
+    </div>
   );
 };
 

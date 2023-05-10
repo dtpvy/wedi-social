@@ -90,17 +90,16 @@ const Home: NextPage = () => {
           <div className="container px-3 mx-auto flex items-center">
             <div className="flex flex-col w-full md:w-2/5 justify-center items-start text-center md:text-left">
               <h1 className="mt-10 mb-4 text-5xl font-bold leading-tight">
-                Wedi - Mạng xã hội du lịch tại Việt Nam
+                {t('titleLandingPageText')}
               </h1>
               <p className="leading-normal text-2xl mb-8">
-                Wedi là một trang mạng xã hội kết nối những con người chung sở thích du lịch lại với
-                nhau
+                {t('descriptionLandingPageText')}
               </p>
               <Link
                 href="/signup"
                 className="mx-auto no-underline lg:mx-0 bg-white text-gray-800 font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
               >
-                Tham gia cùng chúng tôi
+                {t('joinWithText')}
               </Link>
             </div>
           </div>
@@ -110,7 +109,7 @@ const Home: NextPage = () => {
       <section className="bg-white py-8">
         <div className="container max-w-5xl mx-auto m-8">
           <h2 className="w-full my-2 text-5xl font-bold leading-tight text-center text-gray-800">
-            Wedi có gì?
+            {t('questionText')}
           </h2>
           <div className="w-full mb-4">
             <div className="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t"></div>
@@ -118,11 +117,10 @@ const Home: NextPage = () => {
           <div className="flex flex-wrap">
             <div className="w-5/6 sm:w-1/2 p-6">
               <h3 className="text-3xl text-gray-800 font-bold leading-none mb-3">
-                Chia sẻ khoảnh khắc
+                {t('shareTheMomentText')}
               </h3>
               <p className="text-gray-600 mb-8">
-                Chia sẽ trải nghiệm các địa điểm du lịch, đánh giá, kết bạn, cùng nhau tạo những
-                chuyến du lịch thú vị.
+                {t('titleShareText')}
               </p>
             </div>
             <div className="w-full sm:w-1/2 p-6">
@@ -378,7 +376,7 @@ const Home: NextPage = () => {
                 viewBox="0 0 1176.60617 873.97852"
                 xmlns="http://www.w3.org/2000/svg"
               >
-                <title>connected world</title>
+                <title>{t('connectedWorldText')}</title>
                 <path
                   transform="translate(-11.697 -13.011)"
                   d="m1095.7 225.46c-133.54-185.83-415.64-261.21-693.08-180.02-146.67 42.921-288.09 128.92-358.18 295.44-125.28 297.67 137.76 392.74 309.77 423.04 83.172 14.651 161.51 39.263 233.09 72.771 128.78 60.284 356.74 113.7 528.63-137.41 124.59-182.01 68.722-350.04-20.23-473.82z"
@@ -532,11 +530,10 @@ const Home: NextPage = () => {
             <div className="w-full sm:w-1/2 p-6 mt-6">
               <div className="align-middle">
                 <h3 className="text-3xl text-gray-800 font-bold leading-none mb-3">
-                  Gợi ý địa điểm du lịch
+                  {t('recommendText')}
                 </h3>
                 <p className="text-gray-600 mb-8">
-                  Gợi ý các địa điểm du lịch cùng với các đánh giá từ người dùng. Cung cấp các địa
-                  điểm đa dạng đầy đủ mang đến trải nghiệm du lịch thật dễ dàng.
+                  {t('descriptionRecommendText')}
                 </p>
               </div>
             </div>
@@ -546,7 +543,7 @@ const Home: NextPage = () => {
       <section className="bg-white py-8">
         <div className="container mx-auto pt-12 pb-4">
           <h2 className="w-full my-2 text-5xl font-bold leading-tight text-center text-gray-800">
-            About Website
+            {t('aboutWebsiteText')}
           </h2>
           <div className="flex">
             <div className="flex-1 md:w-1/3 m-6 bg-white rounded shadow">
@@ -560,7 +557,7 @@ const Home: NextPage = () => {
                     href="https://nextjs.org/"
                     className="mx-auto no-underline text-white bg-green-600 font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
                   >
-                    View details
+                    {t('viewDetailsText')}
                   </a>
                 </div>
               </div>
@@ -580,7 +577,7 @@ const Home: NextPage = () => {
                     href="https://tailwindcss.com/"
                     className="mx-auto no-underline text-white bg-green-600 font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
                   >
-                    View details
+                    {t('viewDetailsText')}
                   </a>
                 </div>
               </div>
@@ -599,7 +596,7 @@ const Home: NextPage = () => {
                     href="https://trpc.io/"
                     className="mx-auto no-underline text-white bg-green-600 font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
                   >
-                    View details
+                    {t('viewDetailsText')}
                   </a>
                 </div>
               </div>
@@ -615,7 +612,7 @@ const Home: NextPage = () => {
                     href="https://www.postgresql.org/"
                     className="mx-auto no-underline text-white bg-green-600 font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
                   >
-                    View details
+                    {t('viewDetailsText')}
                   </a>
                 </div>
               </div>
@@ -680,14 +677,14 @@ const Home: NextPage = () => {
               <div className="text-green-600 font-bold text-2xl lg:text-3xl">WEDI</div>
             </div>
             <div className="flex-1">
-              <p className="uppercase text-gray-500 md:mb-6 mt-0">Links</p>
+              <p className="uppercase text-gray-500 md:mb-6 mt-0">{t('linksText')}</p>
               <ul className="list-reset mb-6">
                 <li className="mt-2 inline-block mr-2 md:block md:mr-0">
                   <a
                     href="#"
                     className="no-underline hover:underline text-gray-800 hover:text-green-500"
                   >
-                    FAQ
+                    {t('faqText')}
                   </a>
                 </li>
                 <li className="mt-2 inline-block mr-2 md:block md:mr-0">
@@ -695,7 +692,7 @@ const Home: NextPage = () => {
                     href="#"
                     className="no-underline hover:underline text-gray-800 hover:text-green-500"
                   >
-                    Help
+                    {t('helpText')}
                   </a>
                 </li>
                 <li className="mt-2 inline-block mr-2 md:block md:mr-0">
@@ -703,20 +700,20 @@ const Home: NextPage = () => {
                     href="#"
                     className="no-underline hover:underline text-gray-800 hover:text-green-500"
                   >
-                    Support
+                    {t('supportText')}
                   </a>
                 </li>
               </ul>
             </div>
             <div className="flex-1">
-              <p className="uppercase text-gray-500 md:mb-6 mt-0">Legal</p>
+              <p className="uppercase text-gray-500 md:mb-6 mt-0">{t('legalText')}</p>
               <ul className="list-reset mb-6">
                 <li className="mt-2 inline-block mr-2 md:block md:mr-0">
                   <a
                     href="#"
                     className="no-underline hover:underline text-gray-800 hover:text-green-500"
                   >
-                    Terms
+                    {t('termsText')}
                   </a>
                 </li>
                 <li className="mt-2 inline-block mr-2 md:block md:mr-0">
@@ -724,13 +721,13 @@ const Home: NextPage = () => {
                     href="#"
                     className="no-underline hover:underline text-gray-800 hover:text-green-500"
                   >
-                    Privacy
+                    {t('privacyText')}
                   </a>
                 </li>
               </ul>
             </div>
             <div className="flex-1">
-              <p className="uppercase text-gray-500 md:mb-6 mt-0">Social</p>
+              <p className="uppercase text-gray-500 md:mb-6 mt-0">{t('socialText')}</p>
               <ul className="list-reset mb-6">
                 <li className="mt-2 inline-block mr-2 md:block md:mr-0">
                   <a
@@ -759,14 +756,14 @@ const Home: NextPage = () => {
               </ul>
             </div>
             <div className="flex-1">
-              <p className="uppercase text-gray-500 md:mb-6 mt-0">Company</p>
+              <p className="uppercase text-gray-500 md:mb-6 mt-0">{t('companyText')}</p>
               <ul className="list-reset mb-6">
                 <li className="mt-2 inline-block mr-2 md:block md:mr-0">
                   <a
                     href="#"
                     className="no-underline hover:underline text-gray-800 hover:text-green-500"
                   >
-                    Official Blog
+                    {t('officialBlogText')}
                   </a>
                 </li>
                 <li className="mt-2 inline-block mr-2 md:block md:mr-0">
@@ -774,7 +771,7 @@ const Home: NextPage = () => {
                     href="#"
                     className="no-underline hover:underline text-gray-800 hover:text-green-500"
                   >
-                    About Us
+                    {t('aboutUsText')}
                   </a>
                 </li>
                 <li className="mt-2 inline-block mr-2 md:block md:mr-0">
@@ -782,7 +779,7 @@ const Home: NextPage = () => {
                     href="#"
                     className="no-underline hover:underline text-gray-800 hover:text-green-500"
                   >
-                    Contact
+                    {t('contactText')}
                   </a>
                 </li>
               </ul>

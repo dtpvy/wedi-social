@@ -1,5 +1,5 @@
 import useOpenMessageDialog from '@/hooks/useOpenMessageDialog';
-import useUserStore from '@/stores/auth';
+
 import { MessageDetail } from '@/types/message';
 import { trpc } from '@/utils/trpc';
 import { Avatar, Select } from '@mantine/core';
@@ -8,10 +8,11 @@ import { IconSearch } from '@tabler/icons-react';
 import dayjs from 'dayjs';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import useTranslation from '@/hooks/useTranslation';
+import useAppStore from '@/stores/store';
 
 const Message = () => {
   const { show } = useOpenMessageDialog();
-  const user = useUserStore.use.user();
+  const user = useAppStore.use.user();
   const messQuery = trpc.message.infinite.useInfiniteQuery(
     {},
     {
@@ -21,6 +22,8 @@ const Message = () => {
 
   const utils = trpc.useContext();
   const { hasPreviousPage, isFetchingPreviousPage, fetchPreviousPage } = messQuery;
+
+  const { t } = useTranslation();
 
   const [messages, setMessages] = useState(() => {
     const nts = messQuery.data?.pages
@@ -52,7 +55,7 @@ const Message = () => {
       addMess([noti as MessageDetail]);
     },
     onError(err) {
-      console.error('Subscription error:', err);
+      console.error(t('subscriptionErrorText'), err);
       utils.notification.infinite.invalidate();
     },
   });
@@ -77,7 +80,6 @@ const Message = () => {
     show(user as unknown as User);
   };
 
-  const { t } = useTranslation();
   return (
     <div className="max-h-[300px] overflow-auto">
       <Select

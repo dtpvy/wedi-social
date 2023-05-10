@@ -18,10 +18,10 @@ const FriendWidget = ({ id, name, imgUrl, mutualFriends }: Props) => {
   const { t } = useTranslation(); 
   const openDeleteModal = () =>
     modals.openConfirmModal({
-      title: 'Delete your profile',
+      title: t('titleDeleteFriendText'),
       centered: true,
-      children: <Text size="sm">{`Are you sure unfriend ${name}?`}</Text>,
-      labels: { confirm: 'Yes', cancel: 'Cancel' },
+      children: <Text size="sm">{`${t('deleteFriendText')} ${name}?`}</Text>,
+      labels: { confirm: t('yesText'), cancel: t('cancelText') },
       confirmProps: { color: 'red' },
       onCancel: () => null,
       onConfirm: async () => {

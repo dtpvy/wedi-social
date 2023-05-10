@@ -1,4 +1,4 @@
-import useUserStore from '@/stores/auth';
+import useTranslation from '@/hooks/useTranslation';
 import classNames from '@/utils/classNames';
 import { trpc } from '@/utils/trpc';
 import { Avatar, Button, Modal } from '@mantine/core';
@@ -7,14 +7,14 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { MouseEvent, useState } from 'react';
 import FormCreate, { TripParams } from './FormCreate';
-import useTranslation from '@/hooks/useTranslation';
+import useAppStore from '@/stores/store';
 
 type Props = {
   className?: string;
 };
 
 const CreateTrip = ({ className }: Props) => {
-  const user = useUserStore.use.user();
+  const user = useAppStore.use.user();
   const router = useRouter();
   const create = trpc.trip.create.useMutation();
   const [opened, setOpened] = useState(false);

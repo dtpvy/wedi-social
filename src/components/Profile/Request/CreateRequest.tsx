@@ -21,8 +21,8 @@ const CreateRequest = ({ opened = false, close }: Props) => {
       content: '',
     },
     validate: {
-      title: (value) => (value.length ? null : 'Require'),
-      content: (value) => (value.length ? null : 'Require'),
+      title: (value) => (value.length ? null : t('requireText')),
+      content: (value) => (value.length ? null : t('requireText')),
     },
   });
 
@@ -31,7 +31,7 @@ const CreateRequest = ({ opened = false, close }: Props) => {
       onSuccess: () => {
         utils.request.requestList.refetch();
         notifications.show({
-          message: `Create successfully`,
+          message: `${t('addsuccessText')}`,
           color: 'green',
           icon: <IconCheck />,
         });
@@ -40,25 +40,25 @@ const CreateRequest = ({ opened = false, close }: Props) => {
   };
 
   return (
-    <Modal opened={opened} onClose={close} title="Create Request" centered size="lg">
+    <Modal opened={opened} onClose={close} title= {t('createrequestText')} centered size="lg">
       <form onSubmit={form.onSubmit(onSubmit)}>
         <TextInput
-          placeholder="Nguyên nhân"
-          label="Nguyên nhân"
+          placeholder= {t('reasonText')}
+          label= {t('reasonText')}
           withAsterisk
           {...form.getInputProps('title')}
         />
         <Textarea
           minRows={10}
-          placeholder="Mô tả"
-          label="Mô tả chi tiết"
+          placeholder= {t('descriptionText')}
+          label= {t('detaileddescriptionText')}
           withAsterisk
           {...form.getInputProps('content')}
         />
-        <div className="text-red-500 text-sm mt-3">Lưu ý: Bạn không thể chỉnh sửa khi đã tạo</div>
+        <div className="text-red-500 text-sm mt-3">{t('warningText')}</div>
         <div className="flex justify-between mt-3">
           <Button onClick={close} color="green" variant="outline">
-            Huỷ
+            {t('cancelText')}
           </Button>
           <Button type="submit" color="green">
             {t("createrequestText")}

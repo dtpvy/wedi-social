@@ -50,7 +50,7 @@ const Notification = () => {
       addNoti([noti as NotificationDetail]);
     },
     onError(err) {
-      console.error('Subscription error:', err);
+      console.error(t('subscriptionErrorText'), err);
       utils.notification.infinite.invalidate();
     },
   });

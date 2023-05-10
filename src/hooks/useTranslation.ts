@@ -1,5 +1,5 @@
-import useAuthStore from '@/stores/auth';
 import useLocaleStore from '@/stores/locale';
+import useAppStore from '@/stores/store';
 import { trpc } from '@/utils/trpc';
 import { Language } from '@prisma/client';
 
@@ -10,7 +10,7 @@ const useTranslation = () => {
 
   const { data: languages } = trpc.location.languages.useQuery({});
   const updateLanguage = trpc.user.updateLanguage.useMutation();
-  const user = useAuthStore.use.user();
+  const user = useAppStore.use.user();
 
   const t = (key: string) => {
     if (!translator) return '';

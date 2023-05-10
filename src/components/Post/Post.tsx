@@ -1,17 +1,25 @@
+import useTranslation from '@/hooks/useTranslation';
+
 import { PostDetail } from '@/types/post';
 import classNames from '@/utils/classNames';
+import { getTimePost } from '@/utils/time';
 import { Carousel } from '@mantine/carousel';
 import { Avatar, Button, Card, Image, Rating, Text } from '@mantine/core';
-import { IconEyeCog, IconLockSquare, IconMessage, IconWorld } from '@tabler/icons-react';
-import dayjs from 'dayjs';
+import { Privacy } from '@prisma/client';
+import {
+  IconEyeCog,
+  IconLockSquare,
+  IconMessage,
+  IconRefresh,
+  IconWorld,
+} from '@tabler/icons-react';
+import axios from 'axios';
 import { useState } from 'react';
 import Comment from './Comment';
 import CreateComment from './CreateComment';
 import PostAction from './PostAction';
 import Reaction from './Reaction';
-import { Privacy } from '@prisma/client';
-import useUserStore from '@/stores/auth';
-import useTranslation from '@/hooks/useTranslation';
+import useAppStore from '@/stores/store';
 
 type Props = {
   post: PostDetail;
@@ -19,26 +27,44 @@ type Props = {
   refetch: () => void;
 };
 
+const PrivacyConfig = {
+  [Privacy.PUBLIC]: {
+    icon: <IconWorld />,
+    text: 'publicModeText',
+  },
+  [Privacy.FRIEND]: {
+    icon: <IconEyeCog />,
+    text: 'friendModeText',
+  },
+  [Privacy.PRIVATE]: {
+    icon: <IconLockSquare />,
+    text: 'privateModeText',
+  },
+};
+
 const Post = ({ post, className, refetch }: Props) => {
-  const [opened, setOpened] = useState(false);
-  const user = useUserStore.use.user();
-  const { creator, createdAt, content, _count, imgUrls, locations, reviews, privacy } = post;
-
   const { t } = useTranslation();
+  const [showTranslate, setShowTranslate] = useState(false);
+  const [loadingTranslate, setLoadingTranslate] = useState(false);
 
-  const PrivacyConfig = {
-    [Privacy.PUBLIC]: {
-      icon: <IconWorld />,
-      text: t('publicModeText'),
-    },
-    [Privacy.FRIEND]: {
-      icon: <IconEyeCog />,
-      text: t('friendModeText'),
-    },
-    [Privacy.PRIVATE]: {
-      icon: <IconLockSquare />,
-      text: t('privateModeText'),
-    },
+  const [opened, setOpened] = useState(false);
+  const user = useAppStore.use.user();
+  const { creator, createdAt, content, _count, imgUrls, locations, reviews, privacy } = post;
+  const [text, setText] = useState(content);
+
+  const handleChangeText = async () => {
+    setLoadingTranslate(true);
+    if (showTranslate) {
+      setText(content);
+      setShowTranslate(false);
+    } else {
+      const translate = await axios
+        .get('/api/translate', { params: { text: content } })
+        .then((res) => res.data);
+      setText(translate);
+      setShowTranslate(true);
+    }
+    setLoadingTranslate(false);
   };
 
   return (
@@ -49,8 +75,8 @@ const Post = ({ post, className, refetch }: Props) => {
           <div className="font-medium">{creator.name}</div>
           <div className="text-sm text-gray-400 flex items-center">
             {PrivacyConfig[privacy].icon}
-            <div className="ml-1 mr-4">{PrivacyConfig[privacy].text}</div>
-            <div className="font-medium">{dayjs(createdAt).format('DD-MM-YYYY HH:mm')}</div>
+            <div className="ml-1 mr-4">{t(PrivacyConfig[privacy].text)}</div>
+            <div className="font-medium">{getTimePost(createdAt)}</div>
           </div>
         </div>
         {user?.id === post.creatorId && <PostAction post={post} refetch={refetch} />}
@@ -108,8 +134,19 @@ const Post = ({ post, className, refetch }: Props) => {
           ></Carousel>
         )}
         <Text size="sm" lineClamp={5} className="mt-3">
-          {content}
+          {showTranslate ? `${t('translatedText')}: ${text}` : text}
         </Text>
+
+        <Button
+          onClick={handleChangeText}
+          leftIcon={loadingTranslate && <IconRefresh size={12} />}
+          variant="light"
+          color="teal"
+          size="xs"
+          compact
+        >
+          {!showTranslate ? t('translateText') : t('hideTranslatedText')}
+        </Button>
       </Card>
       <div className="flex items-center gap-4 mt-4">
         <Reaction post={post} refetch={refetch} />

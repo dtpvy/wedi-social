@@ -13,8 +13,11 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 
 import AuthLayout from '@/components/Layout/AuthLayout';
 import { NextPage } from 'next';
-import { ReactElement, ReactNode } from 'react';
+import { ReactElement, ReactNode, useEffect } from 'react';
+import { translate } from '@vitalets/google-translate-api';
+
 import '@/styles/globals.css';
+import axios from 'axios';
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;

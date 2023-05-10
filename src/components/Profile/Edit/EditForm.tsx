@@ -1,24 +1,26 @@
-import { ProfileLayoutContext } from '@/components/Layout/ProfileLayout';
 import useEditForm, { EditForm } from '@/hooks/useEditForm';
 import useLocation from '@/hooks/useLocation';
+import useTranslation from '@/hooks/useTranslation';
+import useProfileStore from '@/stores/store';
 import { trpc } from '@/utils/trpc';
 import { Button, Select, TextInput, Textarea } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { IconAt, IconCheck, IconLanguage, IconPhone, IconX } from '@tabler/icons-react';
-import { useContext, useMemo } from 'react';
-import Header from './Header';
-import { useDisclosure } from '@mantine/hooks';
+import { useMemo } from 'react';
 import ChangePassword from './ChangePassword';
-import useTranslation from '@/hooks/useTranslation';
+import Header from './Header';
+
 const Edit = () => {
-  const { t } = useTranslation(); 
-  const { isOwner } = useContext(ProfileLayoutContext) || {};
+  const { t } = useTranslation();
+  const { isOwner } = useProfileStore.use.profile();
+
   const update = trpc.user.updateInfo.useMutation();
   const [opened, { open, close }] = useDisclosure(false);
 
   const { getInputProps, onSubmit, values, setValues } = useEditForm();
 
-  const { data: language, isLoading: loading } = trpc.location.languages.useQuery({});
+  const { data: language } = trpc.location.languages.useQuery({});
 
   const languages = useMemo(() => {
     return (language || []).map((d) => ({
@@ -47,14 +49,14 @@ const Edit = () => {
         districtId: districtId !== null ? +districtId : null,
       });
       notifications.show({
-        message: t("addsuccessText"),
+        message: t('addsuccessText'),
         color: 'green',
         icon: <IconCheck />,
       });
       utils.user.findUser.refetch();
     } catch (e: any) {
       notifications.show({
-        message: t("errorTryAgainText"),
+        message: t('errorTryAgainText'),
         color: 'red',
         icon: <IconX />,
       });
@@ -64,7 +66,7 @@ const Edit = () => {
   return (
     <div className="w-full bg-white h-full shadow-md rounded p-4">
       {!isOwner ? (
-        <div className="text-center">{t("")}</div>
+        <div className="text-center">{t('')}</div>
       ) : (
         <>
           <form onSubmit={onSubmit(handleSubmit)} className="flex flex-col gap-3">
@@ -81,8 +83,8 @@ const Edit = () => {
               />
               <TextInput
                 className="flex-1"
-                placeholder={t("yourNameText")}
-                label={t("yourNameText")}
+                placeholder={t('yourNameText')}
+                label={t('yourNameText')}
                 withAsterisk
                 {...getInputProps('name')}
               />
@@ -91,16 +93,16 @@ const Edit = () => {
               <TextInput
                 icon={<IconPhone />}
                 className="flex-1"
-                placeholder={t("phoneText")}
-                label={t("phoneText")}
+                placeholder={t('phoneText')}
+                label={t('phoneText')}
                 withAsterisk
                 {...getInputProps('phone')}
               />
               <Select
                 icon={<IconLanguage />}
                 className="flex-1"
-                placeholder={t("languageText ")}
-                label={t("languageText")}
+                placeholder={t('languageText ')}
+                label={t('languageText')}
                 data={languages}
                 {...getInputProps('languageId')}
                 withAsterisk
@@ -109,8 +111,8 @@ const Edit = () => {
             <div className="flex gap-3 flex-wrap">
               <Select
                 className="flex-1"
-                placeholder={t("countryText")}
-                label={t("countryText")}
+                placeholder={t('countryText')}
+                label={t('countryText')}
                 data={countries}
                 {...getInputProps('countryId')}
                 onChange={(value) => {
@@ -126,8 +128,8 @@ const Edit = () => {
               />
               <Select
                 className="flex-1"
-                placeholder={t("cityText")}
-                label={t("cityText")}
+                placeholder={t('cityText')}
+                label={t('cityText')}
                 data={cities}
                 {...getInputProps('cityId')}
                 onChange={(value) => {
@@ -144,8 +146,8 @@ const Edit = () => {
             <div className="flex gap-3 flex-wrap">
               <Select
                 className="flex-1"
-                placeholder={t("districtText")}
-                label={t("districtText")}
+                placeholder={t('districtText')}
+                label={t('districtText')}
                 data={districts}
                 {...getInputProps('districtId')}
                 onChange={(value) => {
@@ -159,25 +161,29 @@ const Edit = () => {
               />
               <Select
                 className="flex-1"
-                placeholder={t("wardText")}
-                label={t("wardText")}
+                placeholder={t('wardText')}
+                label={t('wardText')}
                 data={wards}
                 {...getInputProps('wardId')}
               />
             </div>
             <TextInput
               className="flex-1"
-              placeholder={t("streetText")}
-              label={t("streetText")}
+              placeholder={t('streetText')}
+              label={t('streetText')}
               {...getInputProps('street')}
             />
-            <Textarea placeholder={t("detaileddescriptionText")} label={t("detaileddescriptionText")} {...getInputProps('bio')} />
+            <Textarea
+              placeholder={t('detaileddescriptionText')}
+              label={t('detaileddescriptionText')}
+              {...getInputProps('bio')}
+            />
             <div className="flex item-center mt-3 gap-2 justify-end">
               <Button onClick={open} color="green" variant="outline">
-                {t("changepasswordText")}
+                {t('changepasswordText')}
               </Button>
               <Button type="submit" color="green">
-                {t("updateText")}
+                {t('updateText')}
               </Button>
             </div>
           </form>
