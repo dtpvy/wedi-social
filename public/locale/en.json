@@ -53,9 +53,9 @@
   "rejectedText": "Rejected",
   "addsuccessText": "Action success",
   "addfailedText": "Action failed",
-  "mutualfriendText": "{{n}} mutual friend(s)",
+  "mutualfriendText": " mutual friend(s)",
   "titleDeleteFriendText": "Delete your profile",
-  "deleteFriendText": "Are you sure unfriend account {{name}}",
+  "deleteFriendText": "Are you sure unfriend account ",
   "cancelText": "Cancel",
   "yesText": "Yes",
   "reasonText": "Reason",
@@ -190,5 +190,11 @@
   "socialText": "Social",
   "companyText": "Company",
   "feedText": "Feed",
-  "eventText": "Event"
+  "eventText": "Event",
+  "passwordDidNotMatchText": "Password did not match",
+  "newPasswordText": "New password",
+  "changePasswordText": "Change password",
+  "lastEditText": "Last edit: ",
+  "areYouSureDeleteThisRequestText": "Are you sure delete this request?",
+  "areYouSureDeleteThisPostText": "Are you sure delete this post?"
 }

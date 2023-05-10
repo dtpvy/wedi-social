@@ -53,7 +53,7 @@
   "rejectedText": "Đã từ chối",
   "addsuccessText": "Thao tác thành công",
   "addfailedText": "Thao tác thất bại",
-  "mutualfriendText": "{{n}} bạn chung",
+  "mutualfriendText": " bạn chung",
   "titleDeleteFriendText": "Xóa tài khoản của bạn",
   "deleteFriendText": "Bạn có chắc chắn hủy kết bạn với {{name}}",
   "cancelText": "Hủy",
@@ -190,5 +190,11 @@
   "socialText": "Mạng xã hội",
   "companyText": "Công ty",
   "feedText": "Bảng tin",
-  "eventText": "Sự kiện"
+  "eventText": "Sự kiện",
+  "passwordDidNotMatchText": "Mật khẩu không khớp",
+  "newPasswordText": "Mật khẩu mới",
+  "changePasswordText": "Đổi mật khẩu",
+  "lastEditText": "Lần chỉnh sửa gần nhất: ",
+  "areYouSureDeleteThisRequestText": "Bạn có chắc chắn muốn xóa yêu cầu này?",
+  "areYouSureDeleteThisPostText": "Bạn có chắc chắn muốn xóa bài viết này?"
 }

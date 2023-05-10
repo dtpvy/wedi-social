@@ -24,22 +24,22 @@ const FeedLayout = ({ children, className }: Props) => {
 
   const TAB_LIST: Record<string, Tab> = {
     FEED: {
-      name: t('feedText'),
+      name: `${t('feedText')}`,
       url: '',
       icon: <IconNews size={30} />,
     },
     TRIP: {
-      name: t('tripText'),
+      name: `${t('tripText')}`,
       url: 'trip',
       icon: <IconBus size={30} />,
     },
     EVENT: {
-      name: t('eventText'),
+      name: `${t('eventText')}`,
       url: 'event',
       icon: <IconCalendarTime size={30} />,
     },
     LOCATION: {
-      name: t('locationText'),
+      name: `${t('locationText')}`,
       url: 'location',
       icon: <IconMapPinFilled size={30} />,
     },
