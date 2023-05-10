@@ -22,6 +22,8 @@ const Message = () => {
   const utils = trpc.useContext();
   const { hasPreviousPage, isFetchingPreviousPage, fetchPreviousPage } = messQuery;
 
+  const { t } = useTranslation();
+
   const [messages, setMessages] = useState(() => {
     const nts = messQuery.data?.pages
       .map((page) => page.items as unknown as MessageDetail[])
@@ -52,7 +54,7 @@ const Message = () => {
       addMess([noti as MessageDetail]);
     },
     onError(err) {
-      console.error('Subscription error:', err);
+      console.error(t('subscriptionErrorText'), err);
       utils.notification.infinite.invalidate();
     },
   });
@@ -77,7 +79,6 @@ const Message = () => {
     show(user as unknown as User);
   };
 
-  const {t} = useTranslation();
   return (
     <div className="max-h-[300px] overflow-auto">
       <Select
@@ -87,11 +88,11 @@ const Message = () => {
         onChange={(value) => handleShowMessDialog(Number.parseInt(value || ''))}
         className="mb-3"
       />
-      {!messages?.length && <div className="text-center">{t("noDataText")}</div>}
+      {!messages?.length && <div className="text-center">{t('noDataText')}</div>}
       {messages?.map((mess) => {
         const userProfile = profile(mess);
         const { imgUrl, name } = userProfile;
-        
+
         return (
           <div
             key={mess.id}
@@ -135,8 +136,7 @@ const Message = () => {
           ? t('loadingMoreText')
           : hasPreviousPage
           ? t('loadMoreText')
-          : t('notifEndText')
-          }
+          : t('notifEndText')}
       </button>
     </div>
   );

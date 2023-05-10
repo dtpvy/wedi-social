@@ -11,40 +11,41 @@ import { trpc } from '@/utils/trpc';
 import { calcFriend } from '@/utils/user';
 import { CreateTrip } from '@/components/Trip';
 import useTranslation from '@/hooks/useTranslation';
-const TAB_NAME = {
-  POSTS: 'posts',
-  TRIPS: 'trips',
-  FRIENDS: 'friends',
-  REQUESTS: 'requests',
-};
-
-const TAB_LIST: Record<string, Tab> = {
-  [TAB_NAME.POSTS]: {
-    name: 'posts',
-    url: 'posts',
-    icon: <IconArticle />,
-  },
-  [TAB_NAME.TRIPS]: {
-    name: 'trips',
-    url: 'trips',
-    icon: <IconMap />,
-  },
-  [TAB_NAME.FRIENDS]: {
-    name: 'friends',
-    url: 'friends',
-    icon: <IconFriends />,
-  },
-  [TAB_NAME.REQUESTS]: {
-    name: 'requests',
-    url: 'requests',
-    icon: <IconMessageReport />,
-  },
-};
 
 const TabMenu = () => {
   const router = useRouter();
   const user = useUserStore.use.user();
   const { data: profile, isOwner } = useContext(ProfileLayoutContext) || {};
+
+  const { t, locale } = useTranslation();
+  const TAB_NAME = {
+    POSTS: `${t('postText')}`,
+    TRIPS: 'trips',
+    FRIENDS: 'friends',
+    REQUESTS: 'requests',
+  };
+  const TAB_LIST: Record<string, Tab> = {
+    [TAB_NAME.POSTS]: {
+      name: `${t('postText')}`,
+      url: 'posts',
+      icon: <IconArticle />,
+    },
+    [TAB_NAME.TRIPS]: {
+      name: `${t('tripText')}`,
+      url: 'trips',
+      icon: <IconMap />,
+    },
+    [TAB_NAME.FRIENDS]: {
+      name: `${t('friendText')}`,
+      url: 'friends',
+      icon: <IconFriends />,
+    },
+    [TAB_NAME.REQUESTS]: {
+      name: `${t('requestText')}`,
+      url: 'requests',
+      icon: <IconMessageReport />,
+    },
+  };
 
   const isFriend =
     user?.friends.find((friend) => friend.friendId === profile?.id) ||
@@ -64,7 +65,7 @@ const TabMenu = () => {
     try {
       await addFriend.mutateAsync({ userId: profile.id });
       await addNoti.mutateAsync({
-        content: 'Có người muốn kết bạn với bạn',
+        content: `${t('friendnotifText')}`,
         userId: profile.id,
         imgUrl: user?.imgUrl || '',
       });
@@ -82,7 +83,7 @@ const TabMenu = () => {
     tabs[TAB_NAME.REQUESTS].badgeNumber = user.requests.length;
     return tabs;
   }, [user]);
-  const { t } = useTranslation(); 
+
   return (
     <>
       <div className="flex flex-col gap-4 mt-4">
@@ -106,7 +107,7 @@ const TabMenu = () => {
           variant="filled"
           color="green"
         >
-          Add Friend
+          {t('addfriendText')}
         </Button>
       )}
       {isOwner && (
@@ -117,7 +118,7 @@ const TabMenu = () => {
           variant="filled"
           color="green"
         >
-          {t("editprofileText")}
+          {t('editprofileText')}
         </Button>
       )}
     </>

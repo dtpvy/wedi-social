@@ -42,9 +42,9 @@ const PostAction = ({ post, refetch }: Props) => {
   const openDeleteModal = () => {
     setOpened(false);
     modals.openConfirmModal({
-      title: t('"deleteProfileText":'),
+      title: t('deletePostText'),
       centered: true,
-      children: <Text size="sm">Are you sure delete this post</Text>,
+      children: <Text size="sm">{t('areYouSureDeleteThisPostText')}</Text>,
       labels: { confirm:t('yesText'), cancel: t('cancelText')},
       confirmProps: { color: 'red' },
       onCancel: () => null,

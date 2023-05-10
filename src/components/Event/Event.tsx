@@ -57,7 +57,7 @@ const Event = ({ schedule, refetch }: Props) => {
             variant="gradient"
             gradient={{ from: 'indigo', to: 'cyan' }}
           >
-            Tham gia
+            {t('participatebtnText')}
           </Button>
         ) : (
           <div className="flex gap-2 items-center">
@@ -67,7 +67,7 @@ const Event = ({ schedule, refetch }: Props) => {
               variant="gradient"
               gradient={{ from: 'teal', to: 'lime', deg: 105 }}
             >
-              Rời khỏi
+              {t('leaveText')}
             </Button>
             <HoverCard width={200} shadow="md">
               <HoverCard.Target>
@@ -77,7 +77,7 @@ const Event = ({ schedule, refetch }: Props) => {
               </HoverCard.Target>
               <HoverCard.Dropdown>
                 <TimeInput
-                  label="Time Reminder"
+                  label= {t('timeReminderText')}
                   ref={ref}
                   defaultValue={dayjs(joined.reminderTime).format('HH:mm')}
                   rightSection={
