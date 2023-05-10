@@ -1,4 +1,4 @@
-import useUserStore from '@/stores/user';
+import useUserStore from '@/stores/auth';
 import { trpc } from '@/utils/trpc';
 import { Avatar, Button } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
@@ -18,12 +18,12 @@ const Request = ({ user, status, friendId }: Props) => {
   const reject = trpc.friend.reject.useMutation();
   const accept = trpc.friend.accept.useMutation();
   const userId = user.id;
-  const { t } = useTranslation(); 
+  const { t } = useTranslation();
   const handleReject = async () => {
     try {
       await reject.mutateAsync({ userId, friendId });
       notifications.show({
-        message: t("addsuccessText"),
+        message: t('addsuccessText'),
         color: 'green',
         icon: <IconCheck />,
       });
@@ -31,7 +31,7 @@ const Request = ({ user, status, friendId }: Props) => {
       utils.friend.requestList.refetch();
     } catch (e: any) {
       notifications.show({
-        message: t("addfailedText"),
+        message: t('addfailedText'),
         color: 'red',
         icon: <IconX />,
       });
@@ -42,12 +42,12 @@ const Request = ({ user, status, friendId }: Props) => {
     try {
       await accept.mutateAsync({ userId, friendId });
       await addNoti.mutateAsync({
-        content: String(t("acceptedfriendText")),
+        content: String(t('acceptedfriendText')),
         userId,
         imgUrl: user.imgUrl || '',
       });
       notifications.show({
-        message: t("addsuccessText"),
+        message: t('addsuccessText'),
         color: 'green',
         icon: <IconCheck />,
       });
@@ -56,7 +56,7 @@ const Request = ({ user, status, friendId }: Props) => {
     } catch (e: any) {
       console.log(e);
       notifications.show({
-        message: t("errorTryAgainText"),
+        message: t('errorTryAgainText'),
         color: 'red',
         icon: <IconX />,
       });
@@ -73,10 +73,10 @@ const Request = ({ user, status, friendId }: Props) => {
       {friendId === _user?.id && (
         <>
           <Button onClick={handleAccept} variant="outline" color="green">
-            {t("acceptText")}
+            {t('acceptText')}
           </Button>
           <Button onClick={handleReject} color="green">
-            {t("rejectText")}
+            {t('rejectText')}
           </Button>
         </>
       )}

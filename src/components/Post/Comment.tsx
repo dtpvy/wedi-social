@@ -1,4 +1,4 @@
-import useUserStore from '@/stores/user';
+import useUserStore from '@/stores/auth';
 import { CommentDetail } from '@/types/comment';
 import { trpc } from '@/utils/trpc';
 import { Carousel } from '@mantine/carousel';

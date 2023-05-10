@@ -10,7 +10,7 @@ import CreateComment from './CreateComment';
 import PostAction from './PostAction';
 import Reaction from './Reaction';
 import { Privacy } from '@prisma/client';
-import useUserStore from '@/stores/user';
+import useUserStore from '@/stores/auth';
 import useTranslation from '@/hooks/useTranslation';
 
 type Props = {
@@ -23,13 +23,13 @@ const Post = ({ post, className, refetch }: Props) => {
   const [opened, setOpened] = useState(false);
   const user = useUserStore.use.user();
   const { creator, createdAt, content, _count, imgUrls, locations, reviews, privacy } = post;
-  
+
   const { t } = useTranslation();
-  
+
   const PrivacyConfig = {
     [Privacy.PUBLIC]: {
       icon: <IconWorld />,
-      text: t('publicModeText')
+      text: t('publicModeText'),
     },
     [Privacy.FRIEND]: {
       icon: <IconEyeCog />,

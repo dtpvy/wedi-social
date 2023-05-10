@@ -1,4 +1,4 @@
-import useUserStore from '@/stores/user';
+import useUserStore from '@/stores/auth';
 import { Loader } from '@mantine/core';
 import { ReactNode } from 'react';
 import { Search } from '../Search';

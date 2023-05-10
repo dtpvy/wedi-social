@@ -1,7 +1,7 @@
 import TripLayout from '@/components/Layout/TripLayout';
 import FormCreate, { TripParams } from '@/components/Trip/FormCreate';
 import NotFound from '@/pages/404';
-import useUserStore from '@/stores/user';
+import useUserStore from '@/stores/auth';
 import { trpc } from '@/utils/trpc';
 import { LoadingOverlay } from '@mantine/core';
 import { notifications } from '@mantine/notifications';

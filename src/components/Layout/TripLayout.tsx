@@ -1,6 +1,6 @@
 import { Header, TabMenu } from '@/components/Trip/Header';
 import NotFound from '@/pages/404';
-import useUserStore from '@/stores/user';
+import useUserStore from '@/stores/auth';
 import classNames from '@/utils/classNames';
 import { trpc } from '@/utils/trpc';
 import { Loader, Stepper, Text } from '@mantine/core';

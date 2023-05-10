@@ -13,7 +13,7 @@ type Action = {
   setUser: (auth: { user: UserInfo | null; status: AuthStatus }) => void;
 };
 
-const useUserStore = createSelectors(
+const useAuthStore = createSelectors(
   create<State & Action>((set) => ({
     user: null,
     status: 'loading',
@@ -23,4 +23,4 @@ const useUserStore = createSelectors(
   }))
 );
 
-export default useUserStore;
+export default useAuthStore;

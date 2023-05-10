@@ -1,4 +1,4 @@
-import useUserStore from '@/stores/user';
+import useUserStore from '@/stores/auth';
 import { trpc } from '@/utils/trpc';
 import { Button } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
@@ -51,7 +51,7 @@ const Header = () => {
         leftIcon={loading ? <IconLoader /> : <IconMoodEdit />}
         disabled={loading}
       >
-        {t("changeavatarText")}
+        {t('changeavatarText')}
       </Button>
       <IKUpload
         inputRef={avatarRef}
@@ -76,7 +76,7 @@ const Header = () => {
         leftIcon={bgLoading ? <IconLoader /> : <IconPhotoEdit />}
         loading={updateImage.isLoading}
       >
-        {t("changebackgroundText")}
+        {t('changebackgroundText')}
       </Button>
       <IKUpload
         inputRef={bgRef}

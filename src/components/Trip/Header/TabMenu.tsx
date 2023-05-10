@@ -1,7 +1,7 @@
 import { Button, Text } from '@mantine/core';
 
 import { Menu } from '@/components/Menu';
-import useUserStore from '@/stores/user';
+import useUserStore from '@/stores/auth';
 import { Tab } from '@/types/tab';
 import { TripInfo } from '@/types/trip';
 import { trpc } from '@/utils/trpc';
@@ -72,7 +72,7 @@ const TabMenu = ({ trip, joined }: Props) => {
   const leave = trpc.trip.leave.useMutation();
   const deleteTrip = trpc.trip.delete.useMutation();
   const addNoti = trpc.notification.push.useMutation();
-  const { t } = useTranslation(); 
+  const { t } = useTranslation();
   const handleRequest = async () => {
     if (!trip) return;
     try {
@@ -119,14 +119,14 @@ const TabMenu = ({ trip, joined }: Props) => {
         try {
           await deleteTrip.mutateAsync({ id: trip?.id as number });
           notifications.show({
-            message: t("addsuccessText"),
+            message: t('addsuccessText'),
             color: 'green',
             icon: <IconCheck />,
           });
           router.push('/feed');
         } catch (e: any) {
           notifications.show({
-            message: t("addfailedText"),
+            message: t('addfailedText'),
             color: 'red',
             icon: <IconX />,
           });
@@ -173,7 +173,7 @@ const TabMenu = ({ trip, joined }: Props) => {
           variant="filled"
           color="green"
         >
-          {t("jointripText")}
+          {t('jointripText')}
         </Button>
       ) : (
         <Button
@@ -183,7 +183,7 @@ const TabMenu = ({ trip, joined }: Props) => {
           variant="filled"
           color="green"
         >
-          {t("leavetripText")}
+          {t('leavetripText')}
         </Button>
       )}
       {user?.id === trip?.creatorId && (
@@ -194,7 +194,7 @@ const TabMenu = ({ trip, joined }: Props) => {
           variant="outline"
           color="green"
         >
-          {t("edittripText")}
+          {t('edittripText')}
         </Button>
       )}
     </>

@@ -1,6 +1,6 @@
 import { LanguageConfig } from '@/constants/default';
 import useTranslation from '@/hooks/useTranslation';
-import useUserStore from '@/stores/user';
+import useUserStore from '@/stores/auth';
 import { trpc } from '@/utils/trpc';
 import {
   ActionIcon,
@@ -25,11 +25,13 @@ import { useMemo, useState } from 'react';
 import Message from './Message';
 import Notification from './Notification';
 import Link from 'next/link';
+import { Language } from '@prisma/client';
 
 const Search = () => {
   const router = useRouter();
   const utils = trpc.useContext();
-  const { t, locale: language, languages, updateLanguage } = useTranslation();
+  const { t, locale, languages, update } = useTranslation();
+  const { flag, label } = LanguageConfig[locale as keyof typeof LanguageConfig] || {};
 
   const [opened, setOpened] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -52,9 +54,9 @@ const Search = () => {
     utils.user.findUser.refetch();
   };
 
-  const handleChangeLanguage = async (languageId: number) => {
+  const handleChangeLanguage = async (language: Language) => {
     setLoading(true);
-    await updateLanguage.mutateAsync({ languageId });
+    update(language);
     setOpened((o) => !o);
     setLoading(false);
     utils.user.findUser.refetch();
@@ -74,7 +76,7 @@ const Search = () => {
         </Link>
         <Input
           icon={<IconSearch />}
-          placeholder= {`${t("searchText")}...`}
+          placeholder={`${t('searchText')}...`}
           radius="xl"
           size="md"
           className="w-1/2"
@@ -123,7 +125,7 @@ const Search = () => {
                 <Popover.Target>
                   <div className="flex items-center gap-2 cursor-pointer rounded p-2 mb-2">
                     <IconLanguage />
-                    {`${LanguageConfig[language].flag} ${t(LanguageConfig[language].label)}`}
+                    {`${flag} ${t(label)}`}
                   </div>
                 </Popover.Target>
                 <Popover.Dropdown className="p-1">
@@ -131,7 +133,7 @@ const Search = () => {
                     {languages?.map((language) => (
                       <div
                         key={language.id}
-                        onClick={() => handleChangeLanguage(language.id)}
+                        onClick={() => handleChangeLanguage(language)}
                         className="hover:bg-gray-100 p-2 cursor-pointer"
                       >
                         {`${LanguageConfig[language.code as keyof typeof LanguageConfig].flag} ${t(
@@ -143,7 +145,7 @@ const Search = () => {
                 </Popover.Dropdown>
               </Popover>
               <Button onClick={() => signOut({ callbackUrl: '/signin' })} className="w-full">
-              {t("signoutText")}
+                {t('signoutText')}
               </Button>
             </Popover.Dropdown>
           </Popover>

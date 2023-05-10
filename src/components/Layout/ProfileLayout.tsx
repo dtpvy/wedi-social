@@ -6,7 +6,7 @@ import { Loader } from '@mantine/core';
 import { useRouter } from 'next/router';
 import { ReactNode, createContext } from 'react';
 import { Header, TabMenu } from '../Profile/Header';
-import useUserStore from '@/stores/user';
+import useUserStore from '@/stores/auth';
 import { CreateTrip } from '../Trip';
 
 type Props = {

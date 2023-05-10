@@ -6,7 +6,7 @@ import { IconArticle, IconFriends, IconMap, IconMessageReport } from '@tabler/ic
 import { useRouter } from 'next/router';
 import { use, useContext, useMemo } from 'react';
 import { ProfileLayoutContext } from '@/components/Layout/ProfileLayout';
-import useUserStore from '@/stores/user';
+import useUserStore from '@/stores/auth';
 import { trpc } from '@/utils/trpc';
 import { calcFriend } from '@/utils/user';
 import { CreateTrip } from '@/components/Trip';
@@ -82,7 +82,7 @@ const TabMenu = () => {
     tabs[TAB_NAME.REQUESTS].badgeNumber = user.requests.length;
     return tabs;
   }, [user]);
-  const { t } = useTranslation(); 
+  const { t } = useTranslation();
   return (
     <>
       <div className="flex flex-col gap-4 mt-4">
@@ -117,7 +117,7 @@ const TabMenu = () => {
           variant="filled"
           color="green"
         >
-          {t("editprofileText")}
+          {t('editprofileText')}
         </Button>
       )}
     </>

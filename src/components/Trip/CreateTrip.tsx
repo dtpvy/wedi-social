@@ -1,4 +1,4 @@
-import useUserStore from '@/stores/user';
+import useUserStore from '@/stores/auth';
 import classNames from '@/utils/classNames';
 import { trpc } from '@/utils/trpc';
 import { Avatar, Button, Modal } from '@mantine/core';
@@ -42,7 +42,7 @@ const CreateTrip = ({ className }: Props) => {
             </div>
           </div>
 
-          <div className="mt-2 mb-1 text-sm">{t("invitingText")}</div>
+          <div className="mt-2 mb-1 text-sm">{t('invitingText')}</div>
           <Button
             onClick={handleOpen}
             className="w-full"

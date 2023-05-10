@@ -1,10 +1,12 @@
-import { FeedLayout } from '@/components/Layout';
+import { FeedLayout, MainLayout } from '@/components/Layout';
+
 import { PostTrip } from '@/components/Post';
 import { Trip as TripWidget } from '@/components/Trip';
-import { posts } from '@/mocks/post';
+import useTranslation from '@/hooks/useTranslation';
 import { trpc } from '@/utils/trpc';
 import { Carousel } from '@mantine/carousel';
-import useTranslation from '@/hooks/useTranslation';
+import { ReactElement } from 'react';
+
 const Trip = () => {
   const { data } = trpc.trip.feed.useQuery({});
 
@@ -19,7 +21,7 @@ const Trip = () => {
   const posts = res?.pages.flatMap((d) => d?.items || []) || [];
   const { t } = useTranslation();
   return (
-    <FeedLayout className="pt-8 px-[200px] w-full">
+    <>
       <Carousel
         styles={{
           control: {
@@ -51,14 +53,22 @@ const Trip = () => {
           disabled={!hasNextPage || isFetchingNextPage}
           className="cursor-pointer px-4 py-2 text-teal-700 underline rounded disabled:opacity-50 w-full text-center"
         >
-        {isFetchingNextPage
-          ? t("loadingMoreText")
-          : hasNextPage
-          ? t("loadMoreText")
-          : t("notifEndText")}
+          {isFetchingNextPage
+            ? t('loadingMoreText')
+            : hasNextPage
+            ? t('loadMoreText')
+            : t('notifEndText')}
         </button>
       </div>
-    </FeedLayout>
+    </>
+  );
+};
+
+Trip.getLayout = function getLayout(page: ReactElement) {
+  return (
+    <MainLayout>
+      <FeedLayout>{page}</FeedLayout>
+    </MainLayout>
   );
 };
 

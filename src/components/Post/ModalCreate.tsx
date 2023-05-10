@@ -1,4 +1,4 @@
-import useUserStore from '@/stores/user';
+import useUserStore from '@/stores/auth';
 import { trpc } from '@/utils/trpc';
 import { Carousel } from '@mantine/carousel';
 import { Avatar, Button, CloseButton, Image, Modal, Select, Textarea } from '@mantine/core';
@@ -111,7 +111,7 @@ const ModalCreate = ({
         <div className="flex-1">{user?.name}</div>
         <Select
           value={state.privacy}
-          placeholder= {t('privacyText') as string}
+          placeholder={t('privacyText') as string}
           onChange={(value) => onChangeField('privacy', value)}
           icon={<IconEyeEdit size="1rem" />}
           data={[
@@ -126,7 +126,7 @@ const ModalCreate = ({
         onChange={(e) => onChangeField('content', e.target.value)}
         maxLength={500}
         minRows={10}
-        placeholder= {t('statusText')}
+        placeholder={t('statusText')}
       />
       <LocationSeletion
         readonly={isUpdate}
@@ -150,7 +150,7 @@ const ModalCreate = ({
               <CloseButton
                 className="absolute top-2 right-6"
                 onClick={() => handleDeleteImage(imgUrl)}
-                title= {t('closePopoverText')}
+                title={t('closePopoverText')}
                 size="md"
                 iconSize={20}
                 radius="xl"

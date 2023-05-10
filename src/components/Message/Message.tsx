@@ -1,5 +1,5 @@
 import useMessageStore from '@/stores/message';
-import useUserStore from '@/stores/user';
+import useUserStore from '@/stores/auth';
 import { MessageDetail } from '@/types/message';
 import classNames from '@/utils/classNames';
 import { trpc } from '@/utils/trpc';

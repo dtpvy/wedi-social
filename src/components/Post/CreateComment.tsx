@@ -1,4 +1,4 @@
-import useUserStore from '@/stores/user';
+import useUserStore from '@/stores/auth';
 import { CommentDetail } from '@/types/comment';
 import { trpc } from '@/utils/trpc';
 import { Carousel } from '@mantine/carousel';
@@ -81,7 +81,7 @@ const CreateComment = ({ postId, creator, comment, onCancel, onUpdate, onCreate 
             onChange={(e) => setContent(e.target.value)}
             className="flex-1"
             value={content}
-            placeholder= {t('writeCommentText')}
+            placeholder={t('writeCommentText')}
           />
           <div className="flex flex-col gap-1">
             <div className="flex gap-3">
@@ -143,7 +143,7 @@ const CreateComment = ({ postId, creator, comment, onCancel, onUpdate, onCreate 
                 <CloseButton
                   className="absolute top-2 right-7"
                   onClick={() => handleDeleteImage(imgUrl)}
-                  title= {t('closePopoverText')}
+                  title={t('closePopoverText')}
                   size="md"
                   iconSize={20}
                   radius="xl"

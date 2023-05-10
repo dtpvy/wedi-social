@@ -1,4 +1,4 @@
-import useUserStore from '@/stores/user';
+import useUserStore from '@/stores/auth';
 import classNames from '@/utils/classNames';
 import { trpc } from '@/utils/trpc';
 import { Avatar, Button, Modal } from '@mantine/core';
@@ -17,7 +17,7 @@ type Props = {
 
 const CreateSchedule = ({ tripId, className }: Props) => {
   const { data } = useContext(TripLayoutContext) || {};
-  const { t } = useTranslation(); 
+  const { t } = useTranslation();
   const router = useRouter();
   const create = trpc.schedule.create.useMutation();
   const [opened, setOpened] = useState(false);
@@ -41,7 +41,7 @@ const CreateSchedule = ({ tripId, className }: Props) => {
           <Avatar size="lg" radius="xl" src={data?.imgUrl} />
           <div>
             <div className="font-medium">{data?.name}</div>
-            <div className="text-gray-600 text-sm">{t("advertiseText")}</div>
+            <div className="text-gray-600 text-sm">{t('advertiseText')}</div>
           </div>
         </div>
 
@@ -52,7 +52,7 @@ const CreateSchedule = ({ tripId, className }: Props) => {
           variant="gradient"
           gradient={{ from: 'teal', to: 'blue', deg: 60 }}
         >
-          {t("createscheduleText")}
+          {t('createscheduleText')}
         </Button>
       </div>
       <Modal opened={opened} size="lg" onClose={() => setOpened(false)} title="Create Schedule">
