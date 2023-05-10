@@ -19,7 +19,9 @@ const Trip = () => {
 
   const { data: res, fetchNextPage, isFetchingNextPage, hasNextPage, refetch } = query;
   const posts = res?.pages.flatMap((d) => d?.items || []) || [];
+
   const { t } = useTranslation();
+
   return (
     <>
       <Carousel
@@ -57,7 +59,7 @@ const Trip = () => {
             ? t('loadingMoreText')
             : hasNextPage
             ? t('loadMoreText')
-            : t('notifEndText')}
+            : t('tripEndText')}
         </button>
       </div>
     </>

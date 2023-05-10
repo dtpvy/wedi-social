@@ -31,7 +31,7 @@ const Location = () => {
           ? t('loadingMoreText')
           : hasNextPage
           ? t('loadMoreText')
-          : t('notifEndText')}
+          : t('locationEndText')}
       </button>
     </>
   );

@@ -87,7 +87,7 @@ const FeedLayout = ({ children, className }: Props) => {
         </div>
       </div>
       <div className="pt-[70px] px-[100px] flex gap-8 max-h-[100vh] overflow-auto">
-        <div className={classNames('pt-8 px-[200px] w-full', className)}>{children}</div>
+        <div className={classNames('pt-8 w-[700px] mx-auto', className)}>{children}</div>
       </div>
       <div className="absolute top-0 bottom-0 right-0 mt-[70px] z-[5] shadow-md">
         <div className="flex flex-col gap-4 bg-white w-[250px] h-full pb-4 px-4 pt-9">
@@ -98,7 +98,7 @@ const FeedLayout = ({ children, className }: Props) => {
                 <div>
                   <div className="font-medium">{d.name}</div>
                   <div className="text-gray-600 text-sm">
-                    {`Tham gia: ${dayjs(d.createdAt).format('DD/MM/YYYY')}`}
+                    {`${t('memberSinceText')} ${dayjs(d.createdAt).format('DD/MM/YYYY')}`}
                   </div>
                 </div>
               </div>
@@ -111,7 +111,7 @@ const FeedLayout = ({ children, className }: Props) => {
                   variant="gradient"
                   gradient={{ from: 'teal', to: 'lime', deg: 105 }}
                 >
-                  {t('addfriendText')}
+                  {t('addFriendText')}
                 </Button>
               ) : (
                 <Button
@@ -121,7 +121,7 @@ const FeedLayout = ({ children, className }: Props) => {
                   variant="gradient"
                   gradient={{ from: 'teal', to: 'lime', deg: 105 }}
                 >
-                  Nhắn tin
+                  {t('messengerText')}
                 </Button>
               )}
             </div>

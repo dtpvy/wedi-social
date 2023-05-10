@@ -78,7 +78,7 @@ const TabMenu = ({ trip, joined }: Props) => {
     try {
       await request.mutateAsync({ id: trip.id });
       await addNoti.mutateAsync({
-        content: `Muốn gia nhập chuyến đi ${trip.name}`,
+        content: `${t('wantToJoinTripText')} ${trip.name}`,
         userId: trip.creatorId,
         imgUrl: trip.imgUrl || '',
       });
@@ -97,7 +97,7 @@ const TabMenu = ({ trip, joined }: Props) => {
       }
       await leave.mutateAsync({ id: trip.id });
       await addNoti.mutateAsync({
-        content: `Đã rời khỏi chuyến đi ${trip.name}`,
+        content: `${t('leavedTripText')} ${trip.name}`,
         userId: trip.creatorId,
         imgUrl: trip.imgUrl || '',
       });
@@ -109,10 +109,10 @@ const TabMenu = ({ trip, joined }: Props) => {
 
   const openDeleteModal = () => {
     modals.openConfirmModal({
-      title: 'Delete trip',
+      title: t('deleteTripText'),
       centered: true,
-      children: <Text size="sm">If you leave, trip will be deleted?</Text>,
-      labels: { confirm: 'Leave', cancel: 'Cancel' },
+      children: <Text size="sm">{t('youLeaveTripDeleteText')}</Text>,
+      labels: { confirm: t('leaveText'), cancel: t('cancelText') },
       confirmProps: { color: 'red' },
       onCancel: () => null,
       onConfirm: async () => {
@@ -126,7 +126,7 @@ const TabMenu = ({ trip, joined }: Props) => {
           router.push('/feed');
         } catch (e: any) {
           notifications.show({
-            message: t('addfailedText'),
+            message: t('errorTryAgainText'),
             color: 'red',
             icon: <IconX />,
           });
@@ -173,7 +173,7 @@ const TabMenu = ({ trip, joined }: Props) => {
           variant="filled"
           color="green"
         >
-          {t('jointripText')}
+          {t('joinTripText')}
         </Button>
       ) : (
         <Button
@@ -183,7 +183,7 @@ const TabMenu = ({ trip, joined }: Props) => {
           variant="filled"
           color="green"
         >
-          {t('leavetripText')}
+          {t('leaveTripText')}
         </Button>
       )}
       {user?.id === trip?.creatorId && (
@@ -194,7 +194,7 @@ const TabMenu = ({ trip, joined }: Props) => {
           variant="outline"
           color="green"
         >
-          {t('edittripText')}
+          {t('editTripText')}
         </Button>
       )}
     </>

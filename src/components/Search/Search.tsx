@@ -32,7 +32,7 @@ const Search = () => {
   const utils = trpc.useContext();
   const { t, locale, languages, update } = useTranslation();
   const { flag, label } = LanguageConfig[locale as keyof typeof LanguageConfig] || {};
-
+  console.log({ locale });
   const [opened, setOpened] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -56,6 +56,7 @@ const Search = () => {
 
   const handleChangeLanguage = async (language: Language) => {
     setLoading(true);
+    console.log({ language });
     update(language);
     setOpened((o) => !o);
     setLoading(false);

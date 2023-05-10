@@ -1,11 +1,16 @@
-import { ProfileLayout } from '@/components/Layout';
+import { MainLayout, ProfileLayout } from '@/components/Layout';
 import { EditForm } from '@/components/Profile/Edit';
+import { ReactElement } from 'react';
 
 const Edit = () => {
+  return <EditForm />;
+};
+
+Edit.getLayout = function getLayout(page: ReactElement) {
   return (
-    <ProfileLayout className="flex flex-col gap-4">
-      <EditForm />
-    </ProfileLayout>
+    <MainLayout>
+      <ProfileLayout className="flex flex-col gap-4">{page}</ProfileLayout>
+    </MainLayout>
   );
 };
 

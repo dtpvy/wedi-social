@@ -41,7 +41,7 @@ const CreateSchedule = ({ tripId, className }: Props) => {
           <Avatar size="lg" radius="xl" src={data?.imgUrl} />
           <div>
             <div className="font-medium">{data?.name}</div>
-            <div className="text-gray-600 text-sm">{t('advertiseText')}</div>
+            <div className="text-gray-600 text-sm">{t('createScheduleDescribeText')}</div>
           </div>
         </div>
 
@@ -52,10 +52,15 @@ const CreateSchedule = ({ tripId, className }: Props) => {
           variant="gradient"
           gradient={{ from: 'teal', to: 'blue', deg: 60 }}
         >
-          {t('createscheduleText')}
+          {t('createScheduleText')}
         </Button>
       </div>
-      <Modal opened={opened} size="lg" onClose={() => setOpened(false)} title="Create Schedule">
+      <Modal
+        opened={opened}
+        size="lg"
+        onClose={() => setOpened(false)}
+        title={t('createScheduleText')}
+      >
         <FormCreate onSubmit={handleCreate} />
       </Modal>
     </div>

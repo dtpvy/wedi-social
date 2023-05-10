@@ -22,25 +22,6 @@ const useAuth = () => {
     setUser({ user: user || null, status });
   }, [setUser, status, user]);
 
-  if (status !== 'loading') {
-    const adminPage = router.asPath.split('/')[1] === 'admin';
-    const authPage = router.asPath.includes('signin') || router.asPath.includes('signup');
-
-    const indexPage = router.asPath === '/';
-
-    if (indexPage && data?.user.id) {
-      router.push('/feed');
-    }
-
-    if (data?.user && authPage) {
-      router.push(data.user.isAdmin ? '/admin/dashboard' : '/feed');
-    }
-
-    if ((!data?.user || (adminPage && !data.user.isAdmin)) && !indexPage && !authPage) {
-      router.push('/');
-    }
-  }
-
   return session;
 };
 

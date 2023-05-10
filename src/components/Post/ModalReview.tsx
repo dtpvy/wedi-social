@@ -47,6 +47,8 @@ const ModalReview = ({ postId, locations, opened = false, onClose }: Props) => {
     if (hide.length + 1 >= locations.length) onClose();
   };
 
+  const { t } = useTranslation();
+  
   const handleReview = async (locationId: number) => {
     try {
       await create.mutateAsync({
@@ -68,8 +70,6 @@ const ModalReview = ({ postId, locations, opened = false, onClose }: Props) => {
       });
     }
   };
-
-  const { t } = useTranslation();
 
   return (
     <Modal title="Review Location" opened={opened} onClose={onClose} size="lg">

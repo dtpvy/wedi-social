@@ -1,8 +1,8 @@
-import { ProfileLayout } from '@/components/Layout';
+import { MainLayout, ProfileLayout } from '@/components/Layout';
 import { CreatePost, Post } from '@/components/Post';
 import { trpc } from '@/utils/trpc';
 
-import { useEffect } from 'react';
+import { ReactElement, useEffect } from 'react';
 import { TRACKING_EVENT, TRACKING_PAGE } from '@/constants/tracking';
 import useTranslation from '@/hooks/useTranslation';
 
@@ -27,7 +27,7 @@ const Profile = () => {
   }, []);
   //
   return (
-    <ProfileLayout className="w-full flex flex-col gap-4">
+    <>
       <CreatePost refetch={refetch} />
       {data.map((post) => (
         <Post key={post.id} post={post} refetch={query.refetch} />
@@ -39,12 +39,20 @@ const Profile = () => {
         className="cursor-pointer px-4 py-2 text-teal-700 underline rounded disabled:opacity-50 w-full text-center"
       >
         {isFetchingNextPage
-          ? t("loadingMoreText")
+          ? t('loadingMoreText')
           : hasNextPage
-          ? t("loadMoreText")
-          : t("notifEndText")}
+          ? t('loadMoreText')
+          : t('postEndText')}
       </button>
-    </ProfileLayout>
+    </>
+  );
+};
+
+Profile.getLayout = function getLayout(page: ReactElement) {
+  return (
+    <MainLayout>
+      <ProfileLayout className="w-full flex flex-col gap-4">{page}</ProfileLayout>
+    </MainLayout>
   );
 };
 

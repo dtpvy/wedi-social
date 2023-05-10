@@ -1,10 +1,9 @@
+import useTranslation from '@/hooks/useTranslation';
 import { TripDetail } from '@/types/trip';
 import classNames from '@/utils/classNames';
 import { Avatar, Button, Text } from '@mantine/core';
-import { IconDots } from '@tabler/icons-react';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
-import useTranslation from '@/hooks/useTranslation';
 
 type Props = {
   className?: string;
@@ -44,7 +43,7 @@ const Trip = ({ trip, className }: Props) => {
           className="w-full"
           color="green"
         >
-        {t("openGroupText")}
+          {t('openGroupText')}
         </Button>
       </div>
     </div>

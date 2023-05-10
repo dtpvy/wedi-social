@@ -4,14 +4,20 @@ import LocaleProvider from '@/components/Language/LocaleProvider';
 import useInitLocale from '@/hooks/useInitLocale';
 import useAuth from '@/hooks/useAuth';
 import { LoadingOverlay } from '@mantine/core';
+import { useRouter } from 'next/router';
+import { AdminLayout } from '.';
+import { APP_URL } from '@/utils/env';
 
 type Props = {
   children: ReactNode;
 };
 
 const AuthLayout = ({ children }: Props) => {
+  const router = useRouter();
   const { locale } = useInitLocale();
   const { status } = useAuth();
+
+  const isAdminPage = router.asPath.split('/')[1] === 'admin';
 
   if (status === 'loading') {
     return (
@@ -19,6 +25,19 @@ const AuthLayout = ({ children }: Props) => {
         <LoadingOverlay visible />
       </div>
     );
+  }
+
+  if (
+    router.asPath === '/' ||
+    router.asPath.startsWith('/signin') ||
+    router.asPath.startsWith('/signup')
+  ) {
+    router.push('/feed');
+    return;
+  }
+
+  if (isAdminPage) {
+    return <AdminLayout>{children}</AdminLayout>;
   }
 
   return <LocaleProvider initLocale={locale}>{children}</LocaleProvider>;

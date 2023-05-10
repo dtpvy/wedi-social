@@ -19,10 +19,10 @@ const useTranslation = () => {
 
   const update = (language: Language) => {
     if (!user && typeof window === 'undefined') return;
+    setLocale(language.code);
     if (user) updateLanguage.mutate({ languageId: language.id });
     else {
       localStorage.setItem('selectedlLanguage', language.code);
-      setLocale(language.code);
     }
   };
 

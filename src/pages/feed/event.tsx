@@ -1,6 +1,5 @@
 import { TripEvent } from '@/components/Event';
 import { FeedLayout, MainLayout } from '@/components/Layout';
-
 import useTranslation from '@/hooks/useTranslation';
 import { trpc } from '@/utils/trpc';
 import { Button } from '@mantine/core';
