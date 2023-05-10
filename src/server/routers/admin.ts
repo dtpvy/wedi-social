@@ -1,10 +1,8 @@
+import ERROR_MESSAGES from '../../constants/errorMessage';
+import { LocationStatus, UserStatus } from '@prisma/client';
 import { z } from 'zod';
 import { prisma } from '../prisma';
-import { Prisma } from '@prisma/client';
 import { adminAuthProcedure, router } from '../trpc';
-import ERROR_MESSAGES from '@/constants/error';
-import { UserStatus, LocationStatus } from '@prisma/client';
-import { request } from 'https';
 
 export const adminRouter = router({
   adminList: adminAuthProcedure.query(async () => {

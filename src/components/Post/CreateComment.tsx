@@ -1,4 +1,5 @@
-import useUserStore from '@/stores/user';
+import useTranslation from '@/hooks/useTranslation';
+import useAppStore from '@/stores/store';
 import { CommentDetail } from '@/types/comment';
 import { trpc } from '@/utils/trpc';
 import { Carousel } from '@mantine/carousel';
@@ -8,7 +9,6 @@ import { User } from '@prisma/client';
 import { IconPhoto, IconSend, IconX } from '@tabler/icons-react';
 import { IKUpload } from 'imagekitio-react';
 import { useEffect, useRef, useState } from 'react';
-import useTranslation from '@/hooks/useTranslation';
 
 type Props = {
   postId: number;
@@ -20,7 +20,7 @@ type Props = {
 };
 
 const CreateComment = ({ postId, creator, comment, onCancel, onUpdate, onCreate }: Props) => {
-  const user = useUserStore((state) => state.user);
+  const user = useAppStore.use.user();
   const uploadRef = useRef<HTMLInputElement>(null);
   const utils = trpc.useContext();
 
@@ -47,7 +47,7 @@ const CreateComment = ({ postId, creator, comment, onCancel, onUpdate, onCreate 
   };
 
   const { t } = useTranslation();
-  
+
   const handleCreate = async () => {
     try {
       if (!comment) {
@@ -81,7 +81,7 @@ const CreateComment = ({ postId, creator, comment, onCancel, onUpdate, onCreate 
             onChange={(e) => setContent(e.target.value)}
             className="flex-1"
             value={content}
-            placeholder= {t('writeCommentText')}
+            placeholder={t('writeCommentText')}
           />
           <div className="flex flex-col gap-1">
             <div className="flex gap-3">
@@ -143,7 +143,7 @@ const CreateComment = ({ postId, creator, comment, onCancel, onUpdate, onCreate 
                 <CloseButton
                   className="absolute top-2 right-7"
                   onClick={() => handleDeleteImage(imgUrl)}
-                  title= {t('closePopoverText')}
+                  title={t('closePopoverText')}
                   size="md"
                   iconSize={20}
                   radius="xl"

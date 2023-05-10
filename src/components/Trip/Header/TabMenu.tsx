@@ -1,7 +1,7 @@
 import { Button, Text } from '@mantine/core';
 
 import { Menu } from '@/components/Menu';
-import useUserStore from '@/stores/user';
+import useTranslation from '@/hooks/useTranslation';
 import { Tab } from '@/types/tab';
 import { TripInfo } from '@/types/trip';
 import { trpc } from '@/utils/trpc';
@@ -19,7 +19,7 @@ import {
 import { useRouter } from 'next/router';
 import { useMemo } from 'react';
 import CreateSchedule from '../Schedule/CreateSchedule';
-import useTranslation from '@/hooks/useTranslation';
+import useAppStore from '@/stores/store';
 
 const TAB_NAME = {
   POSTS: 'posts',
@@ -60,7 +60,7 @@ const TabMenu = ({ trip, joined }: Props) => {
   const utils = trpc.useContext();
 
   const router = useRouter();
-  const user = useUserStore.use.user();
+  const user = useAppStore.use.user();
 
   const tab = router.asPath.split('/')[2] || TAB_LIST.POSTS.name;
 
@@ -72,7 +72,7 @@ const TabMenu = ({ trip, joined }: Props) => {
   const leave = trpc.trip.leave.useMutation();
   const deleteTrip = trpc.trip.delete.useMutation();
   const addNoti = trpc.notification.push.useMutation();
-  const { t } = useTranslation(); 
+  const { t } = useTranslation();
   const handleRequest = async () => {
     if (!trip) return;
     try {

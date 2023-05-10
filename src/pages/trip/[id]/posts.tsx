@@ -2,12 +2,12 @@ import TripLayout from '@/components/Layout/TripLayout';
 import { CreatePost, Post } from '@/components/Post';
 import { trpc } from '@/utils/trpc';
 import { useRouter } from 'next/router';
-import React from 'react';
-
+import React, { ReactElement } from 'react';
 
 import { useEffect } from 'react';
 import { TRACKING_EVENT, TRACKING_PAGE } from '@/constants/tracking';
 import useTranslation from '@/hooks/useTranslation';
+import { MainLayout } from '@/components/Layout';
 
 const Posts = () => {
   const router = useRouter();
@@ -19,6 +19,7 @@ const Posts = () => {
       event: TRACKING_EVENT.ENTER_TRIP,
       page: TRACKING_PAGE.TRIP,
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   //
   const query = trpc.trip.post.useInfiniteQuery(
@@ -30,9 +31,9 @@ const Posts = () => {
   const { t } = useTranslation();
   const { data: res, fetchNextPage, isFetchingNextPage, hasNextPage, refetch } = query;
   const data = res?.pages.flatMap((d) => d?.items || []) || [];
-  
+
   return (
-    <TripLayout className="w-full flex flex-col gap-4">
+    <>
       <CreatePost refetch={refetch} tripId={+(id as string)} />
       {data.map((post) => (
         <Post key={post.id} post={post} refetch={query.refetch} />
@@ -46,11 +47,18 @@ const Posts = () => {
         {isFetchingNextPage
           ? t('loadingMoreText')
           : hasNextPage
-          ? t("loadMoreText")
-          : t("postEndText")}
-          }
+          ? t('loadMoreText')
+          : t('postEndText')}
       </button>
-    </TripLayout>
+    </>
+  );
+};
+
+Posts.getLayout = function getLayout(page: ReactElement) {
+  return (
+    <MainLayout>
+      <TripLayout className="w-full flex flex-col gap-4">{page}</TripLayout>
+    </MainLayout>
   );
 };
 

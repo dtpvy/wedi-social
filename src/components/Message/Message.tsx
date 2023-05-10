@@ -1,5 +1,4 @@
 import useMessageStore from '@/stores/message';
-import useUserStore from '@/stores/user';
 import { MessageDetail } from '@/types/message';
 import classNames from '@/utils/classNames';
 import { trpc } from '@/utils/trpc';
@@ -10,9 +9,10 @@ import dayjs from 'dayjs';
 import { IKUpload } from 'imagekitio-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import useTranslation from '@/hooks/useTranslation';
+import useAppStore from '@/stores/store';
 
 const Message = () => {
-  const userInfo = useUserStore.use.user();
+  const userInfo = useAppStore.use.user();
   const opened = useMessageStore.use.opened();
   const user = useMessageStore.use.user();
   const setOpen = useMessageStore.use.setOpen();
@@ -103,7 +103,7 @@ const Message = () => {
     );
     setMessage('');
   };
-  
+
   const { t } = useTranslation();
 
   return (
@@ -193,7 +193,7 @@ const Message = () => {
           onChange={(e) => setMessage(e.target.value)}
           value={message}
           className="w-full"
-          placeholder= {t('writeText')}
+          placeholder={t('writeText')}
           radius="xl"
         />
         <ActionIcon

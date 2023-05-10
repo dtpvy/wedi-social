@@ -1,18 +1,16 @@
-import { FeedLayout } from '@/components/Layout';
 import { TripEvent } from '@/components/Event';
-import { Button, Input, Select } from '@mantine/core';
-import { IconSearch } from '@tabler/icons-react';
-import { trpc } from '@/utils/trpc';
-import { ScheduleDetail } from '@/types/schedule';
-import { useState } from 'react';
+import { FeedLayout, MainLayout } from '@/components/Layout';
 import useTranslation from '@/hooks/useTranslation';
+import { trpc } from '@/utils/trpc';
+import { Button } from '@mantine/core';
+import { ReactElement, useState } from 'react';
 
 const Event = () => {
   const [join, setJoin] = useState<'all' | 'joined' | 'notjoin'>('all');
   const { data, refetch } = trpc.schedule.feed.useQuery({ joined: join });
   const { t } = useTranslation();
   return (
-    <FeedLayout className="pt-8 px-[200px] w-full">
+    <>
       <div className="bg-white rounded shadow p-4 flex items-center gap-4 mb-8">
         <Button
           onClick={() => setJoin('all')}
@@ -44,7 +42,15 @@ const Event = () => {
           <TripEvent key={d.id} event={d} refetch={refetch} />
         ))}
       </div>
-    </FeedLayout>
+    </>
+  );
+};
+
+Event.getLayout = function getLayout(page: ReactElement) {
+  return (
+    <MainLayout>
+      <FeedLayout>{page}</FeedLayout>
+    </MainLayout>
   );
 };
 

@@ -13,7 +13,7 @@ const User = () => {
   });
   let posts = postList?.map((post) => {
     return (
-      <div className="w-9/12">
+      <div key={post.id} className="w-9/12">
         <Post
           post={{
             content: post.content,

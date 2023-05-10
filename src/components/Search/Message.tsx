@@ -1,5 +1,5 @@
 import useOpenMessageDialog from '@/hooks/useOpenMessageDialog';
-import useUserStore from '@/stores/user';
+
 import { MessageDetail } from '@/types/message';
 import { trpc } from '@/utils/trpc';
 import { Avatar, Select } from '@mantine/core';
@@ -8,10 +8,11 @@ import { IconSearch } from '@tabler/icons-react';
 import dayjs from 'dayjs';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import useTranslation from '@/hooks/useTranslation';
+import useAppStore from '@/stores/store';
 
 const Message = () => {
   const { show } = useOpenMessageDialog();
-  const user = useUserStore.use.user();
+  const user = useAppStore.use.user();
   const messQuery = trpc.message.infinite.useInfiniteQuery(
     {},
     {

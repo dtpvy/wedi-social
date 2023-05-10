@@ -1,13 +1,15 @@
 import TripLayout from '@/components/Layout/TripLayout';
 import FormCreate, { TripParams } from '@/components/Trip/FormCreate';
 import NotFound from '@/pages/404';
-import useUserStore from '@/stores/user';
+import useUserStore from '@/stores/auth';
 import { trpc } from '@/utils/trpc';
 import { LoadingOverlay } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconCheck, IconX } from '@tabler/icons-react';
 import { useRouter } from 'next/router';
 import useTranslation from '@/hooks/useTranslation';
+import { MainLayout } from '@/components/Layout';
+import { ReactElement } from 'react';
 
 const Edit = () => {
   const { t } = useTranslation();
@@ -43,13 +45,21 @@ const Edit = () => {
   }
 
   return (
-    <TripLayout className="bg-white p-5">
+    <>
       {!data?.trip ? (
         <LoadingOverlay visible />
       ) : (
         <FormCreate trip={data?.trip} onSubmit={handleEdit} />
       )}
-    </TripLayout>
+    </>
+  );
+};
+
+Edit.getLayout = function getLayout(page: ReactElement) {
+  return (
+    <MainLayout>
+      <TripLayout className="bg-white p-5">{page}</TripLayout>
+    </MainLayout>
   );
 };
 

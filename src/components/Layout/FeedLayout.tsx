@@ -2,18 +2,42 @@ import classNames from '@/utils/classNames';
 import { type ReactNode } from 'react';
 
 import { CreateTrip } from '@/components/Trip';
-import useUserStore from '@/stores/user';
-import type { Tab } from '@/types/tab';
-import { IconBus, IconCalendarTime, IconMapPinFilled, IconNews } from '@tabler/icons-react';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { trpc } from '@/utils/trpc';
-import { Avatar, Button } from '@mantine/core';
-import { calcFriend } from '@/utils/user';
-import dayjs from 'dayjs';
-import { User } from '@prisma/client';
+
 import useOpenMessageDialog from '@/hooks/useOpenMessageDialog';
 import useTranslation from '@/hooks/useTranslation';
+import useAppStore from '@/stores/store';
+import type { Tab } from '@/types/tab';
+import { trpc } from '@/utils/trpc';
+import { Avatar, Button } from '@mantine/core';
+import { User } from '@prisma/client';
+import { IconBus, IconCalendarTime, IconMapPinFilled, IconNews } from '@tabler/icons-react';
+import dayjs from 'dayjs';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+
+const TAB_LIST: Record<string, Tab> = {
+  FEED: {
+    name: 'feedText',
+    url: '',
+    icon: <IconNews size={30} />,
+  },
+  TRIP: {
+    name: 'tripText',
+    url: 'trip',
+    icon: <IconBus size={30} />,
+  },
+  EVENT: {
+    name: 'eventText',
+    url: 'event',
+    icon: <IconCalendarTime size={30} />,
+  },
+  LOCATION: {
+    name: 'locationText',
+    url: 'location',
+    icon: <IconMapPinFilled size={30} />,
+  },
+};
+
 type Props = {
   children: ReactNode;
   className?: string;
@@ -22,34 +46,11 @@ type Props = {
 const FeedLayout = ({ children, className }: Props) => {
   const { t } = useTranslation();
 
-  const TAB_LIST: Record<string, Tab> = {
-    FEED: {
-      name: `${t('feedText')}`,
-      url: '',
-      icon: <IconNews size={30} />,
-    },
-    TRIP: {
-      name: `${t('tripText')}`,
-      url: 'trip',
-      icon: <IconBus size={30} />,
-    },
-    EVENT: {
-      name: `${t('eventText')}`,
-      url: 'event',
-      icon: <IconCalendarTime size={30} />,
-    },
-    LOCATION: {
-      name: `${t('locationText')}`,
-      url: 'location',
-      icon: <IconMapPinFilled size={30} />,
-    },
-  };
-
   const router = useRouter();
   const { show } = useOpenMessageDialog();
   const tab = router.asPath.split('/')[2] || TAB_LIST.FEED.name;
   const { data } = trpc.user.list.useQuery({});
-  const user = useUserStore.use.user();
+  const user = useAppStore.use.user();
 
   const addFriend = trpc.friend.add.useMutation();
   const addNoti = trpc.notification.push.useMutation();
@@ -82,13 +83,13 @@ const FeedLayout = ({ children, className }: Props) => {
               )}
             >
               {TAB_LIST[key].icon}
-              <div className="font-bold text-md">{TAB_LIST[key].name}</div>
+              <div className="font-bold text-md">{t(TAB_LIST[key].name)}</div>
             </Link>
           ))}
         </div>
       </div>
       <div className="pt-[70px] px-[100px] flex gap-8 max-h-[100vh] overflow-auto">
-        <div className={classNames(className)}>{children}</div>
+        <div className={classNames('pt-8 w-[700px] mx-auto', className)}>{children}</div>
       </div>
       <div className="absolute top-0 bottom-0 right-0 mt-[70px] z-[5] shadow-md">
         <div className="flex flex-col gap-4 bg-white w-[250px] h-full pb-4 px-4 pt-9">

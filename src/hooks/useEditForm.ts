@@ -1,4 +1,4 @@
-import useUserStore from '@/stores/user';
+import useUserStore from '@/stores/auth';
 import { trpc } from '@/utils/trpc';
 import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';

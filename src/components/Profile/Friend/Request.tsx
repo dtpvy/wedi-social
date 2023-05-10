@@ -1,10 +1,11 @@
-import useUserStore from '@/stores/user';
+import useTranslation from '@/hooks/useTranslation';
+import useAppStore from '@/stores/store';
 import { trpc } from '@/utils/trpc';
 import { Avatar, Button } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { FriendStatus, User } from '@prisma/client';
 import { IconCheck, IconX } from '@tabler/icons-react';
-import useTranslation from '@/hooks/useTranslation';
+
 type Props = {
   user: User;
   friendId: number;
@@ -12,7 +13,7 @@ type Props = {
 };
 
 const Request = ({ user, status, friendId }: Props) => {
-  const _user = useUserStore.use.user();
+  const _user = useAppStore.use.user();
   const utils = trpc.useContext();
   const addNoti = trpc.notification.push.useMutation();
   const reject = trpc.friend.reject.useMutation();

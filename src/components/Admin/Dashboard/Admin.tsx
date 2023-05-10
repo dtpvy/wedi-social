@@ -1,4 +1,4 @@
-import ERROR_MESSAGES from '../../../constants/error';
+import ERROR_MESSAGES from '../../../constants/errorMessage';
 import { trpc } from '@/utils/trpc';
 import { Avatar, Badge, Button, Image, Text } from '@mantine/core';
 import { modals } from '@mantine/modals';

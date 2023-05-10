@@ -1,11 +1,11 @@
-import { ProfileLayout } from '@/components/Layout';
+import { MainLayout, ProfileLayout } from '@/components/Layout';
 import { Friend } from '@/components/Profile/Friend';
 import FriendRequest from '@/components/Profile/Friend/FriendRequest';
 import { trpc } from '@/utils/trpc';
 import { Button, Input, Loader } from '@mantine/core';
 import { useDebouncedState } from '@mantine/hooks';
 import { IconSearch } from '@tabler/icons-react';
-import { useState } from 'react';
+import { ReactElement, useState } from 'react';
 import useTranslation from '@/hooks/useTranslation';
 const Friends = () => {
   const [type, setType] = useState('');
@@ -19,7 +19,7 @@ const Friends = () => {
   });
 
   return (
-    <ProfileLayout className="flex flex-col gap-4">
+    <>
       <div className="bg-white rounded shadow p-4 flex items-center gap-4">
         <Input
           onChange={(e) => setValue(e.target.value)}
@@ -34,13 +34,13 @@ const Friends = () => {
           variant="light"
           color="green"
         >
-          {order === 'asc' ? t("recentText") : t("newestText")}
+          {order === 'asc' ? t('recentText') : t('newestText')}
         </Button>
         <Button onClick={() => setType('request')} radius="xl" variant="outline" color="green">
-          {t("friendrequestText")}
+          {t('friendrequestText')}
         </Button>
         <Button onClick={() => setType('owner')} radius="xl" variant="outline" color="green">
-          {t("sentrequestText")}
+          {t('sentrequestText')}
         </Button>
       </div>
       {isLoading && <Loader />}
@@ -59,7 +59,15 @@ const Friends = () => {
         })}
       </div>
       <FriendRequest opened={!!type} owner={type === 'request'} onClose={() => setType('')} />
-    </ProfileLayout>
+    </>
+  );
+};
+
+Friends.getLayout = function getLayout(page: ReactElement) {
+  return (
+    <MainLayout>
+      <ProfileLayout className="flex flex-col gap-4">{page}</ProfileLayout>
+    </MainLayout>
   );
 };
 

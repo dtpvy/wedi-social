@@ -7,4 +7,4 @@ export const LanguageConfig = {
     flag: '🇺🇸',
     label: 'englishText',
   },
-};
+} as const;

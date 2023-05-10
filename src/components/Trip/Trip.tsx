@@ -1,10 +1,9 @@
+import useTranslation from '@/hooks/useTranslation';
 import { TripDetail } from '@/types/trip';
 import classNames from '@/utils/classNames';
 import { Avatar, Button, Text } from '@mantine/core';
-import { IconDots } from '@tabler/icons-react';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
-import useTranslation from '@/hooks/useTranslation';
 
 type Props = {
   className?: string;
@@ -29,11 +28,12 @@ const Trip = ({ trip, className }: Props) => {
               {`Tham gia từ: ${dayjs(users[0].createdAt).format('HH:mm DD/MM/YYYY')}`}
             </div>
           )}
-          {posts.length && (
-            <div className="text-gray-600 text-sm">
-              {`Bài đăng lần cuối: ${dayjs(posts[0].createdAt).format('HH:mm DD/MM/YYYY')}`}
-            </div>
-          )}
+
+          <div className="text-gray-600 text-sm">
+            {!!posts.length
+              ? `Bài đăng lần cuối: ${dayjs(posts[0].createdAt).format('HH:mm DD/MM/YYYY')}`
+              : 'Chưa có bài viết nào'}
+          </div>
         </div>
       </div>
       <div className="flex items-center gap-2">
@@ -43,7 +43,7 @@ const Trip = ({ trip, className }: Props) => {
           className="w-full"
           color="green"
         >
-        {t("openGroupText")}
+          {t('openGroupText')}
         </Button>
       </div>
     </div>

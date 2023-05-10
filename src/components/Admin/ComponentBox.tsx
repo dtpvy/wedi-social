@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { IconDots } from '@tabler/icons-react';
 import React from 'react';
 import dayjs from 'dayjs';
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 type Props = {
   props: any;
@@ -18,27 +18,23 @@ const ComponentBox = ({ props }: Props) => {
   };
   function badgeColor() {
     let color;
-    if (
-      status == "Đã phản hồi" ||
-      status == "NOTVERIFIED" ||
-      status == "ACTIVE"
-    ) {
-      color = "green";
+    if (status == 'Đã phản hồi' || status == 'NOTVERIFIED' || status == 'ACTIVE') {
+      color = 'green';
     } else {
-      color = "yellow";
+      color = 'yellow';
     }
     return color;
   }
-  const [visibility, setVisibility] = useState("");
+  const [visibility, setVisibility] = useState('');
   // let visibility = "visible";
 
   useEffect(() => {
-    if (statusVisibility == "All" || statusVisibility == "") {
-      setVisibility("");
+    if (statusVisibility == 'All' || statusVisibility == '') {
+      setVisibility('');
     } else {
-      setVisibility(statusVisibility == status ? "" : "hidden");
+      setVisibility(statusVisibility == status ? '' : 'hidden');
     }
-  }, [statusVisibility]);
+  }, [status, statusVisibility]);
 
   return (
     <div
@@ -54,8 +50,8 @@ const ComponentBox = ({ props }: Props) => {
         {input3}
       </div>
       {/* <div className="w-2/12">Nội dung</div> */}
-      <div className={`w-2/12 ${type === "location" && "text-center pr-6"}`}>
-        {type != "location" ? day : `${input4}`}
+      <div className={`w-2/12 ${type === 'location' && 'text-center pr-6'}`}>
+        {type != 'location' ? day : `${input4}`}
       </div>
       <div className="w-1/12 mx-3">
         <Badge color={badgeColor()}>{status}</Badge>

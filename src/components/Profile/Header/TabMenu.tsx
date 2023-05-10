@@ -1,51 +1,55 @@
-import { Avatar, Badge, Button, Textarea } from '@mantine/core';
+import { Button } from '@mantine/core';
 
 import { Menu } from '@/components/Menu';
+import useTranslation from '@/hooks/useTranslation';
+import { default as useAppStore, default as useProfileStore } from '@/stores/store';
 import { Tab } from '@/types/tab';
-import { IconArticle, IconFriends, IconMap, IconMessageReport } from '@tabler/icons-react';
-import { useRouter } from 'next/router';
-import { use, useContext, useMemo } from 'react';
-import { ProfileLayoutContext } from '@/components/Layout/ProfileLayout';
-import useUserStore from '@/stores/user';
 import { trpc } from '@/utils/trpc';
 import { calcFriend } from '@/utils/user';
-import { CreateTrip } from '@/components/Trip';
-import useTranslation from '@/hooks/useTranslation';
+import { IconArticle, IconFriends, IconMap, IconMessageReport } from '@tabler/icons-react';
+import { useRouter } from 'next/router';
+import { useMemo } from 'react';
+
+const TAB_NAME = {
+  POSTS: 'posts',
+  TRIPS: 'trips',
+  FRIENDS: 'friends',
+  REQUESTS: 'requests',
+};
+
+const TAB_LIST: Record<string, Tab> = {
+  [TAB_NAME.POSTS]: {
+    name: 'posts',
+    title: 'postText',
+    url: 'posts',
+    icon: <IconArticle />,
+  },
+  [TAB_NAME.TRIPS]: {
+    name: 'trips',
+    title: 'tripText',
+    url: 'trips',
+    icon: <IconMap />,
+  },
+  [TAB_NAME.FRIENDS]: {
+    name: 'friends',
+    title: 'friendText',
+    url: 'friends',
+    icon: <IconFriends />,
+  },
+  [TAB_NAME.REQUESTS]: {
+    name: 'requests',
+    title: 'requestText',
+    url: 'requests',
+    icon: <IconMessageReport />,
+  },
+};
 
 const TabMenu = () => {
   const router = useRouter();
-  const user = useUserStore.use.user();
-  const { data: profile, isOwner } = useContext(ProfileLayoutContext) || {};
+  const user = useAppStore.use.user();
+  const { user: profile, isOwner } = useProfileStore.use.profile();
 
-  const { t, locale } = useTranslation();
-  const TAB_NAME = {
-    POSTS: `${t('postText')}`,
-    TRIPS: 'trips',
-    FRIENDS: 'friends',
-    REQUESTS: 'requests',
-  };
-  const TAB_LIST: Record<string, Tab> = {
-    [TAB_NAME.POSTS]: {
-      name: `${t('postText')}`,
-      url: 'posts',
-      icon: <IconArticle />,
-    },
-    [TAB_NAME.TRIPS]: {
-      name: `${t('tripText')}`,
-      url: 'trips',
-      icon: <IconMap />,
-    },
-    [TAB_NAME.FRIENDS]: {
-      name: `${t('friendText')}`,
-      url: 'friends',
-      icon: <IconFriends />,
-    },
-    [TAB_NAME.REQUESTS]: {
-      name: `${t('requestText')}`,
-      url: 'requests',
-      icon: <IconMessageReport />,
-    },
-  };
+  const { t } = useTranslation();
 
   const isFriend =
     user?.friends.find((friend) => friend.friendId === profile?.id) ||
@@ -77,12 +81,15 @@ const TabMenu = () => {
   const tabs = useMemo(() => {
     const tabs = { ...TAB_LIST };
     if (!user) return tabs;
+    Object.keys(tabs).forEach((key) => {
+      tabs[key].title = t(tabs[key].title || '');
+    });
     tabs[TAB_NAME.POSTS].badgeNumber = user.posts.length;
     tabs[TAB_NAME.TRIPS].badgeNumber = user.joinTrip.length;
     tabs[TAB_NAME.FRIENDS].badgeNumber = calcFriend(user);
     tabs[TAB_NAME.REQUESTS].badgeNumber = user.requests.length;
     return tabs;
-  }, [user]);
+  }, [t, user]);
 
   return (
     <>

@@ -1,4 +1,4 @@
-import useUserStore from '@/stores/user';
+import useUserStore from '@/stores/auth';
 import classNames from '@/utils/classNames';
 import { trpc } from '@/utils/trpc';
 import { Avatar, Button, Modal } from '@mantine/core';
@@ -8,7 +8,7 @@ import { useRouter } from 'next/router';
 import { MouseEvent, useContext, useState } from 'react';
 import FormCreate, { ScheduleParams } from './FormCreate';
 import { TripLayoutContext } from '@/components/Layout/TripLayout';
-import useTranslation from '@/hooks/useTranslation';  
+import useTranslation from '@/hooks/useTranslation';
 
 type Props = {
   className?: string;
@@ -17,7 +17,7 @@ type Props = {
 
 const CreateSchedule = ({ tripId, className }: Props) => {
   const { data } = useContext(TripLayoutContext) || {};
-
+  const { t } = useTranslation();
   const router = useRouter();
   const create = trpc.schedule.create.useMutation();
   const [opened, setOpened] = useState(false);
@@ -33,8 +33,6 @@ const CreateSchedule = ({ tripId, className }: Props) => {
     e.preventDefault();
     setOpened(true);
   };
-
-  const { t } = useTranslation();
 
   return (
     <div>
@@ -57,7 +55,12 @@ const CreateSchedule = ({ tripId, className }: Props) => {
           {t('createScheduleText')}
         </Button>
       </div>
-      <Modal opened={opened} size="lg" onClose={() => setOpened(false)} title={t('createScheduleText')}>
+      <Modal
+        opened={opened}
+        size="lg"
+        onClose={() => setOpened(false)}
+        title={t('createScheduleText')}
+      >
         <FormCreate onSubmit={handleCreate} />
       </Modal>
     </div>

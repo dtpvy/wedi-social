@@ -1,15 +1,16 @@
-import useUserStore from '@/stores/user';
+import useTranslation from '@/hooks/useTranslation';
+import useAppStore from '@/stores/store';
 import { trpc } from '@/utils/trpc';
 import { Button } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconCheck, IconLoader, IconMoodEdit, IconPhotoEdit, IconX } from '@tabler/icons-react';
 import dayjs from 'dayjs';
 import { IKUpload } from 'imagekitio-react';
-import React, { useRef, useState } from 'react';
-import useTranslation from '@/hooks/useTranslation';
+import { useRef, useState } from 'react';
+
 const Header = () => {
   const utils = trpc.useContext();
-  const user = useUserStore((state) => state.user);
+  const user = useAppStore.use.user();
   const updateImage = trpc.user.updateImage.useMutation();
   const avatarRef = useRef<HTMLInputElement>(null);
   const bgRef = useRef<HTMLInputElement>(null);

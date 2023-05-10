@@ -1,10 +1,11 @@
-import { FeedLayout } from '@/components/Layout';
+import { FeedLayout, MainLayout } from '@/components/Layout';
+
 import { PostTrip } from '@/components/Post';
 import { Trip as TripWidget } from '@/components/Trip';
-import { posts } from '@/mocks/post';
+import useTranslation from '@/hooks/useTranslation';
 import { trpc } from '@/utils/trpc';
 import { Carousel } from '@mantine/carousel';
-import useTranslation from '@/hooks/useTranslation';
+import { ReactElement } from 'react';
 
 const Trip = () => {
   const { data } = trpc.trip.feed.useQuery({});
@@ -22,7 +23,7 @@ const Trip = () => {
   const { t } = useTranslation();
 
   return (
-    <FeedLayout className="pt-8 px-[200px] w-full">
+    <>
       <Carousel
         styles={{
           control: {
@@ -61,7 +62,15 @@ const Trip = () => {
             : t('tripEndText')}
         </button>
       </div>
-    </FeedLayout>
+    </>
+  );
+};
+
+Trip.getLayout = function getLayout(page: ReactElement) {
+  return (
+    <MainLayout>
+      <FeedLayout>{page}</FeedLayout>
+    </MainLayout>
   );
 };
 

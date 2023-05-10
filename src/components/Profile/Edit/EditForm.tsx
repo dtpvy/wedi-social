@@ -1,24 +1,26 @@
-import { ProfileLayoutContext } from '@/components/Layout/ProfileLayout';
 import useEditForm, { EditForm } from '@/hooks/useEditForm';
 import useLocation from '@/hooks/useLocation';
+import useTranslation from '@/hooks/useTranslation';
+import useProfileStore from '@/stores/store';
 import { trpc } from '@/utils/trpc';
 import { Button, Select, TextInput, Textarea } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { IconAt, IconCheck, IconLanguage, IconPhone, IconX } from '@tabler/icons-react';
-import { useContext, useMemo } from 'react';
-import Header from './Header';
-import { useDisclosure } from '@mantine/hooks';
+import { useMemo } from 'react';
 import ChangePassword from './ChangePassword';
-import useTranslation from '@/hooks/useTranslation';
+import Header from './Header';
+
 const Edit = () => {
   const { t } = useTranslation();
-  const { isOwner } = useContext(ProfileLayoutContext) || {};
+  const { isOwner } = useProfileStore.use.profile();
+
   const update = trpc.user.updateInfo.useMutation();
   const [opened, { open, close }] = useDisclosure(false);
 
   const { getInputProps, onSubmit, values, setValues } = useEditForm();
 
-  const { data: language, isLoading: loading } = trpc.location.languages.useQuery({});
+  const { data: language } = trpc.location.languages.useQuery({});
 
   const languages = useMemo(() => {
     return (language || []).map((d) => ({

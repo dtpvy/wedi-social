@@ -1,10 +1,9 @@
-import { FeedLayout } from '@/components/Layout';
+import { FeedLayout, MainLayout } from '@/components/Layout';
 import { CreatePost, Post } from '@/components/Post';
 import { trpc } from '@/utils/trpc';
-
 import { TRACKING_EVENT, TRACKING_PAGE } from '@/constants/tracking';
-import { useEffect } from 'react';
 import useTranslation from '@/hooks/useTranslation';
+import { ReactElement, useEffect } from 'react';
 
 const Feed = () => {
   const query = trpc.post.feed.useInfiniteQuery(
@@ -25,10 +24,11 @@ const Feed = () => {
       event: TRACKING_EVENT.ENTER_FEED,
       page: TRACKING_PAGE.FEED,
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <FeedLayout className="pt-8 px-[200px] w-full">
+    <>
       <CreatePost refetch={refetch} />
       <div className="flex flex-col gap-8 pb-8 mt-8">
         {data.map((post) => (
@@ -47,7 +47,15 @@ const Feed = () => {
           ? t('loadMoreText')
           : t('postEndText')}
       </button>
-    </FeedLayout>
+    </>
+  );
+};
+
+Feed.getLayout = function getLayout(page: ReactElement) {
+  return (
+    <MainLayout>
+      <FeedLayout>{page}</FeedLayout>
+    </MainLayout>
   );
 };
 

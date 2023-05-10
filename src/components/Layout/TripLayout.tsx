@@ -1,16 +1,16 @@
 import { Header, TabMenu } from '@/components/Trip/Header';
+import useTranslation from '@/hooks/useTranslation';
 import NotFound from '@/pages/404';
-import useUserStore from '@/stores/user';
+import useAppStore from '@/stores/store';
 import classNames from '@/utils/classNames';
 import { trpc } from '@/utils/trpc';
 import { Loader, Stepper, Text } from '@mantine/core';
 import { modals } from '@mantine/modals';
 import { notifications } from '@mantine/notifications';
-import { JoinTripStatus, Trip, TripStatus } from '@prisma/client';
+import { TripStatus } from '@prisma/client';
 import { IconCalendarTime, IconCheck, IconMapPinCheck, IconWalk, IconX } from '@tabler/icons-react';
 import { useRouter } from 'next/router';
-import { ReactNode, createContext } from 'react';
-import useTranslation from '@/hooks/useTranslation';
+import { ReactNode } from 'react';
 
 type Props = {
   children: ReactNode;
@@ -35,24 +35,29 @@ const TRIP_STATUS = {
   },
 };
 
-export const TripLayoutContext = createContext<{
-  data: Trip;
-  joined: boolean;
-} | null>(null);
-
 const TripLayout = ({ children, className }: Props) => {
   const router = useRouter();
   const { id } = router.query;
-  const { data, isLoading, refetch } = trpc.trip.get.useQuery({
-    id: +(id as string),
-  });
-  const user = useUserStore.use.user();
+  const { t } = useTranslation();
+
+  const user = useAppStore.use.user();
+  const setTrip = useAppStore.use.setTrip();
+
+  const { data, isLoading, refetch } = trpc.trip.get.useQuery(
+    {
+      id: +(id as string),
+    },
+    {
+      onSuccess: (data) => {
+        if (!data || !data.trip) return;
+        setTrip(data.trip, data.join);
+      },
+    }
+  );
 
   const done = trpc.trip.done.useMutation();
 
   const active = Object.keys(TRIP_STATUS).findIndex((key) => key === data?.trip?.status);
-
-  const {t} = useTranslation();
 
   const handleDone = () => {
     const trip = data?.trip;
@@ -93,36 +98,36 @@ const TripLayout = ({ children, className }: Props) => {
     return <NotFound />;
   }
 
+  // const C = children;
+
   return (
-    <TripLayoutContext.Provider value={{ data: data.trip, joined: data.join }}>
-      <div className="py-[70px]">
-        <Header trip={data.trip} />
-        <div className="flex mt-8 mx-16 gap-8">
-          <div className="w-[400px] shadow p-4 bg-white rounded-lg h-fit">
-            <TabMenu trip={data.trip} joined={data.join} />
-          </div>
-          <div className={classNames('w-full', className)}>
-            <Stepper
-              color="teal"
-              size="lg"
-              active={active + 1}
-              onStepClick={handleDone}
-              className="bg-white shadow rounded-lg p-4"
-            >
-              {Object.keys(TRIP_STATUS).map((key, index) => (
-                <Stepper.Step
-                  key={index}
-                  icon={TRIP_STATUS[key as keyof typeof TRIP_STATUS].icon}
-                  label={TRIP_STATUS[key as keyof typeof TRIP_STATUS].title}
-                  description={TRIP_STATUS[key as keyof typeof TRIP_STATUS].description}
-                />
-              ))}
-            </Stepper>
-            {children}
-          </div>
+    <div className="py-[70px]">
+      <Header trip={data.trip} />
+      <div className="flex mt-8 mx-16 gap-8">
+        <div className="w-[400px] shadow p-4 bg-white rounded-lg h-fit">
+          <TabMenu trip={data.trip} joined={data.join} />
+        </div>
+        <div className={classNames('w-full', className)}>
+          <Stepper
+            color="teal"
+            size="lg"
+            active={active + 1}
+            onStepClick={handleDone}
+            className="bg-white shadow rounded-lg p-4"
+          >
+            {Object.keys(TRIP_STATUS).map((key, index) => (
+              <Stepper.Step
+                key={index}
+                icon={TRIP_STATUS[key as keyof typeof TRIP_STATUS].icon}
+                label={TRIP_STATUS[key as keyof typeof TRIP_STATUS].title}
+                description={TRIP_STATUS[key as keyof typeof TRIP_STATUS].description}
+              />
+            ))}
+          </Stepper>
+          {children}
         </div>
       </div>
-    </TripLayoutContext.Provider>
+    </div>
   );
 };
 

@@ -56,13 +56,14 @@ const FormCreate = ({ trip, onSubmit }: Props) => {
           : null,
     },
   });
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="relative">
         {values.bgUrl && (
           <CloseButton
             onClick={() => setFieldValue('bgUrl', '')}
-            title= {t('closePopoverText')}
+            title={t('closePopoverText')}
             size="lg"
             iconSize={20}
             radius="xl"
@@ -137,10 +138,15 @@ const FormCreate = ({ trip, onSubmit }: Props) => {
         </div>
       </div>
       <div className="grid grid-cols-2 gap-4 mt-4">
-        <TextInput withAsterisk placeholder= {t('nameText')} label= {t('nameText')} {...getInputProps('name')} />
+        <TextInput
+          withAsterisk
+          placeholder={t('nameText')}
+          label={t('nameText')}
+          {...getInputProps('name')}
+        />
         <Select
-          label= {t('privacyText')}
-          placeholder= {t('privacyText')}
+          label={t('privacyText')}
+          placeholder={t('privacyText')}
           icon={<IconEyeEdit size="1rem" />}
           data={[
             { value: Privacy.PUBLIC, label: t('publicModeText') },
@@ -151,15 +157,15 @@ const FormCreate = ({ trip, onSubmit }: Props) => {
         />
         <DateInput
           withAsterisk
-          label= {t('startDateText')}
-          placeholder= {t('startDateText')}
+          label={t('startDateText')}
+          placeholder={t('startDateText')}
           maw={400}
           className="flex-1"
           {...getInputProps('startDate')}
         />
         <DateInput
-          label= {t('endDateText')}
-          placeholder= {t('endDateText')}
+          label={t('endDateText')}
+          placeholder={t('endDateText')}
           maw={400}
           className="flex-1"
           {...getInputProps('endDate')}

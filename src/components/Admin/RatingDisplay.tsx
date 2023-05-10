@@ -1,7 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
-const RatingDisplay = ({ rating, maxRating, numRatings }: any) => {
+type Props = {
+  rating: number;
+  maxRating: number;
+  numRatings: number;
+};
+
+const RatingDisplay = ({ rating, maxRating, numRatings }: Props) => {
   // Calculate the number of full stars to display
   const fullStars = Math.floor(rating);
 
@@ -41,12 +46,6 @@ const RatingDisplay = ({ rating, maxRating, numRatings }: any) => {
       </div>
     </div>
   );
-};
-
-RatingDisplay.propTypes = {
-  rating: PropTypes.number.isRequired,
-  maxRating: PropTypes.number.isRequired,
-  numRatings: PropTypes.number.isRequired,
 };
 
 export default RatingDisplay;

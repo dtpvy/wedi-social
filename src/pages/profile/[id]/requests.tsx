@@ -1,21 +1,20 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { ProfileLayout } from '@/components/Layout';
+import { MainLayout, ProfileLayout } from '@/components/Layout';
 import { CreateRequest, Request } from '@/components/Profile/Request';
 import { trpc } from '@/utils/trpc';
 import { Button, Loader } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { useState } from 'react';
+import { ReactElement, useState } from 'react';
 import useTranslation from '@/hooks/useTranslation';
 
-
-const requests = () => {
+const Requests = () => {
   const [type, setType] = useState<'all' | 'pending' | 'replied'>('all');
   const [opened, { open, close }] = useDisclosure(false);
-  const { t } = useTranslation(); 
+  const { t } = useTranslation();
   const { data, isLoading } = trpc.request.requestList.useQuery({ type });
 
   return (
-    <ProfileLayout className="flex flex-col gap-4">
+    <>
       <div className="bg-white rounded shadow p-4 flex items-center gap-4">
         <Button
           radius="xl"
@@ -23,7 +22,7 @@ const requests = () => {
           color="green"
           onClick={() => setType('all')}
         >
-          {t("allText")}
+          {t('allText')}
         </Button>
         <Button
           radius="xl"
@@ -31,7 +30,7 @@ const requests = () => {
           color="green"
           onClick={() => setType('replied')}
         >
-          {t("responsedText")}
+          {t('responsedText')}
         </Button>
         <Button
           radius="xl"
@@ -39,10 +38,10 @@ const requests = () => {
           color="green"
           onClick={() => setType('pending')}
         >
-          {t("noresponsedText")}
+          {t('noresponsedText')}
         </Button>
         <Button onClick={open} className="ml-auto" radius="xl" color="green">
-          {t("createrequestText")}
+          {t('createrequestText')}
         </Button>
       </div>
       {isLoading && <Loader />}
@@ -52,8 +51,16 @@ const requests = () => {
         ))}
       </div>
       <CreateRequest opened={opened} close={close} />
-    </ProfileLayout>
+    </>
   );
 };
 
-export default requests;
+Requests.getLayout = function getLayout(page: ReactElement) {
+  return (
+    <MainLayout>
+      <ProfileLayout className="flex flex-col gap-4">{page}</ProfileLayout>
+    </MainLayout>
+  );
+};
+
+export default Requests;

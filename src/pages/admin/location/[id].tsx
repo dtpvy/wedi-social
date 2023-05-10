@@ -1,17 +1,9 @@
-import React from 'react';
-import { useRouter } from 'next/router';
 import { LocationDetail } from '@/components/Admin/Location';
+import { AdminLayout } from '@/components/Layout';
+import { ReactElement } from 'react';
 
 const LocationInfo = () => {
-  const router = useRouter();
-  const { id } = router.query;
-
-  return (
-    <div>
-      {/* LocationDetail: {id} */}
-      <LocationDetail />
-    </div>
-  );
+  return <LocationDetail />;
 };
 
 export default LocationInfo;

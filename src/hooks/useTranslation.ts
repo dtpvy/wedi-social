@@ -1,21 +1,36 @@
-import useTranslator from '@/stores/translator';
+import useLocaleStore from '@/stores/locale';
+import useAppStore from '@/stores/store';
 import { trpc } from '@/utils/trpc';
+import { Language } from '@prisma/client';
 
 const useTranslation = () => {
-  const locale = useTranslator((state) => state.locale);
-  const translator = useTranslator((state) => state.translator);
+  const setLocale = useLocaleStore((state) => state.setLocale);
+  const locale = useLocaleStore((state) => state.locale);
+  const translator = useLocaleStore((state) => state.translator);
+
   const { data: languages } = trpc.location.languages.useQuery({});
   const updateLanguage = trpc.user.updateLanguage.useMutation();
+  const user = useAppStore.use.user();
 
   const t = (key: string) => {
-    return translator?.[locale][key];
+    if (!translator) return '';
+    return translator[key] || '';
+  };
+
+  const update = (language: Language) => {
+    if (!user && typeof window === 'undefined') return;
+    setLocale(language.code);
+    if (user) updateLanguage.mutate({ languageId: language.id });
+    else {
+      localStorage.setItem('selectedlLanguage', language.code);
+    }
   };
 
   return {
     locale,
     t,
     languages,
-    updateLanguage,
+    update,
   };
 };
 

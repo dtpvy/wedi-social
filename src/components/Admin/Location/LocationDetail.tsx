@@ -23,7 +23,7 @@ const LocationDetail = () => {
       setCurrentStatus(location?.status);
     }
     setCurrentStatus(location?.status);
-  }, [location?.status]);
+  }, [currentStatus, location?.status]);
 
   const handleSetStatus = (status: LocationStatus) => {
     setLocationStatus.mutate(

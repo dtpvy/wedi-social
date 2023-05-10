@@ -5,6 +5,8 @@ import { IconCheck, IconX } from '@tabler/icons-react';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import useTranslation from '@/hooks/useTranslation';
+import { MainLayout } from '@/components/Layout';
+import { ReactElement } from 'react';
 
 const Requests = () => {
   const router = useRouter();
@@ -41,34 +43,40 @@ const Requests = () => {
   };
 
   const { t } = useTranslation();
-  
+
   return (
-    <TripLayout className="w-full flex flex-col gap-4">
-      <div className="grid grid-cols-2 gap-4">
-        {data?.map((member, index) => (
-          <div key={index} className="bg-white rounded-lg p-3 flex items-center gap-2">
-            <Avatar radius="xl" src={member.user.imgUrl} />
-            <div>
-              <div className="font-medium">{member.user.name}</div>
-              <div className="text-sm text-gray-600">{`${t('joinedGroupText')} ${dayjs(member.updatedAt).format(
-                'DD/MM/YYYY'
-              )}`}</div>
-            </div>
-            <ActionIcon
-              onClick={() => handleAccept(member.userId)}
-              className="ml-auto"
-              color="teal"
-              variant="filled"
-            >
-              <IconCheck size="1.125rem" />
-            </ActionIcon>
-            <ActionIcon onClick={() => handleReject(member.userId)} color="red" variant="filled">
-              <IconX size="1.125rem" />
-            </ActionIcon>
+    <div className="grid grid-cols-2 gap-4">
+      {data?.map((member, index) => (
+        <div key={index} className="bg-white rounded-lg p-3 flex items-center gap-2">
+          <Avatar radius="xl" src={member.user.imgUrl} />
+          <div>
+            <div className="font-medium">{member.user.name}</div>
+            <div className="text-sm text-gray-600">{`${t('joinedGroupText')} ${dayjs(
+              member.updatedAt
+            ).format('DD/MM/YYYY')}`}</div>
           </div>
-        ))}
-      </div>
-    </TripLayout>
+          <ActionIcon
+            onClick={() => handleAccept(member.userId)}
+            className="ml-auto"
+            color="teal"
+            variant="filled"
+          >
+            <IconCheck size="1.125rem" />
+          </ActionIcon>
+          <ActionIcon onClick={() => handleReject(member.userId)} color="red" variant="filled">
+            <IconX size="1.125rem" />
+          </ActionIcon>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+Requests.getLayout = function getLayout(page: ReactElement) {
+  return (
+    <MainLayout>
+      <TripLayout className="w-full flex flex-col gap-4">{page}</TripLayout>
+    </MainLayout>
   );
 };
 

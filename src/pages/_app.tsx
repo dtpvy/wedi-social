@@ -1,7 +1,4 @@
-import { Layout } from '@/components/Layout';
 import { Message } from '@/components/Message';
-import useLocale from '@/hooks/useLocale';
-import '@/styles/globals.css';
 import { trpc } from '@/utils/trpc';
 import { MantineProvider } from '@mantine/core';
 import { ModalsProvider } from '@mantine/modals';
@@ -9,19 +6,38 @@ import { Notifications } from '@mantine/notifications';
 import { IKContext } from 'imagekitio-react';
 import { Session } from 'next-auth';
 import { SessionProvider, getSession } from 'next-auth/react';
-import type { AppType } from 'next/app';
+import type { AppProps, AppType } from 'next/app';
 
-import '@goongmaps/goong-js/dist/goong-js.css';
 import { APP_URL } from '@/utils/env';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
-const MyApp: AppType<{ session: Session | null }> = ({ Component, pageProps }) => {
-  useLocale();
+import AuthLayout from '@/components/Layout/AuthLayout';
+import { NextPage } from 'next';
+import { ReactElement, ReactNode, useEffect } from 'react';
+import { translate } from '@vitalets/google-translate-api';
+
+import '@/styles/globals.css';
+import axios from 'axios';
+
+export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
+  getLayout?: (page: ReactElement) => ReactNode;
+};
+
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout;
+};
+
+const MyApp: AppType<{ session: Session | null }> = ({
+  Component,
+  pageProps,
+}: AppPropsWithLayout) => {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: { staleTime: 60, refetchOnWindowFocus: false },
     },
   });
+
+  const getLayout = Component.getLayout ?? ((page) => page);
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -35,9 +51,7 @@ const MyApp: AppType<{ session: Session | null }> = ({ Component, pageProps }) =
           <MantineProvider withNormalizeCSS withGlobalStyles>
             <ModalsProvider>
               <Notifications />
-              <Layout>
-                <Component {...pageProps} />
-              </Layout>
+              <AuthLayout>{getLayout(<Component {...pageProps} />)}</AuthLayout>
             </ModalsProvider>
             <Message />
           </MantineProvider>

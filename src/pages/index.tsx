@@ -1,5 +1,5 @@
 import { LanguageConfig } from '@/constants/default';
-import useLocale from '@/hooks/useLocale';
+
 import useTranslation from '@/hooks/useTranslation';
 import classNames from '@/utils/classNames';
 import { Image } from '@mantine/core';
@@ -8,9 +8,8 @@ import Link from 'next/link';
 import { useCallback, useEffect, useState } from 'react';
 
 const Home: NextPage = () => {
-  const { update } = useLocale();
-  const { t, locale } = useTranslation();
-  const { flag, label } = LanguageConfig[locale];
+  const { t, locale, update, languages } = useTranslation();
+  const { flag, label } = LanguageConfig[locale as keyof typeof LanguageConfig] || {};
 
   const [show, setShow] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
@@ -37,8 +36,10 @@ const Home: NextPage = () => {
   }, [controlNavbar, lastScrollY]);
 
   const handleChangeLanguage = () => {
-    if (locale === 'vi') update('en');
-    else update('vi');
+    const nextLocale = locale === 'vi' ? 'en' : 'vi';
+    const language = languages?.find((d) => d.code === nextLocale);
+    if (!language) return;
+    update(language);
   };
 
   return (

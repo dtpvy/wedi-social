@@ -1,6 +1,6 @@
 import { LanguageConfig } from '@/constants/default';
 import useTranslation from '@/hooks/useTranslation';
-import useUserStore from '@/stores/user';
+
 import { trpc } from '@/utils/trpc';
 import {
   ActionIcon,
@@ -25,16 +25,19 @@ import { useMemo, useState } from 'react';
 import Message from './Message';
 import Notification from './Notification';
 import Link from 'next/link';
+import { Language } from '@prisma/client';
+import useAppStore from '@/stores/store';
 
 const Search = () => {
   const router = useRouter();
   const utils = trpc.useContext();
-  const { t, locale: language, languages, updateLanguage } = useTranslation();
-
+  const { t, locale, languages, update } = useTranslation();
+  const { flag, label } = LanguageConfig[locale as keyof typeof LanguageConfig] || {};
+  console.log({ locale });
   const [opened, setOpened] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const user = useUserStore.use.user();
+  const user = useAppStore.use.user();
   const seeAll = trpc.notification.seenAll.useMutation();
   const seeAllMess = trpc.message.seenAll.useMutation();
 
@@ -52,9 +55,10 @@ const Search = () => {
     utils.user.findUser.refetch();
   };
 
-  const handleChangeLanguage = async (languageId: number) => {
+  const handleChangeLanguage = async (language: Language) => {
     setLoading(true);
-    await updateLanguage.mutateAsync({ languageId });
+    console.log({ language });
+    update(language);
     setOpened((o) => !o);
     setLoading(false);
     utils.user.findUser.refetch();
@@ -67,14 +71,14 @@ const Search = () => {
         className="absolute top-0 left-0 w-screen h-screen"
         overlayBlur={2}
       />
-      <div className="flex items-center justify-between bg-white pr-8 py-[5px]">
+      <div className="flex items-center justify-between bg-white px-8 py-[5px]">
         <Link href={'/feed'} className="flex items-center bg-white no-underline">
           <Image src="/logo.png" alt="logo" width={60} height={60} />
           <div className="font-bold uppercase text-green-700 text-2xl">wedi</div>
         </Link>
         <Input
           icon={<IconSearch />}
-          placeholder= {`${t("searchText")}...`}
+          placeholder={`${t('searchText')}...`}
           radius="xl"
           size="md"
           className="w-1/2"
@@ -123,7 +127,7 @@ const Search = () => {
                 <Popover.Target>
                   <div className="flex items-center gap-2 cursor-pointer rounded p-2 mb-2">
                     <IconLanguage />
-                    {`${LanguageConfig[language].flag} ${t(LanguageConfig[language].label)}`}
+                    {`${flag} ${t(label)}`}
                   </div>
                 </Popover.Target>
                 <Popover.Dropdown className="p-1">
@@ -131,7 +135,7 @@ const Search = () => {
                     {languages?.map((language) => (
                       <div
                         key={language.id}
-                        onClick={() => handleChangeLanguage(language.id)}
+                        onClick={() => handleChangeLanguage(language)}
                         className="hover:bg-gray-100 p-2 cursor-pointer"
                       >
                         {`${LanguageConfig[language.code as keyof typeof LanguageConfig].flag} ${t(
@@ -143,7 +147,7 @@ const Search = () => {
                 </Popover.Dropdown>
               </Popover>
               <Button onClick={() => signOut({ callbackUrl: '/signin' })} className="w-full">
-              {t("signoutText")}
+                {t('signoutText')}
               </Button>
             </Popover.Dropdown>
           </Popover>
