@@ -2,7 +2,7 @@ import { Badge, Button, Card, Group, Image, ActionIcon, Avatar } from '@mantine/
 import { useRouter } from 'next/router';
 import { IconDots } from '@tabler/icons-react';
 import React from 'react';
-import dayjs from 'dayjs';
+import dayjs from '@/utils/dayjs';
 import { useEffect, useState } from 'react';
 
 type Props = {

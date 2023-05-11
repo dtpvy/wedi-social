@@ -6,6 +6,7 @@ import { notifications } from '@mantine/notifications';
 import { IconCheck, IconX } from '@tabler/icons-react';
 import React from 'react';
 import useTranslation from '@/hooks/useTranslation';
+import useToast from '@/hooks/useToast';
 
 type Props = {
   opened?: boolean;
@@ -14,6 +15,8 @@ type Props = {
 
 const ChangePassword = ({ opened = false, close }: Props) => {
   const { t } = useTranslation();
+  const { show } = useToast();
+
   const utils = trpc.useContext();
   const update = trpc.user.updatePassword.useMutation();
   const { getInputProps, onSubmit, setFieldError, reset } = useForm({
@@ -36,19 +39,17 @@ const ChangePassword = ({ opened = false, close }: Props) => {
       utils.user.findUser.refetch();
       close();
       reset();
-      notifications.show({
+      show({
         message: `${t('addsuccessText')}`,
-        color: 'green',
-        icon: <IconCheck />,
+        type: 'success',
       });
     } catch (e: any) {
       if (e.message === ERROR_MESSAGES.invalidPassword) {
         setFieldError(`${t('passwordText')}`, e.message);
       } else {
-        notifications.show({
+        show({
           message: t('errorTryAgainText'),
-          color: 'red',
-          icon: <IconX />,
+          type: 'success',
         });
       }
     }

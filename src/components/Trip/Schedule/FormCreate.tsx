@@ -1,13 +1,13 @@
 import { getPlaceList } from '@/api/place';
-import { Poi } from '@/types/place';
-import { ScheduleDetail } from '@/types/schedule';
+import type { Poi } from '@/types/place';
+import type { ScheduleDetail } from '@/types/schedule';
 import { getName } from '@/utils/location';
 import { trpc } from '@/utils/trpc';
 import { ActionIcon, Button, Loader, Popover, TextInput, Textarea } from '@mantine/core';
 import { DateInput, TimeInput } from '@mantine/dates';
 import { useForm } from '@mantine/form';
 import { IconClock } from '@tabler/icons-react';
-import dayjs from 'dayjs';
+import dayjs from '@/utils/dayjs';
 import { ChangeEvent, useRef, useState } from 'react';
 import { useQuery } from 'react-query';
 import useTranslation from '@/hooks/useTranslation';
@@ -102,8 +102,8 @@ const FormCreate = ({ schedule, onSubmit }: Props) => {
           <TextInput
             value={street}
             onFocus={() => setOpenedPopover(true)}
-            label= {t('addressText')}
-            placeholder= {t('addressText')}
+            label={t('addressText')}
+            placeholder={t('addressText')}
             onChange={(e) => setStreet(e.target.value)}
           />
         </Popover.Target>
@@ -129,12 +129,17 @@ const FormCreate = ({ schedule, onSubmit }: Props) => {
         </Popover.Dropdown>
       </Popover>
       <div className="grid grid-cols-2 gap-4 mt-4">
-        <TextInput withAsterisk placeholder="Name" label={t('nameText')} {...getInputProps('name')} />
+        <TextInput
+          withAsterisk
+          placeholder="Name"
+          label={t('nameText')}
+          {...getInputProps('name')}
+        />
         <TimeInput
           className="w-full"
           value={dayjs(values.reminderTime).format('HH:mm')}
-          label= {t('timeReminderText')}
-          placeholder= {t('timeReminderText')}
+          label={t('timeReminderText')}
+          placeholder={t('timeReminderText')}
           ref={ref}
           rightSection={
             <ActionIcon onClick={() => ref.current?.showPicker()}>
@@ -147,20 +152,25 @@ const FormCreate = ({ schedule, onSubmit }: Props) => {
         <DateInput
           withAsterisk
           label={t('startDateText')}
-          placeholder= {t('startDateText')}
+          placeholder={t('startDateText')}
           maw={400}
           className="flex-1"
           {...getInputProps('startTime')}
         />
         <DateInput
-          label= {t('endDateText')}
-          placeholder= {t('endDateText')}
+          label={t('endDateText')}
+          placeholder={t('endDateText')}
           maw={400}
           className="flex-1"
           {...getInputProps('endTime')}
         />
       </div>
-      <Textarea maxRows={4} label= {t('descriptionText')} placeholder= {t('descriptionText')} className="mt-4" />
+      <Textarea
+        maxRows={4}
+        label={t('descriptionText')}
+        placeholder={t('descriptionText')}
+        className="mt-4"
+      />
       <div className="mt-4 text-right">
         <Button type="submit" variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}>
           {schedule ? t('updateText') : t('createText')}

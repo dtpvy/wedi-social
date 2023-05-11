@@ -1,6 +1,6 @@
-import { ScheduleDetail } from '@/types/schedule';
+import type { ScheduleDetail } from '@/types/schedule';
 import { Avatar } from '@mantine/core';
-import dayjs from 'dayjs';
+import dayjs from '@/utils/dayjs';
 import Event from './Event';
 
 type Props = {

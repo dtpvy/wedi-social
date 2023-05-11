@@ -1,4 +1,4 @@
-import { Tab } from '@/types/tab';
+import type { Tab } from '@/types/tab';
 
 export const TAB_LIST: Record<string, Tab> = {
   DASHBOARD: {

@@ -1,11 +1,10 @@
-import { LocationDetail } from '@/types/location';
+import useToast from '@/hooks/useToast';
+import useTranslation from '@/hooks/useTranslation';
+import type { LocationDetail } from '@/types/location';
 import classNames from '@/utils/classNames';
 import { trpc } from '@/utils/trpc';
 import { Button, Modal, Rating } from '@mantine/core';
-import { notifications } from '@mantine/notifications';
-import { IconCheck, IconX } from '@tabler/icons-react';
 import { useMemo, useState } from 'react';
-import useTranslation from '@/hooks/useTranslation';
 
 type Props = {
   postId: number;
@@ -15,6 +14,8 @@ type Props = {
 };
 
 const ModalReview = ({ postId, locations, opened = false, onClose }: Props) => {
+  const { show } = useToast();
+
   const [hide, setHide] = useState<number[]>([]);
 
   const create = trpc.review.add.useMutation();
@@ -48,7 +49,7 @@ const ModalReview = ({ postId, locations, opened = false, onClose }: Props) => {
   };
 
   const { t } = useTranslation();
-  
+
   const handleReview = async (locationId: number) => {
     try {
       await create.mutateAsync({
@@ -56,18 +57,11 @@ const ModalReview = ({ postId, locations, opened = false, onClose }: Props) => {
         locationId,
         rating: rating[locationId] as number,
       });
-      notifications.show({
-        message: t('reviewSuccessfullyText'),
-        color: 'green',
-        icon: <IconCheck />,
-      });
+
+      show({ message: t('reviewSuccessfullyText'), type: 'success' });
       handleHide(locationId);
     } catch {
-      notifications.show({
-        message: t('errorTryAgainText'),
-        color: 'red',
-        icon: <IconX />,
-      });
+      show({ message: t('errorTryAgainText'), type: 'error' });
     }
   };
 
@@ -84,10 +78,14 @@ const ModalReview = ({ postId, locations, opened = false, onClose }: Props) => {
             >
               {!review.review ? (
                 <div>
-                  {t('youDontReviewLocationText')}{" "}{review.name}{t('whenYouRateYourArticleWillBeTiedToTheRating:')}
+                  {t('youDontReviewLocationText')} {review.name}
+                  {t('whenYouRateYourArticleWillBeTiedToTheRating:')}
                 </div>
               ) : (
-                <div>{t('youReviewedLocationText')}{" "}{review.name}{t('doYouWantToUpdateTheReview')}</div>
+                <div>
+                  {t('youReviewedLocationText')} {review.name}
+                  {t('doYouWantToUpdateTheReview')}
+                </div>
               )}
               <div className="flex gap-2 items-center">
                 <div>{t('reviewText')}:</div>

@@ -1,4 +1,5 @@
 import { Header, TabMenu } from '@/components/Trip/Header';
+import useToast from '@/hooks/useToast';
 import useTranslation from '@/hooks/useTranslation';
 import NotFound from '@/pages/404';
 import useAppStore from '@/stores/store';
@@ -39,6 +40,7 @@ const TripLayout = ({ children, className }: Props) => {
   const router = useRouter();
   const { id } = router.query;
   const { t } = useTranslation();
+  const { show } = useToast();
 
   const user = useAppStore.use.user();
   const setTrip = useAppStore.use.setTrip();
@@ -73,18 +75,10 @@ const TripLayout = ({ children, className }: Props) => {
       onConfirm: async () => {
         try {
           await done.mutateAsync({ id: trip.id });
-          notifications.show({
-            message: t('addsuccessText'),
-            color: 'green',
-            icon: <IconCheck />,
-          });
+          show({ type: 'success' });
           refetch();
         } catch (e: any) {
-          notifications.show({
-            message: t('errorTryAgainText'),
-            color: 'red',
-            icon: <IconX />,
-          });
+          show({ message: t('errorTryAgainText'), type: 'error' });
         }
       },
     });

@@ -1,7 +1,6 @@
-import { UserInfo } from '@/types/user';
+import type { User } from '@prisma/client';
 import { create } from 'zustand';
 import createSelectors from './createSelectors';
-import { User } from '@prisma/client';
 
 type State = {
   user: User | null;

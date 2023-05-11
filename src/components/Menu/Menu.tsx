@@ -1,7 +1,7 @@
-import { Tab } from '@/types/tab';
+import type { Tab } from '@/types/tab';
 import classNames from '@/utils/classNames';
 import { Badge } from '@mantine/core';
-import React, { ReactNode } from 'react';
+import { type ReactNode } from 'react';
 
 type Props = {
   className?: string;

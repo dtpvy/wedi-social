@@ -1,12 +1,12 @@
+import useToast from '@/hooks/useToast';
 import useTranslation from '@/hooks/useTranslation';
 import useAppStore from '@/stores/store';
-import { CommentDetail } from '@/types/comment';
+import type { CommentDetail } from '@/types/comment';
 import { trpc } from '@/utils/trpc';
 import { Carousel } from '@mantine/carousel';
 import { ActionIcon, Avatar, CloseButton, Image, Textarea } from '@mantine/core';
-import { notifications } from '@mantine/notifications';
 import { User } from '@prisma/client';
-import { IconPhoto, IconSend, IconX } from '@tabler/icons-react';
+import { IconPhoto, IconSend } from '@tabler/icons-react';
 import { IKUpload } from 'imagekitio-react';
 import { useEffect, useRef, useState } from 'react';
 
@@ -20,6 +20,8 @@ type Props = {
 };
 
 const CreateComment = ({ postId, creator, comment, onCancel, onUpdate, onCreate }: Props) => {
+  const { show } = useToast();
+
   const user = useAppStore.use.user();
   const uploadRef = useRef<HTMLInputElement>(null);
   const utils = trpc.useContext();
@@ -99,11 +101,7 @@ const CreateComment = ({ postId, creator, comment, onCancel, onUpdate, onCreate 
                 onUploadStart={() => setLoading(true)}
                 onSuccess={(file) => handleChooseImage(file.url)}
                 onError={() => {
-                  notifications.show({
-                    message: t('errorTryAgainText'),
-                    color: 'red',
-                    icon: <IconX />,
-                  });
+                  show({ message: t('errorTryAgainText'), type: 'error' });
                   setLoading(false);
                 }}
                 accept="image/*"

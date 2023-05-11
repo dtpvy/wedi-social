@@ -1,4 +1,4 @@
-import { ScheduleDetail } from '@/types/schedule';
+import type { ScheduleDetail } from '@/types/schedule';
 import { trpc } from '@/utils/trpc';
 import { ActionIcon, Avatar, Button, Group, HoverCard, Modal, Text, Tooltip } from '@mantine/core';
 import { TimeInput } from '@mantine/dates';
@@ -10,10 +10,11 @@ import {
   IconPointFilled,
   IconStarFilled,
 } from '@tabler/icons-react';
-import dayjs from 'dayjs';
+import dayjs from '@/utils/dayjs';
 import { useRef, useState } from 'react';
 import useTranslation from '@/hooks/useTranslation';
 import useAppStore from '@/stores/store';
+
 type Props = {
   schedule: ScheduleDetail;
   refetch: () => void;

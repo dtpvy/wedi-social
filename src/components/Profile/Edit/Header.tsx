@@ -1,15 +1,18 @@
+import useToast from '@/hooks/useToast';
 import useTranslation from '@/hooks/useTranslation';
 import useAppStore from '@/stores/store';
 import { trpc } from '@/utils/trpc';
 import { Button } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconCheck, IconLoader, IconMoodEdit, IconPhotoEdit, IconX } from '@tabler/icons-react';
-import dayjs from 'dayjs';
+import dayjs from '@/utils/dayjs';
 import { IKUpload } from 'imagekitio-react';
 import { useRef, useState } from 'react';
 
 const Header = () => {
   const utils = trpc.useContext();
+  const { show } = useToast();
+
   const user = useAppStore.use.user();
   const updateImage = trpc.user.updateImage.useMutation();
   const avatarRef = useRef<HTMLInputElement>(null);
@@ -20,17 +23,15 @@ const Header = () => {
   const handleChangeImage = async (params: { imgUrl?: string; bgUrl?: string }) => {
     try {
       await updateImage.mutateAsync(params);
-      notifications.show({
+      show({
         message: `${t('addsuccessText')}`,
-        color: 'green',
-        icon: <IconCheck />,
+        type: 'success',
       });
       utils.user.findUser.refetch();
     } catch (e: any) {
-      notifications.show({
+      show({
         message: t('errorTryAgainText'),
-        color: 'red',
-        icon: <IconX />,
+        type: 'error',
       });
     }
     setLoading(false);
@@ -60,10 +61,9 @@ const Header = () => {
         onUploadStart={() => setLoading(true)}
         onSuccess={(file) => handleChangeImage({ imgUrl: file.url })}
         onError={() => {
-          notifications.show({
+          show({
             message: t('errorTryAgainText'),
-            color: 'red',
-            icon: <IconX />,
+            type: 'error',
           });
           setLoading(false);
         }}
@@ -85,10 +85,9 @@ const Header = () => {
         onUploadStart={() => setBgLoading(true)}
         onSuccess={(file) => handleChangeImage({ bgUrl: file.url })}
         onError={() => {
-          notifications.show({
+          show({
             message: t('errorTryAgainText'),
-            color: 'red',
-            icon: <IconX />,
+            type: 'error',
           });
           setBgLoading(true);
         }}

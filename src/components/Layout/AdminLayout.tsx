@@ -1,9 +1,9 @@
 import { TAB_LIST } from '@/constants/admin';
 
 import Menu from '@/components/Admin/Menu';
-import { Tab } from '@/types/tab';
+import type { Tab } from '@/types/tab';
 import { useRouter } from 'next/router';
-import { ReactNode } from 'react';
+import { type ReactNode } from 'react';
 import { Search } from '../Admin/Dashboard';
 
 type Props = {

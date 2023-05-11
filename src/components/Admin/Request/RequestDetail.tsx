@@ -2,7 +2,7 @@ import React from 'react';
 import { Modal, Card, Button, Text, Badge, Group, Divider } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { trpc } from '@/utils/trpc';
-import dayjs from 'dayjs';
+import dayjs from '@/utils/dayjs';
 import CreateReply from './CreateReply';
 type Props = {
   id: number;

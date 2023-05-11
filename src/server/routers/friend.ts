@@ -1,5 +1,5 @@
 import ERROR_MESSAGES from '../../constants/errorMessage';
-import dayjs from 'dayjs';
+import dayjs from '@/utils/dayjs';
 import { z } from 'zod';
 import { prisma } from '../prisma';
 import { authProcedure, router } from '../trpc';

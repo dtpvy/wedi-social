@@ -1,41 +1,39 @@
+import { MainLayout } from '@/components/Layout';
 import TripLayout from '@/components/Layout/TripLayout';
 import FormCreate, { TripParams } from '@/components/Trip/FormCreate';
+import useToast from '@/hooks/useToast';
+import useTranslation from '@/hooks/useTranslation';
 import NotFound from '@/pages/404';
-import useUserStore from '@/stores/auth';
+import useAppStore from '@/stores/store';
 import { trpc } from '@/utils/trpc';
 import { LoadingOverlay } from '@mantine/core';
-import { notifications } from '@mantine/notifications';
-import { IconCheck, IconX } from '@tabler/icons-react';
 import { useRouter } from 'next/router';
-import useTranslation from '@/hooks/useTranslation';
-import { MainLayout } from '@/components/Layout';
 import { ReactElement } from 'react';
 
 const Edit = () => {
   const { t } = useTranslation();
+  const { show } = useToast();
 
   const router = useRouter();
   const { id } = router.query;
   const { data, isLoading } = trpc.trip.get.useQuery({ id: +(id as string) });
 
-  const user = useUserStore.use.user();
+  const user = useAppStore.use.user();
   const update = trpc.trip.update.useMutation();
 
   const handleEdit = async (value: TripParams) => {
     if (!data?.trip) return;
     try {
       await update.mutateAsync({ id: data.trip.id, ...value });
-      notifications.show({
+      show({
         message: `${t('addsuccessText')}`,
-        color: 'green',
-        icon: <IconCheck />,
+        type: 'success',
       });
     } catch (e: any) {
       console.log(e);
-      notifications.show({
+      show({
         message: t('errorTryAgainText'),
-        color: 'red',
-        icon: <IconX />,
+        type: 'error',
       });
     }
   };

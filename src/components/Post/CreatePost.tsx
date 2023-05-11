@@ -1,4 +1,4 @@
-import { LocationDetail } from '@/types/location';
+import type { LocationDetail } from '@/types/location';
 import { Avatar, Button } from '@mantine/core';
 import { Location } from '@prisma/client';
 import { IconMapPinFilled } from '@tabler/icons-react';
@@ -32,8 +32,8 @@ const CreatePost = ({ tripId, refetch }: Props) => {
     setModal('review');
   };
 
-  const  { t } = useTranslation();
-  
+  const { t } = useTranslation();
+
   return (
     <div className="bg-white shadow p-4 rounded-lg">
       <div className="flex items-center gap-4 w-full">
@@ -46,7 +46,7 @@ const CreatePost = ({ tripId, refetch }: Props) => {
         </div>
         <div onClick={() => setModal('location')} className="flex items-center gap-1 ml-auto">
           <IconMapPinFilled className="text-red-600" size={30} />
-          <div>{t("selectLocationText")}</div>
+          <div>{t('selectLocationText')}</div>
         </div>
         <Button onClick={() => setModal('create')} color="teal" radius="xl">
           {t('postVerbText')}

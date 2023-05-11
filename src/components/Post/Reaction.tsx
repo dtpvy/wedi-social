@@ -1,10 +1,10 @@
-import { CommentDetail } from '@/types/comment';
-import { PostDetail } from '@/types/post';
+import useTranslation from '@/hooks/useTranslation';
+import type { CommentDetail } from '@/types/comment';
+import type { PostDetail } from '@/types/post';
 import { trpc } from '@/utils/trpc';
-import { Button, HoverCard, Image, Transition } from '@mantine/core';
+import { Button, HoverCard, Image } from '@mantine/core';
 import { Reaction } from '@prisma/client';
 import { IconIcons } from '@tabler/icons-react';
-import useTranslation from '@/hooks/useTranslation';
 
 type Props = {
   post?: PostDetail;

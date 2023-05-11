@@ -1,20 +1,11 @@
-import { RequestDetail } from '@/types/request';
+import useToast from '@/hooks/useToast';
+import useTranslation from '@/hooks/useTranslation';
+import type { RequestDetail } from '@/types/request';
 import { trpc } from '@/utils/trpc';
 import { ActionIcon, Avatar, Text } from '@mantine/core';
 import { modals } from '@mantine/modals';
-import { notifications } from '@mantine/notifications';
-import {
-  IconCheck,
-  IconDots,
-  IconMessages,
-  IconPaperclip,
-  IconTrack,
-  IconTrash,
-  IconX,
-} from '@tabler/icons-react';
-import dayjs from 'dayjs';
-import React from 'react';
-import useTranslation from '@/hooks/useTranslation';
+import { IconMessages, IconTrash } from '@tabler/icons-react';
+import dayjs from '@/utils/dayjs';
 
 type Props = {
   request: RequestDetail;
@@ -22,6 +13,8 @@ type Props = {
 
 const Request = ({ request }: Props) => {
   const { t } = useTranslation();
+  const { show } = useToast();
+
   const { id, createdAt, title, content, reply } = request;
   const deleteRequest = trpc.request.delete.useMutation();
   const utils = trpc.useContext();
@@ -37,17 +30,15 @@ const Request = ({ request }: Props) => {
       onConfirm: async () => {
         try {
           await deleteRequest.mutateAsync({ id });
-          notifications.show({
+          show({
             message: t('addsuccessText'),
-            color: 'green',
-            icon: <IconCheck />,
+            type: 'success',
           });
           utils.request.requestList.refetch();
         } catch (e: any) {
-          notifications.show({
+          show({
             message: t('errorTryAgainText'),
-            color: 'red',
-            icon: <IconX />,
+            type: 'error',
           });
         }
       },
@@ -57,7 +48,9 @@ const Request = ({ request }: Props) => {
     <div className="bg-white p-4 rounded-lg shadow">
       <div className="flex items-center gap-4 mb-4">
         <Avatar radius="xl" />
-        <div className="font-bold">{t('requestText')} #{id}</div>
+        <div className="font-bold">
+          {t('requestText')} #{id}
+        </div>
         <div className="ml-auto">{dayjs(createdAt).format('HH:mm DD/MM/YYYY')}</div>
         <ActionIcon onClick={openDeleteModal} variant="light" color="red" radius="xl">
           <IconTrash size={20} />

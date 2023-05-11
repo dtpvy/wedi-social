@@ -8,7 +8,7 @@ import {
   IconBrandTwitterFilled,
   IconPointFilled,
 } from '@tabler/icons-react';
-import dayjs from 'dayjs';
+import dayjs from '@/utils/dayjs';
 
 const Header = () => {
   const { t } = useTranslation();

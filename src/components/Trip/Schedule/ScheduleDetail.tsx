@@ -1,5 +1,4 @@
-import { ScheduleDetail } from '@/types/schedule';
-import React from 'react';
+import type { ScheduleDetail } from '@/types/schedule';
 
 type Props = {
   schedule: ScheduleDetail;

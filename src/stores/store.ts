@@ -1,7 +1,7 @@
 import { UserInfo } from '@/types/user';
 import { create } from 'zustand';
 import createSelectors from './createSelectors';
-import { Trip } from '@prisma/client';
+import type { Trip } from '@prisma/client';
 
 export type AuthStatus = 'loading' | 'authenticated' | 'unauthenticated';
 

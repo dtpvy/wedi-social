@@ -1,4 +1,4 @@
-import { PlaceResponse } from '@/types/place';
+import type { PlaceResponse } from '@/types/place';
 import { APP_URL } from '@/utils/env';
 import axios from 'axios';
 

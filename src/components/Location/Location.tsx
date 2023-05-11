@@ -1,4 +1,4 @@
-import { LocationDetail } from '@/types/location';
+import type { LocationDetail } from '@/types/location';
 import { Carousel } from '@mantine/carousel';
 import { Avatar, Text } from '@mantine/core';
 import { IconStarFilled } from '@tabler/icons-react';

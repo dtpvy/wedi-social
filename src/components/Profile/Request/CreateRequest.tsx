@@ -5,6 +5,7 @@ import { notifications } from '@mantine/notifications';
 import { IconCheck } from '@tabler/icons-react';
 import React from 'react';
 import useTranslation from '@/hooks/useTranslation';
+import useToast from '@/hooks/useToast';
 
 type Props = {
   close: () => void;
@@ -12,9 +13,11 @@ type Props = {
 };
 
 const CreateRequest = ({ opened = false, close }: Props) => {
+  const { show } = useToast();
+
   const create = trpc.request.create.useMutation();
   const utils = trpc.useContext();
-  const { t } = useTranslation(); 
+  const { t } = useTranslation();
   const form = useForm({
     initialValues: {
       title: '',
@@ -30,28 +33,27 @@ const CreateRequest = ({ opened = false, close }: Props) => {
     create.mutate(values, {
       onSuccess: () => {
         utils.request.requestList.refetch();
-        notifications.show({
+        show({
           message: `${t('addsuccessText')}`,
-          color: 'green',
-          icon: <IconCheck />,
+          type: 'success',
         });
       },
     });
   };
 
   return (
-    <Modal opened={opened} onClose={close} title= {t('createrequestText')} centered size="lg">
+    <Modal opened={opened} onClose={close} title={t('createrequestText')} centered size="lg">
       <form onSubmit={form.onSubmit(onSubmit)}>
         <TextInput
-          placeholder= {t('reasonText')}
-          label= {t('reasonText')}
+          placeholder={t('reasonText')}
+          label={t('reasonText')}
           withAsterisk
           {...form.getInputProps('title')}
         />
         <Textarea
           minRows={10}
-          placeholder= {t('descriptionText')}
-          label= {t('detaileddescriptionText')}
+          placeholder={t('descriptionText')}
+          label={t('detaileddescriptionText')}
           withAsterisk
           {...form.getInputProps('content')}
         />
@@ -61,7 +63,7 @@ const CreateRequest = ({ opened = false, close }: Props) => {
             {t('cancelText')}
           </Button>
           <Button type="submit" color="green">
-            {t("createrequestText")}
+            {t('createrequestText')}
           </Button>
         </div>
       </form>

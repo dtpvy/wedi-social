@@ -1,18 +1,20 @@
 import useEditForm, { EditForm } from '@/hooks/useEditForm';
 import useLocation from '@/hooks/useLocation';
+import useToast from '@/hooks/useToast';
 import useTranslation from '@/hooks/useTranslation';
 import useProfileStore from '@/stores/store';
 import { trpc } from '@/utils/trpc';
 import { Button, Select, TextInput, Textarea } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { notifications } from '@mantine/notifications';
-import { IconAt, IconCheck, IconLanguage, IconPhone, IconX } from '@tabler/icons-react';
+import { IconAt, IconLanguage, IconPhone } from '@tabler/icons-react';
 import { useMemo } from 'react';
 import ChangePassword from './ChangePassword';
 import Header from './Header';
 
 const Edit = () => {
   const { t } = useTranslation();
+  const { show } = useToast();
+
   const { isOwner } = useProfileStore.use.profile();
 
   const update = trpc.user.updateInfo.useMutation();
@@ -48,17 +50,15 @@ const Edit = () => {
         wardId: wardId !== null ? +wardId : null,
         districtId: districtId !== null ? +districtId : null,
       });
-      notifications.show({
+      show({
         message: t('addsuccessText'),
-        color: 'green',
-        icon: <IconCheck />,
+        type: 'success',
       });
       utils.user.findUser.refetch();
     } catch (e: any) {
-      notifications.show({
+      show({
         message: t('errorTryAgainText'),
-        color: 'red',
-        icon: <IconX />,
+        type: 'error',
       });
     }
   };

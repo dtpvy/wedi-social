@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
-import classNames from 'classnames';
 import { TAB_LIST } from '@/constants/admin';
-import { Tab } from '@/types/tab';
-import { IconUsers, IconLayoutDashboard, IconMapPin, IconHelpHexagon } from '@tabler/icons-react';
+import type { Tab } from '@/types/tab';
+import { IconHelpHexagon, IconLayoutDashboard, IconMapPin, IconUsers } from '@tabler/icons-react';
+import classNames from 'classnames';
 
 type Props = {
   tab: string;
@@ -22,16 +21,16 @@ const Menu = ({ tab, onChangeTab }: Props) => {
           })}
         >
           <div className="flex items-center">
-            {TAB_LIST[key as keyof typeof TAB_LIST].name == "dashboard" && (
+            {TAB_LIST[key as keyof typeof TAB_LIST].name == 'dashboard' && (
               <IconLayoutDashboard className="pr-2 pb-1" />
             )}
-            {TAB_LIST[key as keyof typeof TAB_LIST].name == "user" && (
+            {TAB_LIST[key as keyof typeof TAB_LIST].name == 'user' && (
               <IconUsers className="pr-2 pb-1" />
             )}
-            {TAB_LIST[key as keyof typeof TAB_LIST].name == "location" && (
+            {TAB_LIST[key as keyof typeof TAB_LIST].name == 'location' && (
               <IconMapPin className="pr-2 pb-1" />
             )}
-            {TAB_LIST[key as keyof typeof TAB_LIST].name == "request" && (
+            {TAB_LIST[key as keyof typeof TAB_LIST].name == 'request' && (
               <IconHelpHexagon className="pr-2 pb-1" />
             )}
             {TAB_LIST[key as keyof typeof TAB_LIST].name}

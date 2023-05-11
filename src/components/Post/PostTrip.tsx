@@ -1,12 +1,8 @@
-import { profilePost } from '@/mocks/post';
-import { ActionIcon, Avatar } from '@mantine/core';
-import React from 'react';
-import Post from './Post';
-import { IconDots } from '@tabler/icons-react';
-import { PostTrip } from '@/types/post';
-import { Trip } from '@prisma/client';
-import dayjs from 'dayjs';
 import useTranslation from '@/hooks/useTranslation';
+import type { PostTrip } from '@/types/post';
+import { Avatar } from '@mantine/core';
+import dayjs from '@/utils/dayjs';
+import Post from './Post';
 
 type Props = {
   post: PostTrip;
@@ -16,8 +12,8 @@ type Props = {
 const PostTrip = ({ post, refetch }: Props) => {
   const { trip, ...postDetail } = post;
 
-  const {t} = useTranslation();
-  
+  const { t } = useTranslation();
+
   return (
     <div className="bg-white p-5 shadow rounded-lg">
       <div className="flex items-center gap-4">

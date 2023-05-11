@@ -4,10 +4,11 @@ import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 import { Privacy, Trip } from '@prisma/client';
 import { IconEyeEdit, IconX } from '@tabler/icons-react';
-import dayjs from 'dayjs';
+import dayjs from '@/utils/dayjs';
 import { IKUpload } from 'imagekitio-react';
 import { useRef, useState } from 'react';
 import useTranslation from '@/hooks/useTranslation';
+import useToast from '@/hooks/useToast';
 
 export type TripParams = {
   name: string;
@@ -24,6 +25,8 @@ type Props = {
 };
 
 const FormCreate = ({ trip, onSubmit }: Props) => {
+  const { show } = useToast();
+
   const avatarRef = useRef<HTMLInputElement>(null);
   const bgRef = useRef<HTMLInputElement>(null);
   const [loading, setLoading] = useState(false);
@@ -98,10 +101,10 @@ const FormCreate = ({ trip, onSubmit }: Props) => {
               setBgLoading(false);
             }}
             onError={() => {
-              notifications.show({
+              show({
                 message: t('errorTryAgainText'),
                 color: 'red',
-                icon: <IconX />,
+                type: 'error',
               });
               setBgLoading(false);
             }}
@@ -125,10 +128,9 @@ const FormCreate = ({ trip, onSubmit }: Props) => {
               setLoading(false);
             }}
             onError={() => {
-              notifications.show({
+              show({
                 message: t('errorTryAgainText'),
-                color: 'red',
-                icon: <IconX />,
+                type: 'error',
               });
               setLoading(false);
             }}

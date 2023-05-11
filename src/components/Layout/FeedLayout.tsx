@@ -11,7 +11,7 @@ import { trpc } from '@/utils/trpc';
 import { Avatar, Button } from '@mantine/core';
 import { User } from '@prisma/client';
 import { IconBus, IconCalendarTime, IconMapPinFilled, IconNews } from '@tabler/icons-react';
-import dayjs from 'dayjs';
+import dayjs from '@/utils/dayjs';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 

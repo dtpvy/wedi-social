@@ -2,8 +2,8 @@ import { Button } from '@mantine/core';
 
 import { Menu } from '@/components/Menu';
 import useTranslation from '@/hooks/useTranslation';
-import { default as useAppStore, default as useProfileStore } from '@/stores/store';
-import { Tab } from '@/types/tab';
+import useAppStore from '@/stores/store';
+import type { Tab } from '@/types/tab';
 import { trpc } from '@/utils/trpc';
 import { calcFriend } from '@/utils/user';
 import { IconArticle, IconFriends, IconMap, IconMessageReport } from '@tabler/icons-react';
@@ -47,7 +47,7 @@ const TAB_LIST: Record<string, Tab> = {
 const TabMenu = () => {
   const router = useRouter();
   const user = useAppStore.use.user();
-  const { user: profile, isOwner } = useProfileStore.use.profile();
+  const { user: profile, isOwner } = useAppStore.use.profile();
 
   const { t } = useTranslation();
 
