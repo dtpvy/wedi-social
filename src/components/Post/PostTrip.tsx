@@ -1,11 +1,11 @@
 import useTranslation from '@/hooks/useTranslation';
-import type { PostTrip } from '@/types/post';
+import type { PostTrip as PostTripDetail } from '@/types/post';
 import { Avatar } from '@mantine/core';
 import dayjs from '@/utils/dayjs';
 import Post from './Post';
 
 type Props = {
-  post: PostTrip;
+  post: PostTripDetail;
   refetch: () => void;
 };
 

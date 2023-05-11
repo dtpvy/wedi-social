@@ -13,7 +13,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 
 import AuthLayout from '@/components/Layout/AuthLayout';
 import { NextPage } from 'next';
-import { ReactElement, ReactNode, useEffect } from 'react';
+import { type ReactElement, ReactNode, useEffect } from 'react';
 import { translate } from '@vitalets/google-translate-api';
 
 import '@/styles/globals.css';

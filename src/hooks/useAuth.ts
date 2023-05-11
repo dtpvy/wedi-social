@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 
 const useAuth = () => {
   const session = useSession();
-  const { data, status } = session;
+  const { data } = session;
   const profile = data ? data.user : null;
 
   const setUser = useAppStore.use.setUser();

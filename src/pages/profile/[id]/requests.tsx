@@ -4,7 +4,7 @@ import { CreateRequest, Request } from '@/components/Profile/Request';
 import { trpc } from '@/utils/trpc';
 import { Button, Loader } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { ReactElement, useState } from 'react';
+import { type ReactElement, useState } from 'react';
 import useTranslation from '@/hooks/useTranslation';
 
 const Requests = () => {

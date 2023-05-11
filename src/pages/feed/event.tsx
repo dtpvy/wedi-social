@@ -3,7 +3,7 @@ import { FeedLayout, MainLayout } from '@/components/Layout';
 import useTranslation from '@/hooks/useTranslation';
 import { trpc } from '@/utils/trpc';
 import { Button } from '@mantine/core';
-import { ReactElement, useState } from 'react';
+import { type ReactElement, useState } from 'react';
 
 const Event = () => {
   const [join, setJoin] = useState<'all' | 'joined' | 'notjoin'>('all');

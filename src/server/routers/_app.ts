@@ -10,6 +10,7 @@ import { reactionRouter } from './reaction';
 import { requestRouter } from './request';
 import { reviewRouter } from './review';
 import { scheduleRouter } from './schedule';
+import { searchRouter } from './search';
 import { trackingRouter } from './tracking';
 import { tripRouter } from './trip';
 import { userRouter } from './user';
@@ -19,6 +20,7 @@ export const appRouter = router({
 
   user: userRouter,
   admin: adminRouter,
+  search: searchRouter,
   notification: notificationRouter,
   friend: friendRouter,
   request: requestRouter,

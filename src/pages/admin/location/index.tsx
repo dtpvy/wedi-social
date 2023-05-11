@@ -2,7 +2,7 @@ import { LocationList } from '@/components/Admin/Location';
 import { AdminLayout } from '@/components/Layout';
 import { Text, Menu, Button, Divider } from '@mantine/core';
 
-import { ReactElement, useState } from 'react';
+import { type ReactElement, useState } from 'react';
 
 const Location = () => {
   const [statusVisibility, setStatusVisibility] = useState('');

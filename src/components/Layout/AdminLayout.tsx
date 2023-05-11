@@ -3,14 +3,9 @@ import { TAB_LIST } from '@/constants/admin';
 import Menu from '@/components/Admin/Menu';
 import type { Tab } from '@/types/tab';
 import { useRouter } from 'next/router';
-import { type ReactNode } from 'react';
 import { Search } from '../Admin/Dashboard';
 
-type Props = {
-  children: ReactNode;
-};
-
-const LayoutAdmin = ({ children }: Props) => {
+const LayoutAdmin = ({ children }: ComponentWithChildren) => {
   const router = useRouter();
   const tab = router.asPath.split('/')[2] || TAB_LIST.DASHBOARD.name;
 

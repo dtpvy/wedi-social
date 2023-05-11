@@ -5,7 +5,7 @@ import { trpc } from '@/utils/trpc';
 import { Button, Input, Loader } from '@mantine/core';
 import { useDebouncedState } from '@mantine/hooks';
 import { IconSearch } from '@tabler/icons-react';
-import { ReactElement, useState } from 'react';
+import { type ReactElement, useState } from 'react';
 import useTranslation from '@/hooks/useTranslation';
 const Friends = () => {
   const [type, setType] = useState('');
@@ -25,7 +25,7 @@ const Friends = () => {
           onChange={(e) => setValue(e.target.value)}
           icon={<IconSearch />}
           radius="xl"
-          placeholder= {t('searchText')} 
+          placeholder={t('searchText')}
           className="mr-auto"
         />
         <Button

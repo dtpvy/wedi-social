@@ -12,7 +12,7 @@ type Props = {
   refetch: () => void;
 };
 
-const Reaction = ({ post, comment, refetch }: Props) => {
+const PostReaction = ({ post, comment, refetch }: Props) => {
   const react = trpc.reaction.react.useMutation();
   const utils = trpc.useContext();
   const addNoti = trpc.notification.push.useMutation();
@@ -78,4 +78,4 @@ const Reaction = ({ post, comment, refetch }: Props) => {
   );
 };
 
-export default Reaction;
+export default PostReaction;

@@ -6,7 +6,7 @@ import dayjs from '@/utils/dayjs';
 import { useRouter } from 'next/router';
 import useTranslation from '@/hooks/useTranslation';
 import { MainLayout } from '@/components/Layout';
-import { ReactElement } from 'react';
+import { type ReactElement } from 'react';
 
 const Requests = () => {
   const router = useRouter();

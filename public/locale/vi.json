@@ -199,5 +199,13 @@
   "areYouSureDeleteThisPostText": "Bạn có chắc chắn muốn xóa bài viết này?",
   "translateText": "Dịch",
   "translatedText": "Đã dịch",
-  "hideTranslatedText": "Ẩn dịch"
+  "hideTranslatedText": "Ẩn dịch",
+  "notExistReviewText": "Chưa có đánh giá",
+  "sortText": "Sắp xếp",
+  "sortTypeText": "Loại sắp xếp",
+  "timePostText": "Thời gian đăng",
+  "ascText": "Tăng dần",
+  "descText": "Giảm dần",
+  "typeText": "Loại",
+  "resetFilterText": "Xoá lọc"
 }

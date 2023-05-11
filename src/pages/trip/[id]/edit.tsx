@@ -8,7 +8,7 @@ import useAppStore from '@/stores/store';
 import { trpc } from '@/utils/trpc';
 import { LoadingOverlay } from '@mantine/core';
 import { useRouter } from 'next/router';
-import { ReactElement } from 'react';
+import { type ReactElement } from 'react';
 
 const Edit = () => {
   const { t } = useTranslation();

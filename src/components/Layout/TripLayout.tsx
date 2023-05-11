@@ -10,12 +10,6 @@ import { modals } from '@mantine/modals';
 import { TripStatus } from '@prisma/client';
 import { IconCalendarTime, IconMapPinCheck, IconWalk } from '@tabler/icons-react';
 import { useRouter } from 'next/router';
-import { type ReactNode } from 'react';
-
-type Props = {
-  children: ReactNode;
-  className?: string;
-};
 
 const TRIP_STATUS = {
   [TripStatus.SCHEDULE]: {
@@ -35,7 +29,7 @@ const TRIP_STATUS = {
   },
 };
 
-const TripLayout = ({ children, className }: Props) => {
+const TripLayout = ({ children, className }: ComponentWithChildren) => {
   const router = useRouter();
   const { id } = router.query;
   const { t } = useTranslation();

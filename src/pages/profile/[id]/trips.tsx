@@ -1,7 +1,7 @@
 import { MainLayout, ProfileLayout } from '@/components/Layout';
 import { Trip } from '@/components/Trip';
 import { trpc } from '@/utils/trpc';
-import { ReactElement } from 'react';
+import { type ReactElement } from 'react';
 
 const Trips = () => {
   const { data } = trpc.trip.userTrip.useQuery({});

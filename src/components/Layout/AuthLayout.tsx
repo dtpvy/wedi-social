@@ -1,5 +1,3 @@
-import { ReactNode } from 'react';
-
 import LocaleProvider from '@/components/Language/LocaleProvider';
 import useAuth from '@/hooks/useAuth';
 import useInitLocale from '@/hooks/useInitLocale';
@@ -7,14 +5,10 @@ import { LoadingOverlay } from '@mantine/core';
 import { useRouter } from 'next/router';
 import { AdminLayout } from '.';
 
-type Props = {
-  children: ReactNode;
-};
-
-const AuthLayout = ({ children }: Props) => {
+const AuthLayout = ({ children }: ComponentWithChildren) => {
   const router = useRouter();
   const { locale } = useInitLocale();
-  const { status } = useAuth();
+  const { status, data } = useAuth();
 
   const isAdminPage = router.asPath.split('/')[1] === 'admin';
 
@@ -26,16 +20,21 @@ const AuthLayout = ({ children }: Props) => {
     );
   }
 
+  const hasUser = status === 'authenticated' && data.user && !data.user.isAdmin;
+
+  console.log({ hasUser });
+
   if (
-    router.asPath === '/' ||
-    router.asPath.startsWith('/signin') ||
-    router.asPath.startsWith('/signup')
+    hasUser &&
+    (router.asPath === '/' ||
+      router.asPath.startsWith('/signin') ||
+      router.asPath.startsWith('/signup'))
   ) {
     router.push('/feed');
     return <></>;
   }
 
-  if (isAdminPage) {
+  if (isAdminPage && data?.user.isAdmin) {
     return <AdminLayout>{children}</AdminLayout>;
   }
 

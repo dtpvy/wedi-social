@@ -2,7 +2,7 @@ import { MainLayout, ProfileLayout } from '@/components/Layout';
 import { CreatePost, Post } from '@/components/Post';
 import { trpc } from '@/utils/trpc';
 
-import { ReactElement, useEffect } from 'react';
+import { type ReactElement, useEffect } from 'react';
 import { TRACKING_EVENT, TRACKING_PAGE } from '@/constants/tracking';
 import useTranslation from '@/hooks/useTranslation';
 
