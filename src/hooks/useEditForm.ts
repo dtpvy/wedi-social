@@ -1,8 +1,6 @@
-import useUserStore from '@/stores/auth';
-import { trpc } from '@/utils/trpc';
+import useAppStore from '@/stores/store';
 import { useForm } from '@mantine/form';
-import { notifications } from '@mantine/notifications';
-import { User } from '@prisma/client';
+import type { User } from '@prisma/client';
 import { useEffect } from 'react';
 
 export type EditForm = {
@@ -19,7 +17,7 @@ export type EditForm = {
 };
 
 const useEditForm = () => {
-  const user = useUserStore((state) => state.user);
+  const user = useAppStore.use.user();
 
   const form = useForm<EditForm>({
     validate: {

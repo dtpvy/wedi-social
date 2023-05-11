@@ -1,4 +1,4 @@
-import { Location, Post, Review, User } from '@prisma/client';
+import type { Location, Post, Review, User } from '@prisma/client';
 
 export type ReviewDetail = Review & {
   user: User;

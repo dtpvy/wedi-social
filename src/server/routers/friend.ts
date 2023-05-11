@@ -1,9 +1,8 @@
-import ERROR_MESSAGES from '../../constants/errorMessage';
 import dayjs from '@/utils/dayjs';
 import { z } from 'zod';
+import ERROR_MESSAGES from '../../constants/errorMessage';
 import { prisma } from '../prisma';
 import { authProcedure, router } from '../trpc';
-import { Friend, User } from '@prisma/client';
 
 export const friendRouter = router({
   add: authProcedure.input(z.object({ userId: z.number() })).mutation(async ({ input, ctx }) => {

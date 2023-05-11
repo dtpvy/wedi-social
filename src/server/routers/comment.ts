@@ -1,4 +1,4 @@
-import { Comment } from '@prisma/client';
+import type { Comment } from '@prisma/client';
 import { observable } from '@trpc/server/observable';
 import EventEmitter from 'events';
 import { z } from 'zod';

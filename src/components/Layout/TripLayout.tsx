@@ -7,11 +7,10 @@ import classNames from '@/utils/classNames';
 import { trpc } from '@/utils/trpc';
 import { Loader, Stepper, Text } from '@mantine/core';
 import { modals } from '@mantine/modals';
-import { notifications } from '@mantine/notifications';
 import { TripStatus } from '@prisma/client';
-import { IconCalendarTime, IconCheck, IconMapPinCheck, IconWalk, IconX } from '@tabler/icons-react';
+import { IconCalendarTime, IconMapPinCheck, IconWalk } from '@tabler/icons-react';
 import { useRouter } from 'next/router';
-import { ReactNode } from 'react';
+import { type ReactNode } from 'react';
 
 type Props = {
   children: ReactNode;

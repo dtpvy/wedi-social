@@ -1,14 +1,13 @@
+import useToast from '@/hooks/useToast';
+import useTranslation from '@/hooks/useTranslation';
+import dayjs from '@/utils/dayjs';
 import { Avatar, Button, CloseButton, Select, TextInput } from '@mantine/core';
 import { DateInput } from '@mantine/dates';
 import { useForm } from '@mantine/form';
-import { notifications } from '@mantine/notifications';
-import { Privacy, Trip } from '@prisma/client';
-import { IconEyeEdit, IconX } from '@tabler/icons-react';
-import dayjs from '@/utils/dayjs';
+import { Privacy, type Trip } from '@prisma/client';
+import { IconEyeEdit } from '@tabler/icons-react';
 import { IKUpload } from 'imagekitio-react';
 import { useRef, useState } from 'react';
-import useTranslation from '@/hooks/useTranslation';
-import useToast from '@/hooks/useToast';
 
 export type TripParams = {
   name: string;
@@ -103,7 +102,6 @@ const FormCreate = ({ trip, onSubmit }: Props) => {
             onError={() => {
               show({
                 message: t('errorTryAgainText'),
-                color: 'red',
                 type: 'error',
               });
               setBgLoading(false);

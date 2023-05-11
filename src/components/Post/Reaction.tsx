@@ -3,7 +3,7 @@ import type { CommentDetail } from '@/types/comment';
 import type { PostDetail } from '@/types/post';
 import { trpc } from '@/utils/trpc';
 import { Button, HoverCard, Image } from '@mantine/core';
-import { Reaction } from '@prisma/client';
+import type { Reaction } from '@prisma/client';
 import { IconIcons } from '@tabler/icons-react';
 
 type Props = {

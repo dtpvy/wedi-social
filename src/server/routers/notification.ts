@@ -3,7 +3,7 @@ import { EventEmitter } from 'events';
 import { prisma } from '../prisma';
 import { z } from 'zod';
 import { authProcedure, publicProcedure, router } from '../trpc';
-import { Notification } from '@prisma/client';
+import type { Notification } from '@prisma/client';
 
 interface MyEvents {
   push: (data: Notification) => void;

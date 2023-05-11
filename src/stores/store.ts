@@ -1,4 +1,4 @@
-import { UserInfo } from '@/types/user';
+import type { UserInfo } from '@/types/user';
 import { create } from 'zustand';
 import createSelectors from './createSelectors';
 import type { Trip } from '@prisma/client';

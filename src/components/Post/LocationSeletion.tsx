@@ -3,7 +3,7 @@ import type { LocationDetail } from '@/types/location';
 import classNames from '@/utils/classNames';
 import { Carousel } from '@mantine/carousel';
 import { CloseButton, Image } from '@mantine/core';
-import { Location } from '@prisma/client';
+import type { Location } from '@prisma/client';
 
 export type LocationSeletionProps = {
   readonly?: boolean;

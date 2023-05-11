@@ -3,9 +3,7 @@ import useTranslation from '@/hooks/useTranslation';
 import useAppStore from '@/stores/store';
 import { trpc } from '@/utils/trpc';
 import { Avatar, Button } from '@mantine/core';
-import { notifications } from '@mantine/notifications';
-import { FriendStatus, User } from '@prisma/client';
-import { IconCheck, IconX } from '@tabler/icons-react';
+import { FriendStatus, type User } from '@prisma/client';
 
 type Props = {
   user: User;

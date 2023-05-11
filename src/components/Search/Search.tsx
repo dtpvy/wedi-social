@@ -25,7 +25,7 @@ import { useMemo, useState } from 'react';
 import Message from './Message';
 import Notification from './Notification';
 import Link from 'next/link';
-import { Language } from '@prisma/client';
+import type { Language } from '@prisma/client';
 import useAppStore from '@/stores/store';
 
 const Search = () => {

@@ -5,7 +5,7 @@ import type { CommentDetail } from '@/types/comment';
 import { trpc } from '@/utils/trpc';
 import { Carousel } from '@mantine/carousel';
 import { ActionIcon, Avatar, CloseButton, Image, Textarea } from '@mantine/core';
-import { User } from '@prisma/client';
+import type { User } from '@prisma/client';
 import { IconPhoto, IconSend } from '@tabler/icons-react';
 import { IKUpload } from 'imagekitio-react';
 import { useEffect, useRef, useState } from 'react';

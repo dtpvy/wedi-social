@@ -9,7 +9,7 @@ import useAppStore from '@/stores/store';
 import type { Tab } from '@/types/tab';
 import { trpc } from '@/utils/trpc';
 import { Avatar, Button } from '@mantine/core';
-import { User } from '@prisma/client';
+import type { User } from '@prisma/client';
 import { IconBus, IconCalendarTime, IconMapPinFilled, IconNews } from '@tabler/icons-react';
 import dayjs from '@/utils/dayjs';
 import Link from 'next/link';

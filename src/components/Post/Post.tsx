@@ -1,6 +1,6 @@
 import useTranslation from '@/hooks/useTranslation';
 
-import { PostDetail } from '@/types/post';
+import type { PostDetail } from '@/types/post';
 import classNames from '@/utils/classNames';
 import { getTimePost } from '@/utils/time';
 import { Carousel } from '@mantine/carousel';

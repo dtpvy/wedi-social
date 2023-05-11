@@ -1,4 +1,4 @@
-import { JoinTrip, Post, Trip, User } from '@prisma/client';
+import type { JoinTrip, Post, Trip, User } from '@prisma/client';
 
 export type TripDetail = Trip & {
   posts: Post[];

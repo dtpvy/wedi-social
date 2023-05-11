@@ -3,7 +3,7 @@ import useOpenMessageDialog from '@/hooks/useOpenMessageDialog';
 import type { MessageDetail } from '@/types/message';
 import { trpc } from '@/utils/trpc';
 import { Avatar, Select } from '@mantine/core';
-import { User } from '@prisma/client';
+import type { User } from '@prisma/client';
 import { IconSearch } from '@tabler/icons-react';
 import dayjs from '@/utils/dayjs';
 import { useCallback, useEffect, useMemo, useState } from 'react';

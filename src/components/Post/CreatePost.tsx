@@ -1,6 +1,6 @@
 import type { LocationDetail } from '@/types/location';
 import { Avatar, Button } from '@mantine/core';
-import { Location } from '@prisma/client';
+import type { Location } from '@prisma/client';
 import { IconMapPinFilled } from '@tabler/icons-react';
 import { useState } from 'react';
 import ModalCreate from './ModalCreate';
