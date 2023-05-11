@@ -199,5 +199,18 @@
   "areYouSureDeleteThisPostText": "Are you sure delete this post?",
   "translateText": "Translate",
   "translatedText": "Translated",
-  "hideTranslatedText": "Hide translated"
+  "hideTranslatedText": "Hide translated",
+  "notExistReviewText": "Not yet rated",
+  "sortText": "Sort",
+  "sortTypeText": "Sort type",
+  "timePostText": "Posting time",
+  "ascText": "Ascending",
+  "descText": "Decreasing",
+  "typeText": "Type",
+  "resetFilterText": "Reset filter",
+  "totalPostText": "Total post",
+  "totalScheduleText": "Total schedule",
+  "totalJoinedText": "Total user",
+  "mostRecentScheduleText": "Most recent schedule",
+  "mostRecentPostText": "Most post schedule"
 }

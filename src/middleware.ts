@@ -6,6 +6,14 @@ export default withAuth(
     const user = req.nextauth.token?.user;
 
     if (
+      user &&
+      user['isAdmin' as keyof typeof user] &&
+      !req.nextUrl.pathname.startsWith('/admin')
+    ) {
+      return NextResponse.redirect(new URL('/signin', req.url));
+    }
+
+    if (
       !req.nextUrl.pathname.startsWith('/admin') ||
       req.nextUrl.pathname.startsWith('/admin/signin')
     )
@@ -25,5 +33,5 @@ export default withAuth(
 );
 
 export const config = {
-  matcher: ['/feed', '/profile', '/trip', '/admin'],
+  matcher: ['/feed', '/profile', '/trip', '/admin/^signin'],
 };

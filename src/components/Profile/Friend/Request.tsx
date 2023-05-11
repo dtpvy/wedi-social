@@ -1,10 +1,9 @@
+import useToast from '@/hooks/useToast';
 import useTranslation from '@/hooks/useTranslation';
 import useAppStore from '@/stores/store';
 import { trpc } from '@/utils/trpc';
 import { Avatar, Button } from '@mantine/core';
-import { notifications } from '@mantine/notifications';
-import { FriendStatus, User } from '@prisma/client';
-import { IconCheck, IconX } from '@tabler/icons-react';
+import { FriendStatus, type User } from '@prisma/client';
 
 type Props = {
   user: User;
@@ -13,6 +12,7 @@ type Props = {
 };
 
 const Request = ({ user, status, friendId }: Props) => {
+  const { show } = useToast();
   const _user = useAppStore.use.user();
   const utils = trpc.useContext();
   const addNoti = trpc.notification.push.useMutation();
@@ -23,19 +23,11 @@ const Request = ({ user, status, friendId }: Props) => {
   const handleReject = async () => {
     try {
       await reject.mutateAsync({ userId, friendId });
-      notifications.show({
-        message: t('addsuccessText'),
-        color: 'green',
-        icon: <IconCheck />,
-      });
+      show({ type: 'success' });
       utils.friend.friendList.refetch();
       utils.friend.requestList.refetch();
     } catch (e: any) {
-      notifications.show({
-        message: t('addfailedText'),
-        color: 'red',
-        icon: <IconX />,
-      });
+      show({ type: 'error' });
     }
   };
 
@@ -47,19 +39,17 @@ const Request = ({ user, status, friendId }: Props) => {
         userId,
         imgUrl: user.imgUrl || '',
       });
-      notifications.show({
+      show({
         message: t('addsuccessText'),
-        color: 'green',
-        icon: <IconCheck />,
+        type: 'success',
       });
       utils.friend.friendList.refetch();
       utils.friend.requestList.refetch();
     } catch (e: any) {
       console.log(e);
-      notifications.show({
+      show({
         message: t('errorTryAgainText'),
-        color: 'red',
-        icon: <IconX />,
+        type: 'error',
       });
     }
   };

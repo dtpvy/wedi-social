@@ -1,13 +1,8 @@
-import { Loader, LoadingOverlay } from '@mantine/core';
-import { ReactNode } from 'react';
-import { Search } from '../Search';
+import { LoadingOverlay } from '@mantine/core';
 import { useSession } from 'next-auth/react';
+import { Search } from '../Search';
 
-type Props = {
-  children: ReactNode;
-};
-
-const MainLayout = ({ children }: Props) => {
+const MainLayout = ({ children }: ComponentWithChildren) => {
   const { status } = useSession();
 
   if (status === 'loading') {

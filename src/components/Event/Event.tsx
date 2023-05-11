@@ -1,4 +1,4 @@
-import { ScheduleDetail } from '@/types/schedule';
+import type { ScheduleDetail } from '@/types/schedule';
 import { trpc } from '@/utils/trpc';
 import { ActionIcon, Avatar, Button, Group, HoverCard, Modal, Text, Tooltip } from '@mantine/core';
 import { TimeInput } from '@mantine/dates';
@@ -10,16 +10,18 @@ import {
   IconPointFilled,
   IconStarFilled,
 } from '@tabler/icons-react';
-import dayjs from 'dayjs';
+import dayjs from '@/utils/dayjs';
 import { useRef, useState } from 'react';
 import useTranslation from '@/hooks/useTranslation';
 import useAppStore from '@/stores/store';
+
 type Props = {
   schedule: ScheduleDetail;
+  joinTrip?: boolean;
   refetch: () => void;
 };
 
-const Event = ({ schedule, refetch }: Props) => {
+const Event = ({ schedule, joinTrip = false, refetch }: Props) => {
   const user = useAppStore.use.user();
   const ref = useRef<HTMLInputElement>(null);
   const { name, location, description, startTime, joinSchedule } = schedule;
@@ -56,6 +58,7 @@ const Event = ({ schedule, refetch }: Props) => {
             size="xs"
             variant="gradient"
             gradient={{ from: 'indigo', to: 'cyan' }}
+            className={joinTrip ? 'block' : 'hidden'}
           >
             {t('participatebtnText')}
           </Button>
@@ -112,7 +115,7 @@ const Event = ({ schedule, refetch }: Props) => {
         </div>
         <div className="flex items-center text-yellow-400 bg-yellow-100 px-2 py-1 rounded-lg w-fit gap-1">
           <IconStarFilled size={16} />
-          <span className="text-sm font-bold">{location.rating}</span>
+          <span className="text-sm font-bold">{schedule.rating || 0}</span>
         </div>
       </div>
       {description && (

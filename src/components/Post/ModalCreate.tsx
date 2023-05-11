@@ -1,15 +1,15 @@
+import useToast from '@/hooks/useToast';
 import useTranslation from '@/hooks/useTranslation';
 import useAppStore from '@/stores/store';
 import classNames from '@/utils/classNames';
 import { trpc } from '@/utils/trpc';
 import { Carousel } from '@mantine/carousel';
 import { Avatar, Button, CloseButton, Image, Modal, Select, Textarea } from '@mantine/core';
-import { notifications } from '@mantine/notifications';
 import { Privacy } from '@prisma/client';
-import { IconEyeEdit, IconLoader, IconMapPinFilled, IconPhoto, IconX } from '@tabler/icons-react';
+import { IconEyeEdit, IconLoader, IconMapPinFilled, IconPhoto } from '@tabler/icons-react';
 import { IKUpload } from 'imagekitio-react';
 import { useRef, useState } from 'react';
-import LocationSeletion, { LocationSeletionProps } from './LocationSeletion';
+import LocationSeletion, { type LocationSeletionProps } from './LocationSeletion';
 
 type State = {
   content: string;
@@ -42,6 +42,8 @@ const ModalCreate = ({
   onOpenReview,
   onDeleteLocation,
 }: Props) => {
+  const { show } = useToast();
+
   const mediaRef = useRef<HTMLInputElement>(null);
   const user = useAppStore.use.user();
   const create = trpc.post.create.useMutation();
@@ -198,11 +200,7 @@ const ModalCreate = ({
           onUploadStart={() => setMediaLoading(true)}
           onSuccess={(file) => handleChooseImage(file.url)}
           onError={() => {
-            notifications.show({
-              message: t('errorTryAgainText'),
-              color: 'red',
-              icon: <IconX />,
-            });
+            show({ message: t('errorTryAgainText'), type: 'error' });
             setMediaLoading(false);
           }}
           accept="image/*"

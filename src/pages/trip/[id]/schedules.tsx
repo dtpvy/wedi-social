@@ -1,20 +1,21 @@
 import { Event } from '@/components/Event';
 import { MainLayout } from '@/components/Layout';
 import TripLayout from '@/components/Layout/TripLayout';
-import { ScheduleDetail } from '@/components/Trip';
+import useAppStore from '@/stores/store';
 import { trpc } from '@/utils/trpc';
 import { useRouter } from 'next/router';
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 const Schedules = () => {
   const router = useRouter();
   const { id } = router.query;
+  const joined = useAppStore.use.trip().joined;
   const { data, refetch } = trpc.schedule.list.useQuery({ tridId: +(id as string) });
-
+  console.log({ joined });
   return (
-    <div className="grid grid-cols-2">
+    <div className="grid grid-cols-2 gap-4">
       {data?.map((schedule) => (
-        <Event key={schedule.id} schedule={schedule} refetch={refetch} />
+        <Event key={schedule.id} schedule={schedule} refetch={refetch} joinTrip={joined} />
       ))}
     </div>
   );

@@ -1,5 +1,4 @@
 import classNames from '@/utils/classNames';
-import { type ReactNode } from 'react';
 
 import { CreateTrip } from '@/components/Trip';
 
@@ -7,11 +6,11 @@ import useOpenMessageDialog from '@/hooks/useOpenMessageDialog';
 import useTranslation from '@/hooks/useTranslation';
 import useAppStore from '@/stores/store';
 import type { Tab } from '@/types/tab';
+import dayjs from '@/utils/dayjs';
 import { trpc } from '@/utils/trpc';
 import { Avatar, Button } from '@mantine/core';
-import { User } from '@prisma/client';
+import type { User } from '@prisma/client';
 import { IconBus, IconCalendarTime, IconMapPinFilled, IconNews } from '@tabler/icons-react';
-import dayjs from 'dayjs';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
@@ -38,12 +37,7 @@ const TAB_LIST: Record<string, Tab> = {
   },
 };
 
-type Props = {
-  children: ReactNode;
-  className?: string;
-};
-
-const FeedLayout = ({ children, className }: Props) => {
+const FeedLayout = ({ children, className }: ComponentWithChildren) => {
   const { t } = useTranslation();
 
   const router = useRouter();

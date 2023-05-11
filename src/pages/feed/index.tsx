@@ -3,7 +3,7 @@ import { CreatePost, Post } from '@/components/Post';
 import { trpc } from '@/utils/trpc';
 import { TRACKING_EVENT, TRACKING_PAGE } from '@/constants/tracking';
 import useTranslation from '@/hooks/useTranslation';
-import { ReactElement, useEffect } from 'react';
+import { type ReactElement, useEffect } from 'react';
 
 const Feed = () => {
   const query = trpc.post.feed.useInfiniteQuery(

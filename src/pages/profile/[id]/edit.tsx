@@ -1,6 +1,6 @@
 import { MainLayout, ProfileLayout } from '@/components/Layout';
 import { EditForm } from '@/components/Profile/Edit';
-import { ReactElement } from 'react';
+import { type ReactElement } from 'react';
 
 const Edit = () => {
   return <EditForm />;

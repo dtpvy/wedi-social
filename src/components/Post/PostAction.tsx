@@ -1,18 +1,16 @@
-import { PostDetail } from '@/types/post';
+import useToast from '@/hooks/useToast';
+import useTranslation from '@/hooks/useTranslation';
+import type { LocationDetail } from '@/types/location';
+import type { PostDetail } from '@/types/post';
 import { trpc } from '@/utils/trpc';
-import { ActionIcon, Button, Popover, Text } from '@mantine/core';
+import { ActionIcon, Popover, Text } from '@mantine/core';
 import { modals } from '@mantine/modals';
-import { notifications } from '@mantine/notifications';
-import { IconCheck, IconDots, IconX } from '@tabler/icons-react';
-import { type } from 'os';
-import React, { useState } from 'react';
-import CreatePost from './CreatePost';
+import type { Location } from '@prisma/client';
+import { IconDots } from '@tabler/icons-react';
+import { useState } from 'react';
 import ModalCreate from './ModalCreate';
 import ModalLocation from './ModalLocation';
 import ModalReview from './ModalReview';
-import { LocationDetail } from '@/types/location';
-import { Location } from '@prisma/client';
-import useTranslation from '@/hooks/useTranslation';
 
 type Props = {
   post: PostDetail;
@@ -21,6 +19,7 @@ type Props = {
 
 const PostAction = ({ post, refetch }: Props) => {
   const { content, privacy, imgUrls, locations: rawLocations } = post;
+  const { show } = useToast();
 
   const [modal, setModal] = useState('');
   const [opened, setOpened] = useState(false);
@@ -45,24 +44,16 @@ const PostAction = ({ post, refetch }: Props) => {
       title: t('deletePostText'),
       centered: true,
       children: <Text size="sm">{t('areYouSureDeleteThisPostText')}</Text>,
-      labels: { confirm:t('yesText'), cancel: t('cancelText')},
+      labels: { confirm: t('yesText'), cancel: t('cancelText') },
       confirmProps: { color: 'red' },
       onCancel: () => null,
       onConfirm: async () => {
         try {
           await deletePost.mutateAsync({ id: post.id });
-          notifications.show({
-            message: t('addsuccessText'),
-            color: 'green',
-            icon: <IconCheck />,
-          });
+          show({ message: t('addsuccessText'), type: 'success' });
           refetch();
         } catch (e: any) {
-          notifications.show({
-            message: t('errorTryAgainText'),
-            color: 'red',
-            icon: <IconX />,
-          });
+          show({ message: t('errorTryAgainText'), type: 'error' });
         }
       },
     });
@@ -77,7 +68,7 @@ const PostAction = ({ post, refetch }: Props) => {
     refetch();
     setModal('review');
   };
-  
+
   return (
     <Popover
       opened={opened}

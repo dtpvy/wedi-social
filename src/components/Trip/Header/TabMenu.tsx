@@ -1,25 +1,18 @@
 import { Button, Text } from '@mantine/core';
 
 import { Menu } from '@/components/Menu';
+import useToast from '@/hooks/useToast';
 import useTranslation from '@/hooks/useTranslation';
-import { Tab } from '@/types/tab';
-import { TripInfo } from '@/types/trip';
+import useAppStore from '@/stores/store';
+import type { Tab } from '@/types/tab';
+import type { TripInfo } from '@/types/trip';
 import { trpc } from '@/utils/trpc';
 import { modals } from '@mantine/modals';
-import { notifications } from '@mantine/notifications';
 import { JoinTripStatus } from '@prisma/client';
-import {
-  IconArticle,
-  IconCalendar,
-  IconCheck,
-  IconUserPlus,
-  IconUsers,
-  IconX,
-} from '@tabler/icons-react';
+import { IconArticle, IconCalendar, IconUserPlus, IconUsers } from '@tabler/icons-react';
 import { useRouter } from 'next/router';
 import { useMemo } from 'react';
 import CreateSchedule from '../Schedule/CreateSchedule';
-import useAppStore from '@/stores/store';
 
 const TAB_NAME = {
   POSTS: 'posts',
@@ -58,6 +51,7 @@ type Props = {
 
 const TabMenu = ({ trip, joined }: Props) => {
   const utils = trpc.useContext();
+  const { show } = useToast();
 
   const router = useRouter();
   const user = useAppStore.use.user();
@@ -73,6 +67,7 @@ const TabMenu = ({ trip, joined }: Props) => {
   const deleteTrip = trpc.trip.delete.useMutation();
   const addNoti = trpc.notification.push.useMutation();
   const { t } = useTranslation();
+
   const handleRequest = async () => {
     if (!trip) return;
     try {
@@ -118,17 +113,15 @@ const TabMenu = ({ trip, joined }: Props) => {
       onConfirm: async () => {
         try {
           await deleteTrip.mutateAsync({ id: trip?.id as number });
-          notifications.show({
+          show({
             message: t('addsuccessText'),
-            color: 'green',
-            icon: <IconCheck />,
+            type: 'success',
           });
           router.push('/feed');
         } catch (e: any) {
-          notifications.show({
+          show({
             message: t('errorTryAgainText'),
-            color: 'red',
-            icon: <IconX />,
+            type: 'error',
           });
         }
       },

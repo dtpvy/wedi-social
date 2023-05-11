@@ -2,11 +2,11 @@ import TripLayout from '@/components/Layout/TripLayout';
 import { trpc } from '@/utils/trpc';
 import { ActionIcon, Avatar } from '@mantine/core';
 import { IconCheck, IconX } from '@tabler/icons-react';
-import dayjs from 'dayjs';
+import dayjs from '@/utils/dayjs';
 import { useRouter } from 'next/router';
 import useTranslation from '@/hooks/useTranslation';
 import { MainLayout } from '@/components/Layout';
-import { ReactElement } from 'react';
+import { type ReactElement } from 'react';
 
 const Requests = () => {
   const router = useRouter();

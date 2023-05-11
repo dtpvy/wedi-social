@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, Image, Text, Button, Group, Divider } from '@mantine/core';
-import dayjs from 'dayjs';
+import dayjs from '@/utils/dayjs';
 import { trpc } from '@/utils/trpc';
 import RatingDisplay from '../RatingDisplay';
 

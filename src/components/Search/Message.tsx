@@ -1,11 +1,11 @@
 import useOpenMessageDialog from '@/hooks/useOpenMessageDialog';
 
-import { MessageDetail } from '@/types/message';
+import type { MessageDetail } from '@/types/message';
 import { trpc } from '@/utils/trpc';
 import { Avatar, Select } from '@mantine/core';
-import { User } from '@prisma/client';
+import type { User } from '@prisma/client';
 import { IconSearch } from '@tabler/icons-react';
-import dayjs from 'dayjs';
+import dayjs from '@/utils/dayjs';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import useTranslation from '@/hooks/useTranslation';
 import useAppStore from '@/stores/store';
@@ -70,7 +70,7 @@ const Message = () => {
   }, [data]);
 
   const profile = (message: MessageDetail) => {
-    return message.sender.id === user?.id ? message.receiver : message.sender;
+    return message.sender?.id === user?.id ? message.receiver : message.sender;
   };
 
   const handleShowMessDialog = (id: number) => {

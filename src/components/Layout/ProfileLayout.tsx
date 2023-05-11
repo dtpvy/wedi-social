@@ -4,16 +4,10 @@ import classNames from '@/utils/classNames';
 import { trpc } from '@/utils/trpc';
 import { LoadingOverlay } from '@mantine/core';
 import { useRouter } from 'next/router';
-import { ReactNode } from 'react';
 import { Header, TabMenu } from '../Profile/Header';
 import { CreateTrip } from '../Trip';
 
-type Props = {
-  children: ReactNode;
-  className?: string;
-};
-
-const ProfileLayout = ({ children, className }: Props) => {
+const ProfileLayout = ({ children, className }: ComponentWithChildren) => {
   const router = useRouter();
   const setProfile = useProfileStore.use.setProfile();
 

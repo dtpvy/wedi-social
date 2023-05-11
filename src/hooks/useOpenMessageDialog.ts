@@ -1,5 +1,5 @@
 import useMessageStore from '@/stores/message';
-import { User } from '@prisma/client';
+import type { User } from '@prisma/client';
 
 const useOpenMessageDialog = () => {
   const setUser = useMessageStore.use.setUser();

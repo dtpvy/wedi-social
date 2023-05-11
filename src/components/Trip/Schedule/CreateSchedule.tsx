@@ -1,22 +1,19 @@
-import useUserStore from '@/stores/auth';
-import classNames from '@/utils/classNames';
+import useTranslation from '@/hooks/useTranslation';
 import { trpc } from '@/utils/trpc';
 import { Avatar, Button, Modal } from '@mantine/core';
-import { IconCalendarPlus, IconPlaneDeparture } from '@tabler/icons-react';
-import Link from 'next/link';
+import { IconCalendarPlus } from '@tabler/icons-react';
 import { useRouter } from 'next/router';
 import { MouseEvent, useContext, useState } from 'react';
 import FormCreate, { ScheduleParams } from './FormCreate';
-import { TripLayoutContext } from '@/components/Layout/TripLayout';
-import useTranslation from '@/hooks/useTranslation';
+import useAppStore from '@/stores/store';
 
 type Props = {
   className?: string;
   tripId: number;
 };
 
-const CreateSchedule = ({ tripId, className }: Props) => {
-  const { data } = useContext(TripLayoutContext) || {};
+const CreateSchedule = ({ tripId }: Props) => {
+  const { profile: data } = useAppStore.use.trip();
   const { t } = useTranslation();
   const router = useRouter();
   const create = trpc.schedule.create.useMutation();

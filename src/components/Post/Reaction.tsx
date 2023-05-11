@@ -1,10 +1,10 @@
-import { CommentDetail } from '@/types/comment';
-import { PostDetail } from '@/types/post';
-import { trpc } from '@/utils/trpc';
-import { Button, HoverCard, Image, Transition } from '@mantine/core';
-import { Reaction } from '@prisma/client';
-import { IconIcons } from '@tabler/icons-react';
 import useTranslation from '@/hooks/useTranslation';
+import type { CommentDetail } from '@/types/comment';
+import type { PostDetail } from '@/types/post';
+import { trpc } from '@/utils/trpc';
+import { Button, HoverCard, Image } from '@mantine/core';
+import type { Reaction } from '@prisma/client';
+import { IconIcons } from '@tabler/icons-react';
 
 type Props = {
   post?: PostDetail;
@@ -12,7 +12,7 @@ type Props = {
   refetch: () => void;
 };
 
-const Reaction = ({ post, comment, refetch }: Props) => {
+const PostReaction = ({ post, comment, refetch }: Props) => {
   const react = trpc.reaction.react.useMutation();
   const utils = trpc.useContext();
   const addNoti = trpc.notification.push.useMutation();
@@ -78,4 +78,4 @@ const Reaction = ({ post, comment, refetch }: Props) => {
   );
 };
 
-export default Reaction;
+export default PostReaction;

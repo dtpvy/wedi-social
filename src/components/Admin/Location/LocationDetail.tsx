@@ -1,11 +1,9 @@
-import React from 'react';
-import { Modal, Card, Button, Text, Badge, Group, TextInput, Image } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
-import { IconEdit } from '@tabler/icons-react';
 import { trpc } from '@/utils/trpc';
+import { Badge, Button, Card, Group, Image, Modal, Text } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
+import { LocationStatus } from '@prisma/client';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { LocationStatus } from '@prisma/client';
 import RatingDisplay from '../RatingDisplay';
 
 const LocationDetail = () => {

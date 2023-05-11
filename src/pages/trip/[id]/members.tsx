@@ -2,7 +2,7 @@ import TripLayout from '@/components/Layout/TripLayout';
 import { CreatePost, Post } from '@/components/Post';
 import { trpc } from '@/utils/trpc';
 import { Avatar } from '@mantine/core';
-import dayjs from 'dayjs';
+import dayjs from '@/utils/dayjs';
 import { useRouter } from 'next/router';
 import React, { ReactElement } from 'react';
 import useTranslation from '@/hooks/useTranslation';

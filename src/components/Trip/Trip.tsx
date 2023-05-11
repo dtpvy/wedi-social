@@ -1,8 +1,8 @@
 import useTranslation from '@/hooks/useTranslation';
-import { TripDetail } from '@/types/trip';
+import type { TripDetail } from '@/types/trip';
 import classNames from '@/utils/classNames';
 import { Avatar, Button, Text } from '@mantine/core';
-import dayjs from 'dayjs';
+import dayjs from '@/utils/dayjs';
 import { useRouter } from 'next/router';
 
 type Props = {

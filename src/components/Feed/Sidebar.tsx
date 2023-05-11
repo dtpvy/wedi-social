@@ -1,4 +1,4 @@
-import { Tab } from '@/types/tab';
+import type { Tab } from '@/types/tab';
 import classNames from '@/utils/classNames';
 import { IconBus, IconCalendarTime, IconMapPinFilled, IconNews } from '@tabler/icons-react';
 import { useRouter } from 'next/router';

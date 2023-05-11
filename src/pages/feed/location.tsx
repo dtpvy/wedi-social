@@ -2,7 +2,8 @@ import { FeedLayout, MainLayout } from '@/components/Layout';
 import { Location as LocationComponent } from '@/components/Location';
 import useTranslation from '@/hooks/useTranslation';
 import { trpc } from '@/utils/trpc';
-import { ReactElement } from 'react';
+import { type ReactElement } from 'react';
+
 const Location = () => {
   const query = trpc.location.feed.useInfiniteQuery(
     {},

@@ -1,5 +1,5 @@
-import { Avatar, Image } from '@mantine/core';
-import { Trip } from '@prisma/client';
+import { Avatar } from '@mantine/core';
+import type { Trip } from '@prisma/client';
 
 type Props = {
   trip: Trip;

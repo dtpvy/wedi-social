@@ -1,17 +1,18 @@
+import useToast from '@/hooks/useToast';
+import useTranslation from '@/hooks/useTranslation';
 import useMessageStore from '@/stores/message';
-import { MessageDetail } from '@/types/message';
+import useAppStore from '@/stores/store';
+import type { MessageDetail } from '@/types/message';
 import classNames from '@/utils/classNames';
 import { trpc } from '@/utils/trpc';
 import { ActionIcon, Avatar, Dialog, Image, Loader, TextInput } from '@mantine/core';
-import { notifications } from '@mantine/notifications';
-import { IconPhoto, IconSend, IconX } from '@tabler/icons-react';
-import dayjs from 'dayjs';
+import { IconPhoto, IconSend } from '@tabler/icons-react';
+import dayjs from '@/utils/dayjs';
 import { IKUpload } from 'imagekitio-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import useTranslation from '@/hooks/useTranslation';
-import useAppStore from '@/stores/store';
 
 const Message = () => {
+  const { show } = useToast();
   const userInfo = useAppStore.use.user();
   const opened = useMessageStore.use.opened();
   const user = useMessageStore.use.user();
@@ -179,13 +180,7 @@ const Message = () => {
           inputRef={uploadRef}
           folder="/wedi"
           onSuccess={(file) => onSend([file.url])}
-          onError={() =>
-            notifications.show({
-              message: t('errorTryAgainText'),
-              color: 'red',
-              icon: <IconX />,
-            })
-          }
+          onError={() => show({ message: t('errorTryAgainText'), type: 'error' })}
           accept="image/*"
           className="hidden"
         />

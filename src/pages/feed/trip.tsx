@@ -5,7 +5,7 @@ import { Trip as TripWidget } from '@/components/Trip';
 import useTranslation from '@/hooks/useTranslation';
 import { trpc } from '@/utils/trpc';
 import { Carousel } from '@mantine/carousel';
-import { ReactElement } from 'react';
+import { type ReactElement } from 'react';
 
 const Trip = () => {
   const { data } = trpc.trip.feed.useQuery({});

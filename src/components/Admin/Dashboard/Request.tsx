@@ -1,7 +1,7 @@
 import { Badge, Button, Card, Group, Grid } from '@mantine/core';
 import { useRouter } from 'next/router';
 import React from 'react';
-import dayjs from 'dayjs';
+import dayjs from '@/utils/dayjs';
 type Props = {
   request: any;
 };

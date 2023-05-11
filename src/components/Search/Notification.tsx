@@ -1,7 +1,7 @@
 import { trpc } from '@/utils/trpc';
 import { Avatar } from '@mantine/core';
 import type { Notification, User } from '@prisma/client';
-import dayjs from 'dayjs';
+import dayjs from '@/utils/dayjs';
 import { useCallback, useEffect, useState } from 'react';
 import useTranslation from '@/hooks/useTranslation';
 
@@ -87,8 +87,7 @@ const Notification = () => {
           ? t('loadingMoreText')
           : hasNextPage
           ? t('loadMoreText')
-          : t('notifEndText')
-          }
+          : t('notifEndText')}
       </button>
     </div>
   );

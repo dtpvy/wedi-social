@@ -1,11 +1,9 @@
-import { LocationDetail } from '@/types/location';
+import useTranslation from '@/hooks/useTranslation';
+import type { LocationDetail } from '@/types/location';
 import classNames from '@/utils/classNames';
-import { getName } from '@/utils/location';
 import { Carousel } from '@mantine/carousel';
 import { CloseButton, Image } from '@mantine/core';
-import { Location } from '@prisma/client';
-import React from 'react';
-import useTranslation from '@/hooks/useTranslation';
+import type { Location } from '@prisma/client';
 
 export type LocationSeletionProps = {
   readonly?: boolean;
@@ -20,7 +18,6 @@ const LocationSeletion = ({
   className,
   onDeleteLocation,
 }: LocationSeletionProps) => {
-  
   const { t } = useTranslation();
 
   return (
@@ -54,7 +51,7 @@ const LocationSeletion = ({
                 {!readonly && (
                   <CloseButton
                     onClick={() => onDeleteLocation(data)}
-                    title= {t('closePopoverText')}
+                    title={t('closePopoverText')}
                     size="md"
                     iconSize={20}
                     radius="xl"

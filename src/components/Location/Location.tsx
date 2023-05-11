@@ -1,17 +1,20 @@
-import { LocationDetail } from '@/types/location';
+import type { LocationDetail } from '@/types/location';
 import { Carousel } from '@mantine/carousel';
 import { Avatar, Text } from '@mantine/core';
 import { IconStarFilled } from '@tabler/icons-react';
 import Review from './Review';
+import classNames from '@/utils/classNames';
 
 type Props = {
   location: LocationDetail;
+  className?: string;
 };
 
-const Location = ({ location }: Props) => {
+const Location = ({ location, className }: Props) => {
   const { name, imgUrl, address, reviews } = location;
+
   return (
-    <div className="bg-white shadow rounded-lg p-5 h-fit">
+    <div className={classNames('bg-white shadow rounded-lg p-5 h-fit', className)}>
       <div className="flex items-center gap-4">
         <Avatar src={imgUrl} radius="md" size="xl" className="border" />
         <div className="mr-auto w-[calc(100%-100px)]">

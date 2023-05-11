@@ -1,12 +1,11 @@
-import ERROR_MESSAGES from '../../../constants/errorMessage';
 import { trpc } from '@/utils/trpc';
-import { Avatar, Badge, Button, Image, Text } from '@mantine/core';
+import { Avatar, Badge, Button, Text } from '@mantine/core';
 import { modals } from '@mantine/modals';
 import { notifications } from '@mantine/notifications';
-import { Admin } from '@prisma/client';
+import type { Admin } from '@prisma/client';
 import { IconCheck, IconX } from '@tabler/icons-react';
 import { useSession } from 'next-auth/react';
-import React from 'react';
+import ERROR_MESSAGES from '../../../constants/errorMessage';
 
 type Props = {
   admin: Admin;

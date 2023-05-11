@@ -1,6 +1,6 @@
 import useTranslation from '@/hooks/useTranslation';
 
-import { PostDetail } from '@/types/post';
+import type { PostDetail } from '@/types/post';
 import classNames from '@/utils/classNames';
 import { getTimePost } from '@/utils/time';
 import { Carousel } from '@mantine/carousel';
@@ -43,7 +43,7 @@ const PrivacyConfig = {
 };
 
 const Post = ({ post, className, refetch }: Props) => {
-  const { t } = useTranslation();
+  const { t, locale } = useTranslation();
   const [showTranslate, setShowTranslate] = useState(false);
   const [loadingTranslate, setLoadingTranslate] = useState(false);
 
@@ -59,7 +59,7 @@ const Post = ({ post, className, refetch }: Props) => {
       setShowTranslate(false);
     } else {
       const translate = await axios
-        .get('/api/translate', { params: { text: content } })
+        .get('/api/translate', { params: { text: content, locale } })
         .then((res) => res.data);
       setText(translate);
       setShowTranslate(true);

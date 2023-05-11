@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import useTranslation from '@/hooks/useTranslation';
+import useToast from '@/hooks/useToast';
 
 type RegisterForm = {
   email: string;
@@ -18,6 +19,8 @@ type RegisterForm = {
 };
 
 const Signup = () => {
+  const { show } = useToast();
+
   const tracking = trpc.tracking.add.useMutation();
   const signup = trpc.user.signup.useMutation();
   const { t } = useTranslation();
@@ -31,29 +34,25 @@ const Signup = () => {
   const onSubmit = async (data: RegisterForm) => {
     try {
       const res = await signup.mutateAsync(data);
-      notifications.show({
-        message: `${t("notiCreateAccountSuccesfullyText")} ${res.result}`,
-        color: 'green',
-        icon: <IconCheck />,
+      show({
+        message: `${t('notiCreateAccountSuccesfullyText')} ${res.result}`,
+        type: 'success',
       });
     } catch (e: any) {
       if (e.message === ERROR_MESSAGES.userExist) {
-        notifications.show({
-          message: t("notiAccountExistedText"),
-          color: 'red',
-          icon: <IconX />,
+        show({
+          message: t('notiAccountExistedText'),
+          type: 'error',
         });
       } else if (e.message.includes('Unique constraint failed on the fields: (`phone`)')) {
-        notifications.show({
-          message: t("numberPhoneExistedText"),
-          color: 'red',
-          icon: <IconX />,
+        show({
+          message: t('numberPhoneExistedText'),
+          type: 'error',
         });
       } else {
-        notifications.show({
-          message: t("errorTryAgainText"),
-          color: 'red',
-          icon: <IconX />,
+        show({
+          message: t('errorTryAgainText'),
+          type: 'error',
         });
       }
     }
@@ -76,7 +75,7 @@ const Signup = () => {
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-              {t("signupTitleText")}
+              {t('signupTitleText')}
             </h1>
             <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit(onSubmit)}>
               <div className="flex items-center justify-between">
@@ -85,13 +84,13 @@ const Signup = () => {
                     htmlFor="name"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
-                    {t("yourNameText")}
+                    {t('yourNameText')}
                   </label>
                   <input
                     type="text"
                     id="name"
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder={t("yourNameText")}
+                    placeholder={t('yourNameText')}
                     required
                     {...register('name')}
                   />
@@ -101,13 +100,13 @@ const Signup = () => {
                     htmlFor="phone"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
-                    {t("phoneText")}
+                    {t('phoneText')}
                   </label>
                   <input
                     type="string"
                     id="phone"
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder={t("phoneText")}
+                    placeholder={t('phoneText')}
                     required
                     maxLength={10}
                     {...register('phone')}
@@ -119,7 +118,7 @@ const Signup = () => {
                   htmlFor="email"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  {t("emailText")}
+                  {t('emailText')}
                 </label>
                 <input
                   type="email"
@@ -135,7 +134,7 @@ const Signup = () => {
                   htmlFor="password"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  {t("passwordText")}
+                  {t('passwordText')}
                 </label>
                 <input
                   type="password"
@@ -151,7 +150,7 @@ const Signup = () => {
                   htmlFor="confirm-password"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  {t("confirmPasswordText")}
+                  {t('confirmPasswordText')}
                 </label>
                 <input
                   type="password"
@@ -162,7 +161,7 @@ const Signup = () => {
                   {...register('confirmPassword', {
                     validate: (val: string) => {
                       if (watch('password') !== val) {
-                        return t("passwordDontMatchText");
+                        return t('passwordDontMatchText');
                       }
                     },
                   })}
@@ -180,32 +179,32 @@ const Signup = () => {
                 </div>
                 <div className="ml-3 text-sm">
                   <label htmlFor="terms" className="font-light text-gray-500 dark:text-gray-300">
-                  {t("acceptWithText")}
+                    {t('acceptWithText')}
                     <a
                       className="ml-1 font-medium text-green-700 hover:underline dark:text-primary-500"
                       href="#"
                     >
-                      {t("acceptTermsText")}
+                      {t('acceptTermsText')}
                     </a>
                   </label>
                 </div>
               </div>
               {errors.confirmPassword && (
-                <div className="text-red-600 text-center my-2">{t("passwordDontMatchText")}</div>
+                <div className="text-red-600 text-center my-2">{t('passwordDontMatchText')}</div>
               )}
               <button
                 type="submit"
                 className="w-full text-white bg-green-700 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
               >
-                {t("signupTitleText")}
+                {t('signupTitleText')}
               </button>
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-              {t("signupText")}{" "}
+                {t('signupText')}{' '}
                 <Link
                   href="/signin"
                   className="font-medium text-green-700 hover:underline dark:text-primary-500"
                 >
-                  {t("intoSigninText")}
+                  {t('intoSigninText')}
                 </Link>
               </p>
             </form>

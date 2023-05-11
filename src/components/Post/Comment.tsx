@@ -1,13 +1,12 @@
+import useToast from '@/hooks/useToast';
 import useTranslation from '@/hooks/useTranslation';
 import useAppStore from '@/stores/store';
-import { CommentDetail } from '@/types/comment';
+import type { CommentDetail } from '@/types/comment';
 import { trpc } from '@/utils/trpc';
 import { Carousel } from '@mantine/carousel';
 import { Avatar, Button, Image, Text } from '@mantine/core';
 import { modals } from '@mantine/modals';
-import { notifications } from '@mantine/notifications';
-import { IconCheck, IconX } from '@tabler/icons-react';
-import dayjs from 'dayjs';
+import dayjs from '@/utils/dayjs';
 import { useCallback, useEffect, useState } from 'react';
 import CreateComment from './CreateComment';
 import Reaction from './Reaction';
@@ -20,6 +19,7 @@ type Props = {
 
 const Comment = ({ postId, creatorId, refetch }: Props) => {
   const user = useAppStore.use.user();
+  const { show } = useToast();
   const [commentId, setCommentId] = useState<number>();
 
   const query = trpc.comment.infinite.useInfiniteQuery(
@@ -84,19 +84,11 @@ const Comment = ({ postId, creatorId, refetch }: Props) => {
       onConfirm: async () => {
         try {
           await deleteComment.mutateAsync({ id });
-          notifications.show({
-            message: t('addsuccessText'),
-            color: 'green',
-            icon: <IconCheck />,
-          });
+          show({ type: 'success' });
           setComments((prev) => prev?.filter((d) => d.id !== id));
           refetch();
         } catch (e: any) {
-          notifications.show({
-            message: t('errorTryAgainText'),
-            color: 'red',
-            icon: <IconX />,
-          });
+          show({ message: t('errorTryAgainText'), type: 'error' });
         }
       },
     });

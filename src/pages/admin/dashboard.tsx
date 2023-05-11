@@ -1,7 +1,7 @@
 import { Admin, Header } from '@/components/Admin/Dashboard';
 import { trpc } from '@/utils/trpc';
 import { Divider, Loader } from '@mantine/core';
-import dayjs from 'dayjs';
+import dayjs from '@/utils/dayjs';
 import {
   Bar,
   BarChart,

@@ -1,4 +1,4 @@
-import { Location, Post, Reaction, Review, Trip, User } from '@prisma/client';
+import type { Location, Post, Reaction, Review, Trip, User } from '@prisma/client';
 
 export type PostReaction = Reaction & {
   count: number;

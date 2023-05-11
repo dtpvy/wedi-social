@@ -1,4 +1,5 @@
 import { Header, TabMenu } from '@/components/Trip/Header';
+import useToast from '@/hooks/useToast';
 import useTranslation from '@/hooks/useTranslation';
 import NotFound from '@/pages/404';
 import useAppStore from '@/stores/store';
@@ -6,16 +7,9 @@ import classNames from '@/utils/classNames';
 import { trpc } from '@/utils/trpc';
 import { Loader, Stepper, Text } from '@mantine/core';
 import { modals } from '@mantine/modals';
-import { notifications } from '@mantine/notifications';
 import { TripStatus } from '@prisma/client';
-import { IconCalendarTime, IconCheck, IconMapPinCheck, IconWalk, IconX } from '@tabler/icons-react';
+import { IconCalendarTime, IconMapPinCheck, IconWalk } from '@tabler/icons-react';
 import { useRouter } from 'next/router';
-import { ReactNode } from 'react';
-
-type Props = {
-  children: ReactNode;
-  className?: string;
-};
 
 const TRIP_STATUS = {
   [TripStatus.SCHEDULE]: {
@@ -35,10 +29,11 @@ const TRIP_STATUS = {
   },
 };
 
-const TripLayout = ({ children, className }: Props) => {
+const TripLayout = ({ children, className }: ComponentWithChildren) => {
   const router = useRouter();
   const { id } = router.query;
   const { t } = useTranslation();
+  const { show } = useToast();
 
   const user = useAppStore.use.user();
   const setTrip = useAppStore.use.setTrip();
@@ -73,18 +68,10 @@ const TripLayout = ({ children, className }: Props) => {
       onConfirm: async () => {
         try {
           await done.mutateAsync({ id: trip.id });
-          notifications.show({
-            message: t('addsuccessText'),
-            color: 'green',
-            icon: <IconCheck />,
-          });
+          show({ type: 'success' });
           refetch();
         } catch (e: any) {
-          notifications.show({
-            message: t('errorTryAgainText'),
-            color: 'red',
-            icon: <IconX />,
-          });
+          show({ message: t('errorTryAgainText'), type: 'error' });
         }
       },
     });

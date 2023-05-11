@@ -1,7 +1,7 @@
 import useLocaleStore from '@/stores/locale';
 import useAppStore from '@/stores/store';
 import { trpc } from '@/utils/trpc';
-import { Language } from '@prisma/client';
+import type { Language } from '@prisma/client';
 
 const useTranslation = () => {
   const setLocale = useLocaleStore((state) => state.setLocale);

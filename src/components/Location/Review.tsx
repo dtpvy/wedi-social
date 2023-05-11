@@ -1,8 +1,6 @@
-import { ReviewDetail } from '@/types/location';
+import type { ReviewDetail } from '@/types/location';
 import { Avatar, Rating, Text } from '@mantine/core';
-import { IconStar, IconStarFilled } from '@tabler/icons-react';
-import dayjs from 'dayjs';
-import React from 'react';
+import dayjs from '@/utils/dayjs';
 
 type Props = {
   review: ReviewDetail;

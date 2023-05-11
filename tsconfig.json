@@ -16,7 +16,8 @@
     "jsx": "preserve",
     "baseUrl": "./src",
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./*"],
+      "*": ["types/*.d.ts"]
     },
     "incremental": true
   },

@@ -1,13 +1,13 @@
 import { getPlaceList } from '@/api/place';
-import { LocationDetail } from '@/types/location';
-import { Poi } from '@/types/place';
+import type { LocationDetail } from '@/types/location';
+import type { Poi } from '@/types/place';
 import { getName } from '@/utils/location';
 import { trpc } from '@/utils/trpc';
 import { Button, Loader, Modal, Popover, TextInput } from '@mantine/core';
 import { useDebouncedState } from '@mantine/hooks';
 import { useState } from 'react';
 import { useQuery } from 'react-query';
-import LocationSeletion, { LocationSeletionProps } from './LocationSeletion';
+import LocationSeletion, { type LocationSeletionProps } from './LocationSeletion';
 import useTranslation from '@/hooks/useTranslation';
 
 type Props = {
@@ -53,7 +53,7 @@ const ModalLocation = ({
   const { t } = useTranslation();
 
   return (
-    <Modal title= {t('selectLocationText')} opened={opened} onClose={onClose} size="lg">
+    <Modal title={t('selectLocationText')} opened={opened} onClose={onClose} size="lg">
       <div className="flex flex-col gap-2">
         <Popover
           opened={openedPopover}
@@ -66,7 +66,7 @@ const ModalLocation = ({
             <TextInput
               onFocus={() => setOpenedPopover(true)}
               label={t('addressText')}
-              placeholder= {t('addressText')}
+              placeholder={t('addressText')}
               onChange={(e) => setStreet(e.target.value)}
             />
           </Popover.Target>

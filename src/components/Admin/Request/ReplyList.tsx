@@ -3,7 +3,7 @@ import { trpc } from '@/utils/trpc';
 import { useRouter } from 'next/router';
 import { Card, Group, Modal, Text, Button, Divider } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import dayjs from 'dayjs';
+import dayjs from '@/utils/dayjs';
 const ReplyList = () => {
   const router = useRouter();
   let requestId = parseInt(router.query.id as string, 10);

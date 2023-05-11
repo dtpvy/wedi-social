@@ -1,17 +1,11 @@
 import { LanguageConfig } from '@/constants/default';
 import useTranslation from '@/hooks/useTranslation';
 
+import useAppStore from '@/stores/store';
 import { trpc } from '@/utils/trpc';
-import {
-  ActionIcon,
-  Avatar,
-  Badge,
-  Button,
-  Image,
-  Input,
-  LoadingOverlay,
-  Popover,
-} from '@mantine/core';
+import { ActionIcon, Avatar, Badge, Button, Image, LoadingOverlay, Popover } from '@mantine/core';
+import { useDebouncedState } from '@mantine/hooks';
+import type { Language } from '@prisma/client';
 import {
   IconBellFilled,
   IconDots,
@@ -20,20 +14,20 @@ import {
   IconSearch,
 } from '@tabler/icons-react';
 import { signOut } from 'next-auth/react';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useMemo, useState } from 'react';
 import Message from './Message';
 import Notification from './Notification';
-import Link from 'next/link';
-import { Language } from '@prisma/client';
-import useAppStore from '@/stores/store';
 
 const Search = () => {
   const router = useRouter();
   const utils = trpc.useContext();
   const { t, locale, languages, update } = useTranslation();
+  const [search, setSearch] = useDebouncedState('', 200);
+
   const { flag, label } = LanguageConfig[locale as keyof typeof LanguageConfig] || {};
-  console.log({ locale });
+
   const [opened, setOpened] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -64,6 +58,11 @@ const Search = () => {
     utils.user.findUser.refetch();
   };
 
+  const handleSearch = () => {
+    router.push({ pathname: '/search/post', query: { search: search.trim() } });
+    return;
+  };
+
   return (
     <div className="w-full fixed shadow-md mb-4 z-10">
       <LoadingOverlay
@@ -76,13 +75,17 @@ const Search = () => {
           <Image src="/logo.png" alt="logo" width={60} height={60} />
           <div className="font-bold uppercase text-green-700 text-2xl">wedi</div>
         </Link>
-        <Input
-          icon={<IconSearch />}
-          placeholder={`${t('searchText')}...`}
-          radius="xl"
-          size="md"
-          className="w-1/2"
-        />
+        <div className="flex gap-2 w-1/2 items-center border rounded-full pl-2">
+          <IconSearch />
+          <input
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder={`${t('searchText')}...`}
+            className="w-full outline-none text-sm"
+          />
+          <Button onClick={() => handleSearch()} color="teal" className="rounded-full">
+            {t('searchText')}
+          </Button>
+        </div>
         <div className="flex items-center gap-6">
           <Popover onChange={handleSeeAllMess} position="bottom" withArrow shadow="md">
             <Popover.Target>
