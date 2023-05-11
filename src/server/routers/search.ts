@@ -155,4 +155,36 @@ export const searchRouter = router({
 
       return trips;
     }),
+  location: authProcedure
+    .input(
+      z.object({
+        search: z.string(),
+        sort: z.enum(['asc', 'desc']),
+        field: z.string(),
+      })
+    )
+    .query(async ({ input }) => {
+      const { search, sort, field } = input;
+
+      const locations = await prisma.location.findMany({
+        orderBy: {
+          [field]: sort,
+        },
+        where: {
+          status: 'ACTIVE',
+          name: { contains: search },
+        },
+        include: {
+          reviews: {
+            include: {
+              post: true,
+              user: true,
+            },
+            take: 5,
+          },
+        },
+      });
+
+      return locations;
+    }),
 });
