@@ -1,13 +1,18 @@
-import { z } from 'zod';
+import { date, z } from 'zod';
 import { prisma } from '../prisma';
 import { authProcedure, router } from '../trpc';
 import { Privacy } from '@prisma/client';
 
 export const postRouter = router({
-  get: authProcedure.input(z.object({ id: z.number() })).query(async ({ input }) => {
-    const data = await prisma.post.findFirst({
+  get: authProcedure.input(z.object({ id: z.number() })).query(async ({ input, ctx }) => {
+    const reactions = await prisma.reaction.findMany({
+      orderBy: { id: 'asc' },
+    });
+
+    const post = await prisma.post.findFirst({
       where: { id: input.id },
       include: {
+        trip: true,
         creator: true,
         reviews: true,
         locations: {
@@ -15,9 +20,38 @@ export const postRouter = router({
             location: true,
           },
         },
+        reactions: {
+          include: {
+            reaction: true,
+          },
+          where: {
+            userId: ctx.user.id,
+          },
+        },
+        comments: {
+          orderBy: {
+            createdAt: 'desc',
+          },
+          take: 5,
+        },
+        _count: {
+          select: { comments: true, reactions: true },
+        },
       },
     });
-    return data;
+
+    if (!post) return post;
+
+    const reaction = await Promise.all(
+      reactions.map(async (react) => {
+        const data = await prisma.postReaction.count({
+          where: { reactionId: react.id, postId: post.id },
+        });
+        return { ...react, count: data };
+      })
+    );
+
+    return { ...post, reaction };
   }),
   feedTrip: authProcedure
     .input(

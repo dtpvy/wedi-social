@@ -10,9 +10,9 @@ import { trpc } from '@/utils/trpc';
 import { Avatar, Button, Rating } from '@mantine/core';
 import { IconMapPinPin, IconMessage } from '@tabler/icons-react';
 
-import { useState, type ReactElement } from 'react';
+import { useState, type ReactElement, useEffect } from 'react';
 
-const Search = ({ search, sort, field, privacy, startDate, endDate }: SearchState) => {
+const SearchPost = ({ search, sort, field, privacy, startDate, endDate }: SearchState) => {
   const { t } = useTranslation();
   const { data: posts, refetch } = trpc.search.post.useQuery({
     search,
@@ -25,6 +25,10 @@ const Search = ({ search, sort, field, privacy, startDate, endDate }: SearchStat
 
   const [post, setPost] = useState(posts?.[0]);
 
+  useEffect(() => {
+    setPost(posts?.[0]);
+  }, [posts]);
+
   return (
     <div className="flex gap-6">
       <div className="w-[400px] flex flex-col gap-4 ">
@@ -35,7 +39,7 @@ const Search = ({ search, sort, field, privacy, startDate, endDate }: SearchStat
             className="bg-white rounded-lg shadow cursor-pointer p-3"
           >
             <div className="flex items-center gap-2">
-              <Avatar size="lg" radius="xl" />
+              <Avatar size="lg" radius="xl" src={post.creator.imgUrl} />
               <div>
                 <div className="font-bold">{post.creator.name}</div>
                 <div className="text-sm">{getTimePost(post.createdAt)}</div>
@@ -69,7 +73,7 @@ const Search = ({ search, sort, field, privacy, startDate, endDate }: SearchStat
   );
 };
 
-Search.getLayout = function getLayout(page: ReactElement) {
+SearchPost.getLayout = function getLayout(page: ReactElement) {
   return (
     <MainLayout>
       <SearchLayout>{page}</SearchLayout>
@@ -77,4 +81,4 @@ Search.getLayout = function getLayout(page: ReactElement) {
   );
 };
 
-export default Search;
+export default SearchPost;

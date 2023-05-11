@@ -8,4 +8,5 @@ export type ScheduleDetail = Schedule & {
   joinSchedule: (JoinSchedule & {
     user: User;
   })[];
+  rating: number;
 };

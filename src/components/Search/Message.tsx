@@ -70,7 +70,7 @@ const Message = () => {
   }, [data]);
 
   const profile = (message: MessageDetail) => {
-    return message.sender.id === user?.id ? message.receiver : message.sender;
+    return message.sender?.id === user?.id ? message.receiver : message.sender;
   };
 
   const handleShowMessDialog = (id: number) => {

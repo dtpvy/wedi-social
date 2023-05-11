@@ -67,6 +67,7 @@ const TabMenu = ({ trip, joined }: Props) => {
   const deleteTrip = trpc.trip.delete.useMutation();
   const addNoti = trpc.notification.push.useMutation();
   const { t } = useTranslation();
+
   const handleRequest = async () => {
     if (!trip) return;
     try {

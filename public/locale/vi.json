@@ -207,5 +207,10 @@
   "ascText": "Tăng dần",
   "descText": "Giảm dần",
   "typeText": "Loại",
-  "resetFilterText": "Xoá lọc"
+  "resetFilterText": "Xoá lọc",
+  "totalPostText": "Bài viết",
+  "totalScheduleText": "Lịch trình",
+  "totalJoinedText": "Người tham gia",
+  "mostRecentScheduleText": "Lịch trình gần đây",
+  "mostRecentPostText": "Bài viết gần đây"
 }

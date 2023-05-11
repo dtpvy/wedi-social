@@ -38,7 +38,7 @@ export const searchRouter = router({
 
       const posts = await prisma.post.findMany({
         orderBy: {
-          createdAt: 'desc',
+          [field]: sort,
         },
         where: {
           content: { contains: search },
@@ -94,12 +94,15 @@ export const searchRouter = router({
       z.object({
         search: z.string(),
         sort: z.enum(['asc', 'desc']),
+        field: z.string(),
         privacy: z.enum(['friend', 'public', 'all']),
+        startDate: z.date().nullable(),
+        endDate: z.date().nullable(),
       })
     )
     .query(async ({ input, ctx }) => {
       const userId = ctx.user.id;
-      const { privacy, search, sort } = input;
+      const { privacy, search, startDate, endDate, sort, field } = input;
       let where: any = { privacy: { not: 'PRIVATE' } };
       if (privacy === 'friend') {
         const friends = await prisma.friend.findMany({
@@ -115,27 +118,41 @@ export const searchRouter = router({
         where = { privacy: 'PUBLIC' };
       }
 
-      const post = await prisma.post.findMany({
-        where,
+      const trips = await prisma.trip.findMany({
+        orderBy: {
+          [field]: sort,
+        },
+        where: {
+          name: { contains: search },
+          ...(startDate && { createdAt: { lte: endDate || new Date(), gte: startDate } }),
+          ...where,
+        },
         include: {
-          trip: true,
-          creator: true,
-          reactions: true,
           _count: {
             select: {
-              comments: true,
+              posts: true,
+              schedules: true,
             },
           },
-        },
-        orderBy: {
-          _relevance: {
-            fields: ['content'],
-            search,
-            sort,
+          users: {
+            where: { status: 'JOINED' },
+          },
+          creator: true,
+          posts: {
+            orderBy: {
+              createdAt: 'desc',
+            },
+            take: 1,
+          },
+          schedules: {
+            orderBy: {
+              createdAt: 'desc',
+            },
+            take: 1,
           },
         },
       });
 
-      return post;
+      return trips;
     }),
 });

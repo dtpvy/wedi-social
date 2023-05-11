@@ -6,7 +6,7 @@ export type Type = 'trip' | 'post' | 'location';
 export type SearchState = {
   search: string;
   type: 'trip' | 'post' | 'location';
-  field: 'createdAt' | 'name';
+  field: string;
   sort: 'asc' | 'desc';
   privacy: 'all' | 'friend' | 'public';
   startDate: Date | null;

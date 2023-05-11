@@ -30,20 +30,35 @@ const SORT_TYPE = [
     sort: 'desc',
     sortLabel: 'descText',
   },
+  {
+    fieldLabel: 'titleText',
+    field: 'title',
+    sort: 'asc',
+    sortLabel: 'ascText',
+  },
+  {
+    fieldLabel: 'titleText',
+    field: 'title',
+    sort: 'desc',
+    sortLabel: 'descText',
+  },
 ];
 
 const TYPE = [
   {
     label: 'postText',
     value: 'post',
+    sort: ['createdAt'],
   },
   {
     label: 'tripText',
     value: 'trip',
+    sort: ['createdAt', 'name'],
   },
   {
     label: 'locationText',
     value: 'location',
+    sort: ['createdAt', 'name'],
   },
 ];
 
@@ -59,7 +74,9 @@ const SearchLayout = ({ children }: ComponentWithChildren) => {
     setFilter({ type: typeSearch as never, search: (router.query.search as string) || '' });
   }, [router.pathname, router.query.search, setFilter]);
 
-  const sorts = SORT_TYPE.map((sort) => ({
+  const sortField = TYPE.find((_type) => _type.value === type)?.sort || [];
+
+  const sorts = SORT_TYPE.filter((sort) => sortField.includes(sort.field)).map((sort) => ({
     ...sort,
     label: `${t(sort.fieldLabel)} - ${t(sort.sortLabel)}`,
     value: `${sort.field}-${sort.sort}`,

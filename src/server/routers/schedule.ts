@@ -40,7 +40,7 @@ export const scheduleRouter = router({
               rating: true,
             },
           });
-          return { ...d, rating: rating[0]._avg.rating };
+          return { ...d, rating: (rating.length && rating[0]._avg.rating) || 0 };
         })
       );
 
@@ -69,7 +69,8 @@ export const scheduleRouter = router({
             rating: true,
           },
         });
-        return { ...d, rating: rating[0]._avg.rating };
+
+        return { ...d, rating: (rating.length && rating[0]._avg.rating) || 0 };
       })
     );
 
@@ -101,18 +102,31 @@ export const scheduleRouter = router({
       });
       return true;
     }),
-  get: authProcedure.input(z.object({ id: z.number() })).mutation(async ({ input, ctx }) => {
-    const { id } = ctx.user;
+  get: authProcedure.input(z.object({ id: z.number() })).query(async ({ input, ctx }) => {
     const data = await prisma.schedule.findFirst({
       where: { id: input.id },
       include: {
+        creator: true,
+        location: true,
         joinSchedule: {
-          where: { userId: id },
+          include: {
+            user: true,
+          },
         },
       },
     });
 
-    return data;
+    if (!data) return data;
+
+    const rating = await prisma.review.groupBy({
+      by: ['locationId'],
+      where: { locationId: data.locationId },
+      _avg: {
+        rating: true,
+      },
+    });
+
+    return { ...data, rating: (rating.length && rating[0]._avg.rating) || 0 };
   }),
   update: authProcedure
     .input(

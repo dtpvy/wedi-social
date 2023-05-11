@@ -207,5 +207,10 @@
   "ascText": "Ascending",
   "descText": "Decreasing",
   "typeText": "Type",
-  "resetFilterText": "Reset filter"
+  "resetFilterText": "Reset filter",
+  "totalPostText": "Total post",
+  "totalScheduleText": "Total schedule",
+  "totalJoinedText": "Total user",
+  "mostRecentScheduleText": "Most recent schedule",
+  "mostRecentPostText": "Most post schedule"
 }
