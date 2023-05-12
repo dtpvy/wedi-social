@@ -107,7 +107,7 @@ dependencies:
   react-dom: 18.2.0_react@18.2.0
   react-hook-form: 7.43.9_react@18.2.0
   react-query: 3.39.3_biqbaboplfbrettd7655fr4n2y
-  recharts: 2.6.1_3bsg7idxxazmtsqzddt2xlcgzi
+  recharts: 2.6.2_3bsg7idxxazmtsqzddt2xlcgzi
   superjson: 1.12.3
   tailwind-merge: 1.12.0
   translate-google: 1.5.0
@@ -1902,8 +1902,8 @@ packages:
   /@tsconfig/node14/1.0.3:
     resolution: {integrity: sha512-ysT8mhdixWK6Hw3i1V2AeRqZ5WfXg1G43mqoYlM2nc6388Fq5jcXyr5mRsqViLx/GJYdoL0bfXD8nmF+Zn/Iow==}
 
-  /@tsconfig/node16/1.0.3:
-    resolution: {integrity: sha512-yOlFc+7UtL/89t2ZhjPvvB/DeAr3r+Dq58IgzsFkOAvVC6NMJXmCGjbptdXdR9qsX7pKcTL+s87FtYREi2dEEQ==}
+  /@tsconfig/node16/1.0.4:
+    resolution: {integrity: sha512-vxhUy4J8lyeyinH7Azl1pdd43GJhZH/tP2weN8TntQblOY+A0XbT8DJk1/oCPuOOyg/Ja757rG0CgHcWC8OfMA==}
 
   /@types/aria-query/5.0.1:
     resolution: {integrity: sha512-XTIieEY+gvJ39ChLcB4If5zHtPxt3Syj5rgZR+e1ctpmK8NjPf0zFqsz4JpLJT0xla9GFDKjy8Cpu331nrmE1Q==}
@@ -2566,7 +2566,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001486
-      electron-to-chromium: 1.4.389
+      electron-to-chromium: 1.4.392
       node-releases: 2.0.10
       update-browserslist-db: 1.0.11_browserslist@4.21.5
     dev: true
@@ -3186,8 +3186,8 @@ packages:
     resolution: {integrity: sha512-/pjZsA1b4RPHbeWZQn66SWS8nZZWLQQ23oE3Eam7aroEFGEvwKAsJfZ9ytiEMycfzXWpca4FA9QIOehf7PocBQ==}
     dev: false
 
-  /electron-to-chromium/1.4.389:
-    resolution: {integrity: sha512-WDgWUOK8ROR7sDFyYmxCUOoDc50lPgYAHAHwnnD1iN3SKO/mpqftb9iIPiEkMKmqYdkrR0j3N/O+YB/U7lSxwg==}
+  /electron-to-chromium/1.4.392:
+    resolution: {integrity: sha512-TXQOMW9tnhIms3jGy/lJctLjICOgyueZFJ1KUtm6DTQ+QpxX3p7ZBwB6syuZ9KBuT5S4XX7bgY1ECPgfxKUdOg==}
     dev: true
 
   /embla-carousel-react/7.1.0_react@18.2.0:
@@ -6180,8 +6180,8 @@ packages:
       decimal.js-light: 2.5.1
     dev: false
 
-  /recharts/2.6.1_3bsg7idxxazmtsqzddt2xlcgzi:
-    resolution: {integrity: sha512-eGNNqQTSg737HB0tfFkPZbPW8ji7Q8joQM0P2yAEkJkB8CO+LJPgLpx/NUxNHJsxoXvSblMFoy5RSVBYfLU+HA==}
+  /recharts/2.6.2_3bsg7idxxazmtsqzddt2xlcgzi:
+    resolution: {integrity: sha512-dVhNfgI21LlF+4AesO3mj+i+9YdAAjoGaDWIctUgH/G2iy14YVtb/DSUeic77xr19rbKCiq+pQGfeg2kJQDHig==}
     engines: {node: '>=12'}
     peerDependencies:
       prop-types: ^15.6.0
@@ -6804,7 +6804,7 @@ packages:
       lodash: 4.17.21
       num-or-not: 1.0.1
       safe-eval: 0.4.1
-      user-agents: 1.0.1375
+      user-agents: 1.0.1377
     dev: false
 
   /trim/0.0.1:
@@ -6867,7 +6867,7 @@ packages:
       '@tsconfig/node10': 1.0.9
       '@tsconfig/node12': 1.0.11
       '@tsconfig/node14': 1.0.3
-      '@tsconfig/node16': 1.0.3
+      '@tsconfig/node16': 1.0.4
       '@types/node': 18.15.3
       acorn: 8.8.2
       acorn-walk: 8.2.0
@@ -7108,8 +7108,8 @@ packages:
       react: 18.2.0
     dev: false
 
-  /user-agents/1.0.1375:
-    resolution: {integrity: sha512-ICZ/BbcN7dhacZyevFN+kOfS1GFHAAQ3uKYjK0Ft4tXlBR3pBflfDqUOzDUOG4varNAaU9ZRu6Zp//wQHrBU1g==}
+  /user-agents/1.0.1377:
+    resolution: {integrity: sha512-M/4QzRNUtREWYk9gqpck32ChqA4d9DrU2spqiSMNSgLQ9yTLZMf0LK3/k4RZQkuCscnjP6Mlw5831KhPoiqBcA==}
     dependencies:
       dot-json: 1.3.0
       lodash.clonedeep: 4.5.0
