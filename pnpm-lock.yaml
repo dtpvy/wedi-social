@@ -1160,6 +1160,8 @@ packages:
       '@jridgewell/resolve-uri': 3.1.1
       '@jridgewell/sourcemap-codec': 1.4.15
 
+  /@mantine/carousel/6.0.10_w5zb2su3fhsbzsmh73bqgdd2km:
+    resolution: {integrity: sha512-zYYNnGhsU8vXM37fyDg6jFmmPviE/yK5LfEn40VdAn0cLalELRrrgEvn4wp1u6N9rikp5TlHL6szH0zfJunomA==}
     peerDependencies:
       '@mantine/core': 6.0.10
       '@mantine/hooks': 6.0.10
@@ -1173,6 +1175,8 @@ packages:
       react: 18.2.0
     dev: false
 
+  /@mantine/core/6.0.10_ynetvm6ezzxlbvvk47uodkhd5m:
+    resolution: {integrity: sha512-Q8HdRTBkQDs6LEtklpYm6efz2WaV6T5rvgjUOfXq0z44G/XYM+P1B1BSFnHvUDkeWYLcGkK6aPI5Uxc0GEN04w==}
     peerDependencies:
       '@mantine/hooks': 6.0.10
       react: '>=16.8.0'
@@ -1192,6 +1196,8 @@ packages:
       - '@types/react'
     dev: false
 
+  /@mantine/dates/6.0.10_lcwiclvumdddaqf2u4s444sdr4:
+    resolution: {integrity: sha512-v/yEhYa021FLtV8ccTFCABR81KPM2QlNi3+LpXhCysQe8sL3bmr2sQw5//idjb0qTyiKSEBfsjGxmq02W98e2Q==}
     peerDependencies:
       '@mantine/core': 6.0.10
       '@mantine/hooks': 6.0.10
@@ -1215,12 +1221,16 @@ packages:
       react: 18.2.0
     dev: false
 
+  /@mantine/hooks/6.0.10_react@18.2.0:
+    resolution: {integrity: sha512-rxH5/CxmUs1mUZAj27Fza4SH07HV1XyrL7L9wwhZdMLg+oDEaAs8BMz8lsOIHOCro9ZDh+Mm7QAbEW8HcvmYJg==}
     peerDependencies:
       react: '>=16.8.0'
     dependencies:
       react: 18.2.0
     dev: false
 
+  /@mantine/modals/6.0.10_o2ai6dbc6f7cu3klkweiztmp2i:
+    resolution: {integrity: sha512-NC1+xS/64JjLaedeQCtLiNtHkN84qr3hpsd3ez7td9UsyhWsOk85YNas21UfTP+eheHN18z7QXUJuUBoxYvZCQ==}
     peerDependencies:
       '@mantine/core': 6.0.10
       '@mantine/hooks': 6.0.10
@@ -1234,6 +1244,8 @@ packages:
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
+  /@mantine/notifications/6.0.10_o2ai6dbc6f7cu3klkweiztmp2i:
+    resolution: {integrity: sha512-TUFEZB1YcOCcsrTljF1lblTONClfj2RP1A4FkGOD2ZxWKe58AzEbXHf9cnptPCjwnZbILWkOYVSMe3yyNs5IXw==}
     peerDependencies:
       '@mantine/core': 6.0.10
       '@mantine/hooks': 6.0.10
@@ -1248,6 +1260,8 @@ packages:
       react-transition-group: 4.4.2_biqbaboplfbrettd7655fr4n2y
     dev: false
 
+  /@mantine/styles/6.0.10_47zgoiguaund3gg2dv4s2nbrcu:
+    resolution: {integrity: sha512-TVyo4xNBO7PhP2jubu2OI1YK2DEULrVgdsP0+1wfwj/bhSTnTLYmh2aOb1FyTiFvFn1dfq4If428z/ZuGiLtdQ==}
     peerDependencies:
       '@emotion/react': '>=11.9.0'
       react: '>=16.8.0'
@@ -3957,11 +3971,8 @@ packages:
     resolution: {integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==}
 
   /install/0.13.0:
-    resolution:
-      {
-        integrity: sha512-zDml/jzr2PKU9I8J/xyZBQn8rPCAY//UOYNmR01XwNwyfhEWObo2SWfSl1+0tm1u6PhxLwDnfsT/6jB7OUxqFA==,
-      }
-    engines: { node: '>= 0.10' }
+    resolution: {integrity: sha512-zDml/jzr2PKU9I8J/xyZBQn8rPCAY//UOYNmR01XwNwyfhEWObo2SWfSl1+0tm1u6PhxLwDnfsT/6jB7OUxqFA==}
+    engines: {node: '>= 0.10'}
     dev: false
 
   /internal-slot/1.0.5:
@@ -5806,7 +5817,7 @@ packages:
       '@babel/runtime': 7.21.5
       dom-helpers: 5.2.1
       loose-envify: 1.4.0
-      prop-types: 15.8.1
+      prop-types: 15.7.2
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
