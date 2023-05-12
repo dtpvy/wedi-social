@@ -1,6 +1,6 @@
 declare type ReactNode = import('react').ReactNode;
 
 type ComponentWithChildren = {
-  children: JSX.Element;
+  children: ReactNode;
   className?: string;
 };
