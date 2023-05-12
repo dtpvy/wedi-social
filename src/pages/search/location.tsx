@@ -1,17 +1,15 @@
 import { MainLayout } from '@/components/Layout';
 import SearchLayout from '@/components/Layout/SearchLayout';
 import { Location } from '@/components/Location';
-import { Post, Reaction } from '@/components/Post';
+import { CreatePostFromLocation } from '@/components/Post';
 
 import useTranslation from '@/hooks/useTranslation';
 import { type SearchState } from '@/stores/search';
 
-import { getTimePost } from '@/utils/time';
 import { trpc } from '@/utils/trpc';
-import { Avatar, Button, Rating } from '@mantine/core';
-import { IconMapPinPin, IconMessage } from '@tabler/icons-react';
+import { Avatar } from '@mantine/core';
 
-import { useState, type ReactElement, useEffect } from 'react';
+import { useEffect, useState, type ReactElement } from 'react';
 
 const SearchLocation = ({ search, sort, field }: SearchState) => {
   const { t } = useTranslation();
@@ -29,28 +27,27 @@ const SearchLocation = ({ search, sort, field }: SearchState) => {
 
   return (
     <div className="flex gap-6">
-      <div className="w-[400px] flex flex-col gap-4 ">
+      <div className="flex flex-col gap-4 flex-1 h-[500px] overflow-auto">
         {locations?.map((location) => (
           <div
             onClick={() => setLocation(location)}
             key={location.id}
             className="bg-white rounded-lg shadow cursor-pointer p-3"
           >
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 mb-3">
               <Avatar size="lg" radius="lg" src={location.imgUrl} />
               <div>
                 <div className="font-bold">{location.name}</div>
                 <div className="text-sm">{location.address}</div>
               </div>
             </div>
-            <Button color="text" className="mt-3">
-              {t('createPostText')}
-            </Button>
+
+            <CreatePostFromLocation refetch={refetch} location={location} />
           </div>
         ))}
       </div>
 
-      {!!location && <Location location={location} className="w-full" />}
+      {!!location && <Location location={location} className="flex-1" />}
     </div>
   );
 };

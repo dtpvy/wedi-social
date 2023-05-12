@@ -7,6 +7,8 @@ module.exports = {
     APP_URL: process.env.APP_URL,
     WS_URL: process.env.WS_URL,
     API_MAP_KEY: process.env.API_MAP_KEY,
+    SERVICE_ID: process.env.SERVICE_ID,
+    EMAIL_PUBLIC_KEY: process.env.EMAIL_PUBLIC_KEY,
   },
   async redirects() {
     return [

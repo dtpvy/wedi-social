@@ -51,8 +51,9 @@ const SearchPost = ({ search, sort, field, privacy, startDate, endDate }: Search
                 leftIcon={<IconMapPinPin />}
                 variant="gradient"
                 gradient={{ from: 'teal', to: 'lime', deg: 105 }}
+                className="max-w-[150px]"
               >
-                {post.locations[0].location.name}
+                <span className="truncate">{post.locations[0].location.name}</span>
               </Button>
               <Reaction post={post} refetch={refetch} />
               <div className="flex items-center gap-1 font-medium mr-auto">
@@ -68,7 +69,9 @@ const SearchPost = ({ search, sort, field, privacy, startDate, endDate }: Search
           </div>
         ))}
       </div>
-      {!!posts?.length && <Post className="w-full" post={post || posts[0]} refetch={refetch} />}
+      {!!posts?.length && (
+        <Post className="w-full h-fit" post={post || posts[0]} refetch={refetch} />
+      )}
     </div>
   );
 };

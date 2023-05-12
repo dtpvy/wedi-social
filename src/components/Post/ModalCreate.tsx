@@ -25,6 +25,7 @@ type Props = {
   content?: string;
   imgUrls?: string[];
   onClose: () => void;
+  enableUpdateLocation?: boolean;
   onOpenReview: (id: number) => void;
   onCreateLocation: () => void;
 } & LocationSeletionProps;
@@ -33,6 +34,7 @@ const ModalCreate = ({
   tripId,
   postId,
   opened = false,
+  enableUpdateLocation = true,
   locations,
   privacy = Privacy.PUBLIC,
   content = '',
@@ -164,7 +166,7 @@ const ModalCreate = ({
 
       <div className="flex items-center gap-3 mt-3">
         <Button
-          disabled={isUpdate}
+          disabled={isUpdate || !enableUpdateLocation}
           onClick={onCreateLocation}
           leftIcon={
             <IconMapPinFilled

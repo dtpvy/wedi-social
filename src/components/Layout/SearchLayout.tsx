@@ -119,15 +119,17 @@ const SearchLayout = ({ children }: ComponentWithChildren) => {
           onChange={(value) => handleChange(value as string)}
         />
 
-        <DatePickerInput
-          className="ml-auto"
-          onChange={([startDate, endDate]) => setFilter({ startDate, endDate })}
-          value={[startDate, endDate]}
-          locale={locale}
-          type="range"
-          placeholder={t('timePostText')}
-          w={400}
-        />
+        {type !== 'location' && (
+          <DatePickerInput
+            className="ml-auto"
+            onChange={([startDate, endDate]) => setFilter({ startDate, endDate })}
+            value={[startDate, endDate]}
+            locale={locale}
+            type="range"
+            placeholder={t('timePostText')}
+            w={400}
+          />
+        )}
         <button
           onClick={reset}
           className="ml-auto h-[70px] w-[150px] bg-green-600 text-white font-bold"

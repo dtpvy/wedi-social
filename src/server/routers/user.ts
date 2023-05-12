@@ -128,4 +128,13 @@ export const userRouter = router({
 
     return user;
   }),
+  forgetPassword: publicProcedure
+    .input(z.object({ email: z.string(), newPassword: z.string() }))
+    .mutation(async ({ input }) => {
+      const exist = await prisma.user.findFirst({ where: { email: input.email } });
+      if (!exist) throw new Error('Not exist email');
+      const hashedPassword = await hash(input.newPassword);
+      await prisma.user.update({ where: { id: exist.id }, data: { password: hashedPassword } });
+      return true;
+    }),
 });

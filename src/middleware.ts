@@ -33,5 +33,5 @@ export default withAuth(
 );
 
 export const config = {
-  matcher: ['/feed', '/profile', '/trip', '/admin/^signin'],
+  matcher: ['/feed', '/profile', '/trip', '/admin/((?!signin).*)'],
 };
