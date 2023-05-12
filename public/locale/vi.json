@@ -55,7 +55,7 @@
   "addfailedText": "Thao tác thất bại",
   "mutualfriendText": " bạn chung",
   "titleDeleteFriendText": "Xóa tài khoản của bạn",
-  "deleteFriendText": "Bạn có chắc chắn hủy kết bạn với {{name}}",
+  "deleteFriendText": "Bạn có chắc chắn hủy kết bạn với ",
   "cancelText": "Hủy",
   "yesText": "Xác nhận",
   "reasonText": "Nguyên nhân",
@@ -212,5 +212,9 @@
   "totalScheduleText": "Lịch trình",
   "totalJoinedText": "Người tham gia",
   "mostRecentScheduleText": "Lịch trình gần đây",
-  "mostRecentPostText": "Bài viết gần đây"
+  "mostRecentPostText": "Bài viết gần đây",
+  "sentEmailText": "Đã gửi email, vui lòng kiểm tra email",
+  "emailNotExistText": "Email không tồn tại",
+  "lastPostText": "Bài viết gần nhất",
+  "havenotAnyPostText": "Chưa có bài viết nào"
 }

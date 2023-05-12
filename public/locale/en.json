@@ -212,5 +212,9 @@
   "totalScheduleText": "Total schedule",
   "totalJoinedText": "Total user",
   "mostRecentScheduleText": "Most recent schedule",
-  "mostRecentPostText": "Most post schedule"
+  "mostRecentPostText": "Most post schedule",
+  "sentEmailText": "Sent email, please check your email",
+  "emailNotExistText": "Email not exist",
+  "lastPostText": "Last post",
+  "havenotAnyPostText": "Haven't any post"
 }
