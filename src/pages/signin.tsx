@@ -63,15 +63,15 @@ const Signin = () => {
         user_id: EMAIL_PUBLIC_KEY,
         template_params: {
           email: email,
-          message: `Mật khẩu mới: ${newPassword}`,
+          message: `${t('newPasswordText')} ${newPassword}`,
         },
       };
       await axios.post('https://api.emailjs.com/api/v1.0/email/send', data);
-      show({ message: 'Đã gửi email, vui lòng kiểm tra email', type: 'success' });
+      show({ message: t('sentEmailText'), type: 'success' });
     } catch (error: any) {
       console.log({ error });
       if (error.message === 'Not exist email') {
-        form.setError('email', { message: 'Email không tồn tại trong hệ thồng' });
+        form.setError('email', { message: t('emailNotExistText') });
       } else {
         show({ message: t('errorTryAgainText'), type: 'error' });
       }
@@ -137,13 +137,13 @@ const Signin = () => {
                   {t('signupText')}
                 </Link>
                 <button type="button" onClick={open} className="ml-auto text-green-700 underline">
-                  Change password
+                  {t('changepasswordText')}
                 </button>
               </div>
             </form>
           </div>
         </div>
-        <Modal opened={opened} onClose={close} title="Change password">
+        <Modal opened={opened} onClose={close} title={t('changepasswordText')}>
           <form onSubmit={form.handleSubmit(sendEmail)}>
             <input
               type="email"
@@ -158,7 +158,7 @@ const Signin = () => {
                 <div className="text-red-600">{form.getFieldState('email').error?.message}</div>
               )}
               <Button type="submit" loading={forgetPassword.isLoading} color="teal">
-                Submit
+                {t('submitText')}
               </Button>
             </div>
           </form>

@@ -18,7 +18,7 @@ const Event = () => {
           variant={join === 'all' ? 'filled' : 'outline'}
           color="green"
         >
-          All
+          {t('allText')}
         </Button>
         <Button
           onClick={() => setJoin('joined')}

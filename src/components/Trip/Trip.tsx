@@ -25,14 +25,14 @@ const Trip = ({ trip, className }: Props) => {
           </Text>
           {users.length && (
             <div className="text-gray-400 text-sm mt-2 mb-1">
-              {`Tham gia từ: ${dayjs(users[0].createdAt).format('HH:mm DD/MM/YYYY')}`}
+              {`${t('joinedGroupText')} ${dayjs(users[0].createdAt).format('HH:mm DD/MM/YYYY')}`}
             </div>
           )}
 
           <div className="text-gray-600 text-sm">
             {!!posts.length
-              ? `Bài đăng lần cuối: ${dayjs(posts[0].createdAt).format('HH:mm DD/MM/YYYY')}`
-              : 'Chưa có bài viết nào'}
+              ? `${t('lastPostText')} ${dayjs(posts[0].createdAt).format('HH:mm DD/MM/YYYY')}`
+              : t('havenotAnyPostText')}
           </div>
         </div>
       </div>
