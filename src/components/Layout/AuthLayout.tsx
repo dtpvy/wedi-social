@@ -5,7 +5,7 @@ import { LoadingOverlay } from '@mantine/core';
 import { useRouter } from 'next/router';
 import { AdminLayout } from '.';
 
-const AuthLayout = ({ children }: ComponentWithChildren) => {
+const AuthLayout = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
   const { locale } = useInitLocale();
   const { status, data } = useAuth();

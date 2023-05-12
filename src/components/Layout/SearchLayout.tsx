@@ -62,7 +62,7 @@ const TYPE = [
   },
 ];
 
-const SearchLayout = ({ children }: ComponentWithChildren) => {
+const SearchLayout = ({ children }: { children: JSX.Element }) => {
   const router = useRouter();
 
   const { search, field, sort, type, privacy, setFilter, startDate, endDate, reset } =

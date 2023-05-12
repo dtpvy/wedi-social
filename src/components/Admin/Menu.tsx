@@ -1,7 +1,7 @@
 import { TAB_LIST } from '@/constants/admin';
 import type { Tab } from '@/types/tab';
 import { IconHelpHexagon, IconLayoutDashboard, IconMapPin, IconUsers } from '@tabler/icons-react';
-import classNames from 'classnames';
+import classNames from '@/utils/classNames';
 
 type Props = {
   tab: string;
