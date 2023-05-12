@@ -158,7 +158,7 @@ const Signin = () => {
                 <div className="text-red-600">{form.getFieldState('email').error?.message}</div>
               )}
               <Button type="submit" loading={forgetPassword.isLoading} color="teal">
-                Submit
+                {t('submitText')}
               </Button>
             </div>
           </form>

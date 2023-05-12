@@ -216,5 +216,6 @@
   "sentEmailText": "Đã gửi email, vui lòng kiểm tra email",
   "emailNotExistText": "Email không tồn tại",
   "lastPostText": "Bài viết gần nhất",
-  "havenotAnyPostText": "Chưa có bài viết nào"
+  "havenotAnyPostText": "Chưa có bài viết nào",
+  "submitText": "Gửi"
 }

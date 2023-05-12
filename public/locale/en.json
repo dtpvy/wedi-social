@@ -216,5 +216,6 @@
   "sentEmailText": "Sent email, please check your email",
   "emailNotExistText": "Email not exist",
   "lastPostText": "Last post",
-  "havenotAnyPostText": "Haven't any post"
+  "havenotAnyPostText": "Haven't any post",
+  "submitText": "Submit"
 }
