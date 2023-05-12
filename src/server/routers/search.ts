@@ -135,7 +135,7 @@ export const searchRouter = router({
             },
           },
           users: {
-            where: { status: 'JOINED' },
+            where: { OR: [{ status: 'JOINED' }, { userId: ctx.user.id }] },
           },
           creator: true,
           posts: {
@@ -180,7 +180,6 @@ export const searchRouter = router({
               post: true,
               user: true,
             },
-            take: 5,
           },
         },
       });

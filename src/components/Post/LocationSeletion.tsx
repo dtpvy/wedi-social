@@ -9,7 +9,7 @@ export type LocationSeletionProps = {
   readonly?: boolean;
   locations: LocationDetail[];
   className?: string;
-  onDeleteLocation: (location: Location) => void;
+  onDeleteLocation?: (location: Location) => void;
 };
 
 const LocationSeletion = ({
@@ -50,7 +50,8 @@ const LocationSeletion = ({
                 </div>
                 {!readonly && (
                   <CloseButton
-                    onClick={() => onDeleteLocation(data)}
+                    disabled={!onDeleteLocation}
+                    onClick={() => onDeleteLocation?.(data)}
                     title={t('closePopoverText')}
                     size="md"
                     iconSize={20}

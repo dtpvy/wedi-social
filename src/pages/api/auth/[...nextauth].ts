@@ -94,7 +94,7 @@ export const authOptions = {
     },
   },
   pages: {
-    signIn: '/admin/signin',
+    signIn: '/signin',
   },
 };
 

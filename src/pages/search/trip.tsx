@@ -17,6 +17,8 @@ import { useEffect, useState, type ReactElement } from 'react';
 const SearchTrip = ({ search, sort, field, privacy, startDate, endDate }: SearchState) => {
   const { t } = useTranslation();
   const user = useAppStore.use.user();
+  const request = trpc.trip.request.useMutation();
+  const addNoti = trpc.notification.push.useMutation();
 
   const { data: trips, refetch } = trpc.search.trip.useQuery({
     search,
@@ -34,7 +36,22 @@ const SearchTrip = ({ search, sort, field, privacy, startDate, endDate }: Search
   }, [trips]);
 
   const joined = (data: typeof trip) => {
-    return !!data?.users.find((d) => d.userId === user?.id);
+    return data?.users.find((d) => d.userId === user?.id)?.status;
+  };
+
+  const handleRequest = async () => {
+    if (!trip) return;
+    try {
+      await request.mutateAsync({ id: trip.id });
+      await addNoti.mutateAsync({
+        content: `${t('wantToJoinTripText')} ${trip.name}`,
+        userId: trip.creatorId,
+        imgUrl: trip.imgUrl || '',
+      });
+      refetch();
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (
@@ -76,11 +93,17 @@ const SearchTrip = ({ search, sort, field, privacy, startDate, endDate }: Search
               >
                 {`${t('totalScheduleText')}: ${trip._count.schedules}`}
               </Button>
-              {!joined(trip) ? (
+              {joined(trip) === 'PENDING' && (
                 <Button color="teal" variant="outline">
+                  {t('pendingText')}
+                </Button>
+              )}
+              {!['JOINED', 'PENDING'].includes(joined(trip) || '') && (
+                <Button onClick={handleRequest} color="teal" variant="outline">
                   {t('participatebtnText')}
                 </Button>
-              ) : (
+              )}
+              {joined(trip) === 'JOINED' && (
                 <Link href={`/trip/${trip.id}`} className="p-3">
                   {t('viewDetailsText')}
                 </Link>
@@ -90,7 +113,6 @@ const SearchTrip = ({ search, sort, field, privacy, startDate, endDate }: Search
         ))}
       </div>
       {!!trip && <TripDetail trip={trip} />}
-      {/* {!!posts?.length && <Post className="w-full" post={post || posts[0]} refetch={refetch} />} */}
     </div>
   );
 };
