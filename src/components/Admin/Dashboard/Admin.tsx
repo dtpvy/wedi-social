@@ -12,7 +12,7 @@ type Props = {
   refetch: () => void;
 };
 
-const Admin = ({ admin, refetch }: Props) => {
+const AdminDashboard = ({ admin, refetch }: Props) => {
   const deactive = trpc.admin.deactive.useMutation();
   const active = trpc.admin.active.useMutation();
   const { data: session } = useSession();
@@ -118,4 +118,4 @@ const Admin = ({ admin, refetch }: Props) => {
   );
 };
 
-export default Admin;
+export default AdminDashboard;
