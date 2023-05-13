@@ -11,7 +11,6 @@ import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import emailjs from '@emailjs/browser';
 import { EMAIL_PUBLIC_KEY, SERVICE_ID } from '@/utils/env';
 import { makeid } from '@/utils/user';
 import axios from 'axios';

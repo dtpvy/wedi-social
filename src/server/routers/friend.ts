@@ -1,4 +1,4 @@
-import dayjs from '@/utils/dayjs';
+import dayjs from '../../utils/dayjs';
 import { z } from 'zod';
 import ERROR_MESSAGES from '../../constants/errorMessage';
 import { prisma } from '../prisma';
