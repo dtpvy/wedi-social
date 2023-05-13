@@ -38,8 +38,8 @@ const MyApp: AppType<{ session: Session | null }> = ({
   const getLayout = Component.getLayout ?? ((page) => page);
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <SessionProvider session={pageProps.session}>
+    <SessionProvider session={pageProps.session}>
+      <QueryClientProvider client={queryClient}>
         <IKContext
           publicKey="public_xTbc2crb6gXYxB5gtKroms4tWCU="
           urlEndpoint="https://ik.imagekit.io/0o9nfg6a3"
@@ -54,8 +54,8 @@ const MyApp: AppType<{ session: Session | null }> = ({
             <Message />
           </MantineProvider>
         </IKContext>
-      </SessionProvider>
-    </QueryClientProvider>
+      </QueryClientProvider>
+    </SessionProvider>
   );
 };
 

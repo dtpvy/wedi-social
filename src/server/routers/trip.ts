@@ -3,11 +3,18 @@ import { JoinTripStatus, Privacy, TripStatus } from '@prisma/client';
 import { z } from 'zod';
 import { prisma } from '../prisma';
 import { authProcedure, router } from '../trpc';
+import { getFriendList } from '../utils';
 
 export const tripRouter = router({
   feed: authProcedure.input(z.object({})).query(async ({ ctx }) => {
+    const friendIds = await getFriendList(ctx.user.id);
     const items = await prisma.trip.findMany({
-      where: { privacy: Privacy.PUBLIC },
+      where: {
+        OR: [
+          { privacy: Privacy.PUBLIC },
+          { privacy: Privacy.FRIEND, creatorId: { in: friendIds } },
+        ],
+      },
       include: {
         users: {
           where: { userId: ctx.user.id },
@@ -31,7 +38,7 @@ export const tripRouter = router({
         trip: {
           include: {
             users: {
-              where: { userId: ctx.user.id },
+              where: { userId: ctx.user.id, status: 'JOINED' },
             },
             posts: {
               orderBy: {

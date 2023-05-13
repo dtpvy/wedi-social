@@ -113,17 +113,19 @@ const ModalCreate = ({
       <div className="flex gap-3 items-center mb-3">
         <Avatar src={user?.imgUrl} radius="xl" />
         <div className="flex-1">{user?.name}</div>
-        <Select
-          value={state.privacy}
-          placeholder={t('privacyText') as string}
-          onChange={(value) => onChangeField('privacy', value)}
-          icon={<IconEyeEdit size="1rem" />}
-          data={[
-            { value: Privacy.PUBLIC, label: t('publicModeText') },
-            { value: Privacy.FRIEND, label: t('friendModeText') },
-            { value: Privacy.PRIVATE, label: t('privateModeText') },
-          ]}
-        />
+        {tripId === undefined && (
+          <Select
+            value={state.privacy}
+            placeholder={t('privacyText') as string}
+            onChange={(value) => onChangeField('privacy', value)}
+            icon={<IconEyeEdit size="1rem" />}
+            data={[
+              { value: Privacy.PUBLIC, label: t('publicModeText') },
+              { value: Privacy.FRIEND, label: t('friendModeText') },
+              { value: Privacy.PRIVATE, label: t('privateModeText') },
+            ]}
+          />
+        )}
       </div>
       <Textarea
         value={state.content}

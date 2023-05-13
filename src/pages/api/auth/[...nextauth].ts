@@ -1,6 +1,6 @@
 import { prisma } from '@/server/prisma';
 import { verify } from 'argon2';
-import NextAuth from 'next-auth';
+import NextAuth, { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
 
@@ -10,7 +10,10 @@ const EMAIL_WHITE_LIST = [
   'nvquang20@clc.fitus.edu.vn',
 ];
 
-export const authOptions = {
+console.log(process.env.NEXTAUTH_SECRET, process.env.NEXTAUTH_URL);
+
+export const authOptions: NextAuthOptions = {
+  secret: process.env.NEXTAUTH_SECRET,
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID || '',

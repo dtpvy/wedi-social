@@ -22,7 +22,7 @@ const AuthLayout = ({ children }: { children: ReactNode }) => {
 
   const hasUser = status === 'authenticated' && data.user && !data.user.isAdmin;
 
-  console.log({ hasUser });
+  console.log({ hasUser, data });
 
   if (
     hasUser &&

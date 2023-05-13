@@ -2,6 +2,7 @@ import { date, z } from 'zod';
 import { prisma } from '../prisma';
 import { authProcedure, router } from '../trpc';
 import { Privacy } from '@prisma/client';
+import { getFriendList } from '../utils';
 
 export const postRouter = router({
   get: authProcedure.input(z.object({ id: z.number() })).query(async ({ input, ctx }) => {
@@ -68,11 +69,19 @@ export const postRouter = router({
         orderBy: { id: 'asc' },
       });
 
+      const friendIds = await getFriendList(ctx.user.id);
+
       const items = await prisma.post.findMany({
         orderBy: {
           createdAt: 'desc',
         },
-        where: { tripId: { not: null }, privacy: Privacy.PUBLIC },
+        where: {
+          tripId: { not: null },
+          OR: [
+            { privacy: Privacy.PUBLIC },
+            { privacy: Privacy.FRIEND, creatorId: { in: friendIds } },
+          ],
+        },
         include: {
           trip: true,
           creator: true,
@@ -145,11 +154,19 @@ export const postRouter = router({
         orderBy: { id: 'asc' },
       });
 
+      const friendIds = await getFriendList(ctx.user.id);
+
       const items = await prisma.post.findMany({
         orderBy: {
           createdAt: 'desc',
         },
-        where: { tripId: null },
+        where: {
+          tripId: null,
+          OR: [
+            { privacy: Privacy.PUBLIC },
+            { privacy: Privacy.FRIEND, creatorId: { in: friendIds } },
+          ],
+        },
         include: {
           creator: true,
           reviews: true,
@@ -285,9 +302,17 @@ export const postRouter = router({
     .mutation(async ({ input, ctx }) => {
       const { id } = ctx.user;
       const { locationIds, ...post } = input;
+
+      let privacy = input.privacy;
+      if (input.tripId !== undefined) {
+        const trip = await prisma.trip.findFirst({ where: { id: input.tripId } });
+        privacy = trip?.privacy || privacy;
+      }
+
       const data = await prisma.post.create({
         data: {
           ...post,
+          privacy,
           creatorId: id,
         },
         include: {

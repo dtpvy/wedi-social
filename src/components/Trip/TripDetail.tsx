@@ -17,12 +17,12 @@ const TripDetail = ({ trip }: Props) => {
   console.log(trip);
 
   const { data: post, refetch: refetchPost } = trpc.post.get.useQuery(
-    { id: trip.posts?.[0].id as never },
+    { id: trip.posts?.[0]?.id as never },
     { enabled: !!trip.posts?.[0].id }
   );
 
   const { data: schedule, refetch: refetchSchedule } = trpc.schedule.get.useQuery(
-    { id: trip.schedules?.[0].id as never },
+    { id: trip.schedules?.[0]?.id as never },
     { enabled: !!trip.schedules?.[0].id }
   );
 
