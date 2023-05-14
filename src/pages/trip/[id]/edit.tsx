@@ -13,6 +13,7 @@ import { type ReactElement } from 'react';
 const Edit = () => {
   const { t } = useTranslation();
   const { show } = useToast();
+  const utils = trpc.useContext();
 
   const router = useRouter();
   const { id } = router.query;
@@ -29,6 +30,7 @@ const Edit = () => {
         message: `${t('addsuccessText')}`,
         type: 'success',
       });
+      utils.trip.get.refetch();
     } catch (e: any) {
       console.log(e);
       show({
