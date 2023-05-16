@@ -23,7 +23,7 @@ const Trip = ({ trip, className }: Props) => {
           <Text weight={500} lineClamp={2} size="md">
             {name}
           </Text>
-          {users.length && (
+          {!!users.length && (
             <div className="text-gray-400 text-sm mt-2 mb-1">
               {`${t('joinedGroupText')} ${dayjs(users[0].createdAt).format('HH:mm DD/MM/YYYY')}`}
             </div>

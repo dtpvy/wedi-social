@@ -217,5 +217,6 @@
   "emailNotExistText": "Email not exist",
   "lastPostText": "Last post",
   "havenotAnyPostText": "Haven't any post",
-  "submitText": "Submit"
+  "submitText": "Submit",
+  "forgetPasswordText": "Forget password"
 }

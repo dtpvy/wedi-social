@@ -47,20 +47,22 @@ const SearchPost = ({ search, sort, field, privacy, startDate, endDate }: Search
             </div>
             <div className="my-2">{post.content}</div>
             <div className="flex gap-2 items-center">
-              <Button
-                leftIcon={<IconMapPinPin />}
-                variant="gradient"
-                gradient={{ from: 'teal', to: 'lime', deg: 105 }}
-                className="max-w-[150px]"
-              >
-                <span className="truncate">{post.locations[0].location.name}</span>
-              </Button>
+              {!!post.locations.length && (
+                <Button
+                  leftIcon={<IconMapPinPin />}
+                  variant="gradient"
+                  gradient={{ from: 'teal', to: 'lime', deg: 105 }}
+                  className="max-w-[150px]"
+                >
+                  <span className="truncate">{post.locations[0].location.name}</span>
+                </Button>
+              )}
               <Reaction post={post} refetch={refetch} />
               <div className="flex items-center gap-1 font-medium mr-auto">
                 <IconMessage size={20} />
                 {post._count.comments}
               </div>
-              {post.reviews[0]?.rating ? (
+              {post.reviews?.[0]?.rating ? (
                 <Rating value={post.reviews[0].rating} readOnly />
               ) : (
                 <span className="text-sm">{t('notExistReviewText')}</span>

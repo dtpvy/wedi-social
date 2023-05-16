@@ -136,7 +136,7 @@ const Signin = () => {
                   {t('signupText')}
                 </Link>
                 <button type="button" onClick={open} className="ml-auto text-green-700 underline">
-                  {t('changepasswordText')}
+                  {t('forgetPasswordText')}
                 </button>
               </div>
             </form>
